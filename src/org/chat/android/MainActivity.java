@@ -105,16 +105,23 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         @Override
         public Fragment getItem(int i) {
-            Fragment fragment = new DummySectionFragment();
-            Bundle args = new Bundle();
-            args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, i + 1);
-            fragment.setArguments(args);
+        	Fragment fragment;
+        	if (i == 0) {
+        		fragment = new FormFragment();
+        	} else if (i == 1) {
+        		fragment = new VideoFragment();
+        	} else {
+        		fragment = new DummySectionFragment();
+	            Bundle args = new Bundle();
+	            args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, i + 1);
+	            fragment.setArguments(args);
+        	}
             return fragment;
         }
 
         @Override
         public int getCount() {
-            return 3;
+            return 2;
         }
 
         @Override
@@ -145,6 +152,42 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             Bundle args = getArguments();
             textView.setText(Integer.toString(args.getInt(ARG_SECTION_NUMBER)));
             return textView;
+        }
+    }
+    
+    /**
+     * A dummy fragment representing a section of the app, but that simply displays dummy text.
+     */
+    public static class FormFragment extends Fragment {
+        public FormFragment() {
+        }
+
+        //public static final String ARG_SECTION_NUMBER = "section_number";
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                Bundle savedInstanceState) {
+        	View myFragmentView = inflater.inflate(R.layout.forms_fragmentlayout, container, false);
+        	 
+        	return myFragmentView;
+        }
+    }
+    
+    /**
+     * A dummy fragment representing a section of the app, but that simply displays dummy text.
+     */
+    public static class VideoFragment extends Fragment {
+        public VideoFragment() {
+        }
+
+        //public static final String ARG_SECTION_NUMBER = "section_number";
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                Bundle savedInstanceState) {
+        	View myFragmentView = inflater.inflate(R.layout.video_fragmentlayout, container, false);
+        	 
+        	return myFragmentView;
         }
     }
 }
