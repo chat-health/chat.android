@@ -189,5 +189,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         	 
         	return myFragmentView;
         }
+        
+        public void myClickMethod(View v){
+            
+         } 
     }
 }
