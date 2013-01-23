@@ -9,8 +9,9 @@
     <string name="title_activity_main">CHAT</string>
     <string name="title_activity_home">CHAT</string>
     <string name="title_activity_pick_video">CHAT > VIDEOS</string>
+    <string name="title_activity_pick_form">CHAT > FORMS</string>
     <string name="button1_text">Forms</string>
     <string name="button2_text">Videos</string>
-    <string name="title_activity_pick_form">CHAT > FORMS</string>
+    <string name="button_video_1_text">Play video 1</string>
 
 </resources>
