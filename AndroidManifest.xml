@@ -12,8 +12,17 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main" >
+            android:name=".HomeActivity"
+            android:label="@string/title_activity_home" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".PickVideoActivity"
+            android:label="@string/title_activity_pick_video" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
