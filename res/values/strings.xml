@@ -7,5 +7,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">CHAT</string>
+    <string name="title_activity_home">CHAT</string>
+    <string name="title_activity_pick_video">CHAT > VIDEOS</string>
+    <string name="button1_text">Forms</string>
+    <string name="button2_text">Videos</string>
 
 </resources>
