@@ -4,24 +4,24 @@
     android:layout_height="match_parent" >
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/formsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="216dp"
-        android:text="@string/button1_text"
+        android:text="@string/button_show_forms"
         android:onClick="showFormActivity" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/videosButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button1"
-        android:layout_alignBottom="@+id/button1"
+        android:layout_alignBaseline="@+id/formsButton"
+        android:layout_alignBottom="@+id/formsButton"
         android:layout_marginLeft="215dp"
-        android:layout_toRightOf="@+id/button1"
-        android:text="@string/button2_text"
+        android:layout_toRightOf="@+id/formsButton"
+        android:text="@string/button_show_videos"
         android:onClick="showVideoActivity" />
 
 </RelativeLayout>
