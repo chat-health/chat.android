@@ -10,7 +10,8 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="216dp"
-        android:text="@string/button1_text" />
+        android:text="@string/button1_text"
+        android:onClick="showFormActivity" />
 
     <Button
         android:id="@+id/button2"

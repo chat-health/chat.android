@@ -24,4 +24,9 @@ public class HomeActivity extends Activity {
     	Intent myIntent = new Intent(HomeActivity.this, PickVideoActivity.class);
     	HomeActivity.this.startActivity(myIntent);
     }
+    
+    public void showFormActivity(View view) {
+    	Intent myIntent = new Intent(HomeActivity.this, PickFormActivity.class);
+    	HomeActivity.this.startActivity(myIntent);
+    }
 }
