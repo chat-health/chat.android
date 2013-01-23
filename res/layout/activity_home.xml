@@ -10,7 +10,7 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="216dp"
-        android:text="@string/button1_text"
+        android:text="@string/button_show_forms"
         android:onClick="showFormActivity" />
 
     <Button
@@ -21,7 +21,7 @@
         android:layout_alignBottom="@+id/button1"
         android:layout_marginLeft="215dp"
         android:layout_toRightOf="@+id/button1"
-        android:text="@string/button2_text"
+        android:text="@string/button_show_video"
         android:onClick="showVideoActivity" />
 
 </RelativeLayout>
