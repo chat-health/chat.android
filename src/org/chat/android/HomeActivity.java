@@ -2,6 +2,7 @@ package org.chat.android;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
@@ -29,11 +30,15 @@ public class HomeActivity extends Activity {
 //    	Intent myIntent = new Intent(HomeActivity.this, PickFormActivity.class);
 //    	HomeActivity.this.startActivity(myIntent);
     	
-//		Intent intent = new Intent(Intent.ACTION_MAIN);
-//		intent.setComponent(new ComponentName("org.odk.collect.android","org.odk.collect.android.MainMenuActivity"));
-//		startActivity(intent);     working (but need to inc act in Manifest)
+		Intent intent = new Intent();
+		intent.setComponent(new ComponentName("org.odk.collect.android","org.odk.collect.android.activities.FormChooserList"));
+		startActivity(intent);
 		
-		Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage("org.odk.collect.android");
-		startActivity(LaunchIntent);    	
+//    	Intent i = new Intent();
+//		i.setAction("org.odk.collect.android.LAUNCH_IT");
+//		startActivityForResult(i,0);
+		
+//		Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage("org.odk.collect.android");
+//		startActivity(LaunchIntent);    	THIS WORKS BUT TRYING BETTER WAY
     }
 }
