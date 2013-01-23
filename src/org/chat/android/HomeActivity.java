@@ -34,10 +34,6 @@ public class HomeActivity extends Activity {
 		intent.setComponent(new ComponentName("org.odk.collect.android","org.odk.collect.android.activities.FormChooserList"));
 		startActivity(intent);
 		
-//    	Intent i = new Intent();
-//		i.setAction("org.odk.collect.android.LAUNCH_IT");
-//		startActivityForResult(i,0);
-		
 //		Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage("org.odk.collect.android");
 //		startActivity(LaunchIntent);    	THIS WORKS BUT TRYING BETTER WAY
     }
