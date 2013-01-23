@@ -26,7 +26,14 @@ public class HomeActivity extends Activity {
     }
     
     public void showFormActivity(View view) {
-    	Intent myIntent = new Intent(HomeActivity.this, PickFormActivity.class);
-    	HomeActivity.this.startActivity(myIntent);
+//    	Intent myIntent = new Intent(HomeActivity.this, PickFormActivity.class);
+//    	HomeActivity.this.startActivity(myIntent);
+    	
+//		Intent intent = new Intent(Intent.ACTION_MAIN);
+//		intent.setComponent(new ComponentName("org.odk.collect.android","org.odk.collect.android.MainMenuActivity"));
+//		startActivity(intent);     working (but need to inc act in Manifest)
+		
+		Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage("org.odk.collect.android");
+		startActivity(LaunchIntent);    	
     }
 }
