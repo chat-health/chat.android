@@ -3,7 +3,7 @@
 
 Android app for the CHAT project (launching videos and ODK forms)
 
-### Copyright (C) 2012  [Armin Krauss](https://github.com/mackrauss "mackrauss' github profile") and [Colin McCann](https://github.com/colinmccann "Colin's github profile")
+### Copyright (C) 2013  [Armin Krauss](https://github.com/mackrauss "mackrauss' github profile") and [Colin McCann](https://github.com/colinmccann "Colin's github profile")
 
 # LICENSE
 
