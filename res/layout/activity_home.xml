@@ -7,45 +7,44 @@
 	    android:id="@+id/chatBkgn"
 	    android:layout_height="fill_parent"
 	    android:layout_width="fill_parent"
-	    android:background="@drawable/blue_bkgd" />    
-	    
-    <ImageView 
-        android:id="@+id/chatLogo"
-        android:layout_width="210dp"
-        android:layout_height="210dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="200dp"
-        android:src="@drawable/chat_logo" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
-        android:layout_below="@+id/chatLogo" >
-    
-	    <ImageButton
-	        android:id="@+id/formsButton"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentLeft="true"
-	        android:layout_centerVertical="true"
-	        android:layout_marginLeft="216dp"
-	        android:background="@null"
-	        android:src="@drawable/forms_icon_text"
-	        android:onClick="showFormActivity" />
+	    android:background="@drawable/blue_bkgd" />
 	
-	    <ImageButton
-	        android:id="@+id/videosButton"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignBaseline="@+id/formsButton"
-	        android:layout_alignBottom="@+id/formsButton"
-	        android:layout_marginLeft="215dp"
-	        android:layout_toRightOf="@+id/formsButton"
-	        android:background="@null"
-			android:src="@drawable/videos_icon_text"
-	        android:onClick="showVideoActivity" />
-    
-	</LinearLayout>    
-
+	<TableLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent" >
+		<TableRow
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="1"
+		    android:gravity="center" >
+		    <ImageView 
+		        android:id="@+id/chatLogo"
+		        android:layout_width="210dp"
+		        android:layout_height="210dp"
+		        android:src="@drawable/chat_logo" />
+		</TableRow>
+		<TableRow
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="2"
+		    android:gravity="center_horizontal"
+		    android:layout_marginTop="70dp" >
+		    <ImageButton
+		        android:id="@+id/formsButton"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="-120dp"
+		        android:background="@null"
+		        android:src="@drawable/forms_icon_text"
+		        android:onClick="showFormActivity" />
+		    <ImageButton
+		        android:id="@+id/videosButton"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        
+		        android:background="@null"
+				android:src="@drawable/videos_icon_text"
+		        android:onClick="showVideoActivity" />
+		</TableRow>
+	</TableLayout>
 </RelativeLayout>
