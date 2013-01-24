@@ -27,14 +27,12 @@ public class HomeActivity extends Activity {
     }
     
     public void showFormActivity(View view) {
-//    	Intent myIntent = new Intent(HomeActivity.this, PickFormActivity.class);
-//    	HomeActivity.this.startActivity(myIntent);
+//		Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage("org.odk.collect.android");
+//		startActivity(LaunchIntent);    	THIS WORKS BUT, BELOW ALLOWS SPECIFIC CLASS TO BE CALLED
     	
 		Intent intent = new Intent();
 		intent.setComponent(new ComponentName("org.odk.collect.android","org.odk.collect.android.activities.FormChooserList"));
 		startActivity(intent);
 		
-//		Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage("org.odk.collect.android");
-//		startActivity(LaunchIntent);    	THIS WORKS BUT TRYING BETTER WAY
     }
 }

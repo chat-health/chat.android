@@ -2,26 +2,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
+    
+	<ImageView
+	    android:id="@+id/chatBkgn"
+	    android:layout_height="fill_parent"
+	    android:layout_width="fill_parent"
+	    android:background="@drawable/blue_bkgd" />    
+	    
+    <ImageView 
+        android:id="@+id/chatLogo"
+        android:layout_width="210dp"
+        android:layout_height="210dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="200dp"
+        android:src="@drawable/chat_logo" />
 
-    <Button
-        android:id="@+id/formsButton"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="216dp"
-        android:text="@string/button_show_forms"
-        android:onClick="showFormActivity" />
-
-    <Button
-        android:id="@+id/videosButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/formsButton"
-        android:layout_alignBottom="@+id/formsButton"
-        android:layout_marginLeft="215dp"
-        android:layout_toRightOf="@+id/formsButton"
-        android:text="@string/button_show_videos"
-        android:onClick="showVideoActivity" />
+        android:layout_marginTop="200dp"
+        android:layout_below="@+id/chatLogo" >
+    
+	    <ImageButton
+	        android:id="@+id/formsButton"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_centerVertical="true"
+	        android:layout_marginLeft="216dp"
+	        android:background="@null"
+	        android:src="@drawable/forms_icon_text"
+	        android:onClick="showFormActivity" />
+	
+	    <ImageButton
+	        android:id="@+id/videosButton"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignBaseline="@+id/formsButton"
+	        android:layout_alignBottom="@+id/formsButton"
+	        android:layout_marginLeft="215dp"
+	        android:layout_toRightOf="@+id/formsButton"
+	        android:background="@null"
+			android:src="@drawable/videos_icon_text"
+	        android:onClick="showVideoActivity" />
+    
+	</LinearLayout>    
 
 </RelativeLayout>
