@@ -3,15 +3,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <Button
+    <ImageButton
         android:id="@+id/button_video_1"
+        android:contentDescription="@string/button_video_1_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/button_video_2"
+        android:layout_marginLeft="109dp"
+        android:background="@null"
+        android:onClick="playVideo"
+        android:src="@drawable/video1btn" />
+    
+    <ImageButton
+        android:id="@+id/button_video_2"
+        android:contentDescription="@string/button_video_2_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="152dp"
-        android:layout_marginTop="162dp"
-        android:text="@string/button_video_1_text"
-        android:onClick="playVideo" />
+        android:layout_marginRight="191dp"
+        android:layout_marginTop="134dp"
+        android:background="@null"
+        android:onClick="playVideo"
+        android:src="@drawable/video2btn" />
 
 </RelativeLayout>
