@@ -13,5 +13,6 @@
     <string name="button_show_forms">Forms</string>
     <string name="button_show_videos">Videos</string>
     <string name="button_video_1_text">Play video 1</string>
+    <string name="button_video_2_text">Play video 2</string>
 
 </resources>
