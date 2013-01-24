@@ -15,6 +15,8 @@ import android.content.res.AssetManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 public class PickVideoActivity extends Activity {
 
@@ -31,46 +33,50 @@ public class PickVideoActivity extends Activity {
     }
     
     public void playVideo (View v) {
-    	//Uri intentUri = Uri.parse(URL);
-    	//Uri videoUri = Uri.parse("android.resource://org.chat.android/raw/viralload.mp4");
-    	//Uri videoUri = Uri.parse("file:///assets/viralload");
-    	//String videoUri = "android.resource://" + getPackageName() + "/" + R.raw.viralload;
-//    	String videoUri = "file:///" + getPackageName() + "/assets/viralload";
-    	//String videoUri = "file:///android_asset/viralload";
-    	copyAsset("viralload.mp4");
-    	//String videoUri = "file:///sdcard/viralload";
-    	
-    	File sdCard = Environment.getExternalStorageDirectory(); 
-
+    	// 1) Figure out which video to play by determining which button was pressed
+    	// TODO: please add switch statement when adding button and video
+    	String videoName = "";
+    	int buttonId = v.getId();
+    	switch (buttonId) {
+	        case R.id.button_video_1:
+	        	videoName = "viralload.mp4";
+	            break;
+	        case R.id.button_video_2:
+	        	videoName = "kata_sochin.mp4";
+	            break;
+	        default:
+	        	videoName = "viralload.mp4";
+	            break;
+	    }
+        
+    	// determining path to sdcard (readable by video player)
+    	File sdCard = Environment.getExternalStorageDirectory();
+    	// adding chat dir to path (copyAsset func ensures dir exists)
         File dir = new File (sdCard.getAbsolutePath() + "/chat");
-        if(dir.isDirectory() != true) {
-      	  dir.mkdirs();
-        }
-        File myvid = new File(dir, "viralload.mp4");
-    	
+        // copy video from within the APK to the sdcard/chat dir
+        copyAsset(videoName, dir);
+        
+        // create file that points at video in sdcard dir (to retrieve URI)
+        File myvid = new File(dir, videoName);
         
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.setDataAndType(Uri.fromFile(myvid), "video/mp4");
+        intent.setDataAndType(Uri.fromFile(myvid), "video/*");
         startActivity(intent);
-
     }
     
-    private void copyAsset(String fileToCopy) {
+    private void copyAsset(String fileToCopy, File targetDir) {
         InputStream in = null;
         OutputStream out = null;
         try {
           in = getAssets().open(fileToCopy);
           
-          File sdCard = Environment.getExternalStorageDirectory(); 
-
-          File dir = new File (sdCard.getAbsolutePath() + "/chat");
-          if(dir.isDirectory() != true) {
-        	  dir.mkdirs();
+          if(targetDir.isDirectory() != true) {
+        	  targetDir.mkdirs();
           }
           
-          out = new FileOutputStream(new File(dir, fileToCopy));
+          out = new FileOutputStream(new File(targetDir, fileToCopy));
           copyFile(in, out);
           in.close();
           in = null;
