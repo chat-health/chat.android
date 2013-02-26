@@ -1,0 +1,201 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+	    <TableRow
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="180dp" >
+	        <RelativeLayout
+	            android:layout_width="fill_parent"
+	            android:layout_height="fill_parent" >
+		        <ImageView
+		            android:id="@+id/image_video_1"
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_marginTop="60dp"
+		            android:contentDescription="@string/button_video_1_text"
+		            android:onClick="playVideo"
+		            android:src="@drawable/children_play_screenshot" />
+			    <ImageButton
+			        android:id="@+id/button_video_1"
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content"
+			        android:layout_below="@+id/image_video_1"
+			        android:background="@null"
+			        android:contentDescription="@string/button_video_1_text"
+			        android:src="@drawable/children_play_btn_zulu"
+			        android:onClick="playVideo" />
+			</RelativeLayout>
+	        <RelativeLayout
+	            android:layout_width="fill_parent"
+	            android:layout_height="fill_parent" 
+	            android:layout_marginLeft="180dp" >
+			    <ImageView
+			        android:id="@+id/image_video_2"
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content"
+			        android:layout_marginTop="60dp"
+			        android:contentDescription="@string/button_video_2_text"
+			        android:src="@drawable/good_nutrition_screenshot" 
+			        android:onClick="playVideo" />
+				<ImageButton
+				    android:id="@+id/button_video_2"
+				    android:layout_width="match_parent"
+				    android:layout_height="wrap_content"
+				    android:layout_below="@+id/image_video_2"
+				    android:background="@null"
+				    android:contentDescription="@string/button_video_2_text"
+				    android:src="@drawable/good_nutrition_btn_zulu"
+				    android:onClick="playVideo" />
+			</RelativeLayout>
+	    </TableRow>
+	    
+	    <TableRow
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="535dp" >
+			<RelativeLayout
+			    android:layout_width="fill_parent"
+			    android:layout_height="fill_parent" >
+			    <ImageView
+		            android:id="@+id/image_video_3"
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content"
+			        android:layout_marginTop="25dp"
+			        android:contentDescription="@string/button_video_3_text"
+			        android:src="@drawable/one_to_nine_months_screenshot"
+			        android:onClick="playVideo" />		
+			    <ImageButton
+			        android:id="@+id/button_video_3"
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content"
+			        android:layout_below="@+id/image_video_3"
+			        android:background="@null"
+			        android:contentDescription="@string/button_video_3_text"
+			        android:src="@drawable/one_to_nine_months_btn_zulu"
+			        android:onClick="playVideo" />
+			</RelativeLayout>
+
+			<RelativeLayout
+			    android:layout_width="fill_parent"
+			    android:layout_height="fill_parent" >
+			    <ImageView
+		            android:id="@+id/image_video_4"
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content"
+			        android:layout_marginTop="25dp"
+			        android:contentDescription="@string/button_video_4_text"
+			        android:src="@drawable/two_years_up_screenshot"
+			        android:onClick="playVideo" />
+			    <ImageButton
+			        android:id="@+id/button_video_4"
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content"
+			        android:layout_below="@+id/image_video_4"
+			        android:background="@null"
+			        android:contentDescription="@string/button_video_4_text"
+					android:src="@drawable/two_years_up_btn_zulu"
+			        android:onClick="playVideo" />
+			</RelativeLayout>	        
+	    </TableRow>
+    </TableLayout>
+</LinearLayout>
+
+
+
+
+<!--     <RelativeLayout
+        android:id="@+id/video_1_container"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+        <ImageView
+            android:id="@+id/image_video_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:contentDescription="@string/button_video_1_text"
+            android:onClick="playVideo"
+            android:src="@drawable/children_play_screenshot" />
+	    <ImageButton
+	        android:id="@+id/button_video_1"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/image_video_1"
+	        android:background="@null"
+	        android:contentDescription="@string/button_video_1_text"
+	        android:src="@drawable/children_play_btn_zulu"
+	        android:onClick="playVideo" />
+	</RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/video_2_container"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_toRightOf="@+id/video_1_container" >
+	    <ImageView
+	        android:id="@+id/image_video_2"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="60dp"
+	        android:contentDescription="@string/button_video_2_text"
+	        android:src="@drawable/good_nutrition_screenshot" 
+	        android:onClick="playVideo" />
+		<ImageButton
+		    android:id="@+id/button_video_2"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_below="@+id/image_video_2"
+		    android:background="@null"
+		    android:contentDescription="@string/button_video_2_text"
+		    android:src="@drawable/good_nutrition_btn_zulu"
+		    android:onClick="playVideo" />
+	</RelativeLayout>
+	<RelativeLayout
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/image_video_2" >
+	    <ImageView
+            android:id="@+id/image_video_3"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="25dp"
+	        android:contentDescription="@string/button_video_3_text"
+	        android:src="@drawable/one_to_nine_months_screenshot"
+	        android:onClick="playVideo" />		
+	    <ImageButton
+	        android:id="@+id/button_video_3"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/image_video_3"
+	        android:background="@null"
+	        android:contentDescription="@string/button_video_3_text"
+	        android:src="@drawable/one_to_nine_months_btn_zulu"
+	        android:onClick="playVideo" />
+	</RelativeLayout>
+	<RelativeLayout
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/image_video_2" >
+	    <ImageView
+            android:id="@+id/image_video_4"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="25dp"
+	        android:contentDescription="@string/button_video_4_text"
+	        android:src="@drawable/two_years_up_screenshot"
+	        android:onClick="playVideo" />
+	    <ImageButton
+	        android:id="@+id/button_video_4"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/image_video_4"
+	        android:background="@null"
+	        android:contentDescription="@string/button_video_4_text"
+			android:src="@drawable/two_years_up_btn_zulu"
+	        android:onClick="playVideo" />
+	</RelativeLayout>			
+</RelativeLayout> -->    
