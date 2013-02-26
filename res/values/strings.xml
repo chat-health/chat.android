@@ -14,5 +14,7 @@
     <string name="button_show_videos">Videos</string>
     <string name="button_video_1_text">Play video 1</string>
     <string name="button_video_2_text">Play video 2</string>
+    <string name="button_video_3_text">Play video 3</string>
+    <string name="button_video_4_text">Play video 4</string>
 
 </resources>

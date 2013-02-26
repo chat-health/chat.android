@@ -36,11 +36,29 @@ public class PickVideoActivity extends Activity {
     	int buttonId = v.getId();
     	switch (buttonId) {
 	        case R.id.button_video_1:
-	        	videoName = "viralload.mp4";
+	        	videoName = "pss_animatic.mp4";
 	            break;
 	        case R.id.button_video_2:
-	        	videoName = "kata_sochin.mp4";
+	        	videoName = "nutrition_animatic.mp4";
 	            break;
+	        case R.id.button_video_3:
+	        	videoName = "nutrition_0-9_months.mp4";
+	            break;
+	        case R.id.button_video_4:
+	        	videoName = "nutrition_2_years_up.mp4";
+	            break;
+	        case R.id.image_video_1:
+	        	videoName = "pss_animatic.mp4";
+	            break;
+	        case R.id.image_video_2:
+	        	videoName = "nutrition_animatic.mp4";
+	            break;
+	        case R.id.image_video_3:
+	        	videoName = "nutrition_0-9_months.mp4";
+	            break;
+	        case R.id.image_video_4:
+	        	videoName = "nutrition_2_years_up.mp4";
+	            break;	            
 	        default:
 	        	videoName = "viralload.mp4";
 	            break;
@@ -51,7 +69,7 @@ public class PickVideoActivity extends Activity {
     	// adding chat dir to path (copyAsset func ensures dir exists)
         File dir = new File (sdCard.getAbsolutePath() + "/chat");
         // copy video from within the APK to the sdcard/chat dir
-        copyAsset(videoName, dir);
+        // copyAsset(videoName, dir);
         
         // create file that points at video in sdcard dir (to retrieve URI)
         File myvid = new File(dir, videoName);
