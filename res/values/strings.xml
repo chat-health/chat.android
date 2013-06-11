@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">chat.android</string>
+    <string name="app_name">CHAT</string>
     
     <string name="menu_settings">Settings</string>
     <string name="menu_logout">Logout</string>

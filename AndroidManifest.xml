@@ -33,25 +33,6 @@
                 <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
         </activity>
-        <activity
-            android:name=".PickVideoActivity"
-            android:label="@string/title_activity_pick_video"
-            android:screenOrientation="landscape" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-<!--    THIS ACTIVITY IS NO LONGER NECESSARY, SINCE WE'RE GOING STRAIGHT TO ODK    
-		<activity
-            android:name="org.odk.collect.android.activities.FormChooserList"
-            android:label="@string/title_activity_pick_form" >
-            <intent-filter>
-                <action android:name="org.odk.collect.android.LAUNCH_IT" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity> -->
     </application>
 
 </manifest>
