@@ -18,6 +18,12 @@
         <item name="android:layout_width">150dp</item>
         <item name="android:layout_height">50dp</item>
         <item name="android:background">#33CCCC</item>	    
-	</style>    
-
+	</style>
+	
+	<style name="attendanceBox">
+	    <item name="android:layout_width">600dp</item>
+	    <item name="android:layout_height">600dp</item>
+	    <item name="android:padding">25dp</item>
+	</style>
+	
 </resources>
