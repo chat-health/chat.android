@@ -25,7 +25,7 @@ public class LoginActivity extends Activity {
 	 * TODO: remove after connecting to a real authentication system.
 	 */
 	private static final String[] DUMMY_CREDENTIALS = new String[] {
-			"c:pw", "armin:pw" };
+			"colin:chat", "armin:chat", "lisa:chat", "duncan:chat" };
 
 	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
@@ -116,36 +116,36 @@ public class LoginActivity extends Activity {
 		boolean cancel = false;
 		View focusView = null;
 
-		 // Check for a valid password.
-		 if (TextUtils.isEmpty(mPassword)) {
-			 mPasswordView.setError(getString(R.string.error_field_required));
-			 focusView = mPasswordView;
-			 cancel = true;
-		 } else if (mPassword.length() < 2) {
-			 mPasswordView.setError(getString(R.string.error_invalid_password));
-			 focusView = mPasswordView;
-			 cancel = true;
-		 }
+		// Check for a valid password - commented out for testing
+//		if (TextUtils.isEmpty(mPassword)) {
+//			mPasswordView.setError(getString(R.string.error_field_required));
+//			focusView = mPasswordView;
+//			cancel = true;
+//		} else if (mPassword.length() < 2) {
+//			mPasswordView.setError(getString(R.string.error_invalid_password));
+//			focusView = mPasswordView;
+//			cancel = true;
+//		}
+//		
+//		// Check for a valid user ID.
+//		if (TextUtils.isEmpty(mUserId)) {
+//			mUserIdView.setError(getString(R.string.error_field_required));
+//			focusView = mUserIdView;
+//			cancel = true;
+//		}
 		
-		 // Check for a valid user ID.
-		 if (TextUtils.isEmpty(mUserId)) {
-			 mUserIdView.setError(getString(R.string.error_field_required));
-			 focusView = mUserIdView;
-			 cancel = true;
-		 }
-		
-		 if (cancel) {
-			 // There was an error; don't attempt login and focus the first
-			 // form field with an error.
-			 focusView.requestFocus();
-		 } else {
-			 // Show a progress spinner, and kick off a background task to
-			 // perform the user login attempt.
-			 mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
-			 showProgress(true);
-			 mAuthTask = new UserLoginTask();
-			 mAuthTask.execute((Void) null);
-		 }
+		if (cancel) {
+			// There was an error; don't attempt login and focus the first
+			// form field with an error.
+			focusView.requestFocus();
+		} else {
+			// Show a progress spinner, and kick off a background task to
+			// perform the user login attempt.
+			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
+			showProgress(true);
+			mAuthTask = new UserLoginTask();
+			mAuthTask.execute((Void) null);
+		}
 	}
 
 	/**
@@ -199,23 +199,25 @@ public class LoginActivity extends Activity {
 			// TODO: attempt authentication against a network service.
 
 			// TODO: dump this?
-			try {
-				// Simulate network access.
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				return false;
-			}
-
-			for (String credential : DUMMY_CREDENTIALS) {
-				String[] pieces = credential.split(":");
-				if (pieces[0].equals(mUserId)) {
-					// Account exists, return true if the password matches.
-					return pieces[1].equals(mPassword);
-				}
-			}
-
-			// if for does not return true, ie if un/pw do not match
-			return false;
+//			try {
+//				// Simulate network access.
+//				Thread.sleep(2000);
+//			} catch (InterruptedException e) {
+//				return false;
+//			}
+//
+//			for (String credential : DUMMY_CREDENTIALS) {
+//				String[] pieces = credential.split(":");
+//				if (pieces[0].equals(mUserId)) {
+//					// Account exists, return true if the password matches.
+//					return pieces[1].equals(mPassword);
+//				}
+//			}
+//
+//			// if for does not return true, ie if un/pw do not match
+//			return false;
+			// again, commented out for testing:
+			return true;
 		}
 
 		// @Override

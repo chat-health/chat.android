@@ -8,5 +8,16 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">16dp</item>
     </style>
+	
+	<style name="titleText">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#C9C6CF</item>	    
+	</style> 
+	    
+	<style name="smallButton">
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:background">#33CCCC</item>	    
+	</style>    
 
 </resources>

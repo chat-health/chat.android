@@ -1,50 +1,12 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-    
-	<ImageView
-	    android:id="@+id/chatBkgn"
-	    android:layout_height="fill_parent"
-	    android:layout_width="fill_parent"
-	    android:background="@drawable/blue_bkgd" />
-	
-	<TableLayout
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent" >
-		<TableRow
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_weight="1"
-		    android:gravity="center" >
-		    <ImageView 
-		        android:id="@+id/chatLogo"
-		        android:layout_width="210dp"
-		        android:layout_height="210dp"
-		        android:src="@drawable/chat_logo_text" />
-		</TableRow>
-		<TableRow
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_weight="2"
-		    android:gravity="center_horizontal"
-		    android:layout_marginTop="70dp" >
-		    <ImageButton
-		        android:id="@+id/formsButton"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_marginLeft="-120dp"
-		        android:background="@null"
-		        android:src="@drawable/forms_icon_text"
-		        android:onClick="showFormActivity" />
-		    <ImageButton
-		        android:id="@+id/videosButton"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        
-		        android:background="@null"
-				android:src="@drawable/videos_icon_text"
-		        android:onClick="showVideoActivity" />
-		</TableRow>
-	</TableLayout>
-</RelativeLayout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:layout_gravity="center">
+    <LinearLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ECF8FC" >
+        
+	</LinearLayout>
+</LinearLayout>

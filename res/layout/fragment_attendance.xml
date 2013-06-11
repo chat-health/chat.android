@@ -1,0 +1,101 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+	
+	<RelativeLayout android:id="@+id/attendance_list_screen"
+   		android:layout_width="600dp"
+	    android:layout_height="600dp"
+	    android:layout_centerInParent="true"
+	    android:padding="25dp"
+	    android:background="#FFFFFF">
+	    <TextView android:id="@+id/attendance_list_title"
+	    	android:layout_width="match_parent"
+	    	android:layout_height="40dp"
+	    	android:gravity="center"
+	    	style="@style/titleText"
+	        android:text="CHECK OFF NAMES OF CLIENTS WHO ARE PRESENT TODAY" />
+	    <View
+	        android:layout_height="2dp"
+	        android:layout_width="fill_parent"
+	        android:background="#999999"
+	        android:layout_below="@id/attendance_list_title"/>
+		<ScrollView android:id="@+id/attendance_list_scrollview"
+		    android:layout_width="fill_parent"
+		    android:layout_height="460dp"
+		    android:padding="10dp"
+			android:layout_below="@id/attendance_list_title">
+			<TableLayout
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content">
+				<TableRow
+				    android:layout_width="match_parent"
+				    android:layout_height="wrap_content"
+				    android:layout_weight="1"
+				    android:gravity="center"		    
+				    android:padding="5dp" >
+				    <TextView android:id="@+id/row1_name"
+				        android:layout_width="wrap_content"
+				    	android:layout_height="wrap_content"
+				        android:text="Rebecca Cober"
+						/>
+					<CheckBox android:id="@+id/row1_checkbox"
+				        android:layout_width="wrap_content"
+				    	android:layout_height="wrap_content"			    
+				        android:onClick="onCheckboxClicked"/>
+				</TableRow>
+				<TableRow
+				    android:layout_width="match_parent"
+				    android:layout_height="wrap_content"
+				    android:layout_weight="2"
+				    android:gravity="center_horizontal"		    
+				    android:padding="5dp" >
+				    <TextView android:id="@+id/row2_name"
+				        android:layout_width="wrap_content"
+				    	android:layout_height="wrap_content"		        
+				        android:text="Colin McCann"
+				        />
+				    <CheckBox android:id="@+id/row2_checkbox"
+				        android:layout_width="wrap_content"
+				    	android:layout_height="wrap_content"		        
+				        android:onClick="onCheckboxClicked"/>
+				</TableRow>
+			</TableLayout>
+		</ScrollView>
+		<LinearLayout
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:layout_below="@id/attendance_list_scrollview"
+	    	android:background="#FFFFFF"
+		    >
+		    <Button android:id="@+id/attendance_add_new"
+				style="@style/smallButton"
+	        	android:text="Add New" />
+		    <Button android:id="@+id/attendance_done"
+				style="@style/smallButton"
+				android:layout_marginLeft="250dp"
+				android:onClick="checkAttendanceList"
+		        android:text="Done" />		    
+		</LinearLayout>
+	</RelativeLayout>
+
+	<!-- start here, think about styles, naming -->
+	<RelativeLayout android:id="@+id/attendance_habitation"
+   		android:layout_width="600dp"
+	    android:layout_height="600dp"
+	    android:layout_centerInParent="true"
+	    android:padding="25dp"
+	    android:background="#FFFFFF"
+	    android:visibility="invisible">
+		<TextView android:id="@+id/attendance_habitation_title"
+	    	android:layout_width="match_parent"
+	    	android:layout_height="40dp"
+	    	android:gravity="center"
+	    	style="@style/titleText"
+	        android:text="Is this person still living here?" />
+	</RelativeLayout>
+	
+</RelativeLayout>
+
+
+<!-- android:enabled="false" -->
