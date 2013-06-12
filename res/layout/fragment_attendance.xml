@@ -18,52 +18,16 @@
 	        android:layout_width="fill_parent"
 	        android:background="#999999"
 	        android:layout_below="@id/attendance_list_title"/>
-		<ScrollView android:id="@+id/attendance_list_scrollview"
+		<ListView android:id="@+id/attendance_listview"
 		    android:layout_width="fill_parent"
 		    android:layout_height="460dp"
 		    android:padding="10dp"
 			android:layout_below="@id/attendance_list_title">
-			<TableLayout
-			    android:layout_width="match_parent"
-			    android:layout_height="wrap_content">
-				<TableRow
-				    android:layout_width="match_parent"
-				    android:layout_height="wrap_content"
-				    android:layout_weight="1"
-				    android:gravity="center"		    
-				    android:padding="5dp" >
-				    <TextView android:id="@+id/row1_name"
-				        android:layout_width="wrap_content"
-				    	android:layout_height="wrap_content"
-				        android:text="Rebecca Cober"
-						/>
-					<CheckBox android:id="@+id/row1_checkbox"
-				        android:layout_width="wrap_content"
-				    	android:layout_height="wrap_content"			    
-				        android:onClick="onCheckboxClicked"/>
-				</TableRow>
-				<TableRow
-				    android:layout_width="match_parent"
-				    android:layout_height="wrap_content"
-				    android:layout_weight="2"
-				    android:gravity="center_horizontal"		    
-				    android:padding="5dp" >
-				    <TextView android:id="@+id/row2_name"
-				        android:layout_width="wrap_content"
-				    	android:layout_height="wrap_content"		        
-				        android:text="Colin McCann"
-				        />
-				    <CheckBox android:id="@+id/row2_checkbox"
-				        android:layout_width="wrap_content"
-				    	android:layout_height="wrap_content"		        
-				        android:onClick="onCheckboxClicked"/>
-				</TableRow>
-			</TableLayout>
-		</ScrollView>
+		</ListView>
 		<LinearLayout
 	        android:layout_width="match_parent"
 	    	android:layout_height="wrap_content"
-	    	android:layout_below="@id/attendance_list_scrollview"
+	    	android:layout_below="@id/attendance_listview"
 	    	android:background="#FFFFFF"
 		    >
 		    <Button android:id="@+id/attendance_add_new"
