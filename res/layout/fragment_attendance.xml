@@ -22,6 +22,7 @@
 		    android:layout_width="fill_parent"
 		    android:layout_height="460dp"
 		    android:padding="10dp"
+		    android:choiceMode="multipleChoice"
 			android:layout_below="@id/attendance_list_title">
 		</ListView>
 		<LinearLayout
