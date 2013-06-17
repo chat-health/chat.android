@@ -1,5 +1,7 @@
 package org.chat.android;
 
+import java.util.ArrayList;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -86,6 +88,13 @@ public class LoginActivity extends Activity {
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.roles_array, android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
+		
+		// household selection
+		Spinner householdSpinner = (Spinner) findViewById(R.id.household_spinner);
+		ArrayList<String> householdList = new ArrayList<String>();
+		householdList.add("foo");
+		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, householdList);
+		householdSpinner.setAdapter(arrayAdapter);
 	}
 
 	// @Override

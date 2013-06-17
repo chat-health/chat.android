@@ -20,6 +20,8 @@ public class Client {
     private String first_name;
     @DatabaseField(uniqueCombo=true)
     private GregorianCalendar birthday;
+    @DatabaseField
+    private String gender;
 
     /**
      * Default Constructor needed by ormlite
@@ -32,10 +34,11 @@ public class Client {
      * @param last_name
      * @param first_name
      */
-    public Client(String last_name, String first_name, GregorianCalendar birthday) {
+    public Client(String last_name, String first_name, GregorianCalendar birthday, String gender) {
         this.last_name = last_name;
         this.first_name = first_name;
         this.birthday = birthday;
+        this.gender = gender;
     }
 
     /**
@@ -46,6 +49,7 @@ public class Client {
         this.last_name = existingClientModel.last_name;
         this.first_name = existingClientModel.first_name;
         this.birthday = existingClientModel.birthday;
+        this.gender = existingClientModel.gender;
     }
 
 	public int get_id() {
@@ -74,5 +78,13 @@ public class Client {
 
 	public void setBirthday(GregorianCalendar birthday) {
 		this.birthday = birthday;
+	}
+	
+	public String getGender() {
+		return gender;
+	}
+	
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 }
