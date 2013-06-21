@@ -84,10 +84,10 @@ public class LoginActivity extends Activity {
 				});
 		
 		// TODO: match this up with the UN/PW/ROLE on authentication
-		Spinner spinner = (Spinner) findViewById(R.id.role_spinner);
+		Spinner roleSpinner = (Spinner) findViewById(R.id.role_spinner);
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.roles_array, android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinner.setAdapter(adapter);
+		roleSpinner.setAdapter(adapter);
 		
 		// household selection
 		Spinner householdSpinner = (Spinner) findViewById(R.id.household_spinner);
