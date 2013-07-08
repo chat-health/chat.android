@@ -27,7 +27,9 @@ public class LoginActivity extends Activity {
 	 * TODO: remove after connecting to a real authentication system.
 	 */
 	private static final String[] DUMMY_CREDENTIALS = new String[] {
-			"colin:chat", "armin:chat", "lisa:chat", "duncan:chat" };
+			"colin:chat", "armin:chat", "lisa:chat", "duncan:chat",
+			"Monde Hulana:chat", "Khanyisile Hassam:chat","Nokuphiwa Mthembu - Copesville:chat",
+			"Nonduduzo Mncwabe:chat","Nomthandazo Mokoena:chat","Nomthandazo Mokoena:chat"};			// TEST ME
 
 	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
@@ -88,13 +90,7 @@ public class LoginActivity extends Activity {
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.roles_array, android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		roleSpinner.setAdapter(adapter);
-		
-		// household selection
-		Spinner householdSpinner = (Spinner) findViewById(R.id.household_spinner);
-		ArrayList<String> householdList = new ArrayList<String>();
-		householdList.add("foo");
-		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, householdList);
-		householdSpinner.setAdapter(arrayAdapter);
+
 	}
 
 	// @Override
@@ -238,8 +234,8 @@ public class LoginActivity extends Activity {
 				finish();
 				// Toast.makeText(getApplicationContext(), "Login sucessful", Toast.LENGTH_LONG).show();
 				
-				// Switch to main view (to be renamed?
-				Intent myIntent = new Intent(LoginActivity.this, HomeActivity.class);
+				// Switch to setup visit view
+				Intent myIntent = new Intent(LoginActivity.this, SetupVisitActivity.class);
 				LoginActivity.this.startActivity(myIntent);
 
 			 } else {

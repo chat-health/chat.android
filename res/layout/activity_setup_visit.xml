@@ -1,0 +1,53 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".LoginActivity" >
+
+	<ImageView
+	    android:id="@+id/chatBkgn"
+	    android:layout_height="fill_parent"
+	    android:layout_width="fill_parent"
+	    android:background="@drawable/blue_bkgd" />    
+    
+
+    <!-- Visit Setup form -->
+
+	<ImageView 
+		android:id="@+id/chatLogo"
+		android:layout_width="210dp"
+		android:layout_height="210dp"
+		android:layout_marginLeft="100dp"
+		android:layout_marginTop="50dp"
+		android:src="@drawable/chat_logo_text" />
+
+        <LinearLayout
+            android:id="@+id/setup_visit"
+            style="@style/LoginFormContainer"
+            android:orientation="vertical"
+            android:layout_marginLeft="300dp"
+            android:layout_marginBottom="190dp" > 
+            
+            <Spinner
+			    android:id="@+id/household_spinner"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_marginBottom="24dp" />
+
+            <Spinner
+			    android:id="@+id/visit_type_spinner"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_marginBottom="24dp" />            
+            
+            <Button
+                android:id="@+id/new_visit_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="16dp"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp"
+                android:text="@string/action_new_visit" />
+        </LinearLayout>
+
+
+</merge>

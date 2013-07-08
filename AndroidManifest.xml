@@ -9,6 +9,7 @@
     
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:icon="@drawable/chat_launcher"
@@ -22,7 +23,16 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>        
+        </activity>
+        <activity
+            android:name=".SetupVisitActivity"
+            android:label="@string/title_activity_setup_visit"
+            android:screenOrientation="landscape" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity> 
         <activity
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"

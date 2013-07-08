@@ -58,12 +58,12 @@
 			    android:layout_width="fill_parent"
 			    android:layout_height="wrap_content"
 			    android:layout_marginBottom="24dp" />
-
+			<!-- CAREFUL HERE, REVERT LATER -->
             <EditText
                 android:id="@+id/user_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/prompt_user_id"
+                android:hint="@string/prompt_user_name"
                 android:inputType="text"
                 android:maxLines="1"
                 android:singleLine="true" />
@@ -79,12 +79,6 @@
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:singleLine="true" />
-            
-            <Spinner
-			    android:id="@+id/household_spinner"
-			    android:layout_width="fill_parent"
-			    android:layout_height="wrap_content"
-			    android:layout_marginBottom="24dp" />
 
             <Button
                 android:id="@+id/sign_in_button"

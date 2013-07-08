@@ -37,8 +37,8 @@
 		    <Button android:id="@+id/attendance_done"
 				style="@style/smallButton"
 				android:layout_marginLeft="250dp"
-				android:onClick="checkAttendanceList"
-		        android:text="Done" />		    
+		        android:text="Done" />	
+		        <!-- android:onClick="checkAttendanceList" -->	    
 		</LinearLayout>
 	</RelativeLayout>
 	
