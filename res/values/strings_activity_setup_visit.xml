@@ -3,4 +3,13 @@
     
 	<string name="action_new_visit"><b>Start new visit</b></string>
 	<string name="action_gps_location"><b>Get GPS location</b></string>
+	
+	<string-array name="volunteer_visit_type_array">
+        <item>Home Visit</item>
+        <item>School Visit</item>
+    </string-array>
+    <string-array name="councelor_visit_type_array">
+        <item>Some stuff</item>
+        <item>Some other stuff</item>
+    </string-array>
 </resources>

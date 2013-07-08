@@ -46,6 +46,7 @@ public class LoginActivity extends Activity {
 	private View mLoginFormView;
 	private View mLoginStatusView;
 	private TextView mLoginStatusMessageView;
+	private Spinner roleSpinner;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +87,7 @@ public class LoginActivity extends Activity {
 				});
 		
 		// TODO: match this up with the UN/PW/ROLE on authentication
-		Spinner roleSpinner = (Spinner) findViewById(R.id.role_spinner);
+		roleSpinner = (Spinner) findViewById(R.id.role_spinner);
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.roles_array, android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		roleSpinner.setAdapter(adapter);
@@ -231,12 +232,16 @@ public class LoginActivity extends Activity {
 			showProgress(false);
 			
 			if (success) {
-				finish();
-				// Toast.makeText(getApplicationContext(), "Login sucessful", Toast.LENGTH_LONG).show();
+				// finish();
+				// Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
 				
-				// Switch to setup visit view
+				// Switch to setup visit view, bundling in the role
 				Intent myIntent = new Intent(LoginActivity.this, SetupVisitActivity.class);
-				LoginActivity.this.startActivity(myIntent);
+				Bundle b = new Bundle();
+				b.putString("role",roleSpinner.getSelectedItem().toString());
+				myIntent.putExtras(b);
+				startActivity(myIntent);
+				finish();
 
 			 } else {
 				 mPasswordView
