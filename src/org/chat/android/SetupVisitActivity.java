@@ -2,13 +2,21 @@ package org.chat.android;
 
 import java.util.ArrayList;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class SetupVisitActivity extends Activity {
+	GPSTracker gps;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -35,13 +43,20 @@ public class SetupVisitActivity extends Activity {
 		householdSpinner.setAdapter(arrayAdapter);
 		
 		// gps location button
+		findViewById(R.id.get_gps_button).setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {	
+						getGPSLocation();
+					}
+				});
 		
 		// new visit button
 		findViewById(R.id.new_visit_button).setOnClickListener(
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						// TODO do some checks to make sure dropdowns have ben selected 
+						// TODO do some checks to make sure dropdowns have been selected 
 						Intent myIntent = new Intent(SetupVisitActivity.this, HomeActivity.class);
 						SetupVisitActivity.this.startActivity(myIntent);
 					}
@@ -58,4 +73,27 @@ public class SetupVisitActivity extends Activity {
 		// populate new visit object with name, date, role, household, etc
 		// save to ORM layer
 	}
+	
+	public void getGPSLocation() {
+		Toast.makeText( getApplicationContext(), "Determining location...", Toast.LENGTH_SHORT).show();
+        // create class object
+        gps = new GPSTracker(SetupVisitActivity.this);
+
+        // check if GPS enabled      
+        if(gps.canGetLocation()){
+          
+            double latitude = gps.getLatitude();
+            double longitude = gps.getLongitude();
+          
+            // \n is for new line
+            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();  
+        }else{
+            // can't get location
+            // GPS or Network is not enabled
+            // Ask user to enable GPS/network in settings
+            gps.showSettingsAlert();
+        }
+	}
+	
+
 }

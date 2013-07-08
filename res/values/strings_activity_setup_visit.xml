@@ -2,4 +2,5 @@
     <string name="title_activity_setup_visit">Sign in to CHAT</string>
     
 	<string name="action_new_visit"><b>Start new visit</b></string>
+	<string name="action_gps_location"><b>Get GPS location</b></string>
 </resources>
