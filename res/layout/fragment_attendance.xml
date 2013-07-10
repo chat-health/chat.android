@@ -2,30 +2,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-	
-	<RelativeLayout android:id="@+id/attendance_list_screen"
-	    style="@style/attendanceBox"
-	    android:layout_centerInParent="true"
-	    android:background="#FFFFFF">
-	    <TextView android:id="@+id/attendance_list_title"
-	    	android:layout_width="match_parent"
-	    	android:layout_height="40dp"
-	    	android:gravity="center"
-	    	style="@style/titleText"
-	        android:text="CHECK OFF NAMES OF CLIENTS WHO ARE PRESENT TODAY" />
-	    <View
-	        android:layout_height="2dp"
-	        android:layout_width="fill_parent"
-	        android:background="#999999"
-	        android:layout_below="@id/attendance_list_title"/>
-		<ListView android:id="@+id/attendance_listview"
-		    android:layout_width="fill_parent"
-		    android:layout_height="460dp"
-		    android:padding="10dp"
-		    android:choiceMode="multipleChoice"
-			android:layout_below="@id/attendance_list_title">
-		</ListView>
-		<LinearLayout
+
+    <RelativeLayout
+        android:id="@+id/attendance_list_screen"
+        style="@style/attendanceBox"
+        android:layout_centerInParent="true"
+        android:background="#FFFFFF" >
+
+        <TextView
+            android:id="@+id/attendance_list_title_field"
+            style="@style/titleText"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="@string/attendance_title_text" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:layout_below="@id/attendance_list_title_field"
+            android:background="#999999" />
+
+        <ListView
+            android:id="@+id/attendance_listview"
+            android:layout_width="fill_parent"
+            android:layout_height="460dp"
+            android:layout_below="@id/attendance_list_title_field"
+            android:choiceMode="multipleChoice"
+            android:padding="10dp" />
+
+        <!--
+     		<LinearLayout
 	        android:layout_width="match_parent"
 	    	android:layout_height="wrap_content"
 	    	android:layout_below="@id/attendance_listview"
@@ -38,11 +45,9 @@
 				style="@style/smallButton"
 				android:layout_marginLeft="250dp"
 		        android:text="Done" />	
-		        <!-- android:onClick="checkAttendanceList" -->	    
+		        android:onClick="checkAttendanceList"    
 		</LinearLayout>
-	</RelativeLayout>
-	
-</RelativeLayout>
+        -->
+    </RelativeLayout>
 
-
-<!-- android:enabled="false" -->
+</RelativeLayout> <!-- android:enabled="false" -->

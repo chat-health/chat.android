@@ -4,6 +4,8 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_logout">Logout</string>
     
+    <string name="attendance_title_text">CHECK OFF NAMES OF CLIENTS WHO ARE PRESENT TODAY</string>
+    
     <string name="title_section3">Section 3</string>
     <string name="title_section2">Videos</string>
     <string name="title_section1">Forms</string>
