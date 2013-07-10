@@ -58,7 +58,7 @@
 			    android:layout_width="fill_parent"
 			    android:layout_height="wrap_content"
 			    android:layout_marginBottom="24dp" />
-			<!-- CAREFUL HERE, REVERT LATER -->
+
             <EditText
                 android:id="@+id/user_name"
                 android:layout_width="match_parent"

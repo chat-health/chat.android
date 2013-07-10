@@ -38,11 +38,11 @@ public class LoginActivity extends Activity {
 	private UserLoginTask mAuthTask = null;
 
 	// Values for email and password at the time of the login attempt.
-	private String mUserId;
+	private String mUserName;
 	private String mPassword;
 
 	// UI references.
-	private EditText mUserIdView;
+	private EditText mUserNameView;
 	private EditText mPasswordView;
 	private View mLoginFormView;
 	private View mLoginStatusView;
@@ -56,9 +56,9 @@ public class LoginActivity extends Activity {
 		setContentView(R.layout.activity_login);
 
 		// Set up the login form.
-		mUserId = getIntent().getStringExtra("some string");
-		mUserIdView = (EditText) findViewById(R.id.user_name);
-		mUserIdView.setText(mUserId);
+		mUserName = getIntent().getStringExtra("some string");
+		mUserNameView = (EditText) findViewById(R.id.user_name);
+		mUserNameView.setText(mUserName);
 
 		mPasswordView = (EditText) findViewById(R.id.password);
 		mPasswordView
@@ -112,11 +112,11 @@ public class LoginActivity extends Activity {
 		}
 
 		// Reset errors.
-		mUserIdView.setError(null);
+		mUserNameView.setError(null);
 		mPasswordView.setError(null);
 
 		// Store values at the time of the login attempt.
-		mUserId = mUserIdView.getText().toString();
+		mUserName = mUserNameView.getText().toString();
 		mPassword = mPasswordView.getText().toString();
 
 		boolean cancel = false;
@@ -133,9 +133,9 @@ public class LoginActivity extends Activity {
 //			cancel = true;
 //		}
 //		// Check for a valid user ID.
-//		if (TextUtils.isEmpty(mUserId)) {
-//			mUserIdView.setError(getString(R.string.error_field_required));
-//			focusView = mUserIdView;
+//		if (TextUtils.isEmpty(mUserName)) {
+//			mUserNameView.setError(getString(R.string.error_field_required));
+//			focusView = mUserNameView;
 //			cancel = true;
 //		}
 		// /comment
@@ -215,7 +215,7 @@ public class LoginActivity extends Activity {
 			// if for does not return true, ie if un/pw do not match. Again, comment out for testing			
 //			for (String credential : DUMMY_CREDENTIALS) {
 //				String[] pieces = credential.split(":");
-//				if (pieces[0].equals(mUserId)) {
+//				if (pieces[0].equals(mUserName)) {
 //					// Account exists, return true if the password matches.
 //					return pieces[1].equals(mPassword);
 //				}
@@ -234,6 +234,7 @@ public class LoginActivity extends Activity {
 				// Switch to setup visit view, bundling in the role
 				Intent myIntent = new Intent(LoginActivity.this, SetupVisitActivity.class);
 				Bundle b = new Bundle();
+				b.putString("userName",mUserNameView.getText().toString());
 				b.putString("role",roleSpinner.getSelectedItem().toString());
 				myIntent.putExtras(b);
 				startActivity(myIntent);

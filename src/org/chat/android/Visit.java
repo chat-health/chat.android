@@ -1,6 +1,10 @@
 package org.chat.android;
 
+import java.util.Date;
 import java.util.GregorianCalendar;
+
+import android.text.format.Time;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -18,8 +22,10 @@ public class Visit {
     private String staff_ID;
     @DatabaseField(index = true, uniqueCombo=true)
     private String HHID;
-    @DatabaseField(uniqueCombo=true)
-    private GregorianCalendar date;
+    @DatabaseField()
+    private Date date;
+    @DatabaseField
+    private String role;    
     @DatabaseField
     private double lat;
     @DatabaseField
@@ -29,27 +35,40 @@ public class Visit {
     @DatabaseField
     private String type;
     @DatabaseField
-    private GregorianCalendar start_time;
+    private Time start_time;
     @DatabaseField
-    private GregorianCalendar end_time;
+    private Time end_time;
 //    @DatabaseField
 //    private array? videos_watched; // this should likely be another table with reference IDs?
 
     /**
      * Default Constructor needed by ormlite
+     * @param userName 
+     * @param date
      */
-    public Visit() {
+    public Visit(String userName, Date date) {
     }
 
     /**
      * Constructor that instantiates the private member variable(s)
-     * @param last_name
      * @param HHID
+     * @param staff_ID
+     * @param role      
+     * @param date 
+     * @param type
+     * @param lon 
+     * @param lat 
+     * @param start_time
      */
-    public Visit(String staff_ID, String HHID, String type) {
+    public Visit(String HHID, String staff_ID, String role, Date date, String type, double lat, double lon, Time startTime) {
+    	this.HHID = HHID;
         this.staff_ID = staff_ID;
-        this.HHID = HHID;
+        this.role = role;
+        this.date = date;
         this.type = type;
+        this.lat = lat;
+        this.lon = lon;
+        this.start_time = startTime;
     }
 
     /**
@@ -74,6 +93,22 @@ public class Visit {
 		this.staff_ID = staff_ID;
 	}
 	
+	public double getLon() {
+		return lon;
+	}
+
+	public void setLon(double lon) {
+		this.lon = lon;
+	}
+	
+	public double getLat() {
+		return lat;
+	}
+
+	public void setLat(double lat) {
+		this.lat = lat;
+	}
+	
 	public String getHHID() {
 		return HHID;
 	}
@@ -82,11 +117,19 @@ public class Visit {
 		this.HHID = HHID;
 	}
 	
-	public String gettype() {
+	public String getType() {
 		return type;
 	}
 
-	public void settype(String type) {
+	public void setType(String type) {
 		this.type = type;
+	}
+	
+	public Time setStartTime() {
+		return start_time;
+	}
+
+	public void setStartTime(Time startTime) {
+		this.start_time = startTime;
 	}
 }

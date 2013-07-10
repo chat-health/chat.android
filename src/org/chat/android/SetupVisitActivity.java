@@ -1,6 +1,8 @@
 package org.chat.android;
 
 import java.util.ArrayList;
+import java.util.Date;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +11,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -16,17 +19,23 @@ import android.widget.Toast;
 
 public class SetupVisitActivity extends Activity {
 	
-	private Spinner visitTypeSpinner;
-	private Spinner householdSpinner;
+	private String userName;
+	private String role;
+	private double latitude;
+    private double longitude;
 	
 	GPSTracker gps;
+	
+	private Spinner visitTypeSpinner;
+	private Spinner householdSpinner;	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		Bundle b = getIntent().getExtras();
-		String role = b.getString("role");
+		userName = b.getString("userName");
+		role = b.getString("role");
 
 		setContentView(R.layout.activity_setup_visit);
 		
@@ -47,7 +56,7 @@ public class SetupVisitActivity extends Activity {
 		// household selections spinner
 		householdSpinner = (Spinner) findViewById(R.id.household_spinner);
 		ArrayList<String> householdList = new ArrayList<String>();
-		// TODO: DUMMY DATA. Instead, pull these from DB, based on user_name and role passed from login activity 
+		// TODO: DUMMY DATA. Instead, pull these from DB, based on userName and role passed from login activity 
 		householdList.add("Dlamini Thandiwe");
 		householdList.add("Dlamini Nokuthula Princess");
 		householdList.add("Qwabe Wiennfred Thlolakele");
@@ -68,24 +77,22 @@ public class SetupVisitActivity extends Activity {
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						// TODO do some checks to make sure dropdowns have been selected
-						// TODO add GPS, household, visit type to Visit object
+						// TODO do some checks to make sure dropdowns have been selected, GPS is done						
 						Intent myIntent = new Intent(SetupVisitActivity.this, HomeActivity.class);
-						SetupVisitActivity.this.startActivity(myIntent);
+						Bundle b = new Bundle();			
+						b.putString("userName", userName);
+						b.putString("role", role);
+						b.putString("HHName",householdSpinner.getSelectedItem().toString());
+						b.putString("type",visitTypeSpinner.getSelectedItem().toString());
+						b.putDouble("lat", latitude);
+						b.putDouble("lon", longitude);
+						myIntent.putExtras(b);
+						startActivity(myIntent);
+						finish();
 					}
 				});
-		
-		
-		// set up new visit object, save to DB... also pass role and household?
-		createNewVisit();
 	}
 
-	
-	public void createNewVisit() {
-		// create new visit object
-		// populate new visit object with staff name, date, role, etc.
-		// save to ORM layer
-	}
 	
 	public void getGPSLocation() {
 		// it's possible that this should be done on a different thread - is this an example of 'working on the UI thread'? Maybe disable the Start new visit button
@@ -95,11 +102,12 @@ public class SetupVisitActivity extends Activity {
 
         // check if GPS enabled      
         if(gps.canGetLocation()){
-            double latitude = gps.getLatitude();
-            double longitude = gps.getLongitude();
+            latitude = gps.getLatitude();
+            longitude = gps.getLongitude();
 
-            Toast.makeText(getApplicationContext(), "Current location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();  
-        }else{
+            Toast.makeText(getApplicationContext(), "Current location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+            
+        } else{
             // can't determine location because GPS or Network is not enabled
             gps.showSettingsAlert();
         }
