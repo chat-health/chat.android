@@ -29,11 +29,6 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
         this.mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.clientsArray = clientsArray;
     }
-    
-//    private class ViewHolder {
-//	   TextView code;
-//	   CheckBox name;
-//    }    
 
     /*
 	 * we are overriding the getView method here - this is what defines how each
@@ -41,7 +36,6 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
 	 */
     public View getView(int position, View convertView, ViewGroup parent) {
         convertView = this.mInflater.inflate(R.layout.attendance_listview_row, null);
-
         
         Client c = clientsArray.get(position);
 
@@ -55,24 +49,18 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
             age.setText(calculateAge(c.getBirthday()));
         }
         
-//        ViewHolder holder = new ViewHolder();
-//        holder.code = (TextView) convertView.findViewById(R.id.client_name);
-//        holder.name = (CheckBox) convertView.findViewById(R.id.checkbox);
-//        convertView.setTag(holder);
-//        
-//        //CheckBox cb = (CheckBox) convertView.findViewById(R.id.checkbox);
-//        holder.name.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Do your logic here eg. if ((CheckBox)v).isChecked()...
-//            	CheckBox cb = (CheckBox) v;
-//            	Client client = (Client) cb.getTag(); 
-//                Toast.makeText(v.getContext(),
-//                	       "Clicked on Checkbox: " + cb.getText() +					// cb.getText not working...
-//                	       " is " + cb.isChecked(),
-//                	       Toast.LENGTH_LONG).show();
-//            }
-//         });  
+        CheckBox cb = (CheckBox) convertView.findViewById(R.id.checkbox);
+        cb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Do your logic here eg. if ((CheckBox)v).isChecked()...
+            	CheckBox checked = (CheckBox) v;
+                Toast.makeText(v.getContext(),
+                	       "Clicked on Checkbox: " + checked.getText() +
+                	       " is " + checked.isChecked(),
+                	       Toast.LENGTH_LONG).show();
+            }
+         });  
         
         return convertView;
     }
