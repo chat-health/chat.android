@@ -8,14 +8,15 @@
     <string name="action_sign_in"><b>Sign in</b></string>
     <string name="action_sign_in_short">Sign in</string>
 	<string name="login_progress_signing_in">Signing in&#8230;</string>
-    <string name="error_invalid_user_id">This user ID is invalid</string>
+    <string name="error_invalid_user_name">This user name is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string-array name="roles_array">
         <item>Home Care Volunteer</item>
-        <item>Development Facilitator</item>
         <item>Lay Councelor</item>
+        <item>Social Worker</item>
+        <item>Development Facilitator</item>
         <item>Nurse</item>
     </string-array>
 

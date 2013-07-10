@@ -25,11 +25,12 @@ public class LoginActivity extends Activity {
 	/**
 	 * A dummy authentication store containing known user names and passwords.
 	 * TODO: remove after connecting to a real authentication system.
+	 * TODO: split this further to incorporate role? This will likely need to be rethought, ctrl-f for credential.split(":")
 	 */
 	private static final String[] DUMMY_CREDENTIALS = new String[] {
 			"colin:chat", "armin:chat", "lisa:chat", "duncan:chat",
 			"Monde Hulana:chat", "Khanyisile Hassam:chat","Nokuphiwa Mthembu - Copesville:chat",
-			"Nonduduzo Mncwabe:chat","Nomthandazo Mokoena:chat","Nomthandazo Mokoena:chat"};			// TEST ME
+			"Nonduduzo Mncwabe:chat","Nomthandazo Mokoena:chat","Nomthandazo Mokoena:chat"};
 
 	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
@@ -55,9 +56,8 @@ public class LoginActivity extends Activity {
 		setContentView(R.layout.activity_login);
 
 		// Set up the login form.
-//		mUserId = getIntent().getStringExtra(EXTRA_EMAIL);
 		mUserId = getIntent().getStringExtra("some string");
-		mUserIdView = (EditText) findViewById(R.id.user_id);
+		mUserIdView = (EditText) findViewById(R.id.user_name);
 		mUserIdView.setText(mUserId);
 
 		mPasswordView = (EditText) findViewById(R.id.password);
@@ -86,7 +86,7 @@ public class LoginActivity extends Activity {
 					}
 				});
 		
-		// TODO: match this up with the UN/PW/ROLE on authentication
+		// TODO: match this up with the UN/PW/ROLE on authentication, maybe thing about other error messages 
 		roleSpinner = (Spinner) findViewById(R.id.role_spinner);
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.roles_array, android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -122,7 +122,7 @@ public class LoginActivity extends Activity {
 		boolean cancel = false;
 		View focusView = null;
 
-		// Check for a valid password - commented out for testing
+		// Check for a valid password - comment out for testing
 //		if (TextUtils.isEmpty(mPassword)) {
 //			mPasswordView.setError(getString(R.string.error_field_required));
 //			focusView = mPasswordView;
@@ -132,13 +132,13 @@ public class LoginActivity extends Activity {
 //			focusView = mPasswordView;
 //			cancel = true;
 //		}
-//		
 //		// Check for a valid user ID.
 //		if (TextUtils.isEmpty(mUserId)) {
 //			mUserIdView.setError(getString(R.string.error_field_required));
 //			focusView = mUserIdView;
 //			cancel = true;
 //		}
+		// /comment
 		
 		if (cancel) {
 			// There was an error; don't attempt login and focus the first
@@ -202,9 +202,8 @@ public class LoginActivity extends Activity {
 	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			// TODO: attempt authentication against a network service.
 
-			// TODO: dump this?
+			// TODO: dump this when we're actually ORMing
 //			try {
 //				// Simulate network access.
 //				Thread.sleep(2000);
@@ -212,6 +211,8 @@ public class LoginActivity extends Activity {
 //				return false;
 //			}
 //
+			
+			// if for does not return true, ie if un/pw do not match. Again, comment out for testing			
 //			for (String credential : DUMMY_CREDENTIALS) {
 //				String[] pieces = credential.split(":");
 //				if (pieces[0].equals(mUserId)) {
@@ -219,10 +220,8 @@ public class LoginActivity extends Activity {
 //					return pieces[1].equals(mPassword);
 //				}
 //			}
-//
-//			// if for does not return true, ie if un/pw do not match
-//			return false;
-			// again, commented out for testing:
+			// /comment
+
 			return true;
 		}
 
@@ -232,9 +231,6 @@ public class LoginActivity extends Activity {
 			showProgress(false);
 			
 			if (success) {
-				// finish();
-				// Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
-				
 				// Switch to setup visit view, bundling in the role
 				Intent myIntent = new Intent(LoginActivity.this, SetupVisitActivity.class);
 				Bundle b = new Bundle();

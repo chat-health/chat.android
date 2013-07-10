@@ -60,7 +60,7 @@
 			    android:layout_marginBottom="24dp" />
 			<!-- CAREFUL HERE, REVERT LATER -->
             <EditText
-                android:id="@+id/user_id"
+                android:id="@+id/user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_user_name"

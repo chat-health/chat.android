@@ -38,6 +38,7 @@ public class SetupVisitActivity extends Activity {
 		} else if (role.equals("Lay Councelor")) {
 			typeArrayAdapter = ArrayAdapter.createFromResource(this, R.array.councelor_visit_type_array, android.R.layout.simple_spinner_item);
 		} else {
+			// TODO: fix this when we know what's going on
 			typeArrayAdapter = ArrayAdapter.createFromResource(this, R.array.volunteer_visit_type_array, android.R.layout.simple_spinner_item);
 		}
 		typeArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
