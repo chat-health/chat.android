@@ -88,7 +88,7 @@ public class LoginActivity extends Activity {
 		
 		// TODO: match this up with the UN/PW/ROLE on authentication, maybe thing about other error messages 
 		roleSpinner = (Spinner) findViewById(R.id.role_spinner);
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.roles_array, android.R.layout.simple_spinner_item);
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.role_array, android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		roleSpinner.setAdapter(adapter);
 
@@ -234,7 +234,7 @@ public class LoginActivity extends Activity {
 				// Switch to setup visit view, bundling in the role
 				Intent myIntent = new Intent(LoginActivity.this, SetupVisitActivity.class);
 				Bundle b = new Bundle();
-				b.putString("userName",mUserNameView.getText().toString());
+				b.putString("staffName",mUserNameView.getText().toString());
 				b.putString("role",roleSpinner.getSelectedItem().toString());
 				myIntent.putExtras(b);
 				startActivity(myIntent);

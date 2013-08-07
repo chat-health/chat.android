@@ -54,7 +54,7 @@
             
             <Spinner
 			    android:id="@+id/role_spinner"
-			    android:entries="@array/roles_array"
+			    android:entries="@array/role_array"
 			    android:layout_width="fill_parent"
 			    android:layout_height="wrap_content"
 			    android:layout_marginBottom="24dp" />

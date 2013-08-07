@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 public class SetupVisitActivity extends Activity {
 	
-	private String userName;
+	private String staffName;
 	private String role;
 	private double latitude;
     private double longitude;
@@ -34,7 +34,7 @@ public class SetupVisitActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		Bundle b = getIntent().getExtras();
-		userName = b.getString("userName");
+		staffName = b.getString("staffName");
 		role = b.getString("role");
 
 		setContentView(R.layout.activity_setup_visit);
@@ -42,13 +42,15 @@ public class SetupVisitActivity extends Activity {
 		// visit type selection spinner - TODO: how can we put these if conditions in the strings file?
 		visitTypeSpinner = (Spinner) findViewById(R.id.visit_type_spinner);
 		ArrayAdapter<CharSequence> typeArrayAdapter;
-		if (role.equals("Home Care Volunteer")) {
+		String[] roleArray = getResources().getStringArray(R.array.role_array);
+		if (role.equals(roleArray[0])) {
 			typeArrayAdapter = ArrayAdapter.createFromResource(this, R.array.volunteer_visit_type_array, android.R.layout.simple_spinner_item);
-		} else if (role.equals("Lay Councelor")) {
+		} else if (role.equals(roleArray[1])) {
 			typeArrayAdapter = ArrayAdapter.createFromResource(this, R.array.councelor_visit_type_array, android.R.layout.simple_spinner_item);
 		} else {
-			// TODO: fix this when we know what's going on
+			// TODO: expand? Also add proper error here
 			typeArrayAdapter = ArrayAdapter.createFromResource(this, R.array.volunteer_visit_type_array, android.R.layout.simple_spinner_item);
+			Toast.makeText(getApplicationContext(),"Role is undefined",Toast.LENGTH_LONG).show();
 		}
 		typeArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		visitTypeSpinner.setAdapter(typeArrayAdapter);
@@ -56,7 +58,7 @@ public class SetupVisitActivity extends Activity {
 		// household selections spinner
 		householdSpinner = (Spinner) findViewById(R.id.household_spinner);
 		ArrayList<String> householdList = new ArrayList<String>();
-		// TODO: DUMMY DATA. Instead, pull these from DB, based on userName and role passed from login activity 
+		// TODO: DUMMY DATA. Instead, pull these from DB, based on staffName and role passed from login activity 
 		householdList.add("Dlamini Thandiwe");
 		householdList.add("Dlamini Nokuthula Princess");
 		householdList.add("Qwabe Wiennfred Thlolakele");
@@ -80,7 +82,7 @@ public class SetupVisitActivity extends Activity {
 						// TODO do some checks to make sure dropdowns have been selected, GPS is done						
 						Intent myIntent = new Intent(SetupVisitActivity.this, HomeActivity.class);
 						Bundle b = new Bundle();			
-						b.putString("userName", userName);
+						b.putString("staffName", staffName);
 						b.putString("role", role);
 						b.putString("HHName",householdSpinner.getSelectedItem().toString());
 						b.putString("type",visitTypeSpinner.getSelectedItem().toString());

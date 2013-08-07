@@ -19,9 +19,9 @@ public class Visit {
 
 	// check the var types on these - also just sanity check these
     @DatabaseField(index = true, uniqueCombo=true)
-    private String staff_ID;
+    private String staffName;
     @DatabaseField(index = true, uniqueCombo=true)
-    private String HHID;
+    private String HHName;
     @DatabaseField()
     private Date date;
     @DatabaseField
@@ -51,8 +51,8 @@ public class Visit {
 
     /**
      * Constructor that instantiates the private member variable(s)
-     * @param HHID
-     * @param staff_ID
+     * @param HHName
+     * @param staffName
      * @param role      
      * @param date 
      * @param type
@@ -60,9 +60,9 @@ public class Visit {
      * @param lat 
      * @param start_time
      */
-    public Visit(String HHID, String staff_ID, String role, Date date, String type, double lat, double lon, Time startTime) {
-    	this.HHID = HHID;
-        this.staff_ID = staff_ID;
+    public Visit(String HHName, String staffName, String role, Date date, String type, double lat, double lon, Time startTime) {
+    	this.HHName = HHName;
+        this.staffName = staffName;
         this.role = role;
         this.date = date;
         this.type = type;
@@ -76,8 +76,8 @@ public class Visit {
      * @param existingListModel - List model instance that is copied to new instance
      */
     public Visit(Visit existingVisitModel) {
-        this.staff_ID = existingVisitModel.staff_ID;
-        this.HHID = existingVisitModel.HHID;
+        this.staffName = existingVisitModel.staffName;
+        this.HHName = existingVisitModel.HHName;
         this.type = existingVisitModel.type;
     }
 
@@ -85,13 +85,29 @@ public class Visit {
 		return _id;
 	}
 
-	public String getStaff_ID() {
-		return staff_ID;
+	public String getHHName() {
+		return HHName;
 	}
 
-	public void setStaff_ID(String staff_ID) {
-		this.staff_ID = staff_ID;
+	public void setHHName(String HHName) {
+		this.HHName = HHName;
 	}
+	
+	public String getstaffName() {
+		return staffName;
+	}
+
+	public void setstaffName(String staffName) {
+		this.staffName = staffName;
+	}
+	
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}	
 	
 	public double getLon() {
 		return lon;
@@ -107,14 +123,6 @@ public class Visit {
 
 	public void setLat(double lat) {
 		this.lat = lat;
-	}
-	
-	public String getHHID() {
-		return HHID;
-	}
-
-	public void setHHID(String HHID) {
-		this.HHID = HHID;
 	}
 	
 	public String getType() {

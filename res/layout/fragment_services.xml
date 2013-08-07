@@ -1,0 +1,37 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   	xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <TableRow
+    	android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center"
+	    android:paddingTop="15dp" >
+        <ListView
+            android:id="@+id/services_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp" />
+    </TableRow>
+    <TableRow
+    	android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center" >
+	    <ListView
+            android:id="@+id/notes_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp" />    
+    </TableRow>
+    <TableRow
+    	android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:gravity="center" >
+	    <EditText
+	        android:id="@+id/notes_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="+" />  
+	</TableRow>
+</TableLayout>

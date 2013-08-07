@@ -22,4 +22,15 @@
     <string name="button_video_3_text">Play video 3</string>
     <string name="button_video_4_text">Play video 4</string>
 
+    
+    <!-- preceeding may need editing -->
+    <string-array name="role_array">
+        <item>Home Care Volunteer</item>
+        <item>Lay Councelor</item>
+        <item>Social Worker</item>
+        <item>Development Facilitator</item>
+        <item>Nurse</item>
+    </string-array>
+    
+    
 </resources>

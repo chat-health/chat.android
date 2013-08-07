@@ -1,0 +1,32 @@
+<resources>
+	<string-array name="volunteer_service_type_array">
+        <item>B - Material Well Being</item>
+        <item>C - Cognitive Well Being</item>
+        <item>D - Emotional Well Being</item>
+        <item>E - Physical Well Being</item>
+        <item>S - Documents and Grants</item>
+        <item>T - Change of Status</item>
+    </string-array>
+    <string-array name="councelor_service_type_array">
+        <item>General Health Assessment 1</item>
+        <item>General Health Assessment 2</item>
+        <item>Health Intervention</item>
+        <item>HIV Management</item>
+    </string-array>
+    
+	<string-array name="material_well_being_service_array">
+        <item>B1 Household (Re)Assessment - Checklist (Staff Only)</item>
+        <item>B2 Emergency Food parcel/voucher provision</item>
+        <item>B3 Household Equipment provision</item>
+        <item>B4 Clothing distribution</item>
+        <item>B5 Blanket / Bedding Distribution</item>
+        <item>B6 Household Maintenance</item>
+        <item>B7 Monitoring - Grant Usage</item>
+    </string-array>
+    <string-array name="cognitive_well_being_service_array">
+        <item>C1 Advise/Assistance in applying for a School Fee Exemption</item>
+        <item>C2 School Uniform Provision</item>
+        <item>C3 School Stationary Provision</item>
+        <item>C4 Monitoring - School Attendance and Performance (School Visits Only)</item>
+    </string-array>  
+</resources>
