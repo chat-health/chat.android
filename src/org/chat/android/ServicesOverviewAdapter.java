@@ -1,6 +1,6 @@
 package org.chat.android;
 
-import static org.chat.android.R.id.service_name;
+import static org.chat.android.R.id.service_type_name;
 
 import java.util.ArrayList;
 
@@ -17,11 +17,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class ServicesAdapter extends ArrayAdapter<String> {
+public class ServicesOverviewAdapter extends ArrayAdapter<String> {
 	private LayoutInflater mInflater;
     private ArrayList<String> servicesArray;
 
-    public ServicesAdapter(Context context, int layoutResourceId, ArrayList<String> servicesArray) {
+    public ServicesOverviewAdapter(Context context, int layoutResourceId, ArrayList<String> servicesArray) {
         super(context, layoutResourceId, servicesArray);
 
         this.mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -33,18 +33,17 @@ public class ServicesAdapter extends ArrayAdapter<String> {
 	 * list item will look.
 	 */
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = this.mInflater.inflate(R.layout.services_listview_row, null);
+        convertView = this.mInflater.inflate(R.layout.services_overview_listview_row, null);
         
         String s = servicesArray.get(position);
         
         TextView tv = null;
 
         if (convertView != null) {
-            tv = (TextView)convertView.findViewById(service_name);
+            tv = (TextView)convertView.findViewById(service_type_name);
             tv.setText(s);
         }        
  
-		
         return convertView;
     }
     

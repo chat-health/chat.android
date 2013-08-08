@@ -232,12 +232,12 @@ public class LoginActivity extends Activity {
 			
 			if (success) {
 				// Switch to setup visit view, bundling in the role
-				Intent myIntent = new Intent(LoginActivity.this, SetupVisitActivity.class);
+				Intent i = new Intent(LoginActivity.this, SetupVisitActivity.class);
 				Bundle b = new Bundle();
 				b.putString("staffName",mUserNameView.getText().toString());
 				b.putString("role",roleSpinner.getSelectedItem().toString());
-				myIntent.putExtras(b);
-				startActivity(myIntent);
+				i.putExtras(b);
+				startActivity(i);
 				finish();
 
 			 } else {

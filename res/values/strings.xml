@@ -6,15 +6,11 @@
     
     <string name="attendance_title_text">CHECK OFF NAMES OF CLIENTS WHO ARE PRESENT TODAY</string>
     
-    <string name="title_section3">Section 3</string>
-    <string name="title_section2">Videos</string>
-    <string name="title_section1">Forms</string>
-    <string name="hello_world">Hello world!</string>
-    
     <string name="title_activity_main">CHAT</string>
     <string name="title_activity_home">CHAT</string>
     <string name="title_activity_pick_video">CHAT > VIDEOS</string>
     <string name="title_activity_pick_form">CHAT > FORMS</string>
+    <string name="title_activity_service_delivery">CHAT > SERVICES</string>
     <string name="button_show_forms">Forms</string>
     <string name="button_show_videos">Videos</string>
     <string name="button_video_1_text">Play video 1</string>
