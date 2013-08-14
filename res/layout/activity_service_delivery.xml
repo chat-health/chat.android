@@ -5,7 +5,7 @@
 
     <fragment
     	class="org.chat.android.ServiceDeliveryFragment"
-        android:id="@+id/titles"
+        android:id="@+id/services"
         android:layout_weight="1"
         android:layout_width="0px"
         android:layout_height="match_parent" />
@@ -14,6 +14,15 @@
         android:id="@+id/details"
         android:layout_weight="1"
         android:layout_width="0px"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+   
+        <ListView
+            android:id="@+id/service_delivery_attendance_listview"
+            android:layout_width="fill_parent"
+            android:layout_height="460dp"
+            android:choiceMode="multipleChoice"
+            android:padding="10dp" />
+        
+    </FrameLayout>
     
 </LinearLayout>

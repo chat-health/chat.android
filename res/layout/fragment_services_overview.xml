@@ -1,37 +1,44 @@
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
    	xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-    <TableRow
-    	android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:gravity="center"
-	    android:paddingTop="15dp" >
+    android:layout_height="match_parent"
+    android:padding="20dp" >
+
         <ListView
             android:id="@+id/services_overview_listview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginBottom="35dp"
+            android:background="@drawable/drawable_blue_border"
             android:padding="10dp" />
-    </TableRow>
-    <TableRow
-    	android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:gravity="center" >
+
 	    <ListView
             android:id="@+id/notes_listview"
+            android:layout_below="@id/services_overview_listview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="245dp"
+            android:background="@drawable/drawable_blue_border"
             android:padding="5dp" />    
-    </TableRow>
-    <TableRow
-    	android:layout_width="match_parent"
-	    android:layout_height="match_parent"
-	    android:gravity="center" >
+
+	   <Button
+            android:id="@+id/notes_button"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:text="@string/action_submit_note" />
+	   
 	    <EditText
 	        android:id="@+id/notes_edittext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:hint="+" />  
-	</TableRow>
-</TableLayout>
+	        android:layout_toLeftOf="@id/notes_button"
+            android:layout_width="fill_parent"
+            android:layout_height="70dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/drawable_blue_border"
+            android:inputType="textCapSentences|textMultiLine"
+            android:hint="+" />	   
+	    
+</RelativeLayout>

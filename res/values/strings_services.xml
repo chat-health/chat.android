@@ -6,6 +6,15 @@
         <item>E - Physical Well Being</item>
         <item>S - Documents and Grants</item>
         <item>T - Change of Status</item>
+        <item>T - Change of Status</item>
+        <item>T - Change of Status</item>
+        <item>T - Change of Status</item>
+        <item>T - Change of Status</item>
+        <item>T - Change of Status</item>
+        <item>T - Change of Status</item>
+        <item>T - Change of Status</item>
+        <item>T - Change of Status</item>
+        <item>T - Change of Status AGAIN</item>
     </string-array>
     <string-array name="councelor_service_type_array">
         <item>General Health Assessment 1</item>

@@ -12,34 +12,29 @@ import com.j256.ormlite.table.DatabaseTable;
 /**
  * Created by colin
  */
-//@DatabaseTable(tableName = "visits")
+@DatabaseTable(tableName = "visits")
 public class Visit {
 	@DatabaseField(generatedId = true)
 	private int _id;
 
-	// check the var types on these - also just sanity check these
-    @DatabaseField(index = true, uniqueCombo=true)
-    private String staffName;
-    @DatabaseField(index = true, uniqueCombo=true)
-    private String HHName;
-    @DatabaseField()
+    @DatabaseField
+    private int hhid;
+    @DatabaseField
     private Date date;
     @DatabaseField
-    private String role;    
+    private int worker_id;
     @DatabaseField
     private double lat;
     @DatabaseField
     private double lon;
-//    @DatabaseField
-//    private something clients_present;
-    @DatabaseField
-    private String type;
     @DatabaseField
     private Time start_time;
     @DatabaseField
     private Time end_time;
-//    @DatabaseField
-//    private array? videos_watched; // this should likely be another table with reference IDs?
+    @DatabaseField
+    private Boolean video_watched;
+    @DatabaseField
+    private Boolean resource_accessed;
 
     /**
      * Default Constructor needed by ormlite
@@ -52,7 +47,7 @@ public class Visit {
     /**
      * Constructor that instantiates the private member variable(s)
      * @param HHName
-     * @param staffName
+     * @param workerName
      * @param role      
      * @param date 
      * @param type
@@ -60,9 +55,9 @@ public class Visit {
      * @param lat 
      * @param start_time
      */
-    public Visit(String HHName, String staffName, String role, Date date, String type, double lat, double lon, Time startTime) {
+    public Visit(String HHName, String workerName, String role, Date date, String type, double lat, double lon, Time startTime) {
     	this.HHName = HHName;
-        this.staffName = staffName;
+        this.workerName = workerName;
         this.role = role;
         this.date = date;
         this.type = type;
@@ -76,7 +71,7 @@ public class Visit {
      * @param existingListModel - List model instance that is copied to new instance
      */
     public Visit(Visit existingVisitModel) {
-        this.staffName = existingVisitModel.staffName;
+        this.workerName = existingVisitModel.workerName;
         this.HHName = existingVisitModel.HHName;
         this.type = existingVisitModel.type;
     }
@@ -93,12 +88,12 @@ public class Visit {
 		this.HHName = HHName;
 	}
 	
-	public String getstaffName() {
-		return staffName;
+	public String getworkerName() {
+		return workerName;
 	}
 
-	public void setstaffName(String staffName) {
-		this.staffName = staffName;
+	public void setworkerName(String workerName) {
+		this.workerName = workerName;
 	}
 	
 	public String getRole() {

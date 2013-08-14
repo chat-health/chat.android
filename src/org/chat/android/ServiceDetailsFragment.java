@@ -14,7 +14,7 @@ public class ServiceDetailsFragment extends Fragment {
 	String[] attendanceArray = {
 		"Rebecca",
 		"Colin"
-	};			// START HERE
+	};				// maybe use 'client' terminology
 	
 	
     /**

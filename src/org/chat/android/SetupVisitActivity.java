@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 public class SetupVisitActivity extends Activity {
 	
-	private String staffName;
+	private String workerName;
 	private String role;
 	private double latitude;
     private double longitude;
@@ -34,12 +34,12 @@ public class SetupVisitActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		Bundle b = getIntent().getExtras();
-		staffName = b.getString("staffName");
+		workerName = b.getString("workerName");
 		role = b.getString("role");
 
 		setContentView(R.layout.activity_setup_visit);
 		
-		// visit type selection spinner - TODO: how can we put these if conditions in the strings file?
+		// visit type selection spinner - TODO: how can we put these if conditions in the strings file?								
 		visitTypeSpinner = (Spinner) findViewById(R.id.visit_type_spinner);
 		ArrayAdapter<CharSequence> typeArrayAdapter;
 		String[] roleArray = getResources().getStringArray(R.array.role_array);
@@ -58,7 +58,7 @@ public class SetupVisitActivity extends Activity {
 		// household selections spinner
 		householdSpinner = (Spinner) findViewById(R.id.household_spinner);
 		ArrayList<String> householdList = new ArrayList<String>();
-		// TODO: DUMMY DATA. Instead, pull these from DB, based on staffName and role passed from login activity 
+		// TODO: DUMMY DATA. Instead, pull these from DB, based on workerName and role passed from login activity 
 		householdList.add("Dlamini Thandiwe");
 		householdList.add("Dlamini Nokuthula Princess");
 		householdList.add("Qwabe Wiennfred Thlolakele");
@@ -82,7 +82,7 @@ public class SetupVisitActivity extends Activity {
 						// TODO do some checks to make sure dropdowns have been selected, GPS is done						
 						Intent myIntent = new Intent(SetupVisitActivity.this, HomeActivity.class);
 						Bundle b = new Bundle();			
-						b.putString("staffName", staffName);
+						b.putString("workerName", workerName);
 						b.putString("role", role);
 						b.putString("HHName",householdSpinner.getSelectedItem().toString());
 						b.putString("type",visitTypeSpinner.getSelectedItem().toString());

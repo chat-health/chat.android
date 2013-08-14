@@ -2,13 +2,10 @@ package org.chat.android;
 
 import static org.chat.android.R.id.client_name;
 import static org.chat.android.R.id.attendance_age;
-
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
-
+import java.util.List;
 import org.chat.android.Client;
 import org.chat.android.R;
-
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,9 +18,9 @@ import android.widget.Toast;
 
 public class ClientsAdapter extends ArrayAdapter<Client> {
 	private LayoutInflater mInflater;
-    private ArrayList<Client> clientsArray;
+    private List<Client> clientsArray;
 
-    public ClientsAdapter(Context context, int layoutResourceId, int checkboxId, ArrayList<Client> clientsArray, Visit visit) {
+    public ClientsAdapter(Context context, int layoutResourceId, int checkboxId, List<Client> clientsArray) {
         super(context, layoutResourceId, checkboxId, clientsArray);
 
         this.mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -43,10 +40,10 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
         TextView age;
         if (convertView != null) {
             tv = (TextView)convertView.findViewById(client_name);
-            tv.setText(c.getFirstname() + " " + c.getLastname());
+            tv.setText(c.getFirstName() + " " + c.getLastName());
             
-            age = (TextView)convertView.findViewById(attendance_age);
-            age.setText(calculateAge(c.getBirthday()));
+//            age = (TextView)convertView.findViewById(attendance_age);
+//            age.setText(calculateAge(c.getBirthday()));
         }
         
         CheckBox cb = (CheckBox) convertView.findViewById(R.id.checkbox);

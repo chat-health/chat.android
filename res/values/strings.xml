@@ -20,6 +20,8 @@
 
     
     <!-- preceeding may need editing -->
+    <string name="action_submit_note">Submit note</string>
+    
     <string-array name="role_array">
         <item>Home Care Volunteer</item>
         <item>Lay Councelor</item>
