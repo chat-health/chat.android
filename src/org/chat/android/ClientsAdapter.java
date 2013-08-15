@@ -2,12 +2,17 @@ package org.chat.android;
 
 import static org.chat.android.R.id.client_name;
 import static org.chat.android.R.id.attendance_age;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 import org.chat.android.Client;
 import org.chat.android.R;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.DeleteBuilder;
 
 import android.content.Context;
 import android.util.Log;
@@ -54,27 +59,56 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
         }      
         
         CheckBox cb = (CheckBox) convertView.findViewById(R.id.checkbox);
-        cb.setTag(c.getLastName());
+        
+        // add the current client object to the checkbox
+        cb.setTag(c);
         cb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Do your logic here eg. if ((CheckBox)v).isChecked()...
             	CheckBox checked = (CheckBox) v;
                 Toast.makeText(v.getContext(), "Clicked on Checkbox: " + checked.getTag() + " is " + checked.isChecked(), Toast.LENGTH_LONG).show();
-//                if checked {
-//                	add
-//                } else {
-//                	delete
-//                }
-//                Dao<Attendance, Integer> aDao;
-//                DatabaseHelper dbHelper = new DatabaseHelper(getContext());
-//                try {
-//                	aDao = dbHelper.getAttendanceDao();
-//                	aDao.create(DlaminiThandiwe7);
-//                } catch (SQLException e) {
-//                    // TODO Auto-generated catch block
-//                    e.printStackTrace();
-//                }
+                
+                if (checked.isChecked() == true) {
+                    // the client associated with the selected checkbox
+                    Client c = (Client) checked.getTag();
+                    int clientId = c.get_id();
+                    
+                    // TODO: v.getVisitId()
+                    Attendance a = new Attendance(1, clientId);
+                    
+                    Dao<Attendance, Integer> aDao;
+                    DatabaseHelper dbHelper = new DatabaseHelper(getContext());
+                    try {
+                    	aDao = dbHelper.getAttendanceDao();
+                    	aDao.create(a);
+                    } catch (SQLException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }                	
+                } else {
+                    // the client associated with the selected checkbox
+                    Client c = (Client) checked.getTag();
+                    int clientId = c.get_id();
+                    
+                    DatabaseHelper helper = OpenHelperManager.getHelper(getContext(), DatabaseHelper.class);
+                    //You get helper
+                    Dao dao;
+				    try {
+					    dao = helper.getDao(Attendance.class);
+				
+					    DeleteBuilder<Attendance, Integer> deleteBuilder = dao.deleteBuilder();
+					    deleteBuilder.where().eq("client_id", clientId);
+					    deleteBuilder.delete(); 
+				    } catch (SQLException e) {
+					  // TODO Auto-generated catch block
+					  e.printStackTrace();
+				    }
+
+                	
+                }
+
+
             }
          });  
         

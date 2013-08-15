@@ -17,8 +17,9 @@ import java.sql.SQLException;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "chat.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private Dao<Client, Integer> clientsDao = null;
+    private Dao<Attendance, Integer> attendanceDao = null;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -35,6 +36,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Unable to create databases", e);
         }
+        try {
+            TableUtils.createTable(connectionSource, Attendance.class);
+        } catch (SQLException e) {
+            Log.e(DatabaseHelper.class.getName(), "Unable to create databases", e);
+        }        
     }
 
     @Override
@@ -45,10 +51,16 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Unable to upgrade database from version " + oldVer + " to new " + newVer, e);
         }
+        try {
+            TableUtils.dropTable(connectionSource, Attendance.class, true);
+            onCreate(sqLiteDatabase, connectionSource);
+        } catch (SQLException e) {
+            Log.e(DatabaseHelper.class.getName(), "Unable to upgrade database from version " + oldVer + " to new " + newVer, e);
+        }        
     }
 
     /**
-     * Function that returns the Data Access Object DAO00
+     * Functions that returns the Data Access Object DAO00
      */
     public Dao<Client, Integer> getClientsDao() throws SQLException {
         if (clientsDao == null) {
@@ -57,6 +69,17 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
         return clientsDao;
     }
+
+    /**
+     * Functions that returns the Data Access Object DAO00
+     */
+    public Dao<Attendance, Integer> getAttendanceDao() throws SQLException {
+        if (attendanceDao == null) {
+            attendanceDao = getDao(Attendance.class);
+        }
+
+        return attendanceDao;
+    }    
 
     /**
      * Close the database connections and clear any cached DAOs.
