@@ -39,7 +39,7 @@ public class SetupVisitActivity extends Activity {
 
 		setContentView(R.layout.activity_setup_visit);
 		
-		// visit type selection spinner - TODO: how can we put these if conditions in the strings file?								
+		// visit type selection spinner - TODO: how can we put these if conditions in the strings file?
 		visitTypeSpinner = (Spinner) findViewById(R.id.visit_type_spinner);
 		ArrayAdapter<CharSequence> typeArrayAdapter;
 		String[] roleArray = getResources().getStringArray(R.array.role_array);
@@ -82,9 +82,10 @@ public class SetupVisitActivity extends Activity {
 						// TODO do some checks to make sure dropdowns have been selected, GPS is done						
 						Intent myIntent = new Intent(SetupVisitActivity.this, HomeActivity.class);
 						Bundle b = new Bundle();			
+						b.putString("HHName",householdSpinner.getSelectedItem().toString());
 						b.putString("workerName", workerName);
 						b.putString("role", role);
-						b.putString("HHName",householdSpinner.getSelectedItem().toString());
+						
 						b.putString("type",visitTypeSpinner.getSelectedItem().toString());
 						b.putDouble("lat", latitude);
 						b.putDouble("lon", longitude);

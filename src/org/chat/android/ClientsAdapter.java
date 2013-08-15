@@ -6,13 +6,20 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import org.chat.android.Client;
 import org.chat.android.R;
+
+import com.j256.ormlite.dao.Dao;
+
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,18 +51,30 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
             
 //            age = (TextView)convertView.findViewById(attendance_age);
 //            age.setText(calculateAge(c.getBirthday()));
-        }
+        }      
         
         CheckBox cb = (CheckBox) convertView.findViewById(R.id.checkbox);
+        cb.setTag(c.getLastName());
         cb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Do your logic here eg. if ((CheckBox)v).isChecked()...
             	CheckBox checked = (CheckBox) v;
-                Toast.makeText(v.getContext(),
-                	       "Clicked on Checkbox: " + checked.getText() +
-                	       " is " + checked.isChecked(),
-                	       Toast.LENGTH_LONG).show();
+                Toast.makeText(v.getContext(), "Clicked on Checkbox: " + checked.getTag() + " is " + checked.isChecked(), Toast.LENGTH_LONG).show();
+//                if checked {
+//                	add
+//                } else {
+//                	delete
+//                }
+//                Dao<Attendance, Integer> aDao;
+//                DatabaseHelper dbHelper = new DatabaseHelper(getContext());
+//                try {
+//                	aDao = dbHelper.getAttendanceDao();
+//                	aDao.create(DlaminiThandiwe7);
+//                } catch (SQLException e) {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
             }
          });  
         

@@ -5,7 +5,9 @@ import java.util.GregorianCalendar;
 
 import android.text.format.Time;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 
@@ -18,11 +20,13 @@ public class Visit {
 	private int _id;
 
     @DatabaseField
-    private int hhid;
+    private int worker_id;
+    @DatabaseField
+	private String role;
     @DatabaseField
     private Date date;
     @DatabaseField
-    private int worker_id;
+    private int hh_id;
     @DatabaseField
     private double lat;
     @DatabaseField
@@ -35,19 +39,25 @@ public class Visit {
     private Boolean video_watched;
     @DatabaseField
     private Boolean resource_accessed;
+    @DatabaseField
+    private String type;							// this may get moved to Service
+    
+    @ForeignCollectionField()						// TODO: revisit this when I understand what's going on
+    ForeignCollection<Client> clients;
 
+    
+    
     /**
      * Default Constructor needed by ormlite
-     * @param userName 
      * @param date
      */
-    public Visit(String userName, Date date) {
+    public Visit(Date date) {
     }
 
     /**
      * Constructor that instantiates the private member variable(s)
-     * @param HHName
-     * @param workerName
+     * @param hh_id
+     * @param worker_id
      * @param role      
      * @param date 
      * @param type
@@ -55,9 +65,9 @@ public class Visit {
      * @param lat 
      * @param start_time
      */
-    public Visit(String HHName, String workerName, String role, Date date, String type, double lat, double lon, Time startTime) {
-    	this.HHName = HHName;
-        this.workerName = workerName;
+    public Visit(int worker_id, String role, Date date, int hh_id, String type, double lat, double lon, Time startTime) {
+    	this.hh_id = hh_id;
+        this.worker_id = worker_id;
         this.role = role;
         this.date = date;
         this.type = type;
@@ -65,14 +75,14 @@ public class Visit {
         this.lon = lon;
         this.start_time = startTime;
     }
-
+    
     /**
      * Copy constructor
      * @param existingListModel - List model instance that is copied to new instance
      */
     public Visit(Visit existingVisitModel) {
-        this.workerName = existingVisitModel.workerName;
-        this.HHName = existingVisitModel.HHName;
+        this.worker_id = existingVisitModel.worker_id;
+        this.hh_id = existingVisitModel.hh_id;
         this.type = existingVisitModel.type;
     }
 
@@ -80,20 +90,20 @@ public class Visit {
 		return _id;
 	}
 
-	public String getHHName() {
-		return HHName;
+	public int getHhId() {
+		return hh_id;
 	}
 
-	public void setHHName(String HHName) {
-		this.HHName = HHName;
+	public void setHhId(int hh_id) {
+		this.hh_id = hh_id;
 	}
 	
-	public String getworkerName() {
-		return workerName;
+	public int getWorkerId() {
+		return worker_id;
 	}
 
-	public void setworkerName(String workerName) {
-		this.workerName = workerName;
+	public void setWorkerId(int worker_id) {
+		this.worker_id = worker_id;
 	}
 	
 	public String getRole() {
@@ -102,7 +112,7 @@ public class Visit {
 
 	public void setRole(String role) {
 		this.role = role;
-	}	
+	}
 	
 	public double getLon() {
 		return lon;
