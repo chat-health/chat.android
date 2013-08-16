@@ -32,9 +32,9 @@ public class Visit {
     @DatabaseField
     private double lon;
     @DatabaseField
-    private Time start_time;
+    private Date start_time;
     @DatabaseField
-    private Time end_time;
+    private Date end_time;
     @DatabaseField
     private Boolean video_watched;
     @DatabaseField
@@ -42,16 +42,15 @@ public class Visit {
     @DatabaseField
     private String type;							// this may get moved to Service
     
-    @ForeignCollectionField()						// TODO: revisit this when I understand what's going on
-    ForeignCollection<Client> clients;
+    //@ForeignCollectionField()						// TODO: revisit this when I understand what's going on
+    //ForeignCollection<Client> clients;
 
     
     
     /**
      * Default Constructor needed by ormlite
-     * @param date
      */
-    public Visit(Date date) {
+    public Visit() {
     }
 
     /**
@@ -65,7 +64,7 @@ public class Visit {
      * @param lat 
      * @param start_time
      */
-    public Visit(int worker_id, String role, Date date, int hh_id, String type, double lat, double lon, Time startTime) {
+    public Visit(int worker_id, String role, Date date, int hh_id, String type, double lat, double lon, Date startTime) {
     	this.hh_id = hh_id;
         this.worker_id = worker_id;
         this.role = role;
@@ -138,11 +137,11 @@ public class Visit {
 		this.type = type;
 	}
 	
-	public Time setStartTime() {
+	public Date setStartTime() {
 		return start_time;
 	}
 
-	public void setStartTime(Time startTime) {
+	public void setStartTime(Date startTime) {
 		this.start_time = startTime;
 	}
 }

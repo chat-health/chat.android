@@ -60,23 +60,20 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
         
         CheckBox cb = (CheckBox) convertView.findViewById(R.id.checkbox);
         
-        // add the current client object to the checkbox
+        // add the current client object to the checkbox and set up the listener to save to the Attendace obj
         cb.setTag(c);
         cb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Do your logic here eg. if ((CheckBox)v).isChecked()...
             	CheckBox checked = (CheckBox) v;
-                Toast.makeText(v.getContext(), "Clicked on Checkbox: " + checked.getTag() + " is " + checked.isChecked(), Toast.LENGTH_LONG).show();
+                // Toast.makeText(v.getContext(), "Clicked on Checkbox: " + checked.getTag() + " is " + checked.isChecked(), Toast.LENGTH_LONG).show();
                 
+                // the client associated with the selected checkbox
+                Client c = (Client) checked.getTag();
+                int clientId = c.get_id();
                 if (checked.isChecked() == true) {
-                    // the client associated with the selected checkbox
-                    Client c = (Client) checked.getTag();
-                    int clientId = c.get_id();
-                    
                     // TODO: v.getVisitId()
                     Attendance a = new Attendance(1, clientId);
-                    
                     Dao<Attendance, Integer> aDao;
                     DatabaseHelper dbHelper = new DatabaseHelper(getContext());
                     try {
@@ -87,24 +84,17 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
                         e.printStackTrace();
                     }                	
                 } else {
-                    // the client associated with the selected checkbox
-                    Client c = (Client) checked.getTag();
-                    int clientId = c.get_id();
-                    
-                    DatabaseHelper helper = OpenHelperManager.getHelper(getContext(), DatabaseHelper.class);
-                    //You get helper
-                    Dao dao;
+                    DatabaseHelper helper = OpenHelperManager.getHelper(getContext(), DatabaseHelper.class);					// TODO: figure out more about this OpenHelperManager - could it replace the work of building everything manually in DatabaseHelper
+                    Dao aDao;
 				    try {
-					    dao = helper.getDao(Attendance.class);
-				
-					    DeleteBuilder<Attendance, Integer> deleteBuilder = dao.deleteBuilder();
+					    aDao = helper.getDao(Attendance.class);
+					    DeleteBuilder<Attendance, Integer> deleteBuilder = aDao.deleteBuilder();
 					    deleteBuilder.where().eq("client_id", clientId);
 					    deleteBuilder.delete(); 
 				    } catch (SQLException e) {
 					  // TODO Auto-generated catch block
 					  e.printStackTrace();
 				    }
-
                 	
                 }
 

@@ -17,9 +17,11 @@ import java.sql.SQLException;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "chat.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 7;
+    private Dao<Visit, Integer> visitsDao = null;
     private Dao<Client, Integer> clientsDao = null;
     private Dao<Attendance, Integer> attendanceDao = null;
+    
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -31,6 +33,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource) {
+        try {
+            TableUtils.createTable(connectionSource, Visit.class);
+        } catch (SQLException e) {
+            Log.e(DatabaseHelper.class.getName(), "Unable to create databases", e);
+        }    	
         try {
             TableUtils.createTable(connectionSource, Client.class);
         } catch (SQLException e) {
@@ -45,6 +52,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource, int oldVer, int newVer) {
+        try {
+            TableUtils.dropTable(connectionSource, Visit.class, true);
+            onCreate(sqLiteDatabase, connectionSource);
+        } catch (SQLException e) {
+            Log.e(DatabaseHelper.class.getName(), "Unable to upgrade database from version " + oldVer + " to new " + newVer, e);
+        }    	
         try {
             TableUtils.dropTable(connectionSource, Client.class, true);
             onCreate(sqLiteDatabase, connectionSource);
@@ -62,22 +75,22 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     /**
      * Functions that returns the Data Access Object DAO00
      */
+    public Dao<Visit, Integer> getVisitsDao() throws SQLException {
+        if (visitsDao == null) {
+        	visitsDao = getDao(Visit.class);
+        }
+        return visitsDao;
+    }
     public Dao<Client, Integer> getClientsDao() throws SQLException {
         if (clientsDao == null) {
         	clientsDao = getDao(Client.class);
         }
-
         return clientsDao;
     }
-
-    /**
-     * Functions that returns the Data Access Object DAO00
-     */
     public Dao<Attendance, Integer> getAttendanceDao() throws SQLException {
         if (attendanceDao == null) {
             attendanceDao = getDao(Attendance.class);
         }
-
         return attendanceDao;
     }    
 

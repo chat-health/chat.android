@@ -82,7 +82,7 @@ public class SetupVisitActivity extends Activity {
 						// TODO do some checks to make sure dropdowns have been selected, GPS is done						
 						Intent myIntent = new Intent(SetupVisitActivity.this, HomeActivity.class);
 						Bundle b = new Bundle();			
-						b.putString("HHName",householdSpinner.getSelectedItem().toString());
+						b.putString("hhName",householdSpinner.getSelectedItem().toString());
 						b.putString("workerName", workerName);
 						b.putString("role", role);
 						
