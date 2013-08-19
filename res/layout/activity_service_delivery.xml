@@ -8,16 +8,19 @@
         android:id="@+id/services"
         android:layout_weight="1"
         android:layout_width="0px"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">       
+        
+    </fragment>
+
 
     <FrameLayout
         android:id="@+id/details"
         android:layout_weight="1"
         android:layout_width="0px"
         android:layout_height="match_parent">
-   
+
         <ListView
-            android:id="@+id/service_delivery_attendance_listview"
+            android:id="@+id/clients_attending_listview"
             android:layout_width="fill_parent"
             android:layout_height="460dp"
             android:choiceMode="multipleChoice"

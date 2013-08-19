@@ -20,7 +20,7 @@ public class ServiceDeliveryFragment extends ListFragment {
         super.onActivityCreated(savedState);
         
 	    String[] serviceTypes = getResources().getStringArray(R.array.material_well_being_service_array);
-	    setListAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,serviceTypes));
+	    setListAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_multiple_choice,serviceTypes));
 
         // Check to see if we have a frame in which to embed the details
         // fragment directly in the containing UI.
