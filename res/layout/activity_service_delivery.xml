@@ -23,9 +23,19 @@
             android:id="@+id/clients_attending_listview"
             android:layout_width="fill_parent"
             android:layout_height="460dp"
+		    android:layout_marginTop="-20dp"
             android:choiceMode="multipleChoice"
             android:padding="10dp" />
         
+        <Button
+		    android:id="@+id/service_details_button"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="bottom|right"
+			android:layout_marginRight="18dp"
+		    android:paddingLeft="32dp"
+		    android:paddingRight="32dp"
+		    android:text="@string/action_service_delivered" />     
     </FrameLayout>
-    
+ 
 </LinearLayout>

@@ -21,6 +21,7 @@
     
     <!-- preceeding may need editing -->
     <string name="action_submit_note">Submit note</string>
+    <string name="action_service_delivered"><b>Confirm</b></string>
     
     <string-array name="role_array">
         <item>Home Care Volunteer</item>

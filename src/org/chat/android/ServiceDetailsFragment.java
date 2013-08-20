@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -50,13 +51,17 @@ public class ServiceDetailsFragment extends Fragment {
             // Currently in a layout without a container, so no reason to create our view.
             return null;
         }
-        
 
-		View attendanceFragmentView = inflater.inflate(R.layout.fragment_attendance, container, false);
-		ListView lv = (ListView) attendanceFragmentView.findViewById(R.id.attendance_listview);
+		View serviceDetailsFragment = inflater.inflate(R.layout.fragment_attendance, container, false);
+		ListView lv = (ListView) serviceDetailsFragment.findViewById(R.id.attendance_listview);
 		Context context = getActivity();
 		
 		List<Client> cList = new ArrayList<Client>();
+		// HHHAAACCCCCK
+		//TextView list = (TextView) serviceDetailsFragment.findViewById(R.id.clients_attending_listview);
+		TextView title = (TextView) serviceDetailsFragment.findViewById(R.id.attendance_list_title_field);
+		title.setText("CHECK OFF NAMES OF CLIENTS TO WHOM THIS SERVICE WAS DELIVERED");
+		
 		
     	// get visit object and get the family, then use that to select (does the Client object have a family piece?)
         Dao<Client, Integer> clientDao;
@@ -77,11 +82,9 @@ public class ServiceDetailsFragment extends Fragment {
         lv.setAdapter(adapter);
         
         // inflate the layout for this fragment
-        return attendanceFragmentView;		
+        return serviceDetailsFragment;		
     }
 }
-
-
 
 
 //ScrollView scroller = new ScrollView(getActivity());
