@@ -174,39 +174,6 @@ public class HomeActivity extends Activity {
         	
         	List<Client> cList = new ArrayList<Client>();
         	
-        	Client c1 = new Client(1, "John", "Doe", hhId, "male");
-        	Client c2 = new Client(2, "Jane", "Jacobs", hhId, "female");
-        	Client c3 = new Client(3, "Davey", "Jones", hhId, "male");
-        	
-        	
-            Dao<Client, Integer> clientDao1;
-            DatabaseHelper dbHelper1 = new DatabaseHelper(context);
-            try {
-                clientDao1 = dbHelper1.getClientsDao();
-                clientDao1.create(c1);
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            Dao<Client, Integer> clientDao2;
-            DatabaseHelper dbHelper2 = new DatabaseHelper(context);
-            try {
-                clientDao2 = dbHelper2.getClientsDao();
-                clientDao2.create(c2);
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            Dao<Client, Integer> clientDao3;
-            DatabaseHelper dbHelper3 = new DatabaseHelper(context);
-            try {
-                clientDao3 = dbHelper3.getClientsDao();
-                clientDao3.create(c3);
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
         	
 
         	// get visit object and get the family, then use that to select TODO: yuck - FIXME (figure out the proper selector with ORM layer)

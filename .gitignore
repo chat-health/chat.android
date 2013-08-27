@@ -20,3 +20,6 @@ local.properties
 .project
 
 .DS_Store
+
+# Config
+src/org/chat/android/SetupDB.java
