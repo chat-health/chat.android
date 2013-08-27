@@ -6,15 +6,6 @@
         <item>E - Physical Well Being</item>
         <item>S - Documents and Grants</item>
         <item>T - Change of Status</item>
-        <item>T - Change of Status</item>
-        <item>T - Change of Status</item>
-        <item>T - Change of Status</item>
-        <item>T - Change of Status</item>
-        <item>T - Change of Status</item>
-        <item>T - Change of Status</item>
-        <item>T - Change of Status</item>
-        <item>T - Change of Status</item>
-        <item>T - Change of Status AGAIN</item>
     </string-array>
     <string-array name="councelor_service_type_array">
         <item>General Health Assessment 1</item>
@@ -37,5 +28,39 @@
         <item>C2 School Uniform Provision</item>
         <item>C3 School Stationary Provision</item>
         <item>C4 Monitoring - School Attendance and Performance (School Visits Only)</item>
-    </string-array>  
+    </string-array>
+    <string-array name="emotional_well_being_service_array">
+        <item>D1 Caregiver / Family Consultation on Memory Work (A=Accepted or D=Declined)</item>
+        <item>D2 Memory Box Workshop Completed by Caregiver</item>
+        <item>D3 Memory Box Process Started</item>
+        <item>D4 Memory Box Process Completed</item>
+        <item>D5 Monitoring - Emotional Well-being</item>
+        <item>D6 Referral to TCF Welfare Services</item>
+    </string-array> 
+    <string-array name="physical_well_being_service_array">
+    	<item>E1 Monitoring – General Health and Nutrition</item>
+        <item>E2 Accompanied Clinic Visit</item>
+        <item>E3 Referral – Local Health facility</item>
+        <item>E4 Referral – TCF Health Services</item>
+    </string-array> 
+    <string-array name="documents_and_grants_service_array">
+    	<item>S1 Advise/Assistance in applying for a Identity Document</item>
+    	<item>S2 Advise/Assistance in applying for a Birth Certificate</item>
+    	<item>S3 Advise/Assistance in applying for a Full Birth Certificate</item>
+    	<item>S4 Advise/Assistance in applying for a Sexual Offences Clearance Certificate</item>
+    	<item>S5 Advise/Assistance in applying for a Pension</item>
+    	<item>S6 Advise/Assistance in applying for a Care Dependency Grant</item>
+    	<item>S7 Advise/Assistance in applying for a Child Support Grant</item>
+    	<item>S8 Advise/Assistance in applying for a Disability Grant</item>
+    </string-array>	
+    <string-array name="change_of_status_service_array">
+    	<item>T1 Documents Received - Identity Document</item>
+        <item>T2 Documents Received - Birth Certificate</item>
+        <item>T3 Documents Received - Full Birth Certificate</item>
+        <item>T4 Documents Received - Sexual Offences Clearance Certificate</item>
+        <item>T5 Other Grants received - Pension</item>
+        <item>T6 Other Grants received - Care Dependency</item>
+        <item>T7 Other Grants received - Child Support Grants</item>
+        <item>T8 Other Grants received - Disability Grant</item>
+	</string-array>
 </resources>

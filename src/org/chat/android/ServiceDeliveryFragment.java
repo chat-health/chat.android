@@ -20,8 +20,25 @@ public class ServiceDeliveryFragment extends ListFragment {
     public void onActivityCreated(Bundle savedState) {
         super.onActivityCreated(savedState);
         
-	    String[] serviceTypes = getResources().getStringArray(R.array.material_well_being_service_array);
-	    setListAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_multiple_choice,serviceTypes));
+        String serviceCategory = ((ServiceDeliveryActivity)getActivity()).serviceCategory;
+	    String[] services;
+	    if (serviceCategory.equals("B - Material Well Being")) {
+	    	services = getResources().getStringArray(R.array.material_well_being_service_array);
+	    } else if (serviceCategory.equals("C - Cognitive Well Being")) {
+	    	services = getResources().getStringArray(R.array.cognitive_well_being_service_array);
+	    } else if (serviceCategory.equals("D - Emotional Well Being")) {
+	    	services = getResources().getStringArray(R.array.emotional_well_being_service_array);
+	    } else if (serviceCategory.equals("E - Physical Well Being")) {
+	    	services = getResources().getStringArray(R.array.physical_well_being_service_array);
+	    } else if (serviceCategory.equals("S - Documents and Grants")) {
+	    	services = getResources().getStringArray(R.array.documents_and_grants_service_array);
+	    } else if (serviceCategory.equals("T - Change of Status")) {
+	    	services = getResources().getStringArray(R.array.change_of_status_service_array);
+	    } else {
+	    	Toast.makeText(getActivity(), "ERROR: Unknown service group", Toast.LENGTH_SHORT).show();
+	    	services = getResources().getStringArray(R.array.material_well_being_service_array);
+	    }
+	    setListAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_multiple_choice, services));
 
         // Check to see if we have a frame in which to embed the details
         // fragment directly in the containing UI.

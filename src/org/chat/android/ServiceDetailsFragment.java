@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -51,46 +52,67 @@ public class ServiceDetailsFragment extends Fragment {
             // Currently in a layout without a container, so no reason to create our view.
             return null;
         }
+        
+        int visitId = ((ServiceDeliveryActivity)getActivity()).visitId;
+        int hhId = ((ServiceDeliveryActivity)getActivity()).hhId;
 
 		View serviceDetailsFragment = inflater.inflate(R.layout.fragment_attendance, container, false);
 		ListView lv = (ListView) serviceDetailsFragment.findViewById(R.id.attendance_listview);
 		Context context = getActivity();
 		
-		List<Client> cList = new ArrayList<Client>();
+		
+		List<Client> hhCList = new ArrayList<Client>();
 		// HHHAAACCCCCK
 		//TextView list = (TextView) serviceDetailsFragment.findViewById(R.id.clients_attending_listview);
 		TextView title = (TextView) serviceDetailsFragment.findViewById(R.id.attendance_list_title_field);
 		title.setText("CHECK OFF NAMES OF CLIENTS TO WHOM THIS SERVICE WAS DELIVERED");
 		
-		
-    	// get visit object and get the family, then use that to select (does the Client object have a family piece?)
-        Dao<Client, Integer> clientDao;
-        DatabaseHelper dbHelper = new DatabaseHelper(context);
+
+		// this is so gross - please fix
+		List<Attendance> attList = new ArrayList<Attendance>();
+		List<Attendance> attSubList = new ArrayList<Attendance>();
+        Dao<Attendance, Integer> attendanceDao;
+        DatabaseHelper attHelper = new DatabaseHelper(context);
         try {
-			clientDao = dbHelper.getClientsDao();
-			cList = clientDao.query(clientDao.queryBuilder().prepare());
-        	for (Client c : cList) {
-        		Log.d("el test", c.getFirstName());
+			attendanceDao = attHelper.getAttendanceDao();
+			attList = attendanceDao.query(attendanceDao.queryBuilder().prepare());
+        	for (Attendance a : attList) {
+    			if (a.getVisitId() == visitId) {
+    				attSubList.add(a);
+    			}
         	}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		List<Client> cList = new ArrayList<Client>();
+    	// using HHID for now, there are cleaner versions than this, so... TODO, yuck
+        Dao<Client, Integer> clientDao;
+        DatabaseHelper cHelper = new DatabaseHelper(context);
+        try {
+			clientDao = cHelper.getClientsDao();
+			cList = clientDao.query(clientDao.queryBuilder().prepare());
+        	for (Client c : cList) {
+    			for (Attendance a : attSubList) {
+    				if (c.getClientId() == a.getClientId()) {
+    					hhCList.add(c);
+    				}
+    			}
+        	}			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-    	ClientsAdapter adapter = new ClientsAdapter(context, android.R.layout.simple_list_item_multiple_choice, R.id.checkbox, cList);
+    	// ClientsAdapter adapter = new ClientsAdapter(context, android.R.layout.simple_list_item_multiple_choice, R.id.checkbox, cList, visitId);
+    	ClientsAdapter adapter = new ClientsAdapter(context, android.R.layout.simple_list_item_multiple_choice, R.id.checkbox, hhCList, 0);
         lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         lv.setAdapter(adapter);
         
         // inflate the layout for this fragment
         return serviceDetailsFragment;		
     }
+
+
 }
-
-
-//ScrollView scroller = new ScrollView(getActivity());
-//TextView text = new TextView(getActivity());
-//int padding = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getActivity().getResources().getDisplayMetrics());
-//text.setPadding(padding, padding, padding, padding);
-//scroller.addView(text);
-//text.setText("some test text");
-//return scroller;

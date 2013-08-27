@@ -21,8 +21,8 @@ public class SetupVisitActivity extends Activity {
 	
 	private String workerName;
 	private String role;
-	private double latitude;
-    private double longitude;
+	private double latitude = 0.0;
+    private double longitude = 0.0;
 	
 	GPSTracker gps;
 	
@@ -59,9 +59,8 @@ public class SetupVisitActivity extends Activity {
 		householdSpinner = (Spinner) findViewById(R.id.household_spinner);
 		ArrayList<String> householdList = new ArrayList<String>();
 		// TODO: DUMMY DATA. Instead, pull these from DB, based on workerName and role passed from login activity 
-		householdList.add("Dlamini Thandiwe");
-		householdList.add("Dlamini Nokuthula Princess");
-		householdList.add("Qwabe Wiennfred Thlolakele");
+		householdList.add("Ball Bella");
+		householdList.add("Ziqubu Hleziphi");
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, householdList);
 		householdSpinner.setAdapter(arrayAdapter);
 		
@@ -79,7 +78,10 @@ public class SetupVisitActivity extends Activity {
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						// TODO do some checks to make sure dropdowns have been selected, GPS is done						
+						// TODO complete these - missing this page's dropdowns. Also, need some way of not getting stuck while also enforcing GPS
+						if (latitude == 0.0 && longitude == 0.0) {
+							Toast.makeText(getApplicationContext(),"WARNING: GPS has not been recorded. If GPS is available, close CHAT app and restart this visit",Toast.LENGTH_LONG).show();
+						}
 						Intent myIntent = new Intent(SetupVisitActivity.this, HomeActivity.class);
 						Bundle b = new Bundle();			
 						b.putString("hhName",householdSpinner.getSelectedItem().toString());

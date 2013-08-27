@@ -14,9 +14,13 @@ public class Client {
 	private int _id;
 
 	@DatabaseField(index = true, uniqueCombo = true)
+	private int client_id;
+	@DatabaseField(index = true, uniqueCombo = true)
 	private String last_name;
 	@DatabaseField(index = true, uniqueCombo = true)
 	private String first_name;
+	@DatabaseField
+	private int hh_id;	
 	@DatabaseField
 	private String gender;
 
@@ -29,13 +33,17 @@ public class Client {
 	/**
 	 * Constructor that instantiates the private member variable(s)
 	 * 
+	 * @param client_id
 	 * @param last_name
 	 * @param first_name
+	 * @param hh_id
+	 * @param gender
 	 */
-	public Client(String last_name, String first_name,
-			String gender) {
+	public Client(int client_id, String last_name, String first_name, int hh_id, String gender) {
+		this.client_id = client_id;
 		this.last_name = last_name;
 		this.first_name = first_name;
+		this.hh_id = hh_id;
 		this.gender = gender;
 	}
 
@@ -46,14 +54,24 @@ public class Client {
 	 *            - List model instance that is copied to new instance
 	 */
 	public Client(Client existingClientModel) {
+		this.client_id = existingClientModel.client_id;
 		this.last_name = existingClientModel.last_name;
 		this.first_name = existingClientModel.first_name;
+		this.hh_id = existingClientModel.hh_id;
 		this.gender = existingClientModel.gender;
 	}
 
 	public int get_id() {
 		return _id;
 	}
+	
+	public int getClientId() {
+		return client_id;
+	}
+
+	public void setClientId(int client_id) {
+		this.client_id = client_id;
+	}	
 
 	public String getLastName() {
 		return last_name;
@@ -70,6 +88,14 @@ public class Client {
 	public void setFirstName(String first_name) {
 		this.first_name = first_name;
 	}
+	
+	public int getHhId() {
+		return hh_id;
+	}
+
+	public void setHhId(int hh_id) {
+		this.hh_id = hh_id;
+	}	
 
 	public String getGender() {
 		return gender;

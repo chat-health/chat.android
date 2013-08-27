@@ -29,8 +29,7 @@ public class LoginActivity extends Activity {
 	 */
 	private static final String[] DUMMY_CREDENTIALS = new String[] {
 			"colin:chat", "armin:chat", "lisa:chat", "duncan:chat",
-			"Monde Hulana:chat", "Khanyisile Hassam:chat","Nokuphiwa Mthembu - Copesville:chat",
-			"Nonduduzo Mncwabe:chat","Nomthandazo Mokoena:chat","Nomthandazo Mokoena:chat"};
+			"jim:chat", "sbongile:chat"};
 
 	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
@@ -123,21 +122,21 @@ public class LoginActivity extends Activity {
 		View focusView = null;
 
 		// Check for a valid password - comment out for testing
-//		if (TextUtils.isEmpty(mPassword)) {
-//			mPasswordView.setError(getString(R.string.error_field_required));
-//			focusView = mPasswordView;
-//			cancel = true;
-//		} else if (mPassword.length() < 2) {
-//			mPasswordView.setError(getString(R.string.error_invalid_password));
-//			focusView = mPasswordView;
-//			cancel = true;
-//		}
-//		// Check for a valid user ID.
-//		if (TextUtils.isEmpty(mUserName)) {
-//			mUserNameView.setError(getString(R.string.error_field_required));
-//			focusView = mUserNameView;
-//			cancel = true;
-//		}
+		if (TextUtils.isEmpty(mPassword)) {
+			mPasswordView.setError(getString(R.string.error_field_required));
+			focusView = mPasswordView;
+			cancel = true;
+		} else if (mPassword.length() < 2) {
+			mPasswordView.setError(getString(R.string.error_invalid_password));
+			focusView = mPasswordView;
+			cancel = true;
+		}
+		// Check for a valid user ID.
+		if (TextUtils.isEmpty(mUserName)) {
+			mUserNameView.setError(getString(R.string.error_field_required));
+			focusView = mUserNameView;
+			cancel = true;
+		}
 		// /comment
 		
 		if (cancel) {
@@ -213,13 +212,13 @@ public class LoginActivity extends Activity {
 //
 			
 			// if for does not return true, ie if un/pw do not match. Again, comment out for testing			
-//			for (String credential : DUMMY_CREDENTIALS) {
-//				String[] pieces = credential.split(":");
-//				if (pieces[0].equals(mUserName)) {
-//					// Account exists, return true if the password matches.
-//					return pieces[1].equals(mPassword);
-//				}
-//			}
+			for (String credential : DUMMY_CREDENTIALS) {
+				String[] pieces = credential.split(":");
+				if (pieces[0].equals(mUserName)) {
+					// Account exists, return true if the password matches.
+					return pieces[1].equals(mPassword);
+				}
+			}
 			// /comment
 
 			return true;

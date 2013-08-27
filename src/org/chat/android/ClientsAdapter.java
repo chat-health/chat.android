@@ -31,12 +31,15 @@ import android.widget.Toast;
 public class ClientsAdapter extends ArrayAdapter<Client> {
 	private LayoutInflater mInflater;
     private List<Client> clientsArray;
+    private int visitId = 0;;
 
-    public ClientsAdapter(Context context, int layoutResourceId, int checkboxId, List<Client> clientsArray) {
+    public ClientsAdapter(Context context, int layoutResourceId, int checkboxId, List<Client> clientsArray, int vId) {
         super(context, layoutResourceId, checkboxId, clientsArray);
 
         this.mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.clientsArray = clientsArray;
+        
+        visitId = vId;
     }
 
     /*
@@ -45,20 +48,40 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
 	 */
     public View getView(int position, View convertView, ViewGroup parent) {
         convertView = this.mInflater.inflate(R.layout.attendance_listview_row, null);
+        final Context context = getContext();
         
         Client c = clientsArray.get(position);
 
         TextView tv = null;
         TextView age;
+        TextView gender;
         if (convertView != null) {
             tv = (TextView)convertView.findViewById(client_name);
             tv.setText(c.getFirstName() + " " + c.getLastName());
             
 //            age = (TextView)convertView.findViewById(attendance_age);
-//            age.setText(calculateAge(c.getBirthday()));
+////            age.setText(calculateAge(c.getBirthday()));
+//		    age = (TextView)convertView.findViewById(attendance_age);			// TODO: temp for Thandinani gamma test run
+//		    age.setText(c.getGender());
         }      
         
         CheckBox cb = (CheckBox) convertView.findViewById(R.id.checkbox);
+        
+		List<Attendance> cpList = new ArrayList<Attendance>();
+        Dao<Attendance, Integer> cpDao;
+        DatabaseHelper cpHelper = new DatabaseHelper(context);
+        try {
+			cpDao = cpHelper.getAttendanceDao();
+			cpList = cpDao.query(cpDao.queryBuilder().prepare());
+        	for (Attendance a : cpList) {
+    			if (a.getVisitId() == visitId && a.getClientId() == c.getClientId()) {
+    				cb.setChecked(true);
+    			}
+        	}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}        
         
         // add the current client object to the checkbox and set up the listener to save to the Attendace obj
         cb.setTag(c);
@@ -66,16 +89,14 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
             @Override
             public void onClick(View v) {
             	CheckBox checked = (CheckBox) v;
-                // Toast.makeText(v.getContext(), "Clicked on Checkbox: " + checked.getTag() + " is " + checked.isChecked(), Toast.LENGTH_LONG).show();
                 
                 // the client associated with the selected checkbox
                 Client c = (Client) checked.getTag();
-                int clientId = c.get_id();
+                int clientId = c.getClientId();
                 if (checked.isChecked() == true) {
-                    // TODO: v.getVisitId()
-                    Attendance a = new Attendance(1, clientId);
+                    Attendance a = new Attendance(visitId, clientId);
                     Dao<Attendance, Integer> aDao;
-                    DatabaseHelper dbHelper = new DatabaseHelper(getContext());
+                    DatabaseHelper dbHelper = new DatabaseHelper(context);
                     try {
                     	aDao = dbHelper.getAttendanceDao();
                     	aDao.create(a);
@@ -84,7 +105,7 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
                         e.printStackTrace();
                     }                	
                 } else {
-                    DatabaseHelper helper = OpenHelperManager.getHelper(getContext(), DatabaseHelper.class);					// TODO: figure out more about this OpenHelperManager - could it replace the work of building everything manually in DatabaseHelper
+                    DatabaseHelper helper = OpenHelperManager.getHelper(context, DatabaseHelper.class);					// TODO: figure out more about this OpenHelperManager - could it replace the work of building everything manually in DatabaseHelper
                     Dao aDao;
 				    try {
 					    aDao = helper.getDao(Attendance.class);
