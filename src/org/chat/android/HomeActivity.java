@@ -174,8 +174,6 @@ public class HomeActivity extends Activity {
         	
         	List<Client> cList = new ArrayList<Client>();
         	
-        	
-
         	// get visit object and get the family, then use that to select TODO: yuck - FIXME (figure out the proper selector with ORM layer)
             List<Client> hhCList = new ArrayList<Client>();
             
@@ -401,7 +399,8 @@ public class HomeActivity extends Activity {
 	    // Handle item selection
 	    switch (item.getItemId()) {
 	    case R.id.menu_settings:
-	        Toast.makeText(getApplicationContext(), "Settings is under construction", Toast.LENGTH_SHORT).show();
+	        Toast.makeText(getApplicationContext(), "Settings is under construction, currently being used to prepopulate the DB", Toast.LENGTH_SHORT).show();
+	        prepopulateDB();
 	        return true;
 	    case R.id.menu_logout:
 	    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -424,5 +423,10 @@ public class HomeActivity extends Activity {
 	        return super.onOptionsItemSelected(item);
 	    }
 	}
+    
+    private void prepopulateDB() {
+		Intent i = new Intent(HomeActivity.this, SetupDB.class);
+		startActivity(i);
+    }
 
 }

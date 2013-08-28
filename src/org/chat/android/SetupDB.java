@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
 
@@ -48,5 +49,8 @@ public class SetupDB extends Activity {
 	        // TODO Auto-generated catch block
 	        e3.printStackTrace();
 	    }
+	    
+	    Toast.makeText(getApplicationContext(), "DB populated!", Toast.LENGTH_SHORT).show();
+	    finish();
     }
 }

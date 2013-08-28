@@ -47,7 +47,11 @@
             android:name=".ServiceDeliveryActivity"
             android:label="@string/title_activity_service_delivery"
             android:screenOrientation="landscape" >
-        </activity>     
+        </activity>
+        <activity
+            android:name=".SetupDB"
+            android:screenOrientation="landscape" >
+        </activity>         
     </application>
 
 </manifest>
