@@ -63,97 +63,17 @@ public class HomeActivity extends Activity {
 	String TAG = "INFO"; //Log.i(TAG, "Testing: "+somevar);
 
 	private Visit visit;
+	public int workerId = 0;
 	public int visitId = 0;
 	public int hhId = 0;
 
     @Override    
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Context context = getApplicationContext();
         
 		Bundle b = getIntent().getExtras();
-		String hhName = b.getString("hhName");
-		String workerName = b.getString("workerName");
-		// TODO: grab the workerId from the DB based on the above - for now, dummy. Also, redo the hhId right
-		
-		int workerId = 0;				
-//		Dao<Worker, Integer> wDao;
-//		try {
-//			List<Worker> results = wDao.queryBuilder().where().eq("first_name",workerName).query();
-//		} catch (SQLException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
-
-		Dao<Worker, Integer> wDao;		
-		DatabaseHelper dbHelperTemp = new DatabaseHelper(context);
-		try {
-			wDao = dbHelperTemp.getWorkersDao();
-			QueryBuilder<Worker,Integer> queryBuilder = wDao.queryBuilder();
-			queryBuilder.where().eq("first_name", workerName);
-			PreparedQuery<Worker> preparedQuery = queryBuilder.prepare();
-			List<Worker> wList = wDao.query(preparedQuery);
-			Iterator<Worker> iter = wList.iterator();
-			while (iter.hasNext()) {
-				Worker worker = iter.next();
-				Toast.makeText(getApplicationContext(), worker.getFirstName(), Toast.LENGTH_LONG).show();
-			}
-//			Toast.makeText(getApplicationContext(), "ERROR: unknown household", Toast.LENGTH_LONG).show();					// this is pretty clearly wrong, but it works. Go over the docs again to do this right
-			
-//			CloseableIterator<Worker> iterator = wDao.iterator(preparedQuery);
-//			 try {
-//			     while (iterator.hasNext()) {
-//			    	 Worker worker = iterator.next();
-//			     }
-//			 } finally {
-//			     iterator.close();
-//			 }
-		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-
-		
-		if (hhName.equals("John Doe")) {
-			hhId = 322;
-		} else if (hhName.equals("James Doe")) {
-			hhId = 1670;
-		} else {
-			Toast.makeText(getApplicationContext(), "ERROR: unknown household", Toast.LENGTH_LONG).show();
-		}
-
-		String role = b.getString("role");
-		Date date  = new Date();
-
-		String type = b.getString("type");
-		double lat = b.getDouble("lat");
-		double lon = b.getDouble("lon");
-		Date startTime = new Date();	
-
-		// create a new Visit object to be used for this visit - TODO: make sure that onCreate is only called once (ie not every time we return from the ServiceDeliveryActivity)
-    	visit = new Visit(workerId, role, date, hhId, type, lat, lon, startTime);
-    	
-    	Dao<Visit, Integer> vDao;
-    	DatabaseHelper dbHelper = new DatabaseHelper(context);
-    	try {
-    		vDao = dbHelper.getVisitsDao();
-    		vDao.create(visit);
-    		visitId = visit.getId();
-    	} catch (SQLException e) {
-    		// TODO Auto-generated catch block
-    		e.printStackTrace();
-    	}    	
-    	
-//    	DatabaseHelper helper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
-//    	try {
-//    		Dao vDao = helper.getDao(Visit.class);
-//    		vDao = helper.getClientsDao();
-//    		vDao.create(visit);
-//    	} catch (SQLException e) {
-//    		// TODO Auto-generated catch block
-//    		e.printStackTrace();
-//    	}
-    	
+		//setupVisitObject(b.getString("hhName"), b.getString("workerName"), b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));				FOR TESTING, SWITCH FOR PROD
+		setupVisitObject(b.getString("hhName"), "colin", b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));
 
         setContentView(R.layout.activity_home);
  
@@ -342,10 +262,98 @@ public class HomeActivity extends Activity {
         }
     }
     
-    
-    
-    
-    public void playVideo (View v) {
+   
+    private void setupVisitObject(String hhName, String workerName, String role, String type, Double lat, Double lon) {
+        Context context = getApplicationContext();
+
+        // get the workerId
+		Dao<Worker, Integer> wDao;		
+		DatabaseHelper wDbHelper = new DatabaseHelper(context);
+		try {
+			wDao = wDbHelper.getWorkersDao();
+			QueryBuilder<Worker,Integer> queryBuilder = wDao.queryBuilder();
+			queryBuilder.where().eq("first_name", workerName);
+			PreparedQuery<Worker> preparedQuery = queryBuilder.prepare();
+			List<Worker> wList = wDao.query(preparedQuery);
+			Iterator<Worker> iter = wList.iterator();
+			while (iter.hasNext()) {
+				Worker worker = iter.next();
+				workerId = worker.getId();
+			}
+//			OTHER OPTION:		
+//			CloseableIterator<Worker> iterator = wDao.iterator(preparedQuery);
+//			 try {
+//			     while (iterator.hasNext()) {
+//			    	 Worker worker = iterator.next();
+//			     }
+//			 } finally {
+//			     iterator.close();
+//			 }
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+
+		// get the householdId
+		Dao<Household, Integer> hDao;		
+		DatabaseHelper hDbHelper = new DatabaseHelper(context);
+		try {
+			hDao = hDbHelper.getHouseholdsDao();
+			QueryBuilder<Household,Integer> queryBuilder = hDao.queryBuilder();
+			queryBuilder.where().eq("hh_name", hhName);
+			PreparedQuery<Household> preparedQuery = queryBuilder.prepare();
+			List<Household> hList = hDao.query(preparedQuery);
+			Iterator<Household> iter = hList.iterator();
+			while (iter.hasNext()) {
+				Household hh = iter.next();
+				hhId = hh.getId();
+			}
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+//		if (hhName.equals("John Doe")) {
+//			hhId = 322;
+//		} else if (hhName.equals("James Doe")) {
+//			hhId = 1670;
+//		} else {
+//			Toast.makeText(getApplicationContext(), "ERROR: unknown household", Toast.LENGTH_LONG).show();
+//		}
+
+		Date date  = new Date();
+		Date startTime = new Date();	
+
+		// create a new Visit object to be used for this visit - TODO: make sure that onCreate is only called once (ie not every time we return from the ServiceDeliveryActivity)
+    	visit = new Visit(workerId, role, date, hhId, type, lat, lon, startTime);
+    	
+    	Dao<Visit, Integer> vDao;
+    	DatabaseHelper dbHelper = new DatabaseHelper(context);
+    	try {
+    		vDao = dbHelper.getVisitsDao();
+    		vDao.create(visit);
+    		visitId = visit.getId();
+    	} catch (SQLException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    	}    	
+    	
+//    	DatabaseHelper helper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
+//    	try {
+//    		Dao vDao = helper.getDao(Visit.class);
+//    		vDao = helper.getClientsDao();
+//    		vDao.create(visit);
+//    	} catch (SQLException e) {
+//    		// TODO Auto-generated catch block
+//    		e.printStackTrace();
+//    	}
+		
+	}
+
+
+
+
+	public void playVideo (View v) {
     	// figure out which video to play by determining which button was pressed
     	String videoName = "";
     	int buttonId = v.getId();
