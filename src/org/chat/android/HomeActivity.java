@@ -10,11 +10,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 
 import org.json.JSONObject;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.CloseableIterator;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.stmt.PreparedQuery;
@@ -91,7 +93,21 @@ public class HomeActivity extends Activity {
 			queryBuilder.where().eq("first_name", workerName);
 			PreparedQuery<Worker> preparedQuery = queryBuilder.prepare();
 			List<Worker> wList = wDao.query(preparedQuery);
-			Toast.makeText(getApplicationContext(), "ERROR: unknown household", Toast.LENGTH_LONG).show();					// this is pretty clearly wrong, but it works. Go over the docs again to do this right
+			Iterator<Worker> iter = wList.iterator();
+			while (iter.hasNext()) {
+				Worker worker = iter.next();
+				Toast.makeText(getApplicationContext(), worker.getFirstName(), Toast.LENGTH_LONG).show();
+			}
+//			Toast.makeText(getApplicationContext(), "ERROR: unknown household", Toast.LENGTH_LONG).show();					// this is pretty clearly wrong, but it works. Go over the docs again to do this right
+			
+//			CloseableIterator<Worker> iterator = wDao.iterator(preparedQuery);
+//			 try {
+//			     while (iterator.hasNext()) {
+//			    	 Worker worker = iterator.next();
+//			     }
+//			 } finally {
+//			     iterator.close();
+//			 }
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
