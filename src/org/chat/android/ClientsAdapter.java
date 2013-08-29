@@ -74,7 +74,7 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
 			cpDao = cpHelper.getAttendanceDao();
 			cpList = cpDao.query(cpDao.queryBuilder().prepare());
         	for (Attendance a : cpList) {
-    			if (a.getVisitId() == visitId && a.getClientId() == c.getClientId()) {
+    			if (a.getVisitId() == visitId && a.getClientId() == c.getId()) {
     				cb.setChecked(true);
     			}
         	}
@@ -92,7 +92,7 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
                 
                 // the client associated with the selected checkbox
                 Client c = (Client) checked.getTag();
-                int clientId = c.getClientId();
+                int clientId = c.getId();
                 if (checked.isChecked() == true) {
                     Attendance a = new Attendance(visitId, clientId);
                     Dao<Attendance, Integer> aDao;

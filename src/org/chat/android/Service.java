@@ -4,17 +4,20 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 
-// we may need to modify this to serviceType or some other superordinate category - which will somehow need to be included in the DB (they defintely don't have this concept)
-
-
 @DatabaseTable(tableName = "services")
 public class Service {
-	@DatabaseField(generatedId = true)
-	private int _id;
+	@DatabaseField()
+	private int id;
 	
-    @DatabaseField(index = true, uniqueCombo=true)
+    @DatabaseField(uniqueCombo = true)			// need to figure out the uniqueCombo and index here (and _id)
     private String service_name;
 
+    @DatabaseField()
+    private String service_type;				// this represents the service supertype ie (Emotional Well Being)
+    
+    @DatabaseField()
+    private int role_id;						// who has access to this service
+    
     /**
      * Default Constructor needed by ormlite
      */
@@ -25,8 +28,11 @@ public class Service {
      * Constructor that instantiates the private member variable(s)
      * @param service_name
      */
-    public Service(String service_name) {
-        this.service_name = service_name;
+    public Service(int id, String service_name, String service_type, int role_id) {
+        this.id = id;
+    	this.service_name = service_name;
+    	this.service_type = service_type;
+    	this.role_id = role_id;
     }
 
     /**
@@ -37,8 +43,12 @@ public class Service {
         this.service_name = existingServiceModel.service_name;
     }
 
-	public int get_id() {
-		return _id;
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getServiceName() {
@@ -47,5 +57,21 @@ public class Service {
 
 	public void setServiceName(String service_name) {
 		this.service_name = service_name;
+	}
+	
+	public String getServiceType() {
+		return service_type;
+	}
+
+	public void setServiceType(String service_type) {
+		this.service_type = service_type;
+	}
+	
+	public int getRoleId() {
+		return role_id;
+	}
+
+	public void setRoleId(int role_id) {
+		this.role_id = role_id;
 	}
 }

@@ -95,7 +95,7 @@ public class ServiceDetailsFragment extends Fragment {
 			cList = clientDao.query(clientDao.queryBuilder().prepare());
         	for (Client c : cList) {
     			for (Attendance a : attSubList) {
-    				if (c.getClientId() == a.getClientId()) {
+    				if (c.getId() == a.getClientId()) {
     					hhCList.add(c);
     				}
     			}

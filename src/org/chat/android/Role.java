@@ -9,7 +9,7 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "roles")
 public class Role {
 	@DatabaseField
-	private int role_id;
+	private int id;
     @DatabaseField
     private String role_name;
 
@@ -22,11 +22,11 @@ public class Role {
     
     /**
      * Constructor that instantiates the private member variable(s)
-     * @param role_id
+     * @param id
      * @param role_name
      */
-    public Role(int role_id, String role_name) {
-    	this.role_id = role_id;
+    public Role(int id, String role_name) {
+    	this.id = id;
         this.role_name = role_name;
     }
     
@@ -36,17 +36,17 @@ public class Role {
      * @param existingListModel - List model instance that is copied to new instance
      */
     public Role(Role existingRoleModel) {
-        this.role_id = existingRoleModel.role_id;
+        this.id = existingRoleModel.id;
         this.role_name = existingRoleModel.role_name;
     }
     
 
-	public int getRoleId() {
-		return role_id;
+	public int getId() {
+		return id;
 	}
 	
-	public void setRoleId(int role_id) {
-		this.role_id = role_id;
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	public String getRoleName() {

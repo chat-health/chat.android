@@ -9,7 +9,7 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "workers")
 public class Worker {
 	@DatabaseField(generatedId = true)
-	private int worker_id;
+	private int id;
     @DatabaseField
     private String first_name;
     @DatabaseField
@@ -57,8 +57,8 @@ public class Worker {
     }
     
 
-	public int getWorkerId() {
-		return worker_id;
+	public int getId() {
+		return id;
 	}
 	
 	public String getFirstName() {

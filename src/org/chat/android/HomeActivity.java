@@ -96,8 +96,7 @@ public class HomeActivity extends Activity {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-    		
-		
+
 		
 		if (hhName.equals("John Doe")) {
 			hhId = 322;
@@ -123,7 +122,7 @@ public class HomeActivity extends Activity {
     	try {
     		vDao = dbHelper.getVisitsDao();
     		vDao.create(visit);
-    		visitId = visit.get_id();
+    		visitId = visit.getId();
     	} catch (SQLException e) {
     		// TODO Auto-generated catch block
     		e.printStackTrace();

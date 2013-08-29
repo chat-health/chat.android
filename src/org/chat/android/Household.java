@@ -1,10 +1,5 @@
 package org.chat.android;
 
-import java.util.Date;
-import java.util.GregorianCalendar;
-
-import android.text.format.Time;
-
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -14,10 +9,8 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "households")
 public class Household {
-	@DatabaseField(generatedId = true)
-	private int _id;
-    @DatabaseField
-    private int hh_id;
+	@DatabaseField()
+	private int id;
     @DatabaseField
     private String hh_name;
     @DatabaseField
@@ -34,13 +27,12 @@ public class Household {
     /**
      * Constructor that instantiates the private member variable(s)
      * @param id
-     * @param hh_id
      * @param hh_name
      * @param community
      * @param worker_id
      */
-    public Household(int hh_id, String hh_name, String community, int worker_id) {
-    	this.hh_id = hh_id;
+    public Household(int id, String hh_name, String community, int worker_id) {
+    	this.id = id;
     	this.hh_name = hh_name;
     	this.community = community;
         this.worker_id = worker_id;
@@ -51,22 +43,18 @@ public class Household {
      * @param existingListModel - List model instance that is copied to new instance
      */
     public Household(Household existingHouseholdModel) {
-        this.hh_id = existingHouseholdModel.hh_id;
+        this.id = existingHouseholdModel.id;
         this.hh_name = existingHouseholdModel.hh_name;
         this.community = existingHouseholdModel.community; 
         this.worker_id = existingHouseholdModel.worker_id;
     }
 
-	public int get_id() {
-		return _id;
+	public int getId() {
+		return id;
 	}
 
-	public int getHhId() {
-		return hh_id;
-	}
-
-	public void setHhId(int hh_id) {
-		this.hh_id = hh_id;
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	public String getHhName() {

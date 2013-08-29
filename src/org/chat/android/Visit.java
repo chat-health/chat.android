@@ -1,10 +1,6 @@
 package org.chat.android;
 
 import java.util.Date;
-import java.util.GregorianCalendar;
-
-import android.text.format.Time;
-
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
@@ -17,8 +13,7 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "visits")
 public class Visit {
 	@DatabaseField(generatedId = true)
-	private int _id;
-
+	private int id;
     @DatabaseField
     private int worker_id;
     @DatabaseField
@@ -32,13 +27,15 @@ public class Visit {
     @DatabaseField
     private double lon;
     @DatabaseField
+    private Boolean service_accessed;
+    @DatabaseField
+    private Boolean video_accessed;
+    @DatabaseField
+    private Boolean resource_accessed;    
+    @DatabaseField
     private Date start_time;
     @DatabaseField
     private Date end_time;
-    @DatabaseField
-    private Boolean video_watched;
-    @DatabaseField
-    private Boolean resource_accessed;
     @DatabaseField
     private String type;							// this may get moved to Service
     
@@ -72,6 +69,9 @@ public class Visit {
         this.type = type;
         this.lat = lat;
         this.lon = lon;
+        this.service_accessed = false;
+        this.video_accessed = false;
+        this.resource_accessed = false;
         this.start_time = startTime;
     }
     
@@ -80,13 +80,23 @@ public class Visit {
      * @param existingListModel - List model instance that is copied to new instance
      */
     public Visit(Visit existingVisitModel) {
-        this.worker_id = existingVisitModel.worker_id;
-        this.hh_id = existingVisitModel.hh_id;
+    	this.id = existingVisitModel.id;
+    	this.hh_id = existingVisitModel.hh_id;
+    	this.worker_id = existingVisitModel.worker_id;
+        this.role = existingVisitModel.role;
+        this.date = existingVisitModel.date;
         this.type = existingVisitModel.type;
+        this.lat = existingVisitModel.lat;
+        this.lon = existingVisitModel.lon;
+        this.service_accessed = existingVisitModel.service_accessed;
+        this.video_accessed = existingVisitModel.video_accessed;
+        this.resource_accessed = existingVisitModel.resource_accessed;
+        this.start_time = existingVisitModel.start_time;
+        this.end_time = existingVisitModel.end_time;
     }
 
-	public int get_id() {
-		return _id;
+	public int getId() {
+		return id;
 	}
 
 	public int getHhId() {
@@ -137,11 +147,43 @@ public class Visit {
 		this.type = type;
 	}
 	
+	public Boolean getServiceAccessed() {
+		return service_accessed;
+	}
+
+	public void setServiceAccessed(Boolean service_accessed) {
+		this.service_accessed = service_accessed;
+	}
+	
+	public Boolean getVideoAccessed() {
+		return video_accessed;
+	}
+
+	public void setVideoAccessed(Boolean video_accessed) {
+		this.video_accessed = video_accessed;
+	}
+	
+	public Boolean getResourceAccessed() {
+		return resource_accessed;
+	}
+
+	public void setResourceAccessed(Boolean resource_accessed) {
+		this.resource_accessed = resource_accessed;
+	}
+	
 	public Date setStartTime() {
 		return start_time;
 	}
 
 	public void setStartTime(Date startTime) {
 		this.start_time = startTime;
+	}
+	
+	public Date setEndTime() {
+		return end_time;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.end_time = endTime;
 	}
 }

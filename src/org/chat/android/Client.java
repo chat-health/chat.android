@@ -1,7 +1,5 @@
 package org.chat.android;
 
-import java.util.GregorianCalendar;
-
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -10,11 +8,8 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "clients")
 public class Client {
-	@DatabaseField(generatedId = true)
-	private int _id;
-
 	@DatabaseField(index = true, uniqueCombo = true)
-	private int client_id;
+	private int id;
 	@DatabaseField(index = true, uniqueCombo = true)
 	private String last_name;
 	@DatabaseField(index = true, uniqueCombo = true)
@@ -33,14 +28,14 @@ public class Client {
 	/**
 	 * Constructor that instantiates the private member variable(s)
 	 * 
-	 * @param client_id
+	 * @param id
 	 * @param last_name
 	 * @param first_name
 	 * @param hh_id
 	 * @param gender
 	 */
-	public Client(int client_id, String first_name, String last_name, int hh_id, String gender) {
-		this.client_id = client_id;
+	public Client(int id, String first_name, String last_name, int hh_id, String gender) {
+		this.id = id;
 		this.first_name = first_name;
 		this.last_name = last_name;
 		this.hh_id = hh_id;
@@ -54,23 +49,19 @@ public class Client {
 	 *            - List model instance that is copied to new instance
 	 */
 	public Client(Client existingClientModel) {
-		this.client_id = existingClientModel.client_id;
+		this.id = existingClientModel.id;
 		this.last_name = existingClientModel.last_name;
 		this.first_name = existingClientModel.first_name;
 		this.hh_id = existingClientModel.hh_id;
 		this.gender = existingClientModel.gender;
 	}
 
-	public int get_id() {
-		return _id;
-	}
-	
-	public int getClientId() {
-		return client_id;
+	public int getId() {
+		return id;
 	}
 
-	public void setClientId(int client_id) {
-		this.client_id = client_id;
+	public void setId(int id) {
+		this.id = id;
 	}	
 
 	public String getLastName() {
