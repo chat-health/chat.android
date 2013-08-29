@@ -59,8 +59,8 @@ public class SetupVisitActivity extends Activity {
 		householdSpinner = (Spinner) findViewById(R.id.household_spinner);
 		ArrayList<String> householdList = new ArrayList<String>();
 		// TODO: DUMMY DATA. Instead, pull these from DB, based on workerName and role passed from login activity 
-		householdList.add("Ball Bella");
-		householdList.add("Ziqubu Hleziphi");
+		householdList.add("John Doe");
+		householdList.add("James Doe");
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, householdList);
 		householdSpinner.setAdapter(arrayAdapter);
 		

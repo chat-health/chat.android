@@ -35,7 +35,7 @@ public class Household {
      * Constructor that instantiates the private member variable(s)
      * @param id
      * @param hh_id
-     * @param household_name
+     * @param hh_name
      * @param community
      * @param worker_id
      */

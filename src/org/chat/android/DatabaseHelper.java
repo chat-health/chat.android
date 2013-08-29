@@ -17,10 +17,13 @@ import java.sql.SQLException;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "chat.db";
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 13;
     private Dao<Visit, Integer> visitsDao = null;
     private Dao<Client, Integer> clientsDao = null;
+    private Dao<Household, Integer> householdsDao = null;
     private Dao<Attendance, Integer> attendanceDao = null;
+    private Dao<Role, Integer> roleDao = null;
+    private Dao<Worker, Integer> workerDao = null;
     
 
     public DatabaseHelper(Context context) {
@@ -44,10 +47,25 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             Log.e(DatabaseHelper.class.getName(), "Unable to create databases", e);
         }
         try {
+            TableUtils.createTable(connectionSource, Household.class);
+        } catch (SQLException e) {
+            Log.e(DatabaseHelper.class.getName(), "Unable to create databases", e);
+        }
+        try {
             TableUtils.createTable(connectionSource, Attendance.class);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Unable to create databases", e);
-        }        
+        }
+        try {
+            TableUtils.createTable(connectionSource, Role.class);
+        } catch (SQLException e) {
+            Log.e(DatabaseHelper.class.getName(), "Unable to create databases", e);
+        }
+        try {
+            TableUtils.createTable(connectionSource, Worker.class);
+        } catch (SQLException e) {
+            Log.e(DatabaseHelper.class.getName(), "Unable to create databases", e);
+        }
     }
 
     @Override
@@ -65,7 +83,25 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             Log.e(DatabaseHelper.class.getName(), "Unable to upgrade database from version " + oldVer + " to new " + newVer, e);
         }
         try {
+            TableUtils.dropTable(connectionSource, Household.class, true);
+            onCreate(sqLiteDatabase, connectionSource);
+        } catch (SQLException e) {
+            Log.e(DatabaseHelper.class.getName(), "Unable to upgrade database from version " + oldVer + " to new " + newVer, e);
+        }
+        try {
             TableUtils.dropTable(connectionSource, Attendance.class, true);
+            onCreate(sqLiteDatabase, connectionSource);
+        } catch (SQLException e) {
+            Log.e(DatabaseHelper.class.getName(), "Unable to upgrade database from version " + oldVer + " to new " + newVer, e);
+        }
+        try {
+            TableUtils.dropTable(connectionSource, Role.class, true);
+            onCreate(sqLiteDatabase, connectionSource);
+        } catch (SQLException e) {
+            Log.e(DatabaseHelper.class.getName(), "Unable to upgrade database from version " + oldVer + " to new " + newVer, e);
+        }
+        try {
+            TableUtils.dropTable(connectionSource, Worker.class, true);
             onCreate(sqLiteDatabase, connectionSource);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Unable to upgrade database from version " + oldVer + " to new " + newVer, e);
@@ -87,12 +123,30 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
         return clientsDao;
     }
+    public Dao<Household, Integer> getHouseholdsDao() throws SQLException {
+        if (householdsDao == null) {
+        	householdsDao = getDao(Household.class);
+        }
+        return householdsDao;
+    }
     public Dao<Attendance, Integer> getAttendanceDao() throws SQLException {
         if (attendanceDao == null) {
             attendanceDao = getDao(Attendance.class);
         }
         return attendanceDao;
-    }    
+    }
+    public Dao<Role, Integer> getRolesDao() throws SQLException {
+        if (roleDao == null) {
+            roleDao = getDao(Role.class);
+        }
+        return roleDao;
+    }
+    public Dao<Worker, Integer> getWorkersDao() throws SQLException {
+        if (workerDao == null) {
+            workerDao = getDao(Worker.class);
+        }
+        return workerDao;
+    }
 
     /**
      * Close the database connections and clear any cached DAOs.

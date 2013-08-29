@@ -73,10 +73,35 @@ public class HomeActivity extends Activity {
 		String hhName = b.getString("hhName");
 		String workerName = b.getString("workerName");
 		// TODO: grab the workerId from the DB based on the above - for now, dummy. Also, redo the hhId right
-		int workerId = 123;
-		if (hhName.equals("Ball Bella")) {
+		
+		int workerId = 0;				
+//		Dao<Worker, Integer> wDao;
+//		try {
+//			List<Worker> results = wDao.queryBuilder().where().eq("first_name",workerName).query();
+//		} catch (SQLException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+
+		Dao<Worker, Integer> wDao;		
+		DatabaseHelper dbHelperTemp = new DatabaseHelper(context);
+		try {
+			wDao = dbHelperTemp.getWorkersDao();
+			QueryBuilder<Worker,Integer> queryBuilder = wDao.queryBuilder();
+			queryBuilder.where().eq("first_name", workerName);
+			PreparedQuery<Worker> preparedQuery = queryBuilder.prepare();
+			List<Worker> wList = wDao.query(preparedQuery);
+			Toast.makeText(getApplicationContext(), "ERROR: unknown household", Toast.LENGTH_LONG).show();					// this is pretty clearly wrong, but it works. Go over the docs again to do this right
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+    		
+		
+		
+		if (hhName.equals("John Doe")) {
 			hhId = 322;
-		} else if (hhName.equals("Ziqubu Hleziphi")) {
+		} else if (hhName.equals("James Doe")) {
 			hhId = 1670;
 		} else {
 			Toast.makeText(getApplicationContext(), "ERROR: unknown household", Toast.LENGTH_LONG).show();
