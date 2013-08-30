@@ -274,10 +274,7 @@ public class HomeActivity extends Activity {
 		DatabaseHelper wDbHelper = new DatabaseHelper(context);
 		try {
 			wDao = wDbHelper.getWorkersDao();
-			QueryBuilder<Worker,Integer> queryBuilder = wDao.queryBuilder();
-			queryBuilder.where().eq("first_name", workerName);
-			PreparedQuery<Worker> preparedQuery = queryBuilder.prepare();
-			List<Worker> wList = wDao.query(preparedQuery);
+			List<Worker> wList = wDao.queryBuilder().where().eq("worker_name",workerName).query();
 			Iterator<Worker> iter = wList.iterator();
 			while (iter.hasNext()) {
 				Worker worker = iter.next();
@@ -302,10 +299,7 @@ public class HomeActivity extends Activity {
 		DatabaseHelper hDbHelper = new DatabaseHelper(context);
 		try {
 			hDao = hDbHelper.getHouseholdsDao();
-			QueryBuilder<Household,Integer> queryBuilder = hDao.queryBuilder();
-			queryBuilder.where().eq("hh_name", hhName);
-			PreparedQuery<Household> preparedQuery = queryBuilder.prepare();
-			List<Household> hList = hDao.query(preparedQuery);
+			List<Household> hList = hDao.queryBuilder().where().eq("hh_name",hhName).query();
 			Iterator<Household> iter = hList.iterator();
 			while (iter.hasNext()) {
 				Household hh = iter.next();
@@ -363,42 +357,41 @@ public class HomeActivity extends Activity {
 			e.printStackTrace();
 		}
 		
-		
     	// figure out which video to play by determining which button was pressed
-    	String videoName = "";
+    	int chosenVideoId = 0;
     	int buttonId = v.getId();
     	switch (buttonId) {
 	        case R.id.button_video_1:
-	        	videoName = "pss_animatic.mp4";
+	        	chosenVideoId = 1;
 	            break;
 	        case R.id.button_video_2:
-	        	videoName = "nutrition_animatic.mp4";
+	        	chosenVideoId = 2;
 	            break;
 	        case R.id.button_video_3:
-	        	videoName = "nutrition_0-9_months.mp4";
+	        	chosenVideoId = 3;
 	            break;
 	        case R.id.button_video_4:
-	        	videoName = "nutrition_2_years_up.mp4";
+	        	chosenVideoId = 4;
 	            break;
 	        case R.id.image_video_1:
-	        	videoName = "pss_animatic.mp4";
+	        	chosenVideoId = 1;
 	            break;
 	        case R.id.image_video_2:
-	        	videoName = "nutrition_animatic.mp4";
+	        	chosenVideoId = 2;
 	            break;
 	        case R.id.image_video_3:
-	        	videoName = "nutrition_0-9_months.mp4";
+	        	chosenVideoId = 3;
 	            break;
 	        case R.id.image_video_4:
-	        	videoName = "nutrition_2_years_up.mp4";
+	        	chosenVideoId = 4;
 	            break;	            
 	        default:
-	        	videoName = "pss_animatic.mp4";
+	        	chosenVideoId = 1;
 	            break;
 	    }
     	
     	// record which video was played in videos_accessed table
-	    VideoAccessed va = new VideoAccessed(99, visitId);
+	    VideoAccessed va = new VideoAccessed(chosenVideoId, visitId);
 	    Dao<VideoAccessed, Integer> vaDao;
 	    DatabaseHelper vaDbHelper = new DatabaseHelper(context);
 	    try {
@@ -409,7 +402,23 @@ public class HomeActivity extends Activity {
 	        e1.printStackTrace();
 	    }
     	
-        
+		// get the video_uri
+	    String videoURI = "";
+		Dao<Video, Integer> vidDao;		
+		DatabaseHelper vidDbHelper = new DatabaseHelper(context);
+		try {
+			vidDao = vidDbHelper.getVideosDao();
+			List<Video> vidList = vidDao.queryBuilder().where().eq("id",chosenVideoId).query();
+			Iterator<Video> iter = vidList.iterator();
+			while (iter.hasNext()) {
+				Video vid = iter.next();
+				videoURI = vid.getURI();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
     	// determining path to sdcard (readable by video player)
     	File sdCard = Environment.getExternalStorageDirectory();
     	// adding chat dir to path (copyAsset func ensures dir exists)
@@ -418,7 +427,7 @@ public class HomeActivity extends Activity {
         // copyAsset(videoName, dir);
         
         // create file that points at video in sdcard dir (to retrieve URI)
-        File myvid = new File(dir, videoName);
+        File myvid = new File(dir, videoURI);
         
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);

@@ -17,13 +17,14 @@ import java.sql.SQLException;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "chat.db";
-    private static final int DATABASE_VERSION = 16;
+    private static final int DATABASE_VERSION = 17;
     private Dao<Visit, Integer> visitsDao = null;
     private Dao<Client, Integer> clientsDao = null;
     private Dao<Household, Integer> householdsDao = null;
     private Dao<Attendance, Integer> attendanceDao = null;
     private Dao<Role, Integer> roleDao = null;
     private Dao<Worker, Integer> workerDao = null;
+    private Dao<Video, Integer> videoDao = null;
     private Dao<VideoAccessed, Integer> videoAccessedDao = null;
     
 
@@ -44,6 +45,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Attendance.class);
             TableUtils.createTable(connectionSource, Role.class);
             TableUtils.createTable(connectionSource, Worker.class);
+            TableUtils.createTable(connectionSource, Video.class);
             TableUtils.createTable(connectionSource, VideoAccessed.class);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Unable to create databases", e);
@@ -59,6 +61,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, Attendance.class, true);
             TableUtils.dropTable(connectionSource, Role.class, true);
             TableUtils.dropTable(connectionSource, Worker.class, true);
+            TableUtils.dropTable(connectionSource, Video.class, true);
             TableUtils.dropTable(connectionSource, VideoAccessed.class, true);
             onCreate(sqLiteDatabase, connectionSource);
         } catch (SQLException e) {
@@ -111,6 +114,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
         return videoAccessedDao;
     }
+    public Dao<Video, Integer> getVideosDao() throws SQLException {
+        if (videoDao == null) {
+        	videoDao = getDao(Video.class);
+        }
+        return videoDao;
+    }    
 
     /**
      * Close the database connections and clear any cached DAOs.
