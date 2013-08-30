@@ -250,12 +250,21 @@ public class HomeActivity extends Activity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         	View resourcesFragmentView = inflater.inflate(R.layout.fragment_resources, container, false);
-        	Context context = getActivity();
+        	Context context = getActivity();        	
         	
     		ListView rList = (ListView) resourcesFragmentView.findViewById(R.id.resources_listview);
-    		ArrayList<String> rArray = new ArrayList<String>();																		// TODO: fill me (from db) with resource titles
-    		ServicesOverviewAdapter rAdapter = new ServicesOverviewAdapter(context, android.R.layout.simple_list_item_1, rArray);
-    		rList.setAdapter(rAdapter);
+    		ArrayList<String> rArray = new ArrayList<String>();
+    		rArray.add("0-6mos.pdf");
+    		rArray.add("6-12mos.pdf");
+    		rList.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, rArray));
+    		rList.setOnItemClickListener(new OnItemClickListener() {
+    			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    				String res = (String)parent.getItemAtPosition(position);
+    				openResource(res);
+    			}
+    		});    		
+//    		ResourcesAdapter rAdapter = new ResourcesAdapter(context, android.R.layout.simple_list_item_1, rArray);
+//    		rList.setAdapter(rAdapter);
         	
         	
             // inflate the layout for this fragment
@@ -274,7 +283,7 @@ public class HomeActivity extends Activity {
 		DatabaseHelper wDbHelper = new DatabaseHelper(context);
 		try {
 			wDao = wDbHelper.getWorkersDao();
-			List<Worker> wList = wDao.queryBuilder().where().eq("worker_name",workerName).query();
+			List<Worker> wList = wDao.queryBuilder().where().eq("first_name",workerName).query();
 			Iterator<Worker> iter = wList.iterator();
 			while (iter.hasNext()) {
 				Worker worker = iter.next();
@@ -326,7 +335,7 @@ public class HomeActivity extends Activity {
     		// TODO Auto-generated catch block
     		e.printStackTrace();
     	}    	
-    	
+//    	OTHER OPTION?
 //    	DatabaseHelper helper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
 //    	try {
 //    		Dao vDao = helper.getDao(Visit.class);
@@ -338,6 +347,22 @@ public class HomeActivity extends Activity {
 //    	}
 		
 	}
+    
+    public void openResource(String r) {
+    	// determining path to sdcard (readable by video player)
+    	File sdCard = Environment.getExternalStorageDirectory();
+    	// adding chat dir to path (copyAsset func ensures dir exists)
+        File dir = new File (sdCard.getAbsolutePath() + "/chat");
+        
+        // create file that points at video in sdcard dir (to retrieve URI)
+        File myvid = new File(dir, r);
+        
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setDataAndType(Uri.fromFile(myvid), "application/pdf");
+        startActivity(intent);
+    }
 
 	public void playVideo (View v) {
 		Context context = getApplicationContext();
@@ -482,6 +507,10 @@ public class HomeActivity extends Activity {
 	        Toast.makeText(getApplicationContext(), "Settings is under construction, currently being used to prepopulate the DB", Toast.LENGTH_SHORT).show();
 	        prepopulateDB();
 	        return true;
+	    case R.id.menu_sync:
+	        Toast.makeText(getApplicationContext(), "Attempting sync with server...", Toast.LENGTH_LONG).show();
+	        trySync();
+	        return true;
 	    case R.id.menu_logout:
 	    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
 	    	builder.setMessage("Are you sure you want to do this?")
@@ -507,6 +536,10 @@ public class HomeActivity extends Activity {
     private void prepopulateDB() {
 		Intent i = new Intent(HomeActivity.this, SetupDB.class);
 		startActivity(i);
+    }
+    
+    private void trySync() {
+    	Toast.makeText(getApplicationContext(), "I'm just a placeholder", Toast.LENGTH_SHORT).show();
     }
 
 }
