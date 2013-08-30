@@ -17,13 +17,14 @@ import java.sql.SQLException;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "chat.db";
-    private static final int DATABASE_VERSION = 15;
+    private static final int DATABASE_VERSION = 16;
     private Dao<Visit, Integer> visitsDao = null;
     private Dao<Client, Integer> clientsDao = null;
     private Dao<Household, Integer> householdsDao = null;
     private Dao<Attendance, Integer> attendanceDao = null;
     private Dao<Role, Integer> roleDao = null;
     private Dao<Worker, Integer> workerDao = null;
+    private Dao<VideoAccessed, Integer> videoAccessedDao = null;
     
 
     public DatabaseHelper(Context context) {
@@ -38,31 +39,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource) {
         try {
             TableUtils.createTable(connectionSource, Visit.class);
-        } catch (SQLException e) {
-            Log.e(DatabaseHelper.class.getName(), "Unable to create databases", e);
-        }    	
-        try {
             TableUtils.createTable(connectionSource, Client.class);
-        } catch (SQLException e) {
-            Log.e(DatabaseHelper.class.getName(), "Unable to create databases", e);
-        }
-        try {
             TableUtils.createTable(connectionSource, Household.class);
-        } catch (SQLException e) {
-            Log.e(DatabaseHelper.class.getName(), "Unable to create databases", e);
-        }
-        try {
             TableUtils.createTable(connectionSource, Attendance.class);
-        } catch (SQLException e) {
-            Log.e(DatabaseHelper.class.getName(), "Unable to create databases", e);
-        }
-        try {
             TableUtils.createTable(connectionSource, Role.class);
-        } catch (SQLException e) {
-            Log.e(DatabaseHelper.class.getName(), "Unable to create databases", e);
-        }
-        try {
             TableUtils.createTable(connectionSource, Worker.class);
+            TableUtils.createTable(connectionSource, VideoAccessed.class);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Unable to create databases", e);
         }
@@ -72,40 +54,16 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource, int oldVer, int newVer) {
         try {
             TableUtils.dropTable(connectionSource, Visit.class, true);
-            onCreate(sqLiteDatabase, connectionSource);
-        } catch (SQLException e) {
-            Log.e(DatabaseHelper.class.getName(), "Unable to upgrade database from version " + oldVer + " to new " + newVer, e);
-        }    	
-        try {
             TableUtils.dropTable(connectionSource, Client.class, true);
-            onCreate(sqLiteDatabase, connectionSource);
-        } catch (SQLException e) {
-            Log.e(DatabaseHelper.class.getName(), "Unable to upgrade database from version " + oldVer + " to new " + newVer, e);
-        }
-        try {
             TableUtils.dropTable(connectionSource, Household.class, true);
-            onCreate(sqLiteDatabase, connectionSource);
-        } catch (SQLException e) {
-            Log.e(DatabaseHelper.class.getName(), "Unable to upgrade database from version " + oldVer + " to new " + newVer, e);
-        }
-        try {
             TableUtils.dropTable(connectionSource, Attendance.class, true);
-            onCreate(sqLiteDatabase, connectionSource);
-        } catch (SQLException e) {
-            Log.e(DatabaseHelper.class.getName(), "Unable to upgrade database from version " + oldVer + " to new " + newVer, e);
-        }
-        try {
             TableUtils.dropTable(connectionSource, Role.class, true);
-            onCreate(sqLiteDatabase, connectionSource);
-        } catch (SQLException e) {
-            Log.e(DatabaseHelper.class.getName(), "Unable to upgrade database from version " + oldVer + " to new " + newVer, e);
-        }
-        try {
             TableUtils.dropTable(connectionSource, Worker.class, true);
+            TableUtils.dropTable(connectionSource, VideoAccessed.class, true);
             onCreate(sqLiteDatabase, connectionSource);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Unable to upgrade database from version " + oldVer + " to new " + newVer, e);
-        }        
+        }    	 
     }
 
     /**
@@ -146,6 +104,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             workerDao = getDao(Worker.class);
         }
         return workerDao;
+    }
+    public Dao<VideoAccessed, Integer> getVideosAccessedDao() throws SQLException {
+        if (videoAccessedDao == null) {
+        	videoAccessedDao = getDao(VideoAccessed.class);
+        }
+        return videoAccessedDao;
     }
 
     /**

@@ -21,6 +21,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.UpdateBuilder;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -262,7 +263,9 @@ public class HomeActivity extends Activity {
         }
     }
     
-   
+    
+    
+    ////////// HELPER FUNCTIONS //////////
     private void setupVisitObject(String hhName, String workerName, String role, String type, Double lat, Double lon) {
         Context context = getApplicationContext();
 
@@ -312,14 +315,6 @@ public class HomeActivity extends Activity {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
-//		if (hhName.equals("John Doe")) {
-//			hhId = 322;
-//		} else if (hhName.equals("James Doe")) {
-//			hhId = 1670;
-//		} else {
-//			Toast.makeText(getApplicationContext(), "ERROR: unknown household", Toast.LENGTH_LONG).show();
-//		}
 
 		Date date  = new Date();
 		Date startTime = new Date();	
@@ -350,10 +345,25 @@ public class HomeActivity extends Activity {
 		
 	}
 
-
-
-
 	public void playVideo (View v) {
+		Context context = getApplicationContext();
+		
+		// mark that a video was accessed
+		visit.setVideoAccessed(true);
+		Dao<Visit, Integer> vDao;
+		DatabaseHelper vDbHelper = new DatabaseHelper(context);
+		try {
+			vDao = vDbHelper.getVisitsDao();
+			UpdateBuilder<Visit, Integer> updateBuilder = vDao.updateBuilder();
+			updateBuilder.updateColumnValue("video_accessed", true);
+			updateBuilder.where().eq("id",visitId);
+			updateBuilder.update();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
     	// figure out which video to play by determining which button was pressed
     	String videoName = "";
     	int buttonId = v.getId();
@@ -386,6 +396,19 @@ public class HomeActivity extends Activity {
 	        	videoName = "pss_animatic.mp4";
 	            break;
 	    }
+    	
+    	// record which video was played in videos_accessed table
+	    VideoAccessed va = new VideoAccessed(99, visitId);
+	    Dao<VideoAccessed, Integer> vaDao;
+	    DatabaseHelper vaDbHelper = new DatabaseHelper(context);
+	    try {
+	        vaDao = vaDbHelper.getVideosAccessedDao();
+	        vaDao.create(va);
+	    } catch (SQLException e1) {
+	        // TODO Auto-generated catch block
+	        e1.printStackTrace();
+	    }
+    	
         
     	// determining path to sdcard (readable by video player)
     	File sdCard = Environment.getExternalStorageDirectory();
