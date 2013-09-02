@@ -36,6 +36,7 @@ import android.app.ListFragment;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.text.format.Time;
@@ -102,6 +103,7 @@ public class HomeActivity extends Activity {
         actionbar.addTab(ServicesTab);
         actionbar.addTab(HealthEducationTab);
         actionbar.addTab(ResourcesTab);
+        
     }
     
     class MyTabsListener implements ActionBar.TabListener {
@@ -122,9 +124,9 @@ public class HomeActivity extends Activity {
     	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
     		ft.remove(fragment);
     	}
-    }    
-
+    }  
     
+
     ////////// ATTENDANCE TAB //////////
     public class AttendanceFragment extends Fragment {
         @Override
@@ -348,6 +350,10 @@ public class HomeActivity extends Activity {
 		
 	}
     
+    public void trySave() {
+    	Toast.makeText(getApplicationContext(), "Saving on log out is not currently implemented...", Toast.LENGTH_SHORT).show();
+    }
+    
     public void openResource(String r) {
     	// determining path to sdcard (readable by video player)
     	File sdCard = Environment.getExternalStorageDirectory();
@@ -492,7 +498,7 @@ public class HomeActivity extends Activity {
     }
     
     
-    // OVERFLOW MENU
+    ////////// OVERFLOW MENU ////////// 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_home, menu);
@@ -513,14 +519,15 @@ public class HomeActivity extends Activity {
 	        return true;
 	    case R.id.menu_logout:
 	    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-	    	builder.setMessage("Are you sure you want to do this?")
+	    	builder.setMessage("Confirm finalization of visit")
 	    	       .setCancelable(false)
-	    	       .setPositiveButton("Yes, log out", new DialogInterface.OnClickListener() {
+	    	       .setPositiveButton("Yes, mark this visit as complete and log me out", new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
+	    	        	   trySave();
 	    	        	   finish();
 	    	           }
 	    	       })
-	    	       .setNegativeButton("No, cancel", new DialogInterface.OnClickListener() {
+	    	       .setNegativeButton("No, cancel and return to the visit in progress", new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
 	    	                dialog.cancel();
 	    	           }
@@ -540,6 +547,20 @@ public class HomeActivity extends Activity {
     
     private void trySync() {
     	Toast.makeText(getApplicationContext(), "I'm just a placeholder", Toast.LENGTH_SHORT).show();
+    }
+    
+    ////////// DEFAULT BUTTON BEHAVIOUR OVERRIDES //////////
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+            .setTitle("Confirmation exit")
+            .setMessage("Are you sure you want to exit without completing this visit?")
+            .setNegativeButton(android.R.string.no, null)
+            .setPositiveButton(android.R.string.yes, new OnClickListener() {
+                public void onClick(DialogInterface arg0, int arg1) {
+                    HomeActivity.super.onBackPressed();
+                }
+            }).create().show();
     }
 
 }

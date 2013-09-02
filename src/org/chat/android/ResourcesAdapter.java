@@ -1,6 +1,6 @@
 package org.chat.android;
 
-import static org.chat.android.R.id.resource_name;
+//import static org.chat.android.R.id.resource_name;
 
 import java.util.ArrayList;
 
