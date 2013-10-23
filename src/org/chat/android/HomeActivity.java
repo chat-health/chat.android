@@ -13,7 +13,9 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONArray;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.CloseableIterator;
@@ -22,6 +24,7 @@ import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
+
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -59,6 +62,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
+
+
 
 public class HomeActivity extends Activity {
 
@@ -242,7 +247,7 @@ public class HomeActivity extends Activity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             // inflate the layout for this fragment
-            return inflater.inflate(R.layout.fragment_health_education, container, false);
+            return inflater.inflate(R.layout.fragment_health_overview, container, false);
         }
     }
     
@@ -515,7 +520,7 @@ public class HomeActivity extends Activity {
 	        return true;
 	    case R.id.menu_sync:
 	        Toast.makeText(getApplicationContext(), "Attempting sync with server...", Toast.LENGTH_LONG).show();
-	        trySync();
+	        //trySync();
 	        return true;
 	    case R.id.menu_logout:
 	    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -545,9 +550,80 @@ public class HomeActivity extends Activity {
 		startActivity(i);
     }
     
-    private void trySync() {
-    	Toast.makeText(getApplicationContext(), "I'm just a placeholder", Toast.LENGTH_SHORT).show();
-    }
+    
+//	private RequestQueue mRequestQueue;
+//	private JSONObject jsonObj;
+//	private JSONObject jsonToPost;
+//    private void trySync() {
+//    	//Toast.makeText(getApplicationContext(), "I'm just a placeholder", Toast.LENGTH_SHORT).show();
+//
+//
+////    	    @Override
+////    	    public void onCreate(Bundle savedInstanceState) {
+////    	        super.onCreate(savedInstanceState);
+////    	        setContentView(R.layout.activity_main);
+//    	        
+//        mRequestQueue = Volley.newRequestQueue(this);
+//        mRequestQueue.add(new JsonObjectRequest(Method.GET, "http://drowsy.badger.encorelab.org/rollcall/users/52110ef654a6e433a2000006", null, new MyResponseListener(), new MyErrorListener()));
+//        try {
+//         jsonToPost = new JSONObject("{'username':'testy the clown', 'tags':[]}");
+//        } catch (JSONException e) {
+//         Log.e("JSON object creation", e.getLocalizedMessage());
+//        }
+//        mRequestQueue.add(new JsonObjectRequest(Method.POST, "http://drowsy.badger.encorelab.org/rollcall/users/", jsonToPost, new MyPostResponseListener(), new MyErrorListener()));
+//
+////    	    }
+//
+//
+//    }
+//    
+//	@Override
+//	protected void onStop() {
+//    	if (mRequestQueue != null)
+//    		mRequestQueue.cancelAll(this);
+//    	super.onStop();
+//	}
+//	    
+//	    
+//	class MyResponseListener implements Listener<JSONObject> {
+//    	@Override
+//    	public void onResponse(JSONObject response) {
+//    		MainActivity.this.jsonObj = response;
+//    		try {
+//    			String result = MainActivity.this.jsonObj.getString("username");
+//    			Log.d("The result is: ", result);
+//    			// String timestamp = result.getString("Timestamp");
+//    			// MainActivity.this.resultTxt.setText(new Date(Long.parseLong(timestamp.trim())).toString());
+//    		} catch (Exception e) {
+//    			Log.e("ErrorListener", e.getLocalizedMessage());
+//    		}
+//    	}
+//	}
+//
+//	class MyPostResponseListener implements Listener<JSONObject> {
+//    	@Override
+//    	public void onResponse(JSONObject response) {
+//	    	try {
+//		    	Log.d("The result is: ", response.toString());
+//		    	// String timestamp = result.getString("Timestamp");
+//		    	// MainActivity.this.resultTxt.setText(new Date(Long.parseLong(timestamp.trim())).toString());
+//		    } catch (Exception e) {
+//		    	Log.e("ErrorListener", e.getLocalizedMessage());
+//		    }
+//    	}
+//	}
+//
+//	class MyErrorListener implements ErrorListener {
+//    	@Override
+//    	public void onErrorResponse(VolleyError error) {
+//    		Log.e("ErrorListener", error.getCause() + "");
+//    		if (error.getCause() != null) {
+//    			Log.e("ErrorListener", error.getLocalizedMessage());
+//    		}
+//    	// MainActivity.this.resultTxt.setText(error.toString());
+//    		mRequestQueue.cancelAll(this);
+//    	}
+//	}
     
     ////////// DEFAULT BUTTON BEHAVIOUR OVERRIDES //////////
     @Override
