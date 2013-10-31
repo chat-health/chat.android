@@ -249,7 +249,45 @@ public class HomeActivity extends Activity {
             // inflate the layout for this fragment
             return inflater.inflate(R.layout.fragment_health_overview, container, false);
         }
+        
     }
+    
+    public void openHealthDetails(View v) {
+    	String healthTopic = null;
+    	
+        switch (v.getId()) {
+	        case R.id.health_HIV_button:
+	        	healthTopic = "HIV";
+	        	break;
+	        case R.id.health_disease_button:
+	        	healthTopic = "disease";
+	        	break;
+	        case R.id.health_nutrition_button:
+	        	healthTopic = "nutrition";
+	        	break;
+	        case R.id.health_development_button:
+	        	healthTopic = "development";
+	        	break;
+        }
+       
+        
+        Toast.makeText(getApplicationContext(), "ID: "+v.getTag().toString(), Toast.LENGTH_SHORT).show();							// START HERE: does this actually solve any of the problems that are coming down the pipe?
+    	
+		Intent i = new Intent(HomeActivity.this, HealthDetailsActivity.class);
+		Bundle b = new Bundle();
+		b.putString("healthTopic",healthTopic);
+		i.putExtras(b);
+		startActivity(i);        	
+    }
+    
+    public void openHealthDelivery(View v) {
+//		Intent i = new Intent(HomeActivity.this, HealthDetailsActivity.class);
+//		Bundle b = new Bundle();
+//		String healthTopic = "HIV";
+//		b.putString("healthTopic",healthTopic);
+//		i.putExtras(b);
+//		startActivity(i);        	
+    }    
     
     
     ////////// RESOURCES TAB //////////
@@ -396,35 +434,35 @@ public class HomeActivity extends Activity {
     	// figure out which video to play by determining which button was pressed
     	int chosenVideoId = 0;
     	int buttonId = v.getId();
-    	switch (buttonId) {
-	        case R.id.button_video_1:
-	        	chosenVideoId = 1;
-	            break;
-	        case R.id.button_video_2:
-	        	chosenVideoId = 2;
-	            break;
-	        case R.id.button_video_3:
-	        	chosenVideoId = 3;
-	            break;
-	        case R.id.button_video_4:
-	        	chosenVideoId = 4;
-	            break;
-	        case R.id.image_video_1:
-	        	chosenVideoId = 1;
-	            break;
-	        case R.id.image_video_2:
-	        	chosenVideoId = 2;
-	            break;
-	        case R.id.image_video_3:
-	        	chosenVideoId = 3;
-	            break;
-	        case R.id.image_video_4:
-	        	chosenVideoId = 4;
-	            break;	            
-	        default:
-	        	chosenVideoId = 1;
-	            break;
-	    }
+//    	switch (buttonId) {
+//	        case R.id.button_video_1:
+//	        	chosenVideoId = 1;
+//	            break;
+//	        case R.id.button_video_2:
+//	        	chosenVideoId = 2;
+//	            break;
+//	        case R.id.button_video_3:
+//	        	chosenVideoId = 3;
+//	            break;
+//	        case R.id.button_video_4:
+//	        	chosenVideoId = 4;
+//	            break;
+//	        case R.id.image_video_1:
+//	        	chosenVideoId = 1;
+//	            break;
+//	        case R.id.image_video_2:
+//	        	chosenVideoId = 2;
+//	            break;
+//	        case R.id.image_video_3:
+//	        	chosenVideoId = 3;
+//	            break;
+//	        case R.id.image_video_4:
+//	        	chosenVideoId = 4;
+//	            break;	            
+//	        default:
+//	        	chosenVideoId = 1;
+//	            break;
+//	    }
     	
     	// record which video was played in videos_accessed table
 	    VideoAccessed va = new VideoAccessed(chosenVideoId, visitId);

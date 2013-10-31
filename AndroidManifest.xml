@@ -49,6 +49,11 @@
             android:screenOrientation="landscape" >
         </activity>
         <activity
+            android:name=".HealthDetailsActivity"
+            android:label="@string/title_activity_health_details"
+            android:screenOrientation="landscape" >
+        </activity>        
+        <activity
             android:name=".SetupDB"
             android:screenOrientation="landscape" >
         </activity>         

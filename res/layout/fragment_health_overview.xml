@@ -5,6 +5,58 @@
 
     <TableLayout
         android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >    
+    	<TableRow
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content">
+    	    
+    	    <Button
+                android:id="@+id/health_HIV_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp"
+                android:onClick="openHealthDetails"
+                android:tag="myTAG"
+                android:text="HIV" />
+    	    <Button
+                android:id="@+id/health_disease_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp"
+                android:onClick="openHealthDetails"
+                android:text="Disease" />
+    	    
+    	</TableRow>
+    	<TableRow
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content">
+    	    
+    	    <Button
+                android:id="@+id/health_nutrition_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp"
+                android:onClick="openHealthDetails"
+                android:text="Nutrition" />
+    	    <Button
+                android:id="@+id/health_development_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp"
+                android:onClick="openHealthDetails"
+                android:text="Development" />
+    	    
+    	</TableRow>
+    </TableLayout>
+    
+    
+    	
+<!--     <TableLayout
+        android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
 	    <TableRow
 	        android:layout_width="wrap_content"
@@ -103,5 +155,5 @@
 			        android:onClick="playVideo" />
 			</RelativeLayout>	        
 	    </TableRow>
-    </TableLayout>
+    </TableLayout> -->
 </LinearLayout>
