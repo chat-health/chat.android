@@ -18,6 +18,7 @@
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
                 android:onClick="openHealthDelivery"
+                android:tag="sub1"
                 android:text="Subtopic 1" />
     	    <Button
                 android:id="@+id/health_sub2_button"
@@ -26,6 +27,7 @@
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
                 android:onClick="openHealthDelivery"
+                android:tag="sub2"
                 android:text="Subtopic 2" />
     	    
     	</TableRow>
@@ -40,6 +42,7 @@
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
                 android:onClick="openHealthDelivery"
+                android:tag="sub3"
                 android:text="Subtopic 3" />
     	    <Button
                 android:id="@+id/health_sub4_button"
@@ -48,6 +51,7 @@
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
                 android:onClick="openHealthDelivery"
+                android:tag="sub4"
                 android:text="Subtopic 4" />
     	    
     	</TableRow>

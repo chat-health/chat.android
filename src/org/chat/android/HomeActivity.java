@@ -25,7 +25,6 @@ import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 
-
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -254,40 +253,26 @@ public class HomeActivity extends Activity {
     
     public void openHealthDetails(View v) {
     	String healthTopic = null;
-    	
-        switch (v.getId()) {
-	        case R.id.health_HIV_button:
-	        	healthTopic = "HIV";
-	        	break;
-	        case R.id.health_disease_button:
-	        	healthTopic = "disease";
-	        	break;
-	        case R.id.health_nutrition_button:
-	        	healthTopic = "nutrition";
-	        	break;
-	        case R.id.health_development_button:
-	        	healthTopic = "development";
-	        	break;
-        }
-       
-        
-        Toast.makeText(getApplicationContext(), "ID: "+v.getTag().toString(), Toast.LENGTH_SHORT).show();							// START HERE: does this actually solve any of the problems that are coming down the pipe?
+        healthTopic = (String) v.getTag();
     	
 		Intent i = new Intent(HomeActivity.this, HealthDetailsActivity.class);
 		Bundle b = new Bundle();
 		b.putString("healthTopic",healthTopic);
 		i.putExtras(b);
-		startActivity(i);        	
+		startActivity(i);
     }
     
-    public void openHealthDelivery(View v) {
-//		Intent i = new Intent(HomeActivity.this, HealthDetailsActivity.class);
-//		Bundle b = new Bundle();
-//		String healthTopic = "HIV";
-//		b.putString("healthTopic",healthTopic);
-//		i.putExtras(b);
-//		startActivity(i);        	
-    }    
+//    public void openHealthDelivery(View v) {
+//    	
+//    	
+//    	
+////		Intent i = new Intent(HomeActivity.this, HealthDetailsActivity.class);
+////		Bundle b = new Bundle();
+////		String healthTopic = "HIV";
+////		b.putString("healthTopic",healthTopic);
+////		i.putExtras(b);
+////		startActivity(i);        	
+//    }    
     
     
     ////////// RESOURCES TAB //////////

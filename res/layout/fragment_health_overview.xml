@@ -17,7 +17,7 @@
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
                 android:onClick="openHealthDetails"
-                android:tag="myTAG"
+                android:tag="HIV"
                 android:text="HIV" />
     	    <Button
                 android:id="@+id/health_disease_button"
@@ -26,6 +26,7 @@
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
                 android:onClick="openHealthDetails"
+                android:tag="Disease"
                 android:text="Disease" />
     	    
     	</TableRow>
@@ -40,6 +41,7 @@
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
                 android:onClick="openHealthDetails"
+                android:tag="Nutrition"
                 android:text="Nutrition" />
     	    <Button
                 android:id="@+id/health_development_button"
@@ -48,6 +50,7 @@
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
                 android:onClick="openHealthDetails"
+                android:tag="Development"
                 android:text="Development" />
     	    
     	</TableRow>

@@ -1,31 +1,34 @@
 package org.chat.android;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 public class HealthDetailsActivity extends Activity {
-	String healthTopic = null;
 	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        String healthTopic = null;
 		Bundle b = getIntent().getExtras();
 		healthTopic = b.getString("healthTopic");
 		
+		// if HIV, then set button texts and button tags etc.
+		
 		setContentView(R.layout.activity_health_details);
-        
-	        
-		// confirm service delivered button - open for next revision
-//   		Button serviceDeliveredBtn = (Button) findViewById(R.id.service_details_button);
-//   		serviceDeliveredBtn.setOnClickListener(new View.OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				Toast.makeText(getApplicationContext(),"Service(s) marked as delivered to client(s)",Toast.LENGTH_LONG).show();
-//				finish();				// lolololol this can't be a good idea
-//			}
-//	    });           
+    }
+    
+    public void openHealthDelivery(View v) {
+    	String subTopic = null;
+        subTopic = (String) v.getTag();
+    	
+    	Intent i = new Intent(HealthDetailsActivity.this, HealthDeliveryActivity.class);
+    	Bundle b = new Bundle();
+    	b.putString("subTopic",subTopic);
+    	i.putExtras(b);
+    	startActivity(i);	
     }
 }

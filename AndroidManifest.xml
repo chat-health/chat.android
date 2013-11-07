@@ -52,7 +52,12 @@
             android:name=".HealthDetailsActivity"
             android:label="@string/title_activity_health_details"
             android:screenOrientation="landscape" >
-        </activity>        
+        </activity>
+        <activity
+            android:name=".HealthDeliveryActivity"
+            android:label="@string/title_activity_health_delivery"
+            android:screenOrientation="landscape" >
+        </activity> 
         <activity
             android:name=".SetupDB"
             android:screenOrientation="landscape" >
