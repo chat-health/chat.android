@@ -2,11 +2,23 @@
 	android:orientation="vertical"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
-	android:layout_gravity="center">
-    <LinearLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#ECF8FC" >
-	</LinearLayout>
+	android:background="#ECF8FC" >
+    
+   	<Button
+        android:id="@+id/services_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:onClick="openServiceOverview"
+        android:text="Services" />
+	<Button
+	    android:id="@+id/health_button"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:paddingLeft="32dp"
+	    android:paddingRight="32dp"
+	    android:onClick="openHealthOverview"
+	    android:text="Health Education" />
+	
 </LinearLayout>

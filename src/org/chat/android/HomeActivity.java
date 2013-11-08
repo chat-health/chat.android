@@ -63,7 +63,6 @@ import android.widget.CheckBox;
 import android.widget.RadioButton;
 
 
-
 public class HomeActivity extends Activity {
 
 	String TAG = "INFO"; //Log.i(TAG, "Testing: "+somevar);
@@ -77,230 +76,216 @@ public class HomeActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-		Bundle b = getIntent().getExtras();
-		//setupVisitObject(b.getString("hhName"), b.getString("workerName"), b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));				FOR TESTING, SWITCH FOR PROD
-		setupVisitObject(b.getString("hhName"), "colin", b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));
+        //FOR TESTING, SWITCH FOR PROD
+		//Bundle b = getIntent().getExtras();
+		//setupVisitObject(b.getString("hhName"), b.getString("workerName"), b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));				
+		//setupVisitObject(b.getString("hhName"), "colin", b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));
+        setupVisitObject("household1", "colin", "someworker", "home", 11.11, 12.12);
 
         setContentView(R.layout.activity_home);
  
-        ActionBar actionbar = getActionBar();
-        actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        ActionBar.Tab AttendanceTab = actionbar.newTab().setText("Attendance");
-        ActionBar.Tab ServicesTab = actionbar.newTab().setText("Services");
-        ActionBar.Tab HealthEducationTab = actionbar.newTab().setText("Health Education");
-        ActionBar.Tab ResourcesTab = actionbar.newTab().setText("Resources");
- 
-        // creating the four fragments we want to use for display content
-        Fragment AttendanceFragment = new AttendanceFragment();
-        Fragment ServicesFragment = new ServicesFragment();
-        Fragment HealthEducationFragment = new HealthEducationFragment();
-        Fragment ResourcesFragment = new ResourcesFragment();
- 
-        // setting up the tab click listeners
-        AttendanceTab.setTabListener(new MyTabsListener(AttendanceFragment));
-        ServicesTab.setTabListener(new MyTabsListener(ServicesFragment));
-        HealthEducationTab.setTabListener(new MyTabsListener(HealthEducationFragment));
-        ResourcesTab.setTabListener(new MyTabsListener(ResourcesFragment));
- 
-        // adding the two tabs to the actionbar
-        actionbar.addTab(AttendanceTab);
-        actionbar.addTab(ServicesTab);
-        actionbar.addTab(HealthEducationTab);
-        actionbar.addTab(ResourcesTab);
+//        ActionBar actionbar = getActionBar();
+//        actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+//        ActionBar.Tab AttendanceTab = actionbar.newTab().setText("Attendance");
+//        ActionBar.Tab ServicesTab = actionbar.newTab().setText("Services");
+//        ActionBar.Tab HealthEducationTab = actionbar.newTab().setText("Health Education");
+//        ActionBar.Tab ResourcesTab = actionbar.newTab().setText("Resources");
+// 
+//        // creating the four fragments we want to use for display content
+//        Fragment AttendanceFragment = new AttendanceFragment();
+//        Fragment ServicesFragment = new ServicesFragment();
+//        Fragment HealthEducationFragment = new HealthEducationFragment();
+//        Fragment ResourcesFragment = new ResourcesFragment();
+// 
+//        // setting up the tab click listeners
+//        AttendanceTab.setTabListener(new MyTabsListener(AttendanceFragment));
+//        ServicesTab.setTabListener(new MyTabsListener(ServicesFragment));
+//        HealthEducationTab.setTabListener(new MyTabsListener(HealthEducationFragment));
+//        ResourcesTab.setTabListener(new MyTabsListener(ResourcesFragment));
+// 
+//        // adding the two tabs to the actionbar
+//        actionbar.addTab(AttendanceTab);
+//        actionbar.addTab(ServicesTab);
+//        actionbar.addTab(HealthEducationTab);
+//        actionbar.addTab(ResourcesTab);
         
     }
     
-    class MyTabsListener implements ActionBar.TabListener {
-    	public Fragment fragment;
-    	 
-    	public MyTabsListener(Fragment fragment) {
-    		this.fragment = fragment;
-    	}
-    	@Override
-    	public void onTabReselected(Tab tab, FragmentTransaction ft) {
-    		//Toast.makeText(getApplicationContext(), "Reselected!", Toast.LENGTH_LONG).show();
-    	}
-    	@Override
-    	public void onTabSelected(Tab tab, FragmentTransaction ft) {
-    		ft.replace(R.id.fragment_container, fragment);
-    	}
-    	@Override
-    	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-    		ft.remove(fragment);
-    	}
-    }  
+    
+    public void openServiceOverview(View v) {
+    	Intent i = new Intent(HomeActivity.this, ServiceOverviewActivity.class);
+    	Bundle b = new Bundle();
+    	b.putInt("visitId",visitId);
+    	i.putExtras(b);
+    	startActivity(i);
+    }
+
+    public void openHealthOverview(View v) {
+    	Intent i = new Intent(HomeActivity.this, HealthOverviewActivity.class);
+    	startActivity(i);
+    }
+
     
 
     ////////// ATTENDANCE TAB //////////
-    public class AttendanceFragment extends Fragment {
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        	View attendanceFragmentView = inflater.inflate(R.layout.fragment_attendance, container, false);
-        	ListView lv = (ListView) attendanceFragmentView.findViewById(R.id.attendance_listview);
-        	Context context = getActivity();
-        	
-        	List<Client> cList = new ArrayList<Client>();
-        	
-        	// get visit object and get the family, then use that to select TODO: yuck - FIXME (figure out the proper selector with ORM layer)
-            List<Client> hhCList = new ArrayList<Client>();
-            
-            Dao<Client, Integer> clientDao;
-            DatabaseHelper dbHelper = new DatabaseHelper(context);
-            try {
-				clientDao = dbHelper.getClientsDao();
-				cList = clientDao.query(clientDao.queryBuilder().prepare());
-	        	for (Client c : cList) {
-	        		if (c.getHhId() == visit.getHhId()) {
-	        			hhCList.add(c);
-	        		}
-	        		Log.d("el test", c.getFirstName());
-	        	}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-        	ClientsAdapter adapter = new ClientsAdapter(context, android.R.layout.simple_list_item_multiple_choice, R.id.checkbox, hhCList, visitId);
-            lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-            lv.setAdapter(adapter);
-            
-            // inflate the layout for this fragment
-            return attendanceFragmentView;
-        }
-             
-    }
-    
-    ////////// SERVICES TAB //////////
-    public class ServicesFragment extends Fragment {
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        	View servicesFragmentView = inflater.inflate(R.layout.fragment_services_overview, container, false);
-        	Context context = getActivity();
-
-        	
-    		// SERVICES LIST
-        	ListView sList = (ListView) servicesFragmentView.findViewById(R.id.services_overview_listview);
-
-        	// display the list of types of services based on the user's role (visit.getRole()) - we need to be careful that the visit object is in sync btw this and the DB. Think about this more!
-        	String[] serviceTypes;
-        	String[] roleArray = getResources().getStringArray(R.array.role_array);
-        	if (visit.getRole().equals(roleArray[0])) {
-        		serviceTypes = getResources().getStringArray(R.array.volunteer_service_type_array);
-        	} else if (visit.getRole().equals(roleArray[1])) {
-        		serviceTypes = getResources().getStringArray(R.array.councelor_service_type_array);
-        	} else {
-        		// TODO: expand me? Also throw a proper error here
-        		serviceTypes = getResources().getStringArray(R.array.volunteer_service_type_array);
-        		Toast.makeText(getApplicationContext(),"Role is undefined",Toast.LENGTH_LONG).show();
-        	}		
-        	ArrayList<String> sArray = new ArrayList<String>(Arrays.asList(serviceTypes));
-
-        	ServicesOverviewAdapter sAdapter = new ServicesOverviewAdapter(context, android.R.layout.simple_list_item_1, sArray);
-            sList.setAdapter(sAdapter);
-    		sList.setOnItemClickListener(new OnItemClickListener() {
-    			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-    				String serviceCategory = (String)parent.getItemAtPosition(position);
-    				Toast.makeText(getApplicationContext(), serviceCategory, Toast.LENGTH_SHORT).show();
-    				Intent i = new Intent(HomeActivity.this, ServiceDeliveryActivity.class);
-    				// TODO: again, decide if maybe we want to just re-grab this stuff from the DB instead of passing it? If no, we may to need a bunch more stuff bundled in
-    				Bundle b = new Bundle();
-    				b.putString("serviceCategory",serviceCategory);
-    				b.putInt("visitId", visitId);
-    				b.putInt("hhId", visit.getHhId());						// for convenience, would be cleaner to remove
-    				i.putExtras(b);
-					startActivity(i);
-    			}
-    		});
-    		
-    		
-    		// NOTES LIST
-    		ListView nList = (ListView) servicesFragmentView.findViewById(R.id.notes_listview);
-    		final ArrayList<String> nArray = new ArrayList<String>();
-    		ServicesOverviewAdapter nAdapter = new ServicesOverviewAdapter(context, android.R.layout.simple_list_item_1, nArray);
-    		nList.setAdapter(nAdapter);
-    		
-    		
-    		// NEW NOTES
-        	final EditText newNoteField = (EditText) servicesFragmentView.findViewById(R.id.notes_edittext);
-        	//String newNote = newNoteField.getText().toString();
-    		Button submitNoteBtn = (Button) servicesFragmentView.findViewById(R.id.notes_button);
-    		submitNoteBtn.setOnClickListener(new View.OnClickListener() {
-    			@Override
-    			public void onClick(View v) {
-    				String newNote = newNoteField.getText().toString();
-    				Toast.makeText(getApplicationContext(),"Added note",Toast.LENGTH_LONG).show();
-    				nArray.add(newNote);						// THIS MAY NEED TO GET SAVED TO THE DB
-    				newNoteField.setText("");
-    			}
-    	    });
-            
-            // inflate the layout for this fragment
-            return servicesFragmentView;
-        }
-    }
-    
-
-    
-    ////////// HEALTH EDUCATION TAB //////////
-    public class HealthEducationFragment extends Fragment {
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            // inflate the layout for this fragment
-            return inflater.inflate(R.layout.fragment_health_overview, container, false);
-        }
-        
-    }
-    
-    public void openHealthDetails(View v) {
-    	String healthTopic = null;
-        healthTopic = (String) v.getTag();
-    	
-		Intent i = new Intent(HomeActivity.this, HealthDetailsActivity.class);
-		Bundle b = new Bundle();
-		b.putString("healthTopic",healthTopic);
-		i.putExtras(b);
-		startActivity(i);
-    }
-    
-//    public void openHealthDelivery(View v) {
+//    public class AttendanceFragment extends Fragment {
+//        @Override
+//        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        	View attendanceFragmentView = inflater.inflate(R.layout.fragment_attendance, container, false);
+//        	ListView lv = (ListView) attendanceFragmentView.findViewById(R.id.attendance_listview);
+//        	Context context = getActivity();
+//        	
+//        	List<Client> cList = new ArrayList<Client>();
+//        	
+//        	// get visit object and get the family, then use that to select TODO: yuck - FIXME (figure out the proper selector with ORM layer)
+//            List<Client> hhCList = new ArrayList<Client>();
+//            
+//            Dao<Client, Integer> clientDao;
+//            DatabaseHelper dbHelper = new DatabaseHelper(context);
+//            try {
+//				clientDao = dbHelper.getClientsDao();
+//				cList = clientDao.query(clientDao.queryBuilder().prepare());
+//	        	for (Client c : cList) {
+//	        		if (c.getHhId() == visit.getHhId()) {
+//	        			hhCList.add(c);
+//	        		}
+//	        		Log.d("el test", c.getFirstName());
+//	        	}
+//			} catch (SQLException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//
+//        	ClientsAdapter adapter = new ClientsAdapter(context, android.R.layout.simple_list_item_multiple_choice, R.id.checkbox, hhCList, visitId);
+//            lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+//            lv.setAdapter(adapter);
+//            
+//            // inflate the layout for this fragment
+//            return attendanceFragmentView;
+//        }
+//             
+//    }
+//    
+//    ////////// SERVICES TAB //////////
+//    public class ServicesFragment extends Fragment {
+//        @Override
+//        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        	View servicesFragmentView = inflater.inflate(R.layout.fragment_services_overview, container, false);
+//        	Context context = getActivity();
+//
+//        	
+//    		// SERVICES LIST
+//        	ListView sList = (ListView) servicesFragmentView.findViewById(R.id.services_overview_listview);
+//
+//        	// display the list of types of services based on the user's role (visit.getRole()) - we need to be careful that the visit object is in sync btw this and the DB. Think about this more!
+//        	String[] serviceTypes;
+//        	String[] roleArray = getResources().getStringArray(R.array.role_array);
+//        	if (visit.getRole().equals(roleArray[0])) {
+//        		serviceTypes = getResources().getStringArray(R.array.volunteer_service_type_array);
+//        	} else if (visit.getRole().equals(roleArray[1])) {
+//        		serviceTypes = getResources().getStringArray(R.array.councelor_service_type_array);
+//        	} else {
+//        		// TODO: expand me? Also throw a proper error here
+//        		serviceTypes = getResources().getStringArray(R.array.volunteer_service_type_array);
+//        		Toast.makeText(getApplicationContext(),"Role is undefined",Toast.LENGTH_LONG).show();
+//        	}		
+//        	ArrayList<String> sArray = new ArrayList<String>(Arrays.asList(serviceTypes));
+//
+//        	ServicesOverviewAdapter sAdapter = new ServicesOverviewAdapter(context, android.R.layout.simple_list_item_1, sArray);
+//            sList.setAdapter(sAdapter);
+//    		sList.setOnItemClickListener(new OnItemClickListener() {
+//    			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//    				String serviceCategory = (String)parent.getItemAtPosition(position);
+//    				Toast.makeText(getApplicationContext(), serviceCategory, Toast.LENGTH_SHORT).show();
+//    				Intent i = new Intent(HomeActivity.this, ServiceDeliveryActivity.class);
+//    				// TODO: again, decide if maybe we want to just re-grab this stuff from the DB instead of passing it? If no, we may to need a bunch more stuff bundled in
+//    				Bundle b = new Bundle();
+//    				b.putString("serviceCategory",serviceCategory);
+//    				b.putInt("visitId", visitId);
+//    				b.putInt("hhId", visit.getHhId());						// for convenience, would be cleaner to remove
+//    				i.putExtras(b);
+//					startActivity(i);
+//    			}
+//    		});
+//    		
+//    		
+//    		// NOTES LIST
+//    		ListView nList = (ListView) servicesFragmentView.findViewById(R.id.notes_listview);
+//    		final ArrayList<String> nArray = new ArrayList<String>();
+//    		ServicesOverviewAdapter nAdapter = new ServicesOverviewAdapter(context, android.R.layout.simple_list_item_1, nArray);
+//    		nList.setAdapter(nAdapter);
+//    		
+//    		
+//    		// NEW NOTES
+//        	final EditText newNoteField = (EditText) servicesFragmentView.findViewById(R.id.notes_edittext);
+//        	//String newNote = newNoteField.getText().toString();
+//    		Button submitNoteBtn = (Button) servicesFragmentView.findViewById(R.id.notes_button);
+//    		submitNoteBtn.setOnClickListener(new View.OnClickListener() {
+//    			@Override
+//    			public void onClick(View v) {
+//    				String newNote = newNoteField.getText().toString();
+//    				Toast.makeText(getApplicationContext(),"Added note",Toast.LENGTH_LONG).show();
+//    				nArray.add(newNote);						// THIS MAY NEED TO GET SAVED TO THE DB
+//    				newNoteField.setText("");
+//    			}
+//    	    });
+//            
+//            // inflate the layout for this fragment
+//            return servicesFragmentView;
+//        }
+//    }
+//    
+//
+//    
+//    ////////// HEALTH EDUCATION TAB //////////
+//    public class HealthEducationFragment extends Fragment {
+//        @Override
+//        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//            // inflate the layout for this fragment
+//            return inflater.inflate(R.layout.fragment_health_overview, container, false);
+//        }
+//        
+//    }
+//    
+//    public void openHealthDetails(View v) {
+//    	String healthTopic = null;
+//        healthTopic = (String) v.getTag();
 //    	
-//    	
-//    	
-////		Intent i = new Intent(HomeActivity.this, HealthDetailsActivity.class);
-////		Bundle b = new Bundle();
-////		String healthTopic = "HIV";
-////		b.putString("healthTopic",healthTopic);
-////		i.putExtras(b);
-////		startActivity(i);        	
-//    }    
-    
-    
-    ////////// RESOURCES TAB //////////
-    public class ResourcesFragment extends Fragment {
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        	View resourcesFragmentView = inflater.inflate(R.layout.fragment_resources, container, false);
-        	Context context = getActivity();        	
-        	
-    		ListView rList = (ListView) resourcesFragmentView.findViewById(R.id.resources_listview);
-    		ArrayList<String> rArray = new ArrayList<String>();
-    		rArray.add("0-6mos.pdf");
-    		rArray.add("6-12mos.pdf");
-    		rList.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, rArray));
-    		rList.setOnItemClickListener(new OnItemClickListener() {
-    			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-    				String res = (String)parent.getItemAtPosition(position);
-    				openResource(res);
-    			}
-    		});    		
-//    		ResourcesAdapter rAdapter = new ResourcesAdapter(context, android.R.layout.simple_list_item_1, rArray);
-//    		rList.setAdapter(rAdapter);
-        	
-        	
-            // inflate the layout for this fragment
-            return resourcesFragmentView;
-        }
-    }
+//		Intent i = new Intent(HomeActivity.this, HealthDetailsActivity.class);
+//		Bundle b = new Bundle();
+//		b.putString("healthTopic",healthTopic);
+//		i.putExtras(b);
+//		startActivity(i);
+//    }
+//       
+//    
+//    
+//    ////////// RESOURCES TAB //////////
+//    public class ResourcesFragment extends Fragment {
+//        @Override
+//        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        	View resourcesFragmentView = inflater.inflate(R.layout.fragment_resources, container, false);
+//        	Context context = getActivity();        	
+//        	
+//    		ListView rList = (ListView) resourcesFragmentView.findViewById(R.id.resources_listview);
+//    		ArrayList<String> rArray = new ArrayList<String>();
+//    		rArray.add("0-6mos.pdf");
+//    		rArray.add("6-12mos.pdf");
+//    		rList.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, rArray));
+//    		rList.setOnItemClickListener(new OnItemClickListener() {
+//    			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//    				String res = (String)parent.getItemAtPosition(position);
+//    				openResource(res);
+//    			}
+//    		});    		
+////    		ResourcesAdapter rAdapter = new ResourcesAdapter(context, android.R.layout.simple_list_item_1, rArray);
+////    		rList.setAdapter(rAdapter);
+//        	
+//        	
+//            // inflate the layout for this fragment
+//            return resourcesFragmentView;
+//        }
+//    }
     
     
     

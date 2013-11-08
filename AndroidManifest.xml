@@ -19,35 +19,40 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
             android:screenOrientation="landscape" >
-            <intent-filter>
+<!--             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter> -->
         </activity>
         <activity
             android:name=".SetupVisitActivity"
             android:label="@string/title_activity_setup_visit"
             android:screenOrientation="landscape" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity> 
         <activity
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"
             android:screenOrientation="landscape" >
             <intent-filter>
-<!--                 <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" /> -->
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ServiceOverviewActivity"
+            android:label="@string/title_activity_service_overview"
+            android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name=".ServiceDeliveryActivity"
             android:label="@string/title_activity_service_delivery"
             android:screenOrientation="landscape" >
         </activity>
+		<activity
+            android:name=".HealthOverviewActivity"
+            android:label="@string/title_activity_health_overview"
+            android:screenOrientation="landscape" >
+        </activity>        
         <activity
             android:name=".HealthDetailsActivity"
             android:label="@string/title_activity_health_details"

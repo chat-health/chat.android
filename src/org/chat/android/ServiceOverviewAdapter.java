@@ -17,11 +17,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class ServicesOverviewAdapter extends ArrayAdapter<String> {
+public class ServiceOverviewAdapter extends ArrayAdapter<String> {
 	private LayoutInflater mInflater;
     private ArrayList<String> servicesArray;
 
-    public ServicesOverviewAdapter(Context context, int layoutResourceId, ArrayList<String> servicesArray) {
+    public ServiceOverviewAdapter(Context context, int layoutResourceId, ArrayList<String> servicesArray) {
         super(context, layoutResourceId, servicesArray);
 
         this.mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -33,7 +33,7 @@ public class ServicesOverviewAdapter extends ArrayAdapter<String> {
 	 * list item will look.
 	 */
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = this.mInflater.inflate(R.layout.services_overview_listview_row, null);
+        convertView = this.mInflater.inflate(R.layout.service_overview_listview_row, null);
         
         String s = servicesArray.get(position);
         
