@@ -4,13 +4,13 @@
     android:layout_height="match_parent"
     android:padding="20dp" >
 
-<!--         <ListView
+         <ListView
             android:id="@+id/service_overview_listview"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_marginBottom="35dp"
             android:background="@drawable/drawable_blue_border"
-            android:padding="10dp" /> -->
+            android:padding="10dp" />
 
 <!-- 	    <Button    START HERE
 	        android:id="@+id/service_subtype_1"
