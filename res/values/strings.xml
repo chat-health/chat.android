@@ -8,7 +8,7 @@
     <string name="attendance_title_text">CHECK OFF NAMES OF CLIENTS WHO ARE PRESENT TODAY</string>
     <!-- get the naming consistent on all of these -->
     
-    <string name="title_activity_main">CHAT</string>
+    <string name="title_activity_main">CHAT test</string>
     <string name="title_activity_home">CHAT</string>
     <string name="title_activity_pick_video">CHAT > VIDEOS</string>
     <string name="title_activity_pick_form">CHAT > FORMS</string>

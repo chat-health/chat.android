@@ -20,8 +20,8 @@
         <item name="android:background">#33CCCC</item>	    
 	</style>
 	
-	<style name="attendanceBox">
-	    <item name="android:layout_width">600dp</item>
+	<style name="homeContainer">
+	    <item name="android:layout_width">500dp</item>
 	    <item name="android:layout_height">600dp</item>
 	    <item name="android:padding">25dp</item>
 	</style>

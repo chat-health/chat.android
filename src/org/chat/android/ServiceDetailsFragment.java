@@ -56,7 +56,7 @@ public class ServiceDetailsFragment extends Fragment {
         int visitId = ((ServiceDeliveryActivity)getActivity()).visitId;
         int hhId = ((ServiceDeliveryActivity)getActivity()).hhId;
 
-		View serviceDetailsFragment = inflater.inflate(R.layout.fragment_attendance, container, false);
+		View serviceDetailsFragment = inflater.inflate(R.layout.activity_home, container, false);
 		ListView lv = (ListView) serviceDetailsFragment.findViewById(R.id.attendance_listview);
 		Context context = getActivity();
 		

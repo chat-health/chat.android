@@ -51,7 +51,7 @@ public class ServiceOverviewActivity extends Activity {
 		
 		
 		// SERVICES LIST
-		ListView sList = (ListView) findViewById(R.id.service_overview_listview);
+		// ListView sList = (ListView) findViewById(R.id.service_overview_listview);
 
 		// display the list of types of services based on the user's role
 		String[] serviceTypes;
