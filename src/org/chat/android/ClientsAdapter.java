@@ -33,12 +33,13 @@ import android.widget.Toast;
 public class ClientsAdapter extends ArrayAdapter<Client> {
 	private LayoutInflater mInflater;
     private List<Client> clientsArray;
-    private int visitId = 0;;
+    private int visitId = 0;
 
 //    public ClientsAdapter(Context context, int layoutResourceId, int checkboxId, List<Client> clientsArray) {
 //        super(context, layoutResourceId, checkboxId, clientsArray);
-    public ClientsAdapter(Context context, int layoutResourceId, List<Client> clientsArray) {
+    public ClientsAdapter(Context context, int layoutResourceId, List<Client> clientsArray, int vId) {
         super(context, layoutResourceId, clientsArray);
+        visitId = vId;
         this.mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.clientsArray = clientsArray;
     }
@@ -68,6 +69,7 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
         
         CheckBox cb = (CheckBox) convertView.findViewById(R.id.checkbox);
         
+        // check all boxes for hh members that are already marked as present for this visit        
 		List<Attendance> cpList = new ArrayList<Attendance>();
         Dao<Attendance, Integer> cpDao;
         DatabaseHelper cpHelper = new DatabaseHelper(context);
@@ -84,7 +86,7 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
 			e.printStackTrace();
 		}        
         
-        // add the current client object to the checkbox and set up the listener to save to the Attendace obj
+        // add the current client object to the checkbox and set up the listener to save to the Attendance obj
         cb.setTag(c);
         cb.setOnClickListener(new View.OnClickListener() {
             @Override

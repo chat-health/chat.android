@@ -15,17 +15,10 @@
         <TextView
             android:id="@+id/attendance_list_title_field"
             style="@style/titleText"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:gravity="center"
-            android:text="@string/attendance_title_text" />
-
+            android:text="@string/home_attendance_title_text" />
         <View
-            android:layout_width="fill_parent"
-            android:layout_height="2dp"
-            android:layout_below="@id/attendance_list_title_field"
-            android:background="#999999" />
-
+            style="@style/titleDivider"
+            android:layout_below="@id/attendance_list_title_field" />
         <ListView
             android:id="@+id/attendance_listview"
             android:layout_width="fill_parent"
@@ -33,7 +26,6 @@
             android:layout_below="@id/attendance_list_title_field"
             android:choiceMode="multipleChoice"
             android:padding="10dp" />
-        
 	   	<Button
 	        android:id="@+id/attendance_submission_button"
 	        android:layout_width="wrap_content"
@@ -48,32 +40,64 @@
 
     </RelativeLayout>
     
-    <LinearLayout
+    <RelativeLayout
         style="@style/homeContainer"
         android:layout_centerVertical="true"
 		android:layout_alignParentRight="true"
 		android:layout_marginRight="100dp"
         android:background="#FFFFFF" >
  
-<!--         <ImageView
-	        android:id="@+id/image_video_1"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:contentDescription="@string/button_video_1_text"
+        <TextView
+            android:id="@+id/services_title_text"
+            style="@style/titleText"
+            android:text="@string/home_services_title_text" />
+        <View
+            style="@style/titleDivider"
+            android:layout_below="@id/services_title_text" />
+        <ImageView
+	        android:id="@+id/services_button_img"
+	        style="@style/topicImage"
+	        android:layout_below="@id/services_title_text"
+	        android:layout_marginTop="20dp"
 	        android:src="@drawable/children_play_screenshot"
 	        android:onClick="openServiceOverview" />
-        	<ImageButton
-                android:id="@+id/button_video_1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/image_video_1"
-                android:background="@null"
-                android:contentDescription="@string/button_video_1_text"
-                android:src="@drawable/children_play_btn_zulu"
-                android:onClick="openServiceOverview" /> -->
+       	<ImageButton
+       	    android:id="@+id/services_button"
+       	    style="@style/topicImageButton"
+       	    android:layout_alignTop="@+id/services_button_img"
+       	    android:layout_toRightOf="@+id/services_button_img"
+       	    android:layout_marginLeft="60dp"
+       	    android:layout_marginTop="40dp"
+       	    android:onClick="openServiceOverview"
+       	    android:src="@drawable/children_play_btn_zulu" />        
         
-        
-	   	<Button
+       	<TextView
+            android:id="@+id/health_education_title_text"
+            style="@style/titleText"
+            android:layout_marginTop="275dp"
+            android:text="@string/home_health_education_title_text" />
+        <View
+            style="@style/titleDivider"
+            android:layout_below="@id/health_education_title_text" />
+        <ImageView
+	        android:id="@+id/health_education_button_img"
+	        style="@style/topicImage"
+	        android:layout_below="@id/health_education_title_text"
+	        android:layout_marginTop="20dp"
+	        android:src="@drawable/children_play_screenshot"
+	        android:onClick="openHealthOverview" />
+       	<ImageButton
+       	    android:id="@+id/health_education_button"
+       	    style="@style/topicImageButton"
+       	    android:layout_alignTop="@+id/health_education_button_img"
+       	    android:layout_toRightOf="@+id/health_education_button_img"
+       	    android:layout_marginLeft="60dp"
+       	    android:layout_marginTop="40dp"
+       	    android:onClick="openHealthOverview"
+       	    android:src="@drawable/children_play_btn_zulu" />   
+       	    
+<!-- 	button_video_1   	
+		<Button
 	        android:id="@+id/services_button"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
@@ -88,8 +112,10 @@
 		    android:paddingLeft="32dp"
 		    android:paddingRight="32dp"
 		    android:onClick="openHealthOverview"
-		    android:text="Health Education" />
+		    android:text="Health Education" /> -->
+
+
 		
-	</LinearLayout>
+	</RelativeLayout>
 	
 </RelativeLayout>

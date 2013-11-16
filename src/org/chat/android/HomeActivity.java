@@ -46,6 +46,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.text.format.Time;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -74,6 +75,8 @@ public class HomeActivity extends Activity {
 	public int workerId = 0;
 	public int visitId = 0;
 	public int hhId = 0;
+	
+	public ListView lv = null;
 	
 	// step aside I am here on official sync adapter business
 	// Constants
@@ -117,9 +120,9 @@ public class HomeActivity extends Activity {
 			e.printStackTrace();
 		}
         
-        ListView lv = (ListView) findViewById(R.id.attendance_listview);
+        lv = (ListView) findViewById(R.id.attendance_listview);
     	//ClientsAdapter adapter = new ClientsAdapter(context, android.R.layout.simple_list_item_multiple_choice, R.id.checkbox, hhCList);
-        ClientsAdapter adapter = new ClientsAdapter(context, android.R.layout.simple_list_item_multiple_choice, hhCList);
+        ClientsAdapter adapter = new ClientsAdapter(context, android.R.layout.simple_list_item_multiple_choice, hhCList, visitId);
         lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         lv.setAdapter(adapter);
         
@@ -132,6 +135,10 @@ public class HomeActivity extends Activity {
     public void submitAttendance(View v) {
     	Button b = (Button)v;
         String bText = b.getText().toString();
+        
+        //ListView lv = (ListView) findViewById(R.id.attendance_listview);
+        //final SparseBooleanArray checkedItems = lv.getCheckedItemPositions();
+          
         if (bText.equals("Done")) {
         	Toast.makeText(getApplicationContext(),"Attendance submitted",Toast.LENGTH_LONG).show();
         	b.setText("Update");

@@ -5,7 +5,10 @@
     <string name="menu_sync">Sync</string>
     <string name="menu_logout">Logout</string>
     
-    <string name="attendance_title_text">CHECK OFF NAMES OF CLIENTS WHO ARE PRESENT TODAY</string>
+    <string name="home_attendance_title_text">Attendance</string>
+    <string name="home_services_title_text">Services</string>
+    <string name="home_health_education_title_text">Health Education</string>
+    
     <!-- get the naming consistent on all of these -->
     
     <string name="title_activity_main">CHAT test</string>
@@ -25,6 +28,7 @@
     <string name="button_video_4_text">Play video 4</string>
 
     
+    
     <!-- preceeding may need editing -->
     <string name="action_submit_note">Submit note</string>
     <string name="action_service_delivered"><b>Confirm</b></string>
@@ -37,5 +41,7 @@
         <item>Nurse</item>
     </string-array>
     
+    <!-- TODO -->
+    <string name="generic_img_button_text">Image button</string>
     
 </resources>
