@@ -29,10 +29,22 @@
         <ListView
             android:id="@+id/attendance_listview"
             android:layout_width="fill_parent"
-            android:layout_height="460dp"
+            android:layout_height="400dp"
             android:layout_below="@id/attendance_list_title_field"
             android:choiceMode="multipleChoice"
             android:padding="10dp" />
+        
+	   	<Button
+	        android:id="@+id/attendance_submission_button"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentBottom="true"
+	        android:layout_centerHorizontal="true"
+	        android:layout_marginBottom="20dp"
+	        android:paddingLeft="32dp"
+	        android:paddingRight="32dp"
+	        android:onClick="submitAttendance"
+	        android:text="Done" />        
 
     </RelativeLayout>
     
@@ -42,7 +54,25 @@
 		android:layout_alignParentRight="true"
 		android:layout_marginRight="100dp"
         android:background="#FFFFFF" >
-    
+ 
+<!--         <ImageView
+	        android:id="@+id/image_video_1"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:contentDescription="@string/button_video_1_text"
+	        android:src="@drawable/children_play_screenshot"
+	        android:onClick="openServiceOverview" />
+        	<ImageButton
+                android:id="@+id/button_video_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/image_video_1"
+                android:background="@null"
+                android:contentDescription="@string/button_video_1_text"
+                android:src="@drawable/children_play_btn_zulu"
+                android:onClick="openServiceOverview" /> -->
+        
+        
 	   	<Button
 	        android:id="@+id/services_button"
 	        android:layout_width="wrap_content"

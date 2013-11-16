@@ -1,3 +1,5 @@
+// TODO: make the entire line clickable instead of just the checkbox
+
 package org.chat.android;
 
 import static org.chat.android.R.id.client_name;
@@ -33,13 +35,12 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
     private List<Client> clientsArray;
     private int visitId = 0;;
 
-    public ClientsAdapter(Context context, int layoutResourceId, int checkboxId, List<Client> clientsArray, int vId) {
-        super(context, layoutResourceId, checkboxId, clientsArray);
-
+//    public ClientsAdapter(Context context, int layoutResourceId, int checkboxId, List<Client> clientsArray) {
+//        super(context, layoutResourceId, checkboxId, clientsArray);
+    public ClientsAdapter(Context context, int layoutResourceId, List<Client> clientsArray) {
+        super(context, layoutResourceId, clientsArray);
         this.mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.clientsArray = clientsArray;
-        
-        visitId = vId;
     }
 
     /*
@@ -116,12 +117,9 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
 					  // TODO Auto-generated catch block
 					  e.printStackTrace();
 				    }
-                	
                 }
-
-
             }
-         });  
+        });  
         
         return convertView;
     }

@@ -89,45 +89,59 @@ public class HomeActivity extends Activity {
     @Override    
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Context context = getApplicationContext();
+        setContentView(R.layout.activity_home);
         
         //FOR TESTING, SWITCH FOR PROD
 		//Bundle b = getIntent().getExtras();
 		//setupVisitObject(b.getString("hhName"), b.getString("workerName"), b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));				
 		//setupVisitObject(b.getString("hhName"), "colin", b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));
-        setupVisitObject("household1", "colin", "someworker", "home", 11.11, 12.12);
-
-        setContentView(R.layout.activity_home);
+        setupVisitObject("John Doe", "colin", "someworker", "home", 11.11, 12.12);     
+    	
+    	List<Client> cList = new ArrayList<Client>();
+    	// get visit object and get the family, then use that to select TODO: yuck - FIXME (figure out the proper selector with ORM layer)
+        List<Client> hhCList = new ArrayList<Client>();
+        Dao<Client, Integer> clientDao;
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
+        try {
+			clientDao = dbHelper.getClientsDao();
+			cList = clientDao.query(clientDao.queryBuilder().prepare());
+        	for (Client c : cList) {
+        		if (c.getHhId() == visit.getHhId()) {
+        			hhCList.add(c);
+        		}
+        		Log.d("el test", c.getFirstName());
+        	}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        ListView lv = (ListView) findViewById(R.id.attendance_listview);
+    	//ClientsAdapter adapter = new ClientsAdapter(context, android.R.layout.simple_list_item_multiple_choice, R.id.checkbox, hhCList);
+        ClientsAdapter adapter = new ClientsAdapter(context, android.R.layout.simple_list_item_multiple_choice, hhCList);
+        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        lv.setAdapter(adapter);
+        
         
         // Create the dummy account (needed for sync adapter)
         mAccount = CreateSyncAccount(this);
- 
-//        ActionBar actionbar = getActionBar();
-//        actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-//        ActionBar.Tab AttendanceTab = actionbar.newTab().setText("Attendance");
-//        ActionBar.Tab ServicesTab = actionbar.newTab().setText("Services");
-//        ActionBar.Tab HealthEducationTab = actionbar.newTab().setText("Health Education");
-//        ActionBar.Tab ResourcesTab = actionbar.newTab().setText("Resources");
-// 
-//        // creating the four fragments we want to use for display content
-//        Fragment AttendanceFragment = new AttendanceFragment();
-//        Fragment ServicesFragment = new ServicesFragment();
-//        Fragment HealthEducationFragment = new HealthEducationFragment();
-//        Fragment ResourcesFragment = new ResourcesFragment();
-// 
-//        // setting up the tab click listeners
-//        AttendanceTab.setTabListener(new MyTabsListener(AttendanceFragment));
-//        ServicesTab.setTabListener(new MyTabsListener(ServicesFragment));
-//        HealthEducationTab.setTabListener(new MyTabsListener(HealthEducationFragment));
-//        ResourcesTab.setTabListener(new MyTabsListener(ResourcesFragment));
-// 
-//        // adding the two tabs to the actionbar
-//        actionbar.addTab(AttendanceTab);
-//        actionbar.addTab(ServicesTab);
-//        actionbar.addTab(HealthEducationTab);
-//        actionbar.addTab(ResourcesTab);
        
     }
     
+    public void submitAttendance(View v) {
+    	Button b = (Button)v;
+        String bText = b.getText().toString();
+        if (bText.equals("Done")) {
+        	Toast.makeText(getApplicationContext(),"Attendance submitted",Toast.LENGTH_LONG).show();
+        	b.setText("Update");
+        	// TODO submit attendance
+        	// TODO set attendance submitted flag? (create flag obv)
+        } else {
+        	Toast.makeText(getApplicationContext(),"Attendance updated",Toast.LENGTH_LONG).show();
+        }
+
+    }
     
     public void openServiceOverview(View v) {
     	Intent i = new Intent(HomeActivity.this, ServiceOverviewActivity.class);
@@ -147,39 +161,39 @@ public class HomeActivity extends Activity {
     ////////// ATTENDANCE TAB //////////
 //    public class AttendanceFragment extends Fragment {
 //        @Override
-//        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        	View attendanceFragmentView = inflater.inflate(R.layout.fragment_attendance, container, false);
-//        	ListView lv = (ListView) attendanceFragmentView.findViewById(R.id.attendance_listview);
-//        	Context context = getActivity();
-//        	
-//        	List<Client> cList = new ArrayList<Client>();
-//        	
-//        	// get visit object and get the family, then use that to select TODO: yuck - FIXME (figure out the proper selector with ORM layer)
-//            List<Client> hhCList = new ArrayList<Client>();
-//            
-//            Dao<Client, Integer> clientDao;
-//            DatabaseHelper dbHelper = new DatabaseHelper(context);
-//            try {
-//				clientDao = dbHelper.getClientsDao();
-//				cList = clientDao.query(clientDao.queryBuilder().prepare());
-//	        	for (Client c : cList) {
-//	        		if (c.getHhId() == visit.getHhId()) {
-//	        			hhCList.add(c);
-//	        		}
-//	        		Log.d("el test", c.getFirstName());
-//	        	}
-//			} catch (SQLException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//    	View attendanceFragmentView = inflater.inflate(R.layout.activity_home, container, false);
+//    	ListView lv = (ListView) attendanceFragmentView.findViewById(R.id.attendance_listview);
+//    	Context context = getApplicationContext();
+//    	
+//    	List<Client> cList = new ArrayList<Client>();
+//    	
+//    	// get visit object and get the family, then use that to select TODO: yuck - FIXME (figure out the proper selector with ORM layer)
+//        List<Client> hhCList = new ArrayList<Client>();
+//        
+//        Dao<Client, Integer> clientDao;
+//        DatabaseHelper dbHelper = new DatabaseHelper(context);
+//        try {
+//			clientDao = dbHelper.getClientsDao();
+//			cList = clientDao.query(clientDao.queryBuilder().prepare());
+//        	for (Client c : cList) {
+//        		if (c.getHhId() == visit.getHhId()) {
+//        			hhCList.add(c);
+//        		}
+//        		Log.d("el test", c.getFirstName());
+//        	}
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 //
-//        	ClientsAdapter adapter = new ClientsAdapter(context, android.R.layout.simple_list_item_multiple_choice, R.id.checkbox, hhCList, visitId);
-//            lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-//            lv.setAdapter(adapter);
-//            
-//            // inflate the layout for this fragment
-//            return attendanceFragmentView;
-//        }
+//    	ClientsAdapter adapter = new ClientsAdapter(context, android.R.layout.simple_list_item_multiple_choice, R.id.checkbox, hhCList, visitId);
+//        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+//        lv.setAdapter(adapter);
+//        
+//        // inflate the layout for this fragment
+//        return attendanceFragmentView;
+//    }
 //             
 //    }
 //    
@@ -225,27 +239,6 @@ public class HomeActivity extends Activity {
 //    			}
 //    		});
 //    		
-//    		
-//    		// NOTES LIST
-//    		ListView nList = (ListView) servicesFragmentView.findViewById(R.id.notes_listview);
-//    		final ArrayList<String> nArray = new ArrayList<String>();
-//    		ServicesOverviewAdapter nAdapter = new ServicesOverviewAdapter(context, android.R.layout.simple_list_item_1, nArray);
-//    		nList.setAdapter(nAdapter);
-//    		
-//    		
-//    		// NEW NOTES
-//        	final EditText newNoteField = (EditText) servicesFragmentView.findViewById(R.id.notes_edittext);
-//        	//String newNote = newNoteField.getText().toString();
-//    		Button submitNoteBtn = (Button) servicesFragmentView.findViewById(R.id.notes_button);
-//    		submitNoteBtn.setOnClickListener(new View.OnClickListener() {
-//    			@Override
-//    			public void onClick(View v) {
-//    				String newNote = newNoteField.getText().toString();
-//    				Toast.makeText(getApplicationContext(),"Added note",Toast.LENGTH_LONG).show();
-//    				nArray.add(newNote);						// THIS MAY NEED TO GET SAVED TO THE DB
-//    				newNoteField.setText("");
-//    			}
-//    	    });
 //            
 //            // inflate the layout for this fragment
 //            return servicesFragmentView;
