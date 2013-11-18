@@ -16,23 +16,25 @@
             android:id="@+id/attendance_list_title_field"
             style="@style/titleText"
             android:text="@string/home_attendance_title_text" />
+
         <View
             style="@style/titleDivider"
             android:layout_below="@id/attendance_list_title_field" />
+
         <ListView
             android:id="@+id/attendance_listview"
             android:layout_width="fill_parent"
-            android:layout_height="400dp"
+            android:layout_height="425dp"
             android:layout_below="@id/attendance_list_title_field"
             android:choiceMode="multipleChoice"
             android:padding="10dp" />
+
 	   	<Button
 	        android:id="@+id/attendance_submission_button"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentBottom="true"
 	        android:layout_centerHorizontal="true"
-	        android:layout_marginBottom="20dp"
 	        android:paddingLeft="32dp"
 	        android:paddingRight="32dp"
 	        android:onClick="submitAttendance"

@@ -1,14 +1,15 @@
-// TODO: make the entire line clickable instead of just the checkbox
-
 package org.chat.android;
 
+import static org.chat.android.R.id.client_row;
 import static org.chat.android.R.id.client_name;
-import static org.chat.android.R.id.attendance_age;
+import static org.chat.android.R.id.client_gender;
+import static org.chat.android.R.id.client_age;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
+
 import org.chat.android.Client;
 import org.chat.android.R;
 
@@ -18,6 +19,7 @@ import com.j256.ormlite.stmt.DeleteBuilder;
 
 import android.content.Context;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,7 +28,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +38,8 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
 	private LayoutInflater mInflater;
     private List<Client> clientsArray;
     private int visitId = 0;
+    //List<String> presenceArrayList = new ArrayList<String>();
+    List<Client> presenceArrayList = new ArrayList<Client>();
 
 //    public ClientsAdapter(Context context, int layoutResourceId, int checkboxId, List<Client> clientsArray) {
 //        super(context, layoutResourceId, checkboxId, clientsArray);
@@ -54,22 +60,44 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
         
         Client c = clientsArray.get(position);
 
-        TextView tv = null;
-        TextView age;
-        TextView gender;
+        TextView name = null;
+        TextView gender = null;
+        TextView age = null;
+        CheckBox cb = null;
         if (convertView != null) {
-            tv = (TextView)convertView.findViewById(client_name);
-            tv.setText(c.getFirstName() + " " + c.getLastName());
-            
-//            age = (TextView)convertView.findViewById(attendance_age);
-////            age.setText(calculateAge(c.getBirthday()));
-//		    age = (TextView)convertView.findViewById(attendance_age);			// TODO: temp for Thandinani gamma test run
-//		    age.setText(c.getGender());
-        }      
+            name = (TextView)convertView.findViewById(client_name);
+            name.setText(c.getFirstName() + " " + c.getLastName());
+            gender = (TextView)convertView.findViewById(client_gender);
+            gender.setText(c.getGender());
+            age = (TextView)convertView.findViewById(client_age);
+            //TODO: add ages to clients
+            age.setText(", aged 22");
+            //age.setText(", aged "+calculateAge(c.getBirthday()));
+            cb = (CheckBox) convertView.findViewById(R.id.checkbox);
+            cb.setTag(c);
+        }
         
-        CheckBox cb = (CheckBox) convertView.findViewById(R.id.checkbox);
+        LinearLayout row = (LinearLayout)convertView.findViewById(client_row);
         
-        // check all boxes for hh members that are already marked as present for this visit        
+        // hacky way to override standard Android behaviour. Checkboxes have been made unclickable in the xml. presenceArrayList holds the checked (ie attending) hh members
+        row.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+//                int id = v.getId();
+//                Log.d("ID is ", String.valueOf(id));
+                CheckBox cb = (CheckBox) v.findViewById(R.id.checkbox);
+                Client c = (Client) cb.getTag();
+                if(cb.isChecked()) {
+                	cb.setChecked(false);
+                	presenceArrayList.remove(c);
+                } else {
+                	cb.setChecked(true);
+                	presenceArrayList.add(c);             	
+                }
+
+            }
+        });
+        
+        // check all boxes for hh members that are already marked as present for this visit - TODO: confirm this still works with the presenceArrayList    
 		List<Attendance> cpList = new ArrayList<Attendance>();
         Dao<Attendance, Integer> cpDao;
         DatabaseHelper cpHelper = new DatabaseHelper(context);
@@ -79,52 +107,18 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
         	for (Attendance a : cpList) {
     			if (a.getVisitId() == visitId && a.getClientId() == c.getId()) {
     				cb.setChecked(true);
+    				presenceArrayList.add(c);
     			}
         	}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}        
-        
-        // add the current client object to the checkbox and set up the listener to save to the Attendance obj
-        cb.setTag(c);
-        cb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            	CheckBox checked = (CheckBox) v;
-                
-                // the client associated with the selected checkbox
-                Client c = (Client) checked.getTag();
-                int clientId = c.getId();
-                if (checked.isChecked() == true) {
-                    Attendance a = new Attendance(visitId, clientId);
-                    Dao<Attendance, Integer> aDao;
-                    DatabaseHelper dbHelper = new DatabaseHelper(context);
-                    try {
-                    	aDao = dbHelper.getAttendanceDao();
-                    	aDao.create(a);
-                    } catch (SQLException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }                	
-                } else {
-                    DatabaseHelper helper = OpenHelperManager.getHelper(context, DatabaseHelper.class);					// TODO: figure out more about this OpenHelperManager - could it replace the work of building everything manually in DatabaseHelper
-                    Dao aDao;
-				    try {
-					    aDao = helper.getDao(Attendance.class);
-					    DeleteBuilder<Attendance, Integer> deleteBuilder = aDao.deleteBuilder();
-					    deleteBuilder.where().eq("client_id", clientId);
-					    deleteBuilder.delete(); 
-				    } catch (SQLException e) {
-					  // TODO Auto-generated catch block
-					  e.printStackTrace();
-				    }
-                }
-            }
-        });  
-        
+		}  
+
         return convertView;
     }
+    
+
     
     private String calculateAge (GregorianCalendar dob) {
     	String age_string;
@@ -136,4 +130,8 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
     	
     	return age_string;
     }
+
+	public List<Client> getArray() {
+		return presenceArrayList;
+	}
 }

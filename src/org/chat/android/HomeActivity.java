@@ -21,6 +21,7 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.CloseableIterator;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.GenericRawResults;
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
@@ -77,6 +78,7 @@ public class HomeActivity extends Activity {
 	public int hhId = 0;
 	
 	public ListView lv = null;
+	public ClientsAdapter clAdapter = null;
 	
 	// step aside I am here on official sync adapter business
 	// Constants
@@ -113,7 +115,7 @@ public class HomeActivity extends Activity {
         		if (c.getHhId() == visit.getHhId()) {
         			hhCList.add(c);
         		}
-        		Log.d("el test", c.getFirstName());
+        		Log.d("HH members: ", c.getFirstName());
         	}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -122,9 +124,9 @@ public class HomeActivity extends Activity {
         
         lv = (ListView) findViewById(R.id.attendance_listview);
     	//ClientsAdapter adapter = new ClientsAdapter(context, android.R.layout.simple_list_item_multiple_choice, R.id.checkbox, hhCList);
-        ClientsAdapter adapter = new ClientsAdapter(context, android.R.layout.simple_list_item_multiple_choice, hhCList, visitId);
+        clAdapter = new ClientsAdapter(context, android.R.layout.simple_list_item_multiple_choice, hhCList, visitId);
         lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        lv.setAdapter(adapter);
+        lv.setAdapter(clAdapter);
         
         
         // Create the dummy account (needed for sync adapter)
@@ -136,17 +138,15 @@ public class HomeActivity extends Activity {
     	Button b = (Button)v;
         String bText = b.getText().toString();
         
-        //ListView lv = (ListView) findViewById(R.id.attendance_listview);
-        //final SparseBooleanArray checkedItems = lv.getCheckedItemPositions();
-          
         if (bText.equals("Done")) {
         	Toast.makeText(getApplicationContext(),"Attendance submitted",Toast.LENGTH_LONG).show();
         	b.setText("Update");
-        	// TODO submit attendance
-        	// TODO set attendance submitted flag? (create flag obv)
+        	saveAttendanceList();
         } else {
         	Toast.makeText(getApplicationContext(),"Attendance updated",Toast.LENGTH_LONG).show();
+        	deleteCurrentAttendance();
         }
+        
 
     }
     
@@ -163,8 +163,161 @@ public class HomeActivity extends Activity {
     	startActivity(i);
     }
 
+    public void saveAttendanceList() {
+    	//final SparseBooleanArray checkedItems = lv.getCheckedItemPositions();
+    	List<Client> pArray = clAdapter.getArray();
+    	int len = pArray.size();
+    	
+    	// TODO: need to check if this visit already has attendance saved, then overwrite as necessary - maybe ask Armin?
+    	for (int i = 0; i < len; i++) {
+    		Client c = pArray.get(i);
+        	Attendance a = new Attendance(visitId, c.getId());
+        	Dao<Attendance, Integer> aDao;
+        	DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
+        	try {
+        		aDao = dbHelper.getAttendanceDao();
+        		aDao.create(a);
+        	} catch (SQLException e) {
+        	    // TODO Auto-generated catch block
+        	    e.printStackTrace();
+        	}    	
+    	}
+    }
+
+	public void deleteCurrentAttendance() {
+    	DatabaseHelper helper = OpenHelperManager.getHelper(getApplicationContext(), DatabaseHelper.class);
+    	Dao aDao;
+	    try {
+		    aDao = helper.getDao(Attendance.class);
+		    DeleteBuilder<Attendance, Integer> deleteBuilder = aDao.deleteBuilder();
+		    deleteBuilder.where().eq("visit_id", visitId);
+		    deleteBuilder.delete(); 
+    	} catch (SQLException e) {
+    	  	// TODO Auto-generated catch block
+    	  	e.printStackTrace();
+    	} finally {
+    		saveAttendanceList();
+    	}
+	}
+    	
+
+  
+    	
+    	
+//      cb.setTag(c);
+//      cb.setOnClickListener(new View.OnClickListener() {
+//          @Override
+//          public void onClick(View v) {
+//          	CheckBox checked = (CheckBox) v;
+//              
+//              // the client associated with the selected checkbox
+//              Client c = (Client) checked.getTag();
+//              int clientId = c.getId();
+//              if (checked.isChecked() == true) {
+//                  Attendance a = new Attendance(visitId, clientId);
+//                  Dao<Attendance, Integer> aDao;
+//                  DatabaseHelper dbHelper = new DatabaseHelper(context);
+//                  try {
+//                  	aDao = dbHelper.getAttendanceDao();
+//                  	aDao.create(a);
+//                  } catch (SQLException e) {
+//                      // TODO Auto-generated catch block
+//                      e.printStackTrace();
+//                  }                	
+//              } else {
+//                  DatabaseHelper helper = OpenHelperManager.getHelper(context, DatabaseHelper.class);					// TODO: figure out more about this OpenHelperManager - could it replace the work of building everything manually in DatabaseHelper
+//                  Dao aDao;
+//				    try {
+//					    aDao = helper.getDao(Attendance.class);
+//					    DeleteBuilder<Attendance, Integer> deleteBuilder = aDao.deleteBuilder();
+//					    deleteBuilder.where().eq("client_id", clientId);
+//					    deleteBuilder.delete(); 
+//				    } catch (SQLException e) {
+//					  // TODO Auto-generated catch block
+//					  e.printStackTrace();
+//				    }
+//              }
+//          }
+//      });      	
+    	
+//    	View v = null;
+//    	CheckBox cb;
+//    	
+//    	
+//    	for (int i = 0; i < len-1; i++) {
+//    		v = lv.getAdapter().getView(i, v, lv);
+//    		cb = (CheckBox) v.findViewById(R.id.checkbox);
+//    		Log.d("Checked: ", String.valueOf(cb.getId()));
+//    	}
+
+//    	String checked = "";
+//
+//    	String unchecked = "";
+//    	SparseBooleanArray sparseBooleanArray = lv.getCheckedItemPositions();
+//    	SparseBooleanArray sarray = clAdapter.getArray();
+//
+//    	for(int i = 0; i < cntChoice; i++)
+//    	{
+//    		if(sparseBooleanArray.get(i) == true) 
+//    	    {
+//    			checked += lv.getItemAtPosition(i).toString() + "\n";
+//    	    }
+//    	    else if(sparseBooleanArray.get(i) == false) 
+//    	    {
+//    	        unchecked+= lv.getItemAtPosition(i).toString() + "\n";
+//    	    }
+//    	}    
+//    	Log.d("Checked: ", checked);
+//    	Log.d("Unchecked: ", unchecked);
     
 
+    
+    
+    
+//    cb.setTag(c);
+//    cb.setOnClickListener(new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//        	CheckBox checked = (CheckBox) v;
+//            
+//            // the client associated with the selected checkbox
+//            Client c = (Client) checked.getTag();
+//            int clientId = c.getId();
+//            if (checked.isChecked() == true) {
+//                Attendance a = new Attendance(visitId, clientId);
+//                Dao<Attendance, Integer> aDao;
+//                DatabaseHelper dbHelper = new DatabaseHelper(context);
+//                try {
+//                	aDao = dbHelper.getAttendanceDao();
+//                	aDao.create(a);
+//                } catch (SQLException e) {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }                	
+//            } else {
+//                DatabaseHelper helper = OpenHelperManager.getHelper(context, DatabaseHelper.class);					// TODO: figure out more about this OpenHelperManager - could it replace the work of building everything manually in DatabaseHelper
+//                Dao aDao;
+//			    try {
+//				    aDao = helper.getDao(Attendance.class);
+//				    DeleteBuilder<Attendance, Integer> deleteBuilder = aDao.deleteBuilder();
+//				    deleteBuilder.where().eq("client_id", clientId);
+//				    deleteBuilder.delete(); 
+//			    } catch (SQLException e) {
+//				  // TODO Auto-generated catch block
+//				  e.printStackTrace();
+//			    }
+//            }
+//        }
+//    });   
+    
+    
+    
+    
+    
+    
+    
+    
+    
     ////////// ATTENDANCE TAB //////////
 //    public class AttendanceFragment extends Fragment {
 //        @Override
