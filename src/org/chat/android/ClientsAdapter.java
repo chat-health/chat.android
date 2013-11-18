@@ -79,11 +79,9 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
         
         LinearLayout row = (LinearLayout)convertView.findViewById(client_row);
         
-        // hacky way to override standard Android behaviour. Checkboxes have been made unclickable in the xml. presenceArrayList holds the checked (ie attending) hh members
+        // hacky way to override standard Android behaviour. Checkboxes have been made unclickable in the xml. presenceArrayList holds the checked (ie attending) client objects
         row.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-//                int id = v.getId();
-//                Log.d("ID is ", String.valueOf(id));
                 CheckBox cb = (CheckBox) v.findViewById(R.id.checkbox);
                 Client c = (Client) cb.getTag();
                 if(cb.isChecked()) {
@@ -97,7 +95,7 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
             }
         });
         
-        // check all boxes for hh members that are already marked as present for this visit - TODO: confirm this still works with the presenceArrayList    
+        // check all boxes for hh members that are already marked as present for this visit (restore state, essentially)    
 		List<Attendance> cpList = new ArrayList<Attendance>();
         Dao<Attendance, Integer> cpDao;
         DatabaseHelper cpHelper = new DatabaseHelper(context);

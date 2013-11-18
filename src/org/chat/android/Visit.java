@@ -99,6 +99,11 @@ public class Visit {
 		return id;
 	}
 
+	// used for testing - should not generally be called
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	public int getHhId() {
 		return hh_id;
 	}
