@@ -56,7 +56,7 @@ public class ServiceDetailsFragment extends Fragment {
         int visitId = ((ServiceDeliveryActivity)getActivity()).visitId;
         int hhId = ((ServiceDeliveryActivity)getActivity()).hhId;
 
-		View serviceDetailsFragment = inflater.inflate(R.layout.fragment_attendance, container, false);
+		View serviceDetailsFragment = inflater.inflate(R.layout.activity_home, container, false);
 		ListView lv = (ListView) serviceDetailsFragment.findViewById(R.id.attendance_listview);
 		Context context = getActivity();
 		
@@ -106,9 +106,9 @@ public class ServiceDetailsFragment extends Fragment {
 		}
 
     	// ClientsAdapter adapter = new ClientsAdapter(context, android.R.layout.simple_list_item_multiple_choice, R.id.checkbox, cList, visitId);
-    	ClientsAdapter adapter = new ClientsAdapter(context, android.R.layout.simple_list_item_multiple_choice, R.id.checkbox, hhCList, 0);
-        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        lv.setAdapter(adapter);
+//    	ClientsAdapter adapter = new ClientsAdapter(context, android.R.layout.simple_list_item_multiple_choice, hhCList, visitId);
+//        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+//        lv.setAdapter(adapter);
         
         // inflate the layout for this fragment
         return serviceDetailsFragment;		

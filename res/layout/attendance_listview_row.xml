@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/client_row"
+    android:descendantFocusability="blocksDescendants">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -11,27 +13,34 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:padding="10dp"
-	        android:textSize="16dp" />
-
-        <CheckBox
+	        android:textSize="16sp" />
+		<CheckBox
             android:id="@+id/checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/client_name"
             android:layout_alignBottom="@+id/client_name"
             android:layout_alignParentRight="true"
+            android:clickable="false"
             android:gravity="center_vertical|right" />
-            <!-- android:onClick="attendanceRowCheckboxClicked" /> -->
-
         <TextView
-            android:id="@+id/attendance_age"
+            android:id="@+id/client_gender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="45dp"
-            android:layout_toRightOf="@+id/client_name"
-            android:textSize="16dp" />
-        
+            android:layout_marginLeft="260dp"
+            android:layout_alignParentLeft="true"
+            android:textStyle="italic"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/client_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/client_gender"
+            android:textStyle="italic"
+            android:textSize="16sp" />
+
     </RelativeLayout>
 
 </LinearLayout>

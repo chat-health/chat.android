@@ -3,22 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp" >
-
-         <ListView
-            android:id="@+id/service_overview_listview"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginBottom="35dp"
-            android:background="@drawable/drawable_blue_border"
-            android:padding="10dp" />
-
-<!-- 	    <Button    START HERE
+<!-- START HERE -->
+	    <Button
 	        android:id="@+id/service_subtype_1"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:paddingLeft="32dp"
 	        android:paddingRight="32dp"
 	        android:onClick="openServiceDelivery"
+	        android:tag="start here!"
 	        android:text="Services" />
 		<Button
 		    android:id="@+id/service_subtype_2"
@@ -44,9 +37,18 @@
 		    android:paddingLeft="32dp"
 		    android:paddingRight="32dp"
 		    android:onClick="openServiceDelivery"
-		    android:text="Health Education" />	 -->	
+		    android:text="Health Education" />
+		    
 
 <!-- 
+         <ListView
+            android:id="@+id/service_overview_listview"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginBottom="35dp"
+            android:background="@drawable/drawable_blue_border"
+            android:padding="10dp" />
+            
 	    <ListView
             android:id="@+id/notes_listview"
             android:layout_below="@id/service_overview_listview"

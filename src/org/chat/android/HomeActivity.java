@@ -21,6 +21,7 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.CloseableIterator;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.GenericRawResults;
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
@@ -46,6 +47,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.text.format.Time;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -75,6 +77,9 @@ public class HomeActivity extends Activity {
 	public int visitId = 0;
 	public int hhId = 0;
 	
+	public ListView lv = null;
+	public ClientsAdapter clAdapter = null;
+	
 	// step aside I am here on official sync adapter business
 	// Constants
     // The authority for the sync adapter's content provider
@@ -89,45 +94,61 @@ public class HomeActivity extends Activity {
     @Override    
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Context context = getApplicationContext();
+        setContentView(R.layout.activity_home);
         
         //FOR TESTING, SWITCH FOR PROD
 		//Bundle b = getIntent().getExtras();
 		//setupVisitObject(b.getString("hhName"), b.getString("workerName"), b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));				
 		//setupVisitObject(b.getString("hhName"), "colin", b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));
-        setupVisitObject("household1", "colin", "someworker", "home", 11.11, 12.12);
-
-        setContentView(R.layout.activity_home);
+        setupVisitObject("John Doe", "colin", "someworker", "home", 11.11, 12.12);     
+    	
+    	List<Client> cList = new ArrayList<Client>();
+    	// get visit object and get the family, then use that to select TODO: yuck - FIXME (figure out the proper selector with ORM layer)
+        List<Client> hhCList = new ArrayList<Client>();
+        Dao<Client, Integer> clientDao;
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
+        try {
+			clientDao = dbHelper.getClientsDao();
+			cList = clientDao.query(clientDao.queryBuilder().prepare());
+        	for (Client c : cList) {
+        		if (c.getHhId() == visit.getHhId()) {
+        			hhCList.add(c);
+        		}
+        		Log.d("HH members: ", c.getFirstName());
+        	}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        lv = (ListView) findViewById(R.id.attendance_listview);
+    	//ClientsAdapter adapter = new ClientsAdapter(context, android.R.layout.simple_list_item_multiple_choice, R.id.checkbox, hhCList);
+        clAdapter = new ClientsAdapter(context, android.R.layout.simple_list_item_multiple_choice, hhCList, visitId);
+        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        lv.setAdapter(clAdapter);
+        
         
         // Create the dummy account (needed for sync adapter)
         mAccount = CreateSyncAccount(this);
- 
-//        ActionBar actionbar = getActionBar();
-//        actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-//        ActionBar.Tab AttendanceTab = actionbar.newTab().setText("Attendance");
-//        ActionBar.Tab ServicesTab = actionbar.newTab().setText("Services");
-//        ActionBar.Tab HealthEducationTab = actionbar.newTab().setText("Health Education");
-//        ActionBar.Tab ResourcesTab = actionbar.newTab().setText("Resources");
-// 
-//        // creating the four fragments we want to use for display content
-//        Fragment AttendanceFragment = new AttendanceFragment();
-//        Fragment ServicesFragment = new ServicesFragment();
-//        Fragment HealthEducationFragment = new HealthEducationFragment();
-//        Fragment ResourcesFragment = new ResourcesFragment();
-// 
-//        // setting up the tab click listeners
-//        AttendanceTab.setTabListener(new MyTabsListener(AttendanceFragment));
-//        ServicesTab.setTabListener(new MyTabsListener(ServicesFragment));
-//        HealthEducationTab.setTabListener(new MyTabsListener(HealthEducationFragment));
-//        ResourcesTab.setTabListener(new MyTabsListener(ResourcesFragment));
-// 
-//        // adding the two tabs to the actionbar
-//        actionbar.addTab(AttendanceTab);
-//        actionbar.addTab(ServicesTab);
-//        actionbar.addTab(HealthEducationTab);
-//        actionbar.addTab(ResourcesTab);
        
     }
     
+    public void submitAttendance(View v) {
+    	Button b = (Button)v;
+        String bText = b.getText().toString();
+        
+        if (bText.equals("Done")) {
+        	Toast.makeText(getApplicationContext(),"Attendance submitted",Toast.LENGTH_LONG).show();
+        	b.setText("Update");
+        	saveAttendanceList();
+        } else {
+        	Toast.makeText(getApplicationContext(),"Attendance updated",Toast.LENGTH_LONG).show();
+        	deleteCurrentAttendance();
+        }
+        
+
+    }
     
     public void openServiceOverview(View v) {
     	Intent i = new Intent(HomeActivity.this, ServiceOverviewActivity.class);
@@ -142,47 +163,44 @@ public class HomeActivity extends Activity {
     	startActivity(i);
     }
 
-    
+    public void saveAttendanceList() {
+    	//final SparseBooleanArray checkedItems = lv.getCheckedItemPositions();
+    	List<Client> pArray = clAdapter.getArray();
+    	int len = pArray.size();
+    	
+    	// TODO: need to check if this visit already has attendance saved, then overwrite as necessary - maybe ask Armin?
+    	for (int i = 0; i < len; i++) {
+    		Client c = pArray.get(i);
+        	Attendance a = new Attendance(visitId, c.getId());
+        	Dao<Attendance, Integer> aDao;
+        	DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
+        	try {
+        		aDao = dbHelper.getAttendanceDao();
+        		aDao.create(a);
+        	} catch (SQLException e) {
+        	    // TODO Auto-generated catch block
+        	    e.printStackTrace();
+        	}    	
+    	}
+    }
 
-    ////////// ATTENDANCE TAB //////////
-//    public class AttendanceFragment extends Fragment {
-//        @Override
-//        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        	View attendanceFragmentView = inflater.inflate(R.layout.fragment_attendance, container, false);
-//        	ListView lv = (ListView) attendanceFragmentView.findViewById(R.id.attendance_listview);
-//        	Context context = getActivity();
-//        	
-//        	List<Client> cList = new ArrayList<Client>();
-//        	
-//        	// get visit object and get the family, then use that to select TODO: yuck - FIXME (figure out the proper selector with ORM layer)
-//            List<Client> hhCList = new ArrayList<Client>();
-//            
-//            Dao<Client, Integer> clientDao;
-//            DatabaseHelper dbHelper = new DatabaseHelper(context);
-//            try {
-//				clientDao = dbHelper.getClientsDao();
-//				cList = clientDao.query(clientDao.queryBuilder().prepare());
-//	        	for (Client c : cList) {
-//	        		if (c.getHhId() == visit.getHhId()) {
-//	        			hhCList.add(c);
-//	        		}
-//	        		Log.d("el test", c.getFirstName());
-//	        	}
-//			} catch (SQLException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//
-//        	ClientsAdapter adapter = new ClientsAdapter(context, android.R.layout.simple_list_item_multiple_choice, R.id.checkbox, hhCList, visitId);
-//            lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-//            lv.setAdapter(adapter);
-//            
-//            // inflate the layout for this fragment
-//            return attendanceFragmentView;
-//        }
-//             
-//    }
-//    
+	public void deleteCurrentAttendance() {
+    	DatabaseHelper helper = OpenHelperManager.getHelper(getApplicationContext(), DatabaseHelper.class);
+    	Dao aDao;
+	    try {
+		    aDao = helper.getDao(Attendance.class);
+		    DeleteBuilder<Attendance, Integer> deleteBuilder = aDao.deleteBuilder();
+		    deleteBuilder.where().eq("visit_id", visitId);
+		    deleteBuilder.delete(); 
+    	} catch (SQLException e) {
+    	  	// TODO Auto-generated catch block
+    	  	e.printStackTrace();
+    	} finally {
+    		saveAttendanceList();
+    	}
+	}
+    	
+
 //    ////////// SERVICES TAB //////////
 //    public class ServicesFragment extends Fragment {
 //        @Override
@@ -225,27 +243,6 @@ public class HomeActivity extends Activity {
 //    			}
 //    		});
 //    		
-//    		
-//    		// NOTES LIST
-//    		ListView nList = (ListView) servicesFragmentView.findViewById(R.id.notes_listview);
-//    		final ArrayList<String> nArray = new ArrayList<String>();
-//    		ServicesOverviewAdapter nAdapter = new ServicesOverviewAdapter(context, android.R.layout.simple_list_item_1, nArray);
-//    		nList.setAdapter(nAdapter);
-//    		
-//    		
-//    		// NEW NOTES
-//        	final EditText newNoteField = (EditText) servicesFragmentView.findViewById(R.id.notes_edittext);
-//        	//String newNote = newNoteField.getText().toString();
-//    		Button submitNoteBtn = (Button) servicesFragmentView.findViewById(R.id.notes_button);
-//    		submitNoteBtn.setOnClickListener(new View.OnClickListener() {
-//    			@Override
-//    			public void onClick(View v) {
-//    				String newNote = newNoteField.getText().toString();
-//    				Toast.makeText(getApplicationContext(),"Added note",Toast.LENGTH_LONG).show();
-//    				nArray.add(newNote);						// THIS MAY NEED TO GET SAVED TO THE DB
-//    				newNoteField.setText("");
-//    			}
-//    	    });
 //            
 //            // inflate the layout for this fragment
 //            return servicesFragmentView;
