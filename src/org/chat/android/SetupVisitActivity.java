@@ -46,7 +46,7 @@ public class SetupVisitActivity extends Activity {
 		if (role.equals(roleArray[0])) {
 			typeArrayAdapter = ArrayAdapter.createFromResource(this, R.array.volunteer_visit_type_array, android.R.layout.simple_spinner_item);
 		} else if (role.equals(roleArray[1])) {
-			typeArrayAdapter = ArrayAdapter.createFromResource(this, R.array.councelor_visit_type_array, android.R.layout.simple_spinner_item);
+			typeArrayAdapter = ArrayAdapter.createFromResource(this, R.array.counsellor_visit_type_array, android.R.layout.simple_spinner_item);
 		} else {
 			// TODO: expand? Also add proper error here
 			typeArrayAdapter = ArrayAdapter.createFromResource(this, R.array.volunteer_visit_type_array, android.R.layout.simple_spinner_item);
