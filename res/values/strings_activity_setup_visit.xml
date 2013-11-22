@@ -9,7 +9,11 @@
         <item>Home Visit</item>
         <item>School Visit</item>
     </string-array>
-    <string-array name="councelor_visit_type_array">
+    <string-array name="counsellor_visit_type_array">
+        <item>Some stuff</item>
+        <item>Some other stuff</item>
+    </string-array>
+    <string-array name="welfare_visit_type_array">
         <item>Some stuff</item>
         <item>Some other stuff</item>
     </string-array>

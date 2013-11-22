@@ -101,7 +101,7 @@ public class HomeActivity extends Activity {
 		//Bundle b = getIntent().getExtras();
 		//setupVisitObject(b.getString("hhName"), b.getString("workerName"), b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));				
 		//setupVisitObject(b.getString("hhName"), "colin", b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));
-        setupVisitObject("John Doe", "colin", "someworker", "home", 11.11, 12.12);     
+        setupVisitObject("John Doe", "colin", "Home Care Volunteer", "home", 11.11, 12.12);     
     	
     	List<Client> cList = new ArrayList<Client>();
     	// get visit object and get the family, then use that to select TODO: yuck - FIXME (figure out the proper selector with ORM layer)
@@ -128,10 +128,8 @@ public class HomeActivity extends Activity {
         lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         lv.setAdapter(clAdapter);
         
-        
         // Create the dummy account (needed for sync adapter)
         mAccount = CreateSyncAccount(this);
-       
     }
     
     public void submitAttendance(View v) {
@@ -144,10 +142,8 @@ public class HomeActivity extends Activity {
         	saveAttendanceList();
         } else {
         	Toast.makeText(getApplicationContext(),"Attendance updated",Toast.LENGTH_LONG).show();
-        	deleteCurrentAttendance();
+        	deleteCurrentAttendance();			// saveAttendanceList() is called from the finally in deleteCurrentAttendance()
         }
-        
-
     }
     
     public void openServiceOverview(View v) {
@@ -163,93 +159,10 @@ public class HomeActivity extends Activity {
     	startActivity(i);
     }
 
-    public void saveAttendanceList() {
-    	//final SparseBooleanArray checkedItems = lv.getCheckedItemPositions();
-    	List<Client> pArray = clAdapter.getArray();
-    	int len = pArray.size();
-    	
-    	// TODO: need to check if this visit already has attendance saved, then overwrite as necessary - maybe ask Armin?
-    	for (int i = 0; i < len; i++) {
-    		Client c = pArray.get(i);
-        	Attendance a = new Attendance(visitId, c.getId());
-        	Dao<Attendance, Integer> aDao;
-        	DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
-        	try {
-        		aDao = dbHelper.getAttendanceDao();
-        		aDao.create(a);
-        	} catch (SQLException e) {
-        	    // TODO Auto-generated catch block
-        	    e.printStackTrace();
-        	}    	
-    	}
-    }
 
-	public void deleteCurrentAttendance() {
-    	DatabaseHelper helper = OpenHelperManager.getHelper(getApplicationContext(), DatabaseHelper.class);
-    	Dao aDao;
-	    try {
-		    aDao = helper.getDao(Attendance.class);
-		    DeleteBuilder<Attendance, Integer> deleteBuilder = aDao.deleteBuilder();
-		    deleteBuilder.where().eq("visit_id", visitId);
-		    deleteBuilder.delete(); 
-    	} catch (SQLException e) {
-    	  	// TODO Auto-generated catch block
-    	  	e.printStackTrace();
-    	} finally {
-    		saveAttendanceList();
-    	}
-	}
     	
 
-//    ////////// SERVICES TAB //////////
-//    public class ServicesFragment extends Fragment {
-//        @Override
-//        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        	View servicesFragmentView = inflater.inflate(R.layout.fragment_services_overview, container, false);
-//        	Context context = getActivity();
-//
-//        	
-//    		// SERVICES LIST
-//        	ListView sList = (ListView) servicesFragmentView.findViewById(R.id.services_overview_listview);
-//
-//        	// display the list of types of services based on the user's role (visit.getRole()) - we need to be careful that the visit object is in sync btw this and the DB. Think about this more!
-//        	String[] serviceTypes;
-//        	String[] roleArray = getResources().getStringArray(R.array.role_array);
-//        	if (visit.getRole().equals(roleArray[0])) {
-//        		serviceTypes = getResources().getStringArray(R.array.volunteer_service_type_array);
-//        	} else if (visit.getRole().equals(roleArray[1])) {
-//        		serviceTypes = getResources().getStringArray(R.array.councelor_service_type_array);
-//        	} else {
-//        		// TODO: expand me? Also throw a proper error here
-//        		serviceTypes = getResources().getStringArray(R.array.volunteer_service_type_array);
-//        		Toast.makeText(getApplicationContext(),"Role is undefined",Toast.LENGTH_LONG).show();
-//        	}		
-//        	ArrayList<String> sArray = new ArrayList<String>(Arrays.asList(serviceTypes));
-//
-//        	ServicesOverviewAdapter sAdapter = new ServicesOverviewAdapter(context, android.R.layout.simple_list_item_1, sArray);
-//            sList.setAdapter(sAdapter);
-//    		sList.setOnItemClickListener(new OnItemClickListener() {
-//    			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//    				String serviceCategory = (String)parent.getItemAtPosition(position);
-//    				Toast.makeText(getApplicationContext(), serviceCategory, Toast.LENGTH_SHORT).show();
-//    				Intent i = new Intent(HomeActivity.this, ServiceDeliveryActivity.class);
-//    				// TODO: again, decide if maybe we want to just re-grab this stuff from the DB instead of passing it? If no, we may to need a bunch more stuff bundled in
-//    				Bundle b = new Bundle();
-//    				b.putString("serviceCategory",serviceCategory);
-//    				b.putInt("visitId", visitId);
-//    				b.putInt("hhId", visit.getHhId());						// for convenience, would be cleaner to remove
-//    				i.putExtras(b);
-//					startActivity(i);
-//    			}
-//    		});
-//    		
-//            
-//            // inflate the layout for this fragment
-//            return servicesFragmentView;
-//        }
-//    }
-//    
-//
+
 //    
 //    ////////// HEALTH EDUCATION TAB //////////
 //    public class HealthEducationFragment extends Fragment {
@@ -377,6 +290,43 @@ public class HomeActivity extends Activity {
 		
 	}
     
+    
+    public void saveAttendanceList() {
+    	//final SparseBooleanArray checkedItems = lv.getCheckedItemPositions();
+    	List<Client> pArray = clAdapter.getArray();
+    	int len = pArray.size();
+    	
+    	// TODO: need to check if this visit already has attendance saved, then overwrite as necessary - maybe ask Armin?
+    	for (int i = 0; i < len; i++) {
+    		Client c = pArray.get(i);
+        	Attendance a = new Attendance(visitId, c.getId());
+        	Dao<Attendance, Integer> aDao;
+        	DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
+        	try {
+        		aDao = dbHelper.getAttendanceDao();
+        		aDao.create(a);
+        	} catch (SQLException e) {
+        	    // TODO Auto-generated catch block
+        	    e.printStackTrace();
+        	}    	
+    	}
+    }
+
+	public void deleteCurrentAttendance() {
+    	DatabaseHelper helper = OpenHelperManager.getHelper(getApplicationContext(), DatabaseHelper.class);
+    	Dao aDao;
+	    try {
+		    aDao = helper.getDao(Attendance.class);
+		    DeleteBuilder<Attendance, Integer> deleteBuilder = aDao.deleteBuilder();
+		    deleteBuilder.where().eq("visit_id", visitId);
+		    deleteBuilder.delete(); 
+    	} catch (SQLException e) {
+    	  	// TODO Auto-generated catch block
+    	  	e.printStackTrace();
+    	} finally {
+    		saveAttendanceList();
+    	}
+	}    
     
     public void openResource(String r) {
     	// determining path to sdcard (readable by video player)
@@ -517,7 +467,7 @@ public class HomeActivity extends Activity {
         byte[] buffer = new byte[1024];
         int read;
         while((read = in.read(buffer)) != -1){
-          out.write(buffer, 0, read);
+        	out.write(buffer, 0, read);
         }
     }
     
