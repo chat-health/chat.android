@@ -99,61 +99,7 @@ public class ServiceOverviewActivity extends Activity {
     	b.putInt("visitId",visitId);
     	b.putString("subtype",subtype);
     	i.putExtras(b);
-    	startActivity(i);			// START HERE: get the delivery activity working, clean up the rest of the caudal code (fragments, etc)
+    	startActivity(i);
 	}
 	
 }
-
-
-
-
-
-//////////// SERVICES TAB //////////
-//public class ServicesFragment extends Fragment {
-//  @Override
-//  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//  	View servicesFragmentView = inflater.inflate(R.layout.fragment_services_overview, container, false);
-//  	Context context = getActivity();
-//
-//  	
-//		// SERVICES LIST
-//  	ListView sList = (ListView) servicesFragmentView.findViewById(R.id.services_overview_listview);
-//
-//  	// display the list of types of services based on the user's role (visit.getRole()) - we need to be careful that the visit object is in sync btw this and the DB. Think about this more!
-//  	String[] serviceTypes;
-//  	String[] roleArray = getResources().getStringArray(R.array.role_array);
-//  	if (visit.getRole().equals(roleArray[0])) {
-//  		serviceTypes = getResources().getStringArray(R.array.volunteer_service_type_array);
-//  	} else if (visit.getRole().equals(roleArray[1])) {
-//  		serviceTypes = getResources().getStringArray(R.array.councelor_service_type_array);
-//  	} else {
-//  		// TODO: expand me? Also throw a proper error here
-//  		serviceTypes = getResources().getStringArray(R.array.volunteer_service_type_array);
-//  		Toast.makeText(getApplicationContext(),"Role is undefined",Toast.LENGTH_LONG).show();
-//  	}		
-//  	ArrayList<String> sArray = new ArrayList<String>(Arrays.asList(serviceTypes));
-//
-//  	ServicesOverviewAdapter sAdapter = new ServicesOverviewAdapter(context, android.R.layout.simple_list_item_1, sArray);
-//      sList.setAdapter(sAdapter);
-//		sList.setOnItemClickListener(new OnItemClickListener() {
-//			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//				String serviceCategory = (String)parent.getItemAtPosition(position);
-//				Toast.makeText(getApplicationContext(), serviceCategory, Toast.LENGTH_SHORT).show();
-//				Intent i = new Intent(HomeActivity.this, ServiceDeliveryActivity.class);
-//				// TODO: again, decide if maybe we want to just re-grab this stuff from the DB instead of passing it? If no, we may to need a bunch more stuff bundled in
-//				Bundle b = new Bundle();
-//				b.putString("serviceCategory",serviceCategory);
-//				b.putInt("visitId", visitId);
-//				b.putInt("hhId", visit.getHhId());						// for convenience, would be cleaner to remove
-//				i.putExtras(b);
-//				startActivity(i);
-//			}
-//		});
-//		
-//      
-//      // inflate the layout for this fragment
-//      return servicesFragmentView;
-//  }
-//}
-//
-//

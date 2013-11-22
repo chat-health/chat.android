@@ -10,13 +10,13 @@ public class Service {
 	private int id;
 	
     @DatabaseField(uniqueCombo = true)			// need to figure out the uniqueCombo and index here (and _id)
-    private String service_name;
+    private String name;
 
     @DatabaseField()
-    private String service_type;				// this represents the service supertype ie (Emotional Well Being)
+    private String type;						// this represents the service supertype ie (Emotional Well Being)
     
     @DatabaseField()
-    private int role_id;						// who has access to this service
+    private String role;						// who has access to this service
     
     /**
      * Default Constructor needed by ormlite
@@ -28,11 +28,11 @@ public class Service {
      * Constructor that instantiates the private member variable(s)
      * @param service_name
      */
-    public Service(int id, String service_name, String service_type, int role_id) {
+    public Service(int id, String name, String type, String role) {
         this.id = id;
-    	this.service_name = service_name;
-    	this.service_type = service_type;
-    	this.role_id = role_id;
+    	this.name = name;
+    	this.type = type;
+    	this.role = role;
     }
 
     /**
@@ -40,7 +40,7 @@ public class Service {
      * @param existingListModel - List model instance that is copied to new instance
      */
     public Service(Service existingServiceModel) {
-        this.service_name = existingServiceModel.service_name;
+        this.name = existingServiceModel.name;
     }
 
 	public int getId() {
@@ -51,27 +51,27 @@ public class Service {
 		this.id = id;
 	}
 
-	public String getServiceName() {
-		return service_name;
+	public String getName() {
+		return name;
 	}
 
-	public void setServiceName(String service_name) {
-		this.service_name = service_name;
+	public void setName(String name) {
+		this.name = name;
 	}
 	
-	public String getServiceType() {
-		return service_type;
+	public String getType() {
+		return type;
 	}
 
-	public void setServiceType(String service_type) {
-		this.service_type = service_type;
+	public void setType(String type) {
+		this.type = type;
 	}
 	
-	public int getRoleId() {
-		return role_id;
+	public String getRole() {
+		return role;
 	}
 
-	public void setRoleId(int role_id) {
-		this.role_id = role_id;
+	public void setRole(String role) {
+		this.role = role;
 	}
 }

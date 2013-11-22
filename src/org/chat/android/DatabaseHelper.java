@@ -17,14 +17,15 @@ import java.sql.SQLException;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "chat.db";
-    private static final int DATABASE_VERSION = 17;
+    private static final int DATABASE_VERSION = 18;
     private Dao<Visit, Integer> visitsDao = null;
     private Dao<Client, Integer> clientsDao = null;
     private Dao<Household, Integer> householdsDao = null;
     private Dao<Attendance, Integer> attendanceDao = null;
-    private Dao<Role, Integer> roleDao = null;
-    private Dao<Worker, Integer> workerDao = null;
-    private Dao<Video, Integer> videoDao = null;
+    private Dao<Role, Integer> rolesDao = null;
+    private Dao<Service, Integer> servicesDao = null;
+    private Dao<Worker, Integer> workersDao = null;
+    private Dao<Video, Integer> videosDao = null;
     private Dao<VideoAccessed, Integer> videoAccessedDao = null;
     
 
@@ -44,6 +45,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Household.class);
             TableUtils.createTable(connectionSource, Attendance.class);
             TableUtils.createTable(connectionSource, Role.class);
+            TableUtils.createTable(connectionSource, Service.class);
             TableUtils.createTable(connectionSource, Worker.class);
             TableUtils.createTable(connectionSource, Video.class);
             TableUtils.createTable(connectionSource, VideoAccessed.class);
@@ -60,6 +62,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, Household.class, true);
             TableUtils.dropTable(connectionSource, Attendance.class, true);
             TableUtils.dropTable(connectionSource, Role.class, true);
+            TableUtils.dropTable(connectionSource, Service.class, true);
             TableUtils.dropTable(connectionSource, Worker.class, true);
             TableUtils.dropTable(connectionSource, Video.class, true);
             TableUtils.dropTable(connectionSource, VideoAccessed.class, true);
@@ -97,28 +100,34 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return attendanceDao;
     }
     public Dao<Role, Integer> getRolesDao() throws SQLException {
-        if (roleDao == null) {
-            roleDao = getDao(Role.class);
+        if (rolesDao == null) {
+            rolesDao = getDao(Role.class);
         }
-        return roleDao;
+        return rolesDao;
+    }
+    public Dao<Service, Integer> getServicesDao() throws SQLException {
+        if (servicesDao == null) {
+        	servicesDao = getDao(Service.class);
+        }
+        return servicesDao;
     }
     public Dao<Worker, Integer> getWorkersDao() throws SQLException {
-        if (workerDao == null) {
-            workerDao = getDao(Worker.class);
+        if (workersDao == null) {
+            workersDao = getDao(Worker.class);
         }
-        return workerDao;
+        return workersDao;
+    }
+    public Dao<Video, Integer> getVideosDao() throws SQLException {
+        if (videosDao == null) {
+        	videosDao = getDao(Video.class);
+        }
+        return videosDao;
     }
     public Dao<VideoAccessed, Integer> getVideosAccessedDao() throws SQLException {
         if (videoAccessedDao == null) {
         	videoAccessedDao = getDao(VideoAccessed.class);
         }
         return videoAccessedDao;
-    }
-    public Dao<Video, Integer> getVideosDao() throws SQLException {
-        if (videoDao == null) {
-        	videoDao = getDao(Video.class);
-        }
-        return videoDao;
     }    
 
     /**

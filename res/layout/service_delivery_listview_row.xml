@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+        <TextView
+	        android:id="@+id/service_subtype_name"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:padding="10dp"
+	        android:textSize="16dp" />
+		<CheckBox
+            android:id="@+id/service_subtype_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/service_subtype_name"
+            android:layout_alignBottom="@+id/service_subtype_name"
+            android:layout_alignParentRight="true"
+            android:clickable="false"
+            android:gravity="center_vertical|right" />        
+
+</RelativeLayout>
+
+
+	<!-- 	<CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/client_name"
+            android:layout_alignBottom="@+id/client_name"
+            android:layout_alignParentRight="true"
+            android:clickable="false"
+            android:gravity="center_vertical|right" />    -->
