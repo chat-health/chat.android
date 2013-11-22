@@ -2,6 +2,7 @@ package org.chat.android.Sync;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -10,6 +11,13 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.chat.android.DatabaseHelper;
+import org.chat.android.Worker;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.j256.ormlite.dao.Dao;
 
 import android.accounts.Account;
 import android.content.AbstractThreadedSyncAdapter;
@@ -68,35 +76,54 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	public void onPerformSync(Account arg0, Bundle arg1, String arg2,
 			ContentProviderClient arg3, SyncResult arg4) {
 		Log.i("SyncAdapter", "sync adapter running :)");
-		// TODO Auto-generated method stub
-		ConnectivityManager connMgr = (ConnectivityManager) 
-				appContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-    	    NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-    	    
-		if (networkInfo != null && networkInfo.isConnected()) {
-			HttpClient httpclient = new DefaultHttpClient();
-            HttpResponse response;
-            String responseString = null;
-            try {
-                response = httpclient.execute(new HttpGet("http://drowsy.badger.encorelab.org"));
-                StatusLine statusLine = response.getStatusLine();
-                if(statusLine.getStatusCode() == HttpStatus.SC_OK){
-                    ByteArrayOutputStream out = new ByteArrayOutputStream();
-                    response.getEntity().writeTo(out);
-                    out.close();
-                    responseString = out.toString();
-                    Log.i("SyncAdapter", "Response text: \n"+responseString);
-                } else{
-                    //Closes the connection.
-                    response.getEntity().getContent().close();
-                    throw new IOException(statusLine.getReasonPhrase());
+		
+		// 1) retrieve data from server, add new, handle conflict
+		retrieveDataFromServer();
+		
+	}
+	
+	private void retrieveDataFromServer() {
+		HttpClient httpclient = new DefaultHttpClient();
+        HttpResponse response;
+        String responseString = null;
+        try {
+            response = httpclient.execute(new HttpGet("http://lmbutler-ssa.net:8000/workers"));
+            StatusLine statusLine = response.getStatusLine();
+            if(statusLine.getStatusCode() == HttpStatus.SC_OK){
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                response.getEntity().writeTo(out);
+                out.close();
+                responseString = out.toString();
+                Log.i("SyncAdapter", "Response text: \n"+responseString);
+                
+                JSONArray workersJson = new JSONArray(responseString);
+                
+                for (int i=0; i < workersJson.length(); i++) {
+                	JSONObject w = workersJson.getJSONObject(i);
+                	// WORKERS
+            	    Worker worker = new Worker(w.getInt("_id"), w.getString("first_name"), w.getString("last_name"), w.getString("password"), w.getString("role_name"), w.getString("assigned_community"));
+            	    Dao<Worker, Integer> wDao;
+            	    DatabaseHelper workerDbHelper = new DatabaseHelper(appContext);
+            	    try {
+            	        wDao = workerDbHelper.getWorkersDao();
+            	        wDao.create(worker);
+            	    } catch (SQLException e1) {
+            	        // TODO Auto-generated catch block
+            	        e1.printStackTrace();
+            	    }
                 }
-            } catch (ClientProtocolException e) {
-                //TODO Handle problems..
-            } catch (IOException e) {
-                //TODO Handle problems..
+            } else{
+                //Closes the connection.
+                response.getEntity().getContent().close();
+                throw new IOException(statusLine.getReasonPhrase());
             }
-		}
+        } catch (ClientProtocolException e) {
+            //TODO Handle problems..
+        } catch (IOException e) {
+            //TODO Handle problems..
+        } catch (JSONException e) {
+        	//TODO Handle problems..
+        }
 	}
 
 }

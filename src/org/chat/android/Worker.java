@@ -8,7 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "workers")
 public class Worker {
-	@DatabaseField(generatedId = true)
+	@DatabaseField
 	private int id;
     @DatabaseField
     private String first_name;
@@ -17,7 +17,7 @@ public class Worker {
     @DatabaseField
     private String password;
     @DatabaseField
-    private int role_id;
+    private String role_name;
     @DatabaseField
     private String assigned_community;
 //    @DatabaseField
@@ -35,11 +35,12 @@ public class Worker {
      * Constructor that instantiates the private member variable(s)
      * @param first_name
      */
-    public Worker(String first_name, String last_name, String password, int role_id, String assigned_community) {
+    public Worker(int id, String first_name, String last_name, String password, String role_name, String assigned_community) {
+    	this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
         this.password = password;
-        this.role_id = role_id;
+        this.role_name = role_name;
         this.assigned_community = assigned_community;
     }
     
@@ -52,7 +53,7 @@ public class Worker {
         this.first_name = existingWorkerModel.first_name;
         this.last_name = existingWorkerModel.last_name;
         this.password = existingWorkerModel.password;
-        this.role_id = existingWorkerModel.role_id;
+        this.role_name = existingWorkerModel.role_name;
         this.assigned_community = existingWorkerModel.assigned_community;
     }
     
@@ -85,12 +86,12 @@ public class Worker {
 		this.password = password;
 	}
 	
-	public int getRoleId() {
-		return role_id;
+	public String getRoleName() {
+		return role_name;
 	}
 	
-	public void setRoleId(int role_id) {
-		this.role_id = role_id;
+	public void setRoleName(String role_name) {
+		this.role_name = role_name;
 	}
 	
 	public String getAssignedCommunity() {
@@ -99,5 +100,9 @@ public class Worker {
 	
 	public void setAssignedCommunity(String assigned_community) {
 		this.assigned_community = assigned_community;
+	}
+	
+	public String toString() {
+		return "Worker: " + getId() + getFirstName();
 	}
 }
