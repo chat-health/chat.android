@@ -28,10 +28,15 @@
     <string name="button_video_4_text">Play video 4</string>
 
     
-    
     <!-- preceeding may need editing -->
+    
+    <string name="lorum_ipsom">Lorum Ipsom</string>
+    <string name="generic_img_button_text">Image button</string>
+    
     <string name="action_submit_note">Submit note</string>
-    <string name="action_service_delivered"><b>Confirm</b></string>
+    <string name="action_confirm"><b>Confirm</b></string>
+    <string name="action_cancel"><b>Cancel</b></string>
+    
     
     <string-array name="role_array">
         <item>Home Care Volunteer</item>
@@ -41,7 +46,7 @@
         <item>Nurse</item>
     </string-array>
     
-    <!-- TODO -->
-    <string name="generic_img_button_text">Image button</string>
+    <string name="service_delivery_title_text">Who were these services delivered to?</string>
+    
     
 </resources>

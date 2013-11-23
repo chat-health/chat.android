@@ -293,7 +293,7 @@ public class HomeActivity extends Activity {
     
     public void saveAttendanceList() {
     	//final SparseBooleanArray checkedItems = lv.getCheckedItemPositions();
-    	List<Client> pArray = clAdapter.getArray();
+    	List<Client> pArray = clAdapter.getSelectedClients();
     	int len = pArray.size();
     	
     	// TODO: need to check if this visit already has attendance saved, then overwrite as necessary - maybe ask Armin?

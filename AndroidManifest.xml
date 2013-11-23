@@ -49,6 +49,11 @@
             android:screenOrientation="landscape" >
         </activity>
         <activity
+            android:name=".ServiceDetailsActivity"
+            android:label="@string/title_activity_service_delivery"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
             android:name=".ServiceDeliveryActivity"
             android:label="@string/title_activity_service_delivery"
             android:screenOrientation="landscape" >
@@ -74,18 +79,19 @@
         </activity> 
         
         <service
-                android:name="org.chat.android.Sync.SyncService"
-                android:exported="true"
-                android:process=":sync">
+            android:name="org.chat.android.Sync.SyncService"
+            android:exported="true"
+            android:process=":sync">
             <intent-filter>org.encorelab.syncadaptertest.provider
                 <action android:name="android.content.SyncAdapter"/>
             </intent-filter>
-            <meta-data android:name="android.content.SyncAdapter"
-                    android:resource="@xml/syncadapter" />
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter" />
         </service>
         
         <service
-	            android:name="org.chat.android.Sync.AuthenticatorService">
+	        android:name="org.chat.android.Sync.AuthenticatorService">
 	        <intent-filter>
 	            <action android:name="android.accounts.AccountAuthenticator"/>
 	        </intent-filter>
@@ -98,7 +104,7 @@
 	        android:name="org.chat.android.Sync.StubProvider"
 	        android:authorities="org.chat.provider"
 	        android:exported="false"
-	        android:syncable="true"/>
+	        android:syncable="true" />
     </application>
 
 </manifest>

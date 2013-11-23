@@ -15,6 +15,13 @@
 	    <item name="android:padding">25dp</item>
 	</style>
 	
+    <style name="servicesContainer">
+	    <item name="android:layout_width">700dp</item>
+	    <item name="android:layout_height">600dp</item>
+	    <item name="android:background">#FFFFFF</item>
+	    <item name="android:padding">25dp</item>
+	</style>
+	
 	<style name="titleText">
 	    <item name="android:layout_width">match_parent</item>
 	    <item name="android:layout_height">50dp</item>

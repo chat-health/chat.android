@@ -92,9 +92,9 @@ public class ServiceOverviewActivity extends Activity {
 	public void openServiceDelivery(View v) {
 		Button btn = (Button)v;
 		String subtype = btn.getText().toString();
-		Toast.makeText(getApplicationContext(),"You pressed: "+subtype,Toast.LENGTH_LONG).show();
+		//Toast.makeText(getApplicationContext(),"You pressed: "+subtype,Toast.LENGTH_LONG).show();
 		
-    	Intent i = new Intent(ServiceOverviewActivity.this, ServiceDeliveryActivity.class);
+    	Intent i = new Intent(ServiceOverviewActivity.this, ServiceDetailsActivity.class);
     	Bundle b = new Bundle();
     	b.putInt("visitId",visitId);
     	b.putString("subtype",subtype);

@@ -2,47 +2,17 @@
 	android:orientation="horizontal"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
-	
+
    <RelativeLayout
         style="@style/servicesContainer"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true">
         
         <TextView
-            android:id="@+id/service_delivery_title_field"
-            style="@style/titleText"
-            android:gravity="center"
-            android:text="@string/service_delivery_title_text" />
-	 	<ListView
-	        android:id="@+id/service_delivery_listview"
-	        android:layout_width="match_parent"
-	        android:layout_height="400dp"
-	        android:layout_below="@id/service_delivery_title_field"
-	        android:padding="10dp" />
-		<Button
-		    android:id="@+id/confirm_services_delivered_button"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_alignParentBottom="true"
-		    android:layout_centerHorizontal="true"
-		    android:layout_marginBottom="40dp"
-		    android:paddingLeft="32dp"
-		    android:paddingRight="32dp"
-		    android:text="@string/action_confirm"
-		    android:onClick="selectServiceTargets" /> 
-		    
-	</RelativeLayout>
- 	
-</RelativeLayout>
-
-
-
-        
-<!--         <TextView
             android:id="@+id/service_details_title_field"
             style="@style/titleText"
             android:gravity="center"
-            android:text="@string/home_attendance_title_text" />
+            android:text="@string/lorum_ipsom" />
 	 	<ListView
 	        android:id="@+id/service_details_listview"
 	        android:layout_width="match_parent"
@@ -60,4 +30,6 @@
 		    android:text="@string/action_confirm"
 		    android:onClick="selectServiceTargets" />
 		
-    </RelativeLayout> -->
+    </RelativeLayout>
+ 	
+</RelativeLayout>

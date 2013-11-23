@@ -38,7 +38,6 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
 	private LayoutInflater mInflater;
     private List<Client> clientsArray;
     private int visitId = 0;
-    //List<String> presenceArrayList = new ArrayList<String>();
     List<Client> presenceArrayList = new ArrayList<Client>();
 
 //    public ClientsAdapter(Context context, int layoutResourceId, int checkboxId, List<Client> clientsArray) {
@@ -116,7 +115,6 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
         return convertView;
     }
     
-
     
     private String calculateAge (GregorianCalendar dob) {
     	String age_string;
@@ -129,7 +127,8 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
     	return age_string;
     }
 
-	public List<Client> getArray() {
+    
+	public List<Client> getSelectedClients() {
 		return presenceArrayList;
 	}
 }
