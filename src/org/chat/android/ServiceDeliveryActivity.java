@@ -40,14 +40,13 @@ public class ServiceDeliveryActivity extends Activity {
 		ServicesAdapter sAdapter = new ServicesAdapter(context, android.R.layout.simple_list_item_multiple_choice, servicesList);
 	    lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 	    lv.setAdapter(sAdapter);
-//	        
-//		// confirm service delivered button - open for next revision
-//   		Button serviceDeliveredBtn = (Button) findViewById(R.id.service_details_button);
+	        
+		// confirm service delivered button
+//   		Button serviceDeliveredBtn = (Button) findViewById(R.id.deliver_services_button);
 //   		serviceDeliveredBtn.setOnClickListener(new View.OnClickListener() {
 //			@Override
 //			public void onClick(View v) {
-//				Toast.makeText(getApplicationContext(),"Service(s) marked as delivered to client(s)",Toast.LENGTH_LONG).show();
-//				finish();				// lolololol this can't be a good idea
+//				selectServiceTargets();
 //			}
 //	    });           
     }
@@ -68,24 +67,14 @@ public class ServiceDeliveryActivity extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}      	
-    	
-    	// move categories to the DB?
-//	    if (subtype.equals("B - Material Well Being")) {
-//	    	serviceList = getResources().getStringArray(R.array.material_well_being_service_array);
-//	    } else if (subtype.equals("C - Cognitive Well Being")) {
-//	    	serviceList = getResources().getStringArray(R.array.cognitive_well_being_service_array);
-//	    } else if (subtype.equals("D - Emotional Well Being")) {
-//	    	serviceList = getResources().getStringArray(R.array.emotional_well_being_service_array);
-//	    } else if (subtype.equals("E - Physical Well Being")) {
-//	    	serviceList = getResources().getStringArray(R.array.physical_well_being_service_array);
-//	    } else if (subtype.equals("S - Documents and Grants")) {
-//	    	serviceList = getResources().getStringArray(R.array.documents_and_grants_service_array);
-//	    } else if (subtype.equals("T - Change of Status")) {
-//	    	serviceList = getResources().getStringArray(R.array.change_of_status_service_array);
-//	    } else {
-//	    	Toast.makeText(getApplicationContext(), "ERROR: Unknown service group", Toast.LENGTH_SHORT).show();
-//	    	// TODO: set up proper error handling here
-//	    	serviceList = getResources().getStringArray(R.array.material_well_being_service_array);
-//	    }
     }
+    
+    public void selectServiceTargets(View v) {
+    	
+    	//getSelectedServices()
+    	Toast.makeText(getApplicationContext(),"Service(s) marked as delivered to client(s)",Toast.LENGTH_LONG).show();
+		//finish();
+    }
+    
+    
 }
