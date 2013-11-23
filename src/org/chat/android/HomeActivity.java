@@ -150,6 +150,7 @@ public class HomeActivity extends Activity {
     	Intent i = new Intent(HomeActivity.this, ServiceOverviewActivity.class);
     	Bundle b = new Bundle();
     	b.putInt("visitId",visitId);
+    	b.putInt("hhId",hhId);
     	i.putExtras(b);
     	startActivity(i);
     }

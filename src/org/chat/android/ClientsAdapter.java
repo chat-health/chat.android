@@ -83,7 +83,7 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
             public void onClick(View v) {
                 CheckBox cb = (CheckBox) v.findViewById(R.id.checkbox);
                 Client c = (Client) cb.getTag();
-                if(cb.isChecked()) {
+                if (cb.isChecked()) {
                 	cb.setChecked(false);
                 	presenceArrayList.remove(c);
                 } else {

@@ -40,11 +40,10 @@ public class ServicesAdapter extends ArrayAdapter<Service> {
     	Service s = servicesArray.get(position);
 
     	TextView name = null;
-    	CheckBox cb = null;
+    	final CheckBox cb = (CheckBox) convertView.findViewById(R.id.service_subtype_checkbox);
     	if (convertView != null) {
     		name = (TextView)convertView.findViewById(R.id.service_subtype_name);
     		name.setText(s.getName());
-    		cb = (CheckBox) convertView.findViewById(R.id.service_subtype_checkbox);
     		cb.setTag(s);
     	}
     	
@@ -53,10 +52,9 @@ public class ServicesAdapter extends ArrayAdapter<Service> {
         // hacky way to override standard Android behaviour. Checkboxes have been made unclickable in the xml. presenceArrayList holds the checked (ie attending) client objects
         row.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                CheckBox cb = (CheckBox) v.findViewById(R.id.service_subtype_checkbox);
                 // maybe just do this with Strings instead of the whole object
                 Service s = (Service) cb.getTag();
-                if(cb.isChecked()) {
+                if (cb.isChecked()) {
                 	cb.setChecked(false);
                 	selectedServices.remove(s);
                 } else {

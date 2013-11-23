@@ -16,7 +16,7 @@
 		        android:layout_height="wrap_content"
 		        android:paddingLeft="32dp"
 		        android:paddingRight="32dp"
-		        android:onClick="openServiceDelivery"
+		        android:onClick="openServiceDetails"
 		        android:text="SUB1" />
     	    <Button
 			    android:id="@+id/service_subtype_1"
@@ -24,7 +24,7 @@
 			    android:layout_height="wrap_content"
 			    android:paddingLeft="32dp"
 			    android:paddingRight="32dp"
-			    android:onClick="openServiceDelivery"
+			    android:onClick="openServiceDetails"
 			    android:text="SUB2" />
     	    <Button
 		        android:id="@+id/service_subtype_2"
@@ -32,7 +32,7 @@
 		        android:layout_height="wrap_content"
 		        android:paddingLeft="32dp"
 		        android:paddingRight="32dp"
-		        android:onClick="openServiceDelivery"
+		        android:onClick="openServiceDetails"
 		        android:text="SUB3" />    	    
     	</TableRow>
     	
@@ -46,7 +46,7 @@
 			    android:layout_height="wrap_content"
 			    android:paddingLeft="32dp"
 			    android:paddingRight="32dp"
-			    android:onClick="openServiceDelivery"
+			    android:onClick="openServiceDetails"
 			    android:text="SUB4" />
     	    <Button
 		        android:id="@+id/service_subtype_4"
@@ -54,7 +54,7 @@
 		        android:layout_height="wrap_content"
 		        android:paddingLeft="32dp"
 		        android:paddingRight="32dp"
-		        android:onClick="openServiceDelivery"
+		        android:onClick="openServiceDetails"
 		        android:text="SUB5" />
     	    <Button
 			    android:id="@+id/service_subtype_5"
@@ -62,7 +62,7 @@
 			    android:layout_height="wrap_content"
 			    android:paddingLeft="32dp"
 			    android:paddingRight="32dp"
-			    android:onClick="openServiceDelivery"
+			    android:onClick="openServiceDetails"
 			    android:text="SUB6" />
     	</TableRow>
     	 	

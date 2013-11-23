@@ -17,13 +17,14 @@ import java.sql.SQLException;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "chat.db";
-    private static final int DATABASE_VERSION = 18;
+    private static final int DATABASE_VERSION = 19;
     private Dao<Visit, Integer> visitsDao = null;
     private Dao<Client, Integer> clientsDao = null;
     private Dao<Household, Integer> householdsDao = null;
     private Dao<Attendance, Integer> attendanceDao = null;
     private Dao<Role, Integer> rolesDao = null;
     private Dao<Service, Integer> servicesDao = null;
+    private Dao<ServiceAccessed, Integer> serviceAccessedDao = null;
     private Dao<Worker, Integer> workersDao = null;
     private Dao<Video, Integer> videosDao = null;
     private Dao<VideoAccessed, Integer> videoAccessedDao = null;
@@ -46,6 +47,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Attendance.class);
             TableUtils.createTable(connectionSource, Role.class);
             TableUtils.createTable(connectionSource, Service.class);
+            TableUtils.createTable(connectionSource, ServiceAccessed.class);
             TableUtils.createTable(connectionSource, Worker.class);
             TableUtils.createTable(connectionSource, Video.class);
             TableUtils.createTable(connectionSource, VideoAccessed.class);
@@ -63,6 +65,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, Attendance.class, true);
             TableUtils.dropTable(connectionSource, Role.class, true);
             TableUtils.dropTable(connectionSource, Service.class, true);
+            TableUtils.dropTable(connectionSource, ServiceAccessed.class, true);
             TableUtils.dropTable(connectionSource, Worker.class, true);
             TableUtils.dropTable(connectionSource, Video.class, true);
             TableUtils.dropTable(connectionSource, VideoAccessed.class, true);
@@ -110,6 +113,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         	servicesDao = getDao(Service.class);
         }
         return servicesDao;
+    }
+    public Dao<ServiceAccessed, Integer> getServiceAccessedDao() throws SQLException {
+        if (serviceAccessedDao == null) {
+        	serviceAccessedDao = getDao(ServiceAccessed.class);
+        }
+        return serviceAccessedDao;
     }
     public Dao<Worker, Integer> getWorkersDao() throws SQLException {
         if (workersDao == null) {
