@@ -650,6 +650,7 @@ public class HomeActivity extends Activity {
              * then call context.setIsSyncable(account, AUTHORITY, 1)
              * here.
              */
+        	ContentResolver.setSyncAutomatically(newAccount, AUTHORITY, true); //this programmatically turns on the sync for new sync adapters.
         	return newAccount;
         } else {
             /*
