@@ -18,6 +18,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -68,6 +69,13 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
             name.setText(c.getFirstName() + " " + c.getLastName());
             gender = (TextView)convertView.findViewById(client_gender);
             gender.setText(c.getGender());
+            if (c.getGender().equals("male")) {
+            	name.setTextColor(Color.parseColor("#6132ED"));
+            } else if (c.getGender().equals("female")) {
+            	name.setTextColor(Color.parseColor("#F2A2DA"));
+            } else {
+            	Log.e("No gender assigned for", c.getFirstName()+" "+c.getLastName());
+            }
             age = (TextView)convertView.findViewById(client_age);
             //TODO: add ages to clients
             age.setText(", aged 22");

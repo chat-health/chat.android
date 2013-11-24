@@ -1,12 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="horizontal"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
 	
-   <RelativeLayout
+    <RelativeLayout
         style="@style/servicesContainer"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
+        android:layout_centerInParent="true">
         
         <TextView
             android:id="@+id/service_delivery_title_field"
@@ -19,20 +18,34 @@
 	        android:layout_height="400dp"
 	        android:layout_below="@id/service_delivery_title_field"
 	        android:padding="10dp" />
-		<Button
-		    android:id="@+id/confirm_services_delivered_button"
-		    android:layout_width="wrap_content"
+	 	
+	 	<RelativeLayout
+	 	    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 		    android:layout_alignParentBottom="true"
 		    android:layout_centerHorizontal="true"
-		    android:layout_marginBottom="40dp"
-		    android:paddingLeft="32dp"
-		    android:paddingRight="32dp"
-		    android:text="@string/action_confirm"
-		    android:onClick="selectServiceDeliveryClients" /> 
+		    android:layout_marginBottom="40dp">
+	 	    <Button
+			    android:id="@+id/cancel_services_delivered_button"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:paddingLeft="32dp"
+			    android:paddingRight="32dp"
+			    android:text="@string/action_cancel"
+			    android:onClick="cancelServiceDelivery" /> 
+		 	<Button
+			    android:id="@+id/confirm_services_delivered_button"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_toRightOf="@id/cancel_services_delivered_button"
+			    android:paddingLeft="32dp"
+			    android:paddingRight="32dp"
+			    android:text="@string/action_confirm"
+			    android:onClick="selectServiceDeliveryClients" /> 
+
 		    
+	 	</RelativeLayout>		    
 	</RelativeLayout>
- 	
 </RelativeLayout>
 
 

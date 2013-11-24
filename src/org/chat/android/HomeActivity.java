@@ -59,6 +59,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.ArrayAdapter;
@@ -79,6 +81,10 @@ public class HomeActivity extends Activity {
 	
 	public ListView lv = null;
 	public ClientsAdapter clAdapter = null;
+	ImageButton serviceBtn = null;
+	ImageView serviceBtnImg = null;
+	ImageButton healthBtn = null;
+	ImageView healthBtnImg = null;
 	
 	// step aside I am here on official sync adapter business
 	// Constants
@@ -96,6 +102,18 @@ public class HomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         Context context = getApplicationContext();
         setContentView(R.layout.activity_home);
+        
+        // set the services and health branch buttons to disabled (until user has submitted attendance)
+        serviceBtn = (ImageButton)findViewById(R.id.services_button);
+        //serviceBtn.setEnabled(false);
+        serviceBtnImg = (ImageView)findViewById(R.id.services_button_img);
+        //serviceBtnImg.setEnabled(false);
+        healthBtn = (ImageButton)findViewById(R.id.health_education_button);
+        //healthBtn.setEnabled(false);
+        healthBtnImg = (ImageView)findViewById(R.id.health_education_button_img);
+        //healthBtnImg.setEnabled(false);
+//        http://stackoverflow.com/questions/7228985/android-disable-image-button-ui-feel (once Miche gives me the right assets)
+//		  will also want to move this out into another function for cleanliness        
         
         //FOR TESTING, SWITCH FOR PROD
 		//Bundle b = getIntent().getExtras();
@@ -115,7 +133,7 @@ public class HomeActivity extends Activity {
         		if (c.getHhId() == visit.getHhId()) {
         			hhCList.add(c);
         		}
-        		Log.d("HH members: ", c.getFirstName());
+//        		Log.d("HH members: ", c.getFirstName());
         	}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -136,14 +154,25 @@ public class HomeActivity extends Activity {
     	Button b = (Button)v;
         String bText = b.getText().toString();
         
-        if (bText.equals("Done")) {
-        	Toast.makeText(getApplicationContext(),"Attendance submitted",Toast.LENGTH_LONG).show();
-        	b.setText("Update");
-        	saveAttendanceList();
+        // check if any checkboxes are checked
+        if (clAdapter.getSelectedClients().size() > 0) {
+            if (bText.equals("Done")) {
+            	Toast.makeText(getApplicationContext(),"Attendance submitted",Toast.LENGTH_LONG).show();
+            	b.setText("Update");
+            	// enable the Service and Health branches
+            	serviceBtn.setEnabled(true);
+            	serviceBtnImg.setEnabled(true);
+            	healthBtn.setEnabled(true);
+            	healthBtnImg.setEnabled(true);
+            	saveAttendanceList();
+            } else {
+            	Toast.makeText(getApplicationContext(),"Attendance updated",Toast.LENGTH_LONG).show();
+            	deleteCurrentAttendance();			// saveAttendanceList() is called from the finally in deleteCurrentAttendance()
+            }        	
         } else {
-        	Toast.makeText(getApplicationContext(),"Attendance updated",Toast.LENGTH_LONG).show();
-        	deleteCurrentAttendance();			// saveAttendanceList() is called from the finally in deleteCurrentAttendance()
+        	Toast.makeText(getApplicationContext(),"Click on the above list of clients to select attending household members",Toast.LENGTH_LONG).show();
         }
+
     }
     
     public void openServiceOverview(View v) {

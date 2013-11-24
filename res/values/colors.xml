@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="chat">#65E3E6</color>
+    <color name="services">#A1559A</color>
+    <color name="healthEducation">#F5A627</color>
+    <color name="hiv">#F21111</color>
+	<color name="disease">#F2DA4E</color>
+	<color name="nutrition">#87C44F</color>
+	<color name="development">#66DED8</color>
+</resources>

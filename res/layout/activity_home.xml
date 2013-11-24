@@ -15,12 +15,12 @@
         <TextView
             android:id="@+id/attendance_list_title_field"
             style="@style/titleText"
+            android:textColor="@color/chat"
             android:text="@string/home_attendance_title_text" />
-
         <View
             style="@style/titleDivider"
+            android:background="@color/chat"
             android:layout_below="@id/attendance_list_title_field" />
-
         <ListView
             android:id="@+id/attendance_listview"
             android:layout_width="fill_parent"
@@ -28,7 +28,6 @@
             android:layout_below="@id/attendance_list_title_field"
             android:choiceMode="multipleChoice"
             android:padding="10dp" />
-
 	   	<Button
 	        android:id="@+id/attendance_submission_button"
 	        android:layout_width="wrap_content"
@@ -50,16 +49,18 @@
         android:background="#FFFFFF" >
  
         <TextView
-            android:id="@+id/services_title_text"
+            android:id="@+id/services_title_field"
             style="@style/titleText"
+            android:textColor="@color/services"
             android:text="@string/home_services_title_text" />
         <View
             style="@style/titleDivider"
-            android:layout_below="@id/services_title_text" />
+            android:background="@color/services"
+            android:layout_below="@id/services_title_field" />
         <ImageView
 	        android:id="@+id/services_button_img"
 	        style="@style/topicImage"
-	        android:layout_below="@id/services_title_text"
+	        android:layout_below="@id/services_title_field"
 	        android:layout_marginTop="20dp"
 	        android:src="@drawable/children_play_screenshot"
 	        android:onClick="openServiceOverview" />
@@ -70,21 +71,23 @@
        	    android:layout_toRightOf="@+id/services_button_img"
        	    android:layout_marginLeft="60dp"
        	    android:layout_marginTop="40dp"
-       	    android:onClick="openServiceOverview"
-       	    android:src="@drawable/children_play_btn_zulu" />        
+       	    android:src="@drawable/children_play_btn_zulu"
+       	    android:onClick="openServiceOverview" />        
         
        	<TextView
-            android:id="@+id/health_education_title_text"
+            android:id="@+id/health_education_title_field"
             style="@style/titleText"
             android:layout_marginTop="275dp"
+            android:textColor="@color/healthEducation"
             android:text="@string/home_health_education_title_text" />
         <View
             style="@style/titleDivider"
-            android:layout_below="@id/health_education_title_text" />
+            android:background="@color/healthEducation"
+            android:layout_below="@id/health_education_title_field" />
         <ImageView
 	        android:id="@+id/health_education_button_img"
 	        style="@style/topicImage"
-	        android:layout_below="@id/health_education_title_text"
+	        android:layout_below="@id/health_education_title_field"
 	        android:layout_marginTop="20dp"
 	        android:src="@drawable/children_play_screenshot"
 	        android:onClick="openHealthOverview" />
@@ -95,28 +98,8 @@
        	    android:layout_toRightOf="@+id/health_education_button_img"
        	    android:layout_marginLeft="60dp"
        	    android:layout_marginTop="40dp"
-       	    android:onClick="openHealthOverview"
-       	    android:src="@drawable/children_play_btn_zulu" />   
-       	    
-<!-- 	button_video_1   	
-		<Button
-	        android:id="@+id/services_button"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:paddingLeft="32dp"
-	        android:paddingRight="32dp"
-	        android:onClick="openServiceOverview"
-	        android:text="Services" />
-		<Button
-		    android:id="@+id/health_button"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:paddingLeft="32dp"
-		    android:paddingRight="32dp"
-		    android:onClick="openHealthOverview"
-		    android:text="Health Education" /> -->
-
-
+       	    android:src="@drawable/children_play_btn_zulu"
+       	    android:onClick="openHealthOverview" />   
 		
 	</RelativeLayout>
 	

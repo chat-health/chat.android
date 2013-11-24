@@ -8,6 +8,10 @@
     <string name="home_attendance_title_text">Attendance</string>
     <string name="home_services_title_text">Services</string>
     <string name="home_health_education_title_text">Health Education</string>
+    <string name="health_HIV_title_text">HIV</string>
+    <string name="health_disease_title_text">Childhood Diseases</string>
+    <string name="health_nutrition_title_text">Nutrition</string>
+    <string name="health_development_title_text">Development</string>
     
     <!-- get the naming consistent on all of these -->
     

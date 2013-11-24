@@ -122,6 +122,11 @@ public class ServiceDeliveryActivity extends Activity {
     }
     
     
+    public void cancelServiceDelivery(View v) {
+    	finish();
+    }
+    
+    
     private int getServiceIdFromName(String sName) {
     	int sId = 0;
         Dao<Service, Integer> sDao;
