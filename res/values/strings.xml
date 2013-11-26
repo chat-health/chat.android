@@ -5,6 +5,8 @@
     <string name="menu_sync">Sync</string>
     <string name="menu_logout">Logout</string>
     
+    <string name="base_url">http://lmbutler-ssa.net:8000/</string>
+    
     <string name="home_attendance_title_text">Attendance</string>
     <string name="home_services_title_text">Services</string>
     <string name="home_health_education_title_text">Health Education</string>

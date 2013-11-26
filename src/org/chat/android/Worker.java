@@ -8,7 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "workers")
 public class Worker {
-	@DatabaseField
+	@DatabaseField(id = true, unique = true, index = true)
 	private int id;
     @DatabaseField
     private String first_name;
