@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ServiceDetailsActivity extends Activity {
 	private int visitId = 0;
@@ -43,6 +42,7 @@ public class ServiceDetailsActivity extends Activity {
 	    lv.setAdapter(sAdapter);         
     }
     
+    // used to generate the list of services for serviceDelivery
     private void populateServiceList(String type) {
         Dao<Service, Integer> sDao;
         List<Service> allServices = new ArrayList<Service>();

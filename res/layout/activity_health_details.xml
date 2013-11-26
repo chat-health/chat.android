@@ -1,60 +1,153 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-    
-   <TableLayout
+    android:paddingLeft="80dp"
+    android:paddingRight="80dp"
+    android:paddingTop="40dp"
+    android:paddingBottom="40dp"
+    android:layout_gravity="center_horizontal">
+      
+   	<TableRow
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >    
-    	<TableRow
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content">
-    	    
-    	    <Button
-                android:id="@+id/health_sub1_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="32dp"
-                android:paddingRight="32dp"
-                android:onClick="openHealthDelivery"
-                android:tag="sub1"
-                android:text="Subtopic 1" />
-    	    <Button
-                android:id="@+id/health_sub2_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="32dp"
-                android:paddingRight="32dp"
-                android:onClick="openHealthDelivery"
-                android:tag="sub2"
-                android:text="Subtopic 2" />
-    	    
-    	</TableRow>
-    	<TableRow
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content">
-    	    
-    	    <Button
-                android:id="@+id/health_sub3_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="32dp"
-                android:paddingRight="32dp"
-                android:onClick="openHealthDelivery"
-                android:tag="sub3"
-                android:text="Subtopic 3" />
-    	    <Button
-                android:id="@+id/health_sub4_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="32dp"
-                android:paddingRight="32dp"
-                android:onClick="openHealthDelivery"
-                android:tag="sub4"
-                android:text="Subtopic 4" />
-    	    
-    	</TableRow>
-    </TableLayout>    
-
-</LinearLayout>
+        android:layout_height="wrap_content">
+        
+   	    <RelativeLayout
+   	        android:layout_width="match_parent"
+       		android:layout_height="wrap_content"
+       		android:layout_weight="0.5"
+       		android:layout_margin="30dp">
+   	        
+    	    <TextView
+	            android:id="@+id/health_sub1_title_field"
+	            style="@style/titleText"
+	            android:textColor="@color/chat"
+	            android:text="@string/health_sub_title_text" />
+	        <View
+	            style="@style/titleDivider"
+	            android:background="@color/chat"
+	            android:layout_below="@id/health_sub1_title_field" />
+	        <ImageView
+		        android:id="@+id/health_sub1_button_img"
+		        style="@style/topicImage"
+		        android:layout_below="@id/health_sub1_title_field"
+		        android:layout_marginTop="20dp"
+		        android:src="@drawable/children_play_screenshot"
+		        android:onClick="openHealthDelivery" />
+	       	<ImageButton
+	       	    android:id="@+id/health_sub1_button"
+	       	    style="@style/topicImageButton"
+	       	    android:layout_alignTop="@+id/health_sub1_button_img"
+	       	    android:layout_toRightOf="@+id/health_sub1_button_img"
+	       	    android:layout_marginLeft="60dp"
+	       	    android:layout_marginTop="40dp"
+	       	    android:src="@drawable/children_play_btn_zulu"
+	       	    android:onClick="openHealthDelivery" />
+	       	
+		</RelativeLayout>
+		<RelativeLayout
+   	        android:layout_width="match_parent"
+       		android:layout_height="wrap_content"
+       		android:layout_weight="0.5"
+       		android:layout_margin="30dp">
+	       		       	
+      	    <TextView
+	            android:id="@+id/health_sub2_title_field"
+	            style="@style/titleText"
+	            android:textColor="@color/chat"
+	            android:text="@string/health_sub_title_text" />
+	        <View
+	            style="@style/titleDivider"
+	            android:background="@color/chat"
+	            android:layout_below="@id/health_sub2_title_field" />
+	        <ImageView
+		        android:id="@+id/health_sub2_button_img"
+		        style="@style/topicImage"
+		        android:layout_below="@id/health_sub2_title_field"
+		        android:layout_marginTop="20dp"
+		        android:src="@drawable/children_play_screenshot"
+		        android:onClick="openHealthDelivery" />
+	       	<ImageButton
+	       	    android:id="@+id/health_sub2_button"
+	       	    style="@style/topicImageButton"
+	       	    android:layout_alignTop="@+id/health_sub2_button_img"
+	       	    android:layout_toRightOf="@+id/health_sub2_button_img"
+	       	    android:layout_marginLeft="60dp"
+	       	    android:layout_marginTop="40dp"
+	       	    android:src="@drawable/children_play_btn_zulu"
+	       	    android:onClick="openHealthDelivery" />   
+		</RelativeLayout>		       	     
+	    
+	</TableRow>
+   	<TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        
+   	    <RelativeLayout
+   	        android:layout_width="300dp"
+       		android:layout_height="wrap_content"
+       		android:layout_weight="0.5"
+       		android:layout_margin="30dp">
+   	        
+    	    <TextView
+	            android:id="@+id/health_sub3_title_field"
+	            style="@style/titleText"
+	            android:textColor="@color/chat"
+	            android:text="@string/health_sub_title_text" />
+	        <View
+	            style="@style/titleDivider"
+	            android:background="@color/chat"
+	            android:layout_below="@id/health_sub3_title_field" />
+	        <ImageView
+		        android:id="@+id/health_sub3_button_img"
+		        style="@style/topicImage"
+		        android:layout_below="@id/health_sub3_title_field"
+		        android:layout_marginTop="20dp"
+		        android:src="@drawable/children_play_screenshot"
+		        android:onClick="openHealthDelivery" />
+	       	<ImageButton
+	       	    android:id="@+id/health_sub3_button"
+	       	    style="@style/topicImageButton"
+	       	    android:layout_alignTop="@+id/health_sub3_button_img"
+	       	    android:layout_toRightOf="@+id/health_sub3_button_img"
+	       	    android:layout_marginLeft="60dp"
+	       	    android:layout_marginTop="40dp"
+	       	    android:src="@drawable/children_play_btn_zulu"
+	       	    android:onClick="openHealthDelivery" />
+	       	
+		</RelativeLayout>
+		<RelativeLayout
+   	        android:layout_width="match_parent"
+       		android:layout_height="wrap_content"
+       		android:layout_weight="0.5"
+       		android:layout_margin="30dp">
+	       		       	
+      	    <TextView
+	            android:id="@+id/health_sub4_title_field"
+	            style="@style/titleText"
+	            android:textColor="@color/chat"
+	            android:text="@string/health_sub_title_text" />
+	        <View
+	            style="@style/titleDivider"
+	            android:background="@color/chat"
+	            android:layout_below="@id/health_sub4_title_field" />
+	        <ImageView
+		        android:id="@+id/health_sub4_button_img"
+		        style="@style/topicImage"
+		        android:layout_below="@id/health_sub4_title_field"
+		        android:layout_marginTop="20dp"
+		        android:src="@drawable/children_play_screenshot"
+		        android:onClick="openHealthDelivery" />
+	       	<ImageButton
+	       	    android:id="@+id/health_sub4_button"
+	       	    style="@style/topicImageButton"
+	       	    android:layout_alignTop="@+id/health_sub4_button_img"
+	       	    android:layout_toRightOf="@+id/health_sub4_button_img"
+	       	    android:layout_marginLeft="60dp"
+	       	    android:layout_marginTop="40dp"
+	       	    android:src="@drawable/children_play_btn_zulu"
+	       	    android:onClick="openHealthDelivery" />   
+		</RelativeLayout>
+	    
+	</TableRow>
+</TableLayout>
