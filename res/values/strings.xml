@@ -1,21 +1,8 @@
 <resources>
     <string name="app_name">CHAT</string>
     
-    <string name="menu_settings">Settings</string>
-    <string name="menu_sync">Sync</string>
-    <string name="menu_logout">Logout</string>
-    
     <string name="base_url">http://lmbutler-ssa.net:8000/</string>
-    
-    <string name="home_attendance_title_text">Attendance</string>
-    <string name="home_services_title_text">Services</string>
-    <string name="home_health_education_title_text">Health Education</string>
-    <string name="health_HIV_title_text">HIV</string>
-    <string name="health_disease_title_text">Childhood Diseases</string>
-    <string name="health_nutrition_title_text">Nutrition</string>
-    <string name="health_development_title_text">Development</string>
-    
-    <!-- get the naming consistent on all of these -->
+
     
     <string name="title_activity_main">CHAT test</string>
     <string name="title_activity_home">CHAT</string>
@@ -32,9 +19,7 @@
     <string name="button_video_2_text">Play video 2</string>
     <string name="button_video_3_text">Play video 3</string>
     <string name="button_video_4_text">Play video 4</string>
-
     
-    <!-- preceeding may need editing -->
     
     <string name="lorum_ipsom">Lorum Ipsom</string>
     <string name="generic_img_button_text">Image button</string>
@@ -43,6 +28,22 @@
     <string name="action_confirm"><b>Confirm</b></string>
     <string name="action_cancel"><b>Cancel</b></string>
     
+    <string name="menu_settings">Settings</string>
+    <string name="menu_sync">Sync</string>
+    <string name="menu_logout">Logout</string>
+    
+    <string name="home_attendance_title_text">Attendance</string>
+    <string name="home_services_title_text">Services</string>
+    <string name="home_health_education_title_text">Health Education</string>
+    
+    <string name="service_delivery_title_text">Who were these services delivered to?</string> 
+    
+    <string name="health_HIV_title_text">HIV</string>
+    <string name="health_disease_title_text">Childhood Diseases</string>
+    <string name="health_nutrition_title_text">Nutrition</string>
+    <string name="health_development_title_text">Development</string> 
+    <string name="health_sub_title_text">Subtopic</string>
+      
     
     <string-array name="role_array">
         <item>Home Care Volunteer</item>
@@ -51,8 +52,6 @@
         <item>Development Facilitator</item>
         <item>Nurse</item>
     </string-array>
-    
-    <string name="service_delivery_title_text">Who were these services delivered to?</string>
     
     
 </resources>

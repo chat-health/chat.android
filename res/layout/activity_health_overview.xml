@@ -33,6 +33,7 @@
 		        android:layout_below="@id/health_HIV_title_field"
 		        android:layout_marginTop="20dp"
 		        android:src="@drawable/children_play_screenshot"
+		        android:tag="HIV"
 		        android:onClick="openHealthDetails" />
 	       	<ImageButton
 	       	    android:id="@+id/health_HIV_button"
@@ -42,6 +43,7 @@
 	       	    android:layout_marginLeft="60dp"
 	       	    android:layout_marginTop="40dp"
 	       	    android:src="@drawable/children_play_btn_zulu"
+	       	    android:tag="HIV"
 	       	    android:onClick="openHealthDetails" />
 	       	
 		</RelativeLayout>
@@ -66,6 +68,7 @@
 		        android:layout_below="@id/health_disease_title_field"
 		        android:layout_marginTop="20dp"
 		        android:src="@drawable/children_play_screenshot"
+		        android:tag="disease"
 		        android:onClick="openHealthDetails" />
 	       	<ImageButton
 	       	    android:id="@+id/health_disease_button"
@@ -75,6 +78,7 @@
 	       	    android:layout_marginLeft="60dp"
 	       	    android:layout_marginTop="40dp"
 	       	    android:src="@drawable/children_play_btn_zulu"
+	       	    android:tag="disease"
 	       	    android:onClick="openHealthDetails" />   
 		</RelativeLayout>		       	     
 	    
@@ -104,6 +108,7 @@
 		        android:layout_below="@id/health_nutrition_title_field"
 		        android:layout_marginTop="20dp"
 		        android:src="@drawable/children_play_screenshot"
+		        android:tag="nutrition"
 		        android:onClick="openHealthDetails" />
 	       	<ImageButton
 	       	    android:id="@+id/health_nutrition_button"
@@ -113,6 +118,7 @@
 	       	    android:layout_marginLeft="60dp"
 	       	    android:layout_marginTop="40dp"
 	       	    android:src="@drawable/children_play_btn_zulu"
+	       	    android:tag="nutrition"
 	       	    android:onClick="openHealthDetails" />
 	       	
 		</RelativeLayout>
@@ -137,6 +143,7 @@
 		        android:layout_below="@id/health_development_title_field"
 		        android:layout_marginTop="20dp"
 		        android:src="@drawable/children_play_screenshot"
+		        android:tag="development"
 		        android:onClick="openHealthDetails" />
 	       	<ImageButton
 	       	    android:id="@+id/health_development_button"
@@ -146,6 +153,7 @@
 	       	    android:layout_marginLeft="60dp"
 	       	    android:layout_marginTop="40dp"
 	       	    android:src="@drawable/children_play_btn_zulu"
+	       	    android:tag="development"
 	       	    android:onClick="openHealthDetails" />   
 		</RelativeLayout>
 	    
