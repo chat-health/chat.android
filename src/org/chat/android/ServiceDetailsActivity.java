@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.chat.models.Service;
+import org.chat.android.models.Service;
 
 import com.j256.ormlite.dao.Dao;
 

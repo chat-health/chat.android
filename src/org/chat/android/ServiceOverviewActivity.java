@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import org.chat.models.Visit;
+import org.chat.android.models.Visit;
 
 import com.j256.ormlite.dao.Dao;
 

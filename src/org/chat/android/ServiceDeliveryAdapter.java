@@ -10,7 +10,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.chat.android.R;
-import org.chat.models.Client;
+import org.chat.android.models.Client;
 
 import android.content.Context;
 import android.view.LayoutInflater;
