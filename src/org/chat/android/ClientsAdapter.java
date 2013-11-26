@@ -10,8 +10,9 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.chat.android.Client;
 import org.chat.android.R;
+import org.chat.models.Attendance;
+import org.chat.models.Client;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;

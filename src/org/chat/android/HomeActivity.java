@@ -13,6 +13,14 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
+import org.chat.models.Attendance;
+import org.chat.models.Client;
+import org.chat.models.Household;
+import org.chat.models.Video;
+import org.chat.models.VideoAccessed;
+import org.chat.models.Visit;
+import org.chat.models.Worker;
+
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.CloseableIterator;
 import com.j256.ormlite.dao.Dao;
@@ -22,7 +30,6 @@ import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 
-import Models.Worker;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;

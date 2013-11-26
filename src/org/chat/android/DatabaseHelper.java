@@ -1,6 +1,5 @@
 package org.chat.android;
 
-import Models.Worker;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -11,6 +10,17 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
+
+import org.chat.models.Attendance;
+import org.chat.models.Client;
+import org.chat.models.Household;
+import org.chat.models.Role;
+import org.chat.models.Service;
+import org.chat.models.ServiceAccessed;
+import org.chat.models.Video;
+import org.chat.models.VideoAccessed;
+import org.chat.models.Visit;
+import org.chat.models.Worker;
 
 /**
  * Created by Armin Krauss on 2013-06-12.

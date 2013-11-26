@@ -4,6 +4,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.chat.models.Attendance;
+import org.chat.models.Client;
+import org.chat.models.Service;
+import org.chat.models.ServiceAccessed;
+import org.chat.models.Visit;
+
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.UpdateBuilder;
 

@@ -1,4 +1,4 @@
-package org.chat.android;
+package org.chat.models;
 
 import java.util.Date;
 import com.j256.ormlite.dao.ForeignCollection;

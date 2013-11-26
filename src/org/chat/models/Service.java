@@ -1,4 +1,4 @@
-package org.chat.android;
+package org.chat.models;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
