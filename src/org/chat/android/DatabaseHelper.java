@@ -1,5 +1,6 @@
 package org.chat.android;
 
+import Models.Worker;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;

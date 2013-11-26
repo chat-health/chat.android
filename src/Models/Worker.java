@@ -1,4 +1,4 @@
-package org.chat.android;
+package Models;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -13,7 +13,7 @@ public class Worker {
     @DatabaseField
     private String first_name;
     @DatabaseField
-    private String last_name;    
+    private String last_name;
     @DatabaseField
     private String password;
     @DatabaseField

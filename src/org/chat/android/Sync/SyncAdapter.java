@@ -14,7 +14,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.chat.android.Attendance;
 import org.chat.android.DatabaseHelper;
 import org.chat.android.R;
-import org.chat.android.Worker;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,6 +21,7 @@ import org.json.JSONObject;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 
+import Models.Worker;
 import android.accounts.Account;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
@@ -112,8 +112,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 wDao = workerDbHelper.getWorkersDao();
                 
                 // delete all entries
-                DeleteBuilder<Worker, Integer> deleteWorker = wDao.deleteBuilder();
-                deleteWorker.delete();
+                if (workersJson.length() > 0) {
+	                DeleteBuilder<Worker, Integer> deleteWorker = wDao.deleteBuilder();
+	                deleteWorker.delete();
+                }
                 
                 // add new entries received via REST call
                 for (int i=0; i < workersJson.length(); i++) {

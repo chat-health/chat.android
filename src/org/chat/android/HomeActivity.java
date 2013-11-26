@@ -26,6 +26,7 @@ import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 
+import Models.Worker;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
