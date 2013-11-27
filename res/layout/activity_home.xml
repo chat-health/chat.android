@@ -15,11 +15,11 @@
         <TextView
             android:id="@+id/attendance_list_title_field"
             style="@style/titleText"
-            android:textColor="@color/chat"
+            android:textColor="@color/attendance"
             android:text="@string/home_attendance_title_text" />
         <View
             style="@style/titleDivider"
-            android:background="@color/chat"
+            android:background="@color/attendance"
             android:layout_below="@id/attendance_list_title_field" />
         <ListView
             android:id="@+id/attendance_listview"

@@ -24,6 +24,7 @@
 	            android:textColor="@color/chat"
 	            android:text="@string/health_sub_title_text" />
 	        <View
+	            android:id="@+id/health_sub1_divider"
 	            style="@style/titleDivider"
 	            android:background="@color/chat"
 	            android:layout_below="@id/health_sub1_title_field" />
@@ -57,6 +58,7 @@
 	            android:textColor="@color/chat"
 	            android:text="@string/health_sub_title_text" />
 	        <View
+	            android:id="@+id/health_sub2_divider"
 	            style="@style/titleDivider"
 	            android:background="@color/chat"
 	            android:layout_below="@id/health_sub2_title_field" />
@@ -95,6 +97,7 @@
 	            android:textColor="@color/chat"
 	            android:text="@string/health_sub_title_text" />
 	        <View
+	            android:id="@+id/health_sub3_divider"
 	            style="@style/titleDivider"
 	            android:background="@color/chat"
 	            android:layout_below="@id/health_sub3_title_field" />
@@ -128,6 +131,7 @@
 	            android:textColor="@color/chat"
 	            android:text="@string/health_sub_title_text" />
 	        <View
+	            android:id="@+id/health_sub4_divider"
 	            style="@style/titleDivider"
 	            android:background="@color/chat"
 	            android:layout_below="@id/health_sub4_title_field" />
