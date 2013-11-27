@@ -14,6 +14,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.chat.android.DatabaseHelper;
 import org.chat.android.R;
 import org.chat.android.models.Attendance;
+import org.chat.android.models.Client;
+import org.chat.android.models.Household;
 import org.chat.android.models.Worker;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,8 +30,6 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SyncResult;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -81,18 +81,22 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		Log.i("SyncAdapter", "sync adapter running :)");
 		
 		// 1) retrieve data from server, add new, handle conflict
-		String baseUrl = appContext.getResources().getString(R.string.base_url);
-		retrieveDataFromServer(baseUrl);
 		
+		retrieveDataFromServer("workers");
+		retrieveDataFromServer("clients");
+		retrieveDataFromServer("households");
 	}
 	
-	private void retrieveDataFromServer(String baseUrl) {
+	private void retrieveDataFromServer(String modelName) {
 		HttpClient httpclient = new DefaultHttpClient();
         HttpResponse response;
         String responseString = null;
         try {
         	// Executing a get request
-        	String url = baseUrl.concat("workers");
+        	String baseUrl = appContext.getResources().getString(R.string.base_url);
+        	String url = baseUrl.concat(modelName);
+        	Log.i("SyncAdapter", "Get to URL: "+url);
+        	
             response = httpclient.execute(new HttpGet(url));
             // checking response to see if it worked ok
             StatusLine statusLine = response.getStatusLine();
@@ -105,24 +109,61 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 Log.i("SyncAdapter", "Response text: \n"+responseString);
                 
                 // transform response into a JSONArray object
-                JSONArray workersJson = new JSONArray(responseString);
+                JSONArray jsonArray = new JSONArray(responseString);
                 // Database helper for Worker table
-                Dao<Worker, Integer> wDao;
-                DatabaseHelper workerDbHelper = new DatabaseHelper(appContext);
-                wDao = workerDbHelper.getWorkersDao();
+                DatabaseHelper dbHelper = new DatabaseHelper(appContext);
                 
-                // delete all entries
-                if (workersJson.length() > 0) {
-	                DeleteBuilder<Worker, Integer> deleteWorker = wDao.deleteBuilder();
-	                deleteWorker.delete();
-                }
-                
-                // add new entries received via REST call
-                for (int i=0; i < workersJson.length(); i++) {
-                	JSONObject w = workersJson.getJSONObject(i);
-                	// WORKERS
-            	    Worker worker = new Worker(w.getInt("_id"), w.getString("first_name"), w.getString("last_name"), w.getString("password"), w.getString("role_name"), w.getString("assigned_community"));
-            	    wDao.create(worker);
+                if ("workers" == modelName) {
+	                Dao<Worker, Integer> wDao;
+	                wDao = dbHelper.getWorkersDao();
+	                
+	                // delete all entries
+	                if (jsonArray.length() > 0) {
+		                DeleteBuilder<Worker, Integer> deleteWorker = wDao.deleteBuilder();
+		                deleteWorker.delete();
+	                }
+	                
+	                // add new entries received via REST call
+	                for (int i=0; i < jsonArray.length(); i++) {
+	                	JSONObject w = jsonArray.getJSONObject(i);
+	                	// WORKERS
+	            	    Worker worker = new Worker(w.getInt("_id"), w.getString("first_name"), w.getString("last_name"), w.getString("password"), w.getString("role_name"), w.getString("assigned_community"));
+	            	    wDao.create(worker);
+	                }
+                } else if ("clients" == modelName) {
+	                Dao<Client, Integer> clientDao;
+	                clientDao = dbHelper.getClientsDao();
+	                
+	                // delete all entries
+	                if (jsonArray.length() > 0) {
+		                DeleteBuilder<Client, Integer> deleteWorker = clientDao.deleteBuilder();
+		                deleteWorker.delete();
+	                }
+	                
+	                // add new entries received via REST call
+	                for (int i=0; i < jsonArray.length(); i++) {
+	                	JSONObject c = jsonArray.getJSONObject(i);
+	                	// Clients
+	                	Client client = new Client(c.getInt("_id"), c.getString("first_name"), c.getString("last_name"), c.getInt("hh_id"), c.getString("gender"));
+	            	    clientDao.create(client);
+	                }
+                } else if ("households" == modelName) {
+	                Dao<Household, Integer> householdsDao;
+	                householdsDao = dbHelper.getHouseholdsDao();
+	                
+	                // delete all entries
+	                if (jsonArray.length() > 0) {
+		                DeleteBuilder<Household, Integer> deleteHousehold = householdsDao.deleteBuilder();
+		                deleteHousehold.delete();
+	                }
+	                
+	                // add new entries received via REST call
+	                for (int i=0; i < jsonArray.length(); i++) {
+	                	JSONObject h = jsonArray.getJSONObject(i);
+	                	// Clients
+	                	Household household = new Household(h.getInt("_id"), h.getString("hh_name"), h.getString("community"), h.getInt("worker_id"));
+	                	householdsDao.create(household);
+	                }
                 }
             } else{
                 //Closes the connection.
