@@ -3,6 +3,60 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+
+ 	<TextView
+        android:id="@+id/paginationTextField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1/4" />
+ 	<Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="moveBack"
+        android:text="Back" /> 	
+ 	<Button
+        android:id="@+id/nextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="moveNext"
+        android:text="Next" />
+ 	
+
+    <FrameLayout
+       android:id="@+id/your_placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </FrameLayout>
+
+</LinearLayout>
+
+
+
+
+<!-- <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+   
     
 
 </LinearLayout>
+
+ -->
+
+<!-- 
+
+
+SCRATCH: 
+	   	<Button
+	        android:id="@+id/attendance_submission_button"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentBottom="true"
+	        android:layout_centerHorizontal="true"
+	        android:paddingLeft="32dp"
+	        android:paddingRight="32dp"
+	        android:onClick="submitAttendance"
+	        android:text="Done" />   --> 

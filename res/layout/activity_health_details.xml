@@ -21,12 +21,12 @@
     	    <TextView
 	            android:id="@+id/health_sub1_title_field"
 	            style="@style/titleText"
-	            android:textColor="@color/chat"
+	            android:textColor="@color/attendance"
 	            android:text="@string/health_sub_title_text" />
 	        <View
 	            android:id="@+id/health_sub1_divider"
 	            style="@style/titleDivider"
-	            android:background="@color/chat"
+	            android:background="@color/attendance"
 	            android:layout_below="@id/health_sub1_title_field" />
 	        <ImageView
 		        android:id="@+id/health_sub1_button_img"
@@ -55,12 +55,12 @@
       	    <TextView
 	            android:id="@+id/health_sub2_title_field"
 	            style="@style/titleText"
-	            android:textColor="@color/chat"
+	            android:textColor="@color/attendance"
 	            android:text="@string/health_sub_title_text" />
 	        <View
 	            android:id="@+id/health_sub2_divider"
 	            style="@style/titleDivider"
-	            android:background="@color/chat"
+	            android:background="@color/attendance"
 	            android:layout_below="@id/health_sub2_title_field" />
 	        <ImageView
 		        android:id="@+id/health_sub2_button_img"
@@ -94,12 +94,12 @@
     	    <TextView
 	            android:id="@+id/health_sub3_title_field"
 	            style="@style/titleText"
-	            android:textColor="@color/chat"
+	            android:textColor="@color/attendance"
 	            android:text="@string/health_sub_title_text" />
 	        <View
 	            android:id="@+id/health_sub3_divider"
 	            style="@style/titleDivider"
-	            android:background="@color/chat"
+	            android:background="@color/attendance"
 	            android:layout_below="@id/health_sub3_title_field" />
 	        <ImageView
 		        android:id="@+id/health_sub3_button_img"
@@ -128,12 +128,12 @@
       	    <TextView
 	            android:id="@+id/health_sub4_title_field"
 	            style="@style/titleText"
-	            android:textColor="@color/chat"
+	            android:textColor="@color/attendance"
 	            android:text="@string/health_sub_title_text" />
 	        <View
 	            android:id="@+id/health_sub4_divider"
 	            style="@style/titleDivider"
-	            android:background="@color/chat"
+	            android:background="@color/attendance"
 	            android:layout_below="@id/health_sub4_title_field" />
 	        <ImageView
 		        android:id="@+id/health_sub4_button_img"
