@@ -469,7 +469,7 @@ public class HomeActivity extends Activity {
 	    switch (item.getItemId()) {
 	    case R.id.menu_settings:
 	        Toast.makeText(getApplicationContext(), "These are not the Droids you are looking for. Move along!", Toast.LENGTH_SHORT).show();
-//	        prepopulateDB();
+	        prepopulateDB();
 	        return true;
 	    case R.id.menu_sync:
 	        Toast.makeText(getApplicationContext(), "Triggering sync adapter to sync with server...", Toast.LENGTH_LONG).show();
@@ -498,10 +498,10 @@ public class HomeActivity extends Activity {
 	    }
 	}
     
-//    private void prepopulateDB() {
-//		Intent i = new Intent(HomeActivity.this, SetupDB.class);
-//		startActivity(i);
-//    }
+    private void prepopulateDB() {
+		Intent i = new Intent(HomeActivity.this, SetupDB.class);
+		startActivity(i);
+    }
     
     
 //	private RequestQueue mRequestQueue;

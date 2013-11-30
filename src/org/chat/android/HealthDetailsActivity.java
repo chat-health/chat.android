@@ -29,12 +29,12 @@ public class HealthDetailsActivity extends Activity {
     }
     
     public void openHealthDelivery(View v) {
-    	String subTopic = null;
-        subTopic = (String) v.getTag();
+    	String subtopic = null;
+        subtopic = (String) v.getTag();
     	
     	Intent i = new Intent(HealthDetailsActivity.this, HealthDeliveryActivity.class);
     	Bundle b = new Bundle();
-    	b.putString("subTopic",subTopic);
+    	b.putString("subtopic",subtopic);
     	i.putExtras(b);
     	startActivity(i);	
     }

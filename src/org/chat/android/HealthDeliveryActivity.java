@@ -19,16 +19,16 @@ public class HealthDeliveryActivity extends Activity {
 	
 	//List<HealthPage> pages = new ArrayList<View>();
 	int pageCounter = 1;
-	int lastPage = 4;				// this will be set dynamically in the future
+	int lastPage = 0;
 	
 	TextView paginationTextField = null;
 	
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_health_delivery);
-        String subTopic = null;
+        String subtopic = null;
 		Bundle b = getIntent().getExtras();
-		subTopic = b.getString("subTopic");
+		subtopic = b.getString("subtopic");
 		
 		// get the required pages for the subtopic
 		//createPageArray();
