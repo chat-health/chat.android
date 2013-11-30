@@ -42,8 +42,7 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
     private int visitId = 0;
     List<Client> presenceArrayList = new ArrayList<Client>();
 
-//    public ClientsAdapter(Context context, int layoutResourceId, int checkboxId, List<Client> clientsArray) {
-//        super(context, layoutResourceId, checkboxId, clientsArray);
+    
     public ClientsAdapter(Context context, int layoutResourceId, List<Client> clientsArray, int vId) {
         super(context, layoutResourceId, clientsArray);
         visitId = vId;
@@ -71,9 +70,9 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
             gender = (TextView)convertView.findViewById(client_gender);
             gender.setText(c.getGender());
             if (c.getGender().equals("male")) {
-            	name.setTextColor(Color.parseColor("#6132ED"));
+            	name.setTextColor(Color.parseColor("#0071bc"));
             } else if (c.getGender().equals("female")) {
-            	name.setTextColor(Color.parseColor("#F2A2DA"));
+            	name.setTextColor(Color.parseColor("#93278f"));
             } else {
             	Log.e("No gender assigned for", c.getFirstName()+" "+c.getLastName());
             }

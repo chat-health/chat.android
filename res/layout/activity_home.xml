@@ -51,11 +51,12 @@
         <TextView
             android:id="@+id/services_title_field"
             style="@style/titleText"
-            android:textColor="@color/services"
+            android:textColor="@color/services_disabled"
             android:text="@string/home_services_title_text" />
         <View
+            android:id="@+id/services_divider"
             style="@style/titleDivider"
-            android:background="@color/services"
+            android:background="@color/services_disabled"
             android:layout_below="@id/services_title_field" />
         <ImageView
 	        android:id="@+id/services_button_img"
@@ -78,11 +79,12 @@
             android:id="@+id/health_education_title_field"
             style="@style/titleText"
             android:layout_marginTop="275dp"
-            android:textColor="@color/healthEducation"
+            android:textColor="@color/health_education_disabled"
             android:text="@string/home_health_education_title_text" />
         <View
+            android:id="@+id/health_education_divider"
             style="@style/titleDivider"
-            android:background="@color/healthEducation"
+            android:background="@color/health_education_disabled"
             android:layout_below="@id/health_education_title_field" />
         <ImageView
 	        android:id="@+id/health_education_button_img"

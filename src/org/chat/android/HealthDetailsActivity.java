@@ -41,6 +41,7 @@ public class HealthDetailsActivity extends Activity {
     
     public void setupSubTopicButtons(String healthTopic) {
 		// set the subtopics based on the healthTopic that was passed into this activity
+    	// these get put in ArrayLists so that they can easily be referred in conditional statements without having to refer to the actual string values (which could change)
     	List<TextView> subTitle = new ArrayList<TextView>();
     	subTitle.add((TextView) findViewById(R.id.health_sub1_title_field));
     	subTitle.add((TextView) findViewById(R.id.health_sub2_title_field));
