@@ -42,8 +42,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<Video, Integer> videosDao = null;
     private Dao<VideoAccessed, Integer> videoAccessedDao = null;
     
-    private Dao<HealthSubtopic, Integer> healthSubtopicDao = null;
-    private Dao<HealthPage, Integer> healthPageDao = null;
+    private Dao<HealthSubtopic, Integer> healthSubtopicsDao = null;
+    private Dao<HealthPage, Integer> healthPagesDao = null;
     
 
     public DatabaseHelper(Context context) {
@@ -158,17 +158,17 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
         return videoAccessedDao;
     }
-    public Dao<HealthSubtopic, Integer> getHealthSubtopicDao() throws SQLException {
-        if (healthSubtopicDao == null) {
-        	healthSubtopicDao = getDao(HealthSubtopic.class);
+    public Dao<HealthSubtopic, Integer> getHealthSubtopicsDao() throws SQLException {
+        if (healthSubtopicsDao == null) {
+        	healthSubtopicsDao = getDao(HealthSubtopic.class);
         }
-        return healthSubtopicDao;
+        return healthSubtopicsDao;
     }
-    public Dao<HealthPage, Integer> getHealthPageDao() throws SQLException {
-        if (healthPageDao == null) {
-        	healthPageDao = getDao(HealthPage.class);
+    public Dao<HealthPage, Integer> getHealthPagesDao() throws SQLException {
+        if (healthPagesDao == null) {
+        	healthPagesDao = getDao(HealthPage.class);
         }
-        return healthPageDao;
+        return healthPagesDao;
     }
 
     /**
@@ -187,7 +187,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         workersDao = null;
         videosDao = null;
         videoAccessedDao = null;
-        healthSubtopicDao = null;
-        healthPageDao = null;
+        healthSubtopicsDao = null;
+        healthPagesDao = null;
     }
 }
