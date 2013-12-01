@@ -1,4 +1,7 @@
-package org.chat.android;
+package org.chat.android.pages;
+
+import org.chat.android.R;
+import org.chat.android.R.layout;
 
 import android.app.Fragment;
 import android.os.Bundle;

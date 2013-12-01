@@ -12,7 +12,6 @@ import com.j256.ormlite.dao.Dao;
 
 import android.app.Activity;
 import android.app.Fragment;
-//import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
@@ -61,7 +60,6 @@ public class HealthDeliveryActivity extends Activity {
 		} else {
 			Toast.makeText(getApplicationContext(),"Last page peached",Toast.LENGTH_SHORT).show();
 		}
-
 	}
 	
 	public void moveBack(View v) {
@@ -82,7 +80,7 @@ public class HealthDeliveryActivity extends Activity {
 	    // oh the joys of static typing. This nonsense allows us to 'cast' the type to a fragment
 	    Fragment newFrag = null;
 		try {
-			newFrag = (Fragment) Class.forName("org.chat.android." + type + "Fragment").newInstance();
+			newFrag = (Fragment) Class.forName("org.chat.android.pages." + type + "Fragment").newInstance();
 		} catch (InstantiationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -93,7 +91,6 @@ public class HealthDeliveryActivity extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	    //Fragment f = new Text1Fragment();
 		
 	    FragmentTransaction ft = getFragmentManager().beginTransaction();
 	    ft.replace(R.id.placeholder, newFrag);

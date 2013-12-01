@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="AppTheme" parent="android:Theme.Light" />
 
@@ -20,6 +20,12 @@
 	    <item name="android:layout_height">600dp</item>
 	    <item name="android:background">#FFFFFF</item>
 	    <item name="android:padding">25dp</item>
+	</style>
+	
+    <style name="healthContainer">
+	    <item name="android:layout_width">1000dp</item>
+	    <item name="android:layout_height">match_parent</item>
+	    <item name="android:background">#D6D4D4</item>
 	</style>
 	
 	<style name="titleText">
@@ -48,11 +54,32 @@
         <item name="android:contentDescription">@string/generic_img_button_text</item>
 	</style>
 	
-	<style name="smallButton">
-        <item name="android:layout_width">150dp</item>
-        <item name="android:layout_height">50dp</item>
-        <item name="android:background">#33CCCC</item>	    
+	<!-- styles used in the health/pages layouts -->
+<!-- 	<style name="smallTextContainer">
+	    <item name="android:layout_width">300dp</item>
+	    <item name="android:layout_height">170dp</item>
+	    <item name="android:textSize">28sp</item>	    
+	</style> -->
+	
+	<style name="shortTextContainer">
+	    <item name="android:layout_width">fill_parent</item>
+	    <item name="android:layout_height">170dp</item>
+	    <item name="android:textSize">28sp</item>	    
 	</style>
+	
+	<style name="healthRadioGroup">
+	    <item name="android:layout_width">wrap_content</item>
+	    <item name="android:layout_height">wrap_content</item> 
+	</style>
+	
+	<style name="healthRadioButton">
+	    <item name="android:layout_width">300dp</item>
+	    <item name="android:layout_height">wrap_content</item>
+	    <item name="android:layout_marginBottom">30dp</item>
+	    <item name="android:textSize">28sp</item>	    
+	</style>
+	
+	<!-- <item name="android:background">#444444</item>  -->
 	
 </resources>
 
