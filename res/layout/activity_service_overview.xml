@@ -1,70 +1,146 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-
-    <TableLayout
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="60dp"
+    android:paddingRight="60dp"
+    android:paddingTop="40dp"
+    android:paddingBottom="40dp">
+      
+   	<TableRow
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-         
-    	<TableRow
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content">
-    	    <Button
-		        android:id="@+id/service_subtype_0"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:paddingLeft="32dp"
-		        android:paddingRight="32dp"
-		        android:onClick="openServiceDetails"
-		        android:text="SUB1" />
-    	    <Button
-			    android:id="@+id/service_subtype_1"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:paddingLeft="32dp"
-			    android:paddingRight="32dp"
-			    android:onClick="openServiceDetails"
-			    android:text="SUB2" />
-    	    <Button
-		        android:id="@+id/service_subtype_2"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:paddingLeft="32dp"
-		        android:paddingRight="32dp"
-		        android:onClick="openServiceDetails"
-		        android:text="SUB3" />    	    
-    	</TableRow>
-    	
-    	<TableRow
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content">
-			
-    	    <Button
-			    android:id="@+id/service_subtype_3"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:paddingLeft="32dp"
-			    android:paddingRight="32dp"
-			    android:onClick="openServiceDetails"
-			    android:text="SUB4" />
-    	    <Button
-		        android:id="@+id/service_subtype_4"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:paddingLeft="32dp"
-		        android:paddingRight="32dp"
-		        android:onClick="openServiceDetails"
-		        android:text="SUB5" />
-    	    <Button
-			    android:id="@+id/service_subtype_5"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:paddingLeft="32dp"
-			    android:paddingRight="32dp"
-			    android:onClick="openServiceDetails"
-			    android:text="SUB6" />
-    	</TableRow>
-    	 	
-    </TableLayout>
-</LinearLayout>
+        android:layout_height="wrap_content">
+        
+   	    <RelativeLayout
+   	        android:layout_width="match_parent"
+       		android:layout_height="wrap_content"
+       		android:layout_weight="1"
+       		android:layout_margin="20dp">
+
+	      	<ImageView
+		        android:id="@+id/service_subtype1_button"
+		        style="@style/serviceTypeImage"
+		        android:layout_centerHorizontal="true"
+		        android:src="@drawable/children_play_screenshot"
+		        android:onClick="openServiceDetails" />  	    
+    	    <TextView
+	            android:id="@+id/service_subtype1_text_field"
+	            style="@style/serviceTypeTitle"
+	            android:layout_centerHorizontal="true"
+	            android:layout_below="@id/service_subtype1_button"
+	            android:onClick="openServiceDetails"
+	            android:text="SUB1" />
+    	    
+    	</RelativeLayout>
+   	    <RelativeLayout
+   	        android:layout_width="match_parent"
+       		android:layout_height="wrap_content"
+       		android:layout_weight="1"
+       		android:layout_margin="20dp">
+
+	      	<ImageView
+		        android:id="@+id/service_subtype2_button"
+		        style="@style/serviceTypeImage"
+		        android:layout_centerHorizontal="true"
+		        android:src="@drawable/children_play_screenshot"
+		        android:onClick="openServiceDetails" />  	    
+    	    <TextView
+	            android:id="@+id/service_subtype2_text_field"
+	            style="@style/serviceTypeTitle"
+	            android:layout_centerHorizontal="true"
+	            android:layout_below="@id/service_subtype2_button"
+	            android:onClick="openServiceDetails"
+	            android:text="SUB2" />
+    	    
+    	</RelativeLayout>
+    	<RelativeLayout
+   	        android:layout_width="match_parent"
+       		android:layout_height="wrap_content"
+       		android:layout_weight="1"
+       		android:layout_margin="20dp">
+
+	      	<ImageView
+		        android:id="@+id/service_subtype3_button"
+		        style="@style/serviceTypeImage"
+		        android:layout_centerHorizontal="true"
+		        android:src="@drawable/children_play_screenshot"
+		        android:onClick="openServiceDetails" />  	    
+    	    <TextView
+	            android:id="@+id/service_subtype3_text_field"
+	            style="@style/serviceTypeTitle"
+	            android:layout_centerHorizontal="true"
+	            android:layout_below="@id/service_subtype3_button"
+	            android:onClick="openServiceDetails"
+	            android:text="SUB3" />
+    	    
+    	</RelativeLayout>
+    </TableRow>
+ 	<TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        
+   	    <RelativeLayout
+   	        android:layout_width="match_parent"
+       		android:layout_height="wrap_content"
+       		android:layout_weight="1"
+       		android:layout_margin="20dp">
+
+	      	<ImageView
+		        android:id="@+id/service_subtype4_button"
+		        style="@style/serviceTypeImage"
+		        android:layout_centerHorizontal="true"
+		        android:src="@drawable/children_play_screenshot"
+		        android:onClick="openServiceDetails" />  	    
+    	    <TextView
+	            android:id="@+id/service_subtype4_text_field"
+	            style="@style/serviceTypeTitle"
+	            android:layout_centerHorizontal="true"
+	            android:layout_below="@id/service_subtype4_button"
+	            android:onClick="openServiceDetails"
+	            android:text="SUB4" />
+    	    
+    	</RelativeLayout>
+   	    <RelativeLayout
+   	        android:layout_width="match_parent"
+       		android:layout_height="wrap_content"
+       		android:layout_weight="1"
+       		android:layout_margin="20dp">
+
+	      	<ImageView
+		        android:id="@+id/service_subtype5_button"
+		        style="@style/serviceTypeImage"
+		        android:layout_centerHorizontal="true"
+		        android:src="@drawable/children_play_screenshot"
+		        android:onClick="openServiceDetails" />  	    
+    	    <TextView
+	            android:id="@+id/service_subtype5_text_field"
+	            style="@style/serviceTypeTitle"
+	            android:layout_centerHorizontal="true"
+	            android:layout_below="@id/service_subtype5_button"
+	            android:onClick="openServiceDetails"
+	            android:text="SUB5" />
+    	    
+    	</RelativeLayout>
+    	<RelativeLayout
+   	        android:layout_width="match_parent"
+       		android:layout_height="wrap_content"
+       		android:layout_weight="1"
+       		android:layout_margin="20dp">
+
+	      	<ImageView
+		        android:id="@+id/service_subtype6_button"
+		        style="@style/serviceTypeImage"
+		        android:layout_centerHorizontal="true"
+		        android:src="@drawable/children_play_screenshot"
+		        android:onClick="openServiceDetails" />  	    
+    	    <TextView
+	            android:id="@+id/service_subtype6_text_field"
+	            style="@style/serviceTypeTitle"
+	            android:layout_centerHorizontal="true"
+	            android:layout_below="@id/service_subtype6_button"
+	            android:onClick="openServiceDetails"
+	            android:text="SUB6" />
+    	    
+    	</RelativeLayout>
+	</TableRow>
+</TableLayout>    	

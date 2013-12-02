@@ -36,6 +36,13 @@
         <item name="android:padding">6dp</item>
 	</style>
 	
+	<style name="serviceTypeTitle">
+	    <item name="android:layout_width">wrap_content</item>
+	    <item name="android:layout_height">50dp</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:padding">6dp</item>
+	</style>
+	
 	<style name="titleDivider">
 	    <item name="android:layout_width">fill_parent</item>
 	    <item name="android:layout_height">2dp</item>
@@ -44,6 +51,12 @@
 	<style name="topicImage">
 	    <item name="android:layout_width">200dp</item>
 	    <item name="android:layout_height">140dp</item>
+        <item name="android:contentDescription">@string/generic_img_button_text</item>
+	</style>
+	
+	<style name="serviceTypeImage">
+	    <item name="android:layout_width">200dp</item>
+	    <item name="android:layout_height">200dp</item>
         <item name="android:contentDescription">@string/generic_img_button_text</item>
 	</style>
 	
