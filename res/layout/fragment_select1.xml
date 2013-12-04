@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+    
+    <TextView
+        android:id="@+id/s1tv1"
+        style="@style/shortTextContainer"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. " />
+    
+    <RadioGroup
+        android:id="@+id/s1rg1"
+        style="@style/healthRadioGroup"
+        android:layout_below="@id/s1tv1"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="30dp" >
+ 
+        <RadioButton
+            android:id="@+id/s1rb1"
+            style="@style/healthRadioButton"
+            android:text="placeholder radio1" />
+        <RadioButton
+            android:id="@+id/s1rb2"
+            style="@style/healthRadioButton"
+            android:text="placeholder radio2" />
+        <RadioButton
+            android:id="@+id/s1rb3"
+            style="@style/healthRadioButton"
+            android:text="placeholder radio3" />
+        <RadioButton
+            android:id="@+id/s1rb14"
+            style="@style/healthRadioButton"
+            android:text="placeholder radio4" />
+        
+    </RadioGroup>
+    
+</RelativeLayout>

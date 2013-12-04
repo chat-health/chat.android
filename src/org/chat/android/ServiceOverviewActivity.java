@@ -20,19 +20,20 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ServiceOverviewActivity extends Activity {
 	int visitId = 0;
 	int hhId = 0;
-	String role = null;
 	
 	// TODO - consider if we want a serviceType class. And via ORM layer as well?
-	List<String> backgroundURIList = new ArrayList<String>(
-		Arrays.asList("children_play_screenshot", "children_play_screenshot")
-	);
-	String fakeURI = "children_play_screenshot";
+//	List<String> backgroundURIList = new ArrayList<String>(
+//		Arrays.asList("children_play_screenshot", "children_play_screenshot")
+//	);
+//	String fakeURI = "children_play_screenshot";
 	
 	
     public void onCreate(Bundle savedInstanceState) {
@@ -45,10 +46,14 @@ public class ServiceOverviewActivity extends Activity {
 		visitId = b.getInt("visitId");
 		hhId = b.getInt("hhId");
 		Visit v = determineRole();
-		role = v.getRole();
+		String role = v.getRole();
 		
+		setupServiceTypeButtons(role);
 
-		// display the list of types of services based on the user's role - TODO: move this into the DB at some point?
+	}
+    
+    public void setupServiceTypeButtons(String role) {
+    	// figure out which button names we need for this screen
 		String[] serviceTypes;
 		String[] roleArray = getResources().getStringArray(R.array.role_array);
 		if (role.equals(roleArray[0])) {
@@ -63,14 +68,20 @@ public class ServiceOverviewActivity extends Activity {
 			Toast.makeText(getApplicationContext(),"Role is undefined",Toast.LENGTH_LONG).show();
 		}
 		
-		// cycle through the serviceTypes, populate the button labels and tags
-		for (int i = 0; i < serviceTypes.length; i++) {
-			String buttonID = "service_subtype_" + i;
-			int resID = getResources().getIdentifier(buttonID, "id", "org.chat.android");
-		    Button btn = ((Button) findViewById(resID));
-			btn.setText(serviceTypes[i]);
+		// cycle through the serviceTypes, populate the labels and tags
+		for (int i = 1; i <= serviceTypes.length; i++) {
+			String tvId = "service_subtype" + i + "_text_field";
+			int resId = getResources().getIdentifier(tvId, "id", "org.chat.android");
+		    TextView tv = (TextView) findViewById(resId);
+			tv.setText(serviceTypes[i-1]);
+			tv.setTag(serviceTypes[i-1]);
+			
+			String imgId = "service_subtype" + i + "_button";
+			resId = getResources().getIdentifier(imgId, "id", "org.chat.android");
+			ImageView iv = (ImageView) findViewById(resId);
+			iv.setTag(serviceTypes[i-1]);
 		}
-	}
+    }
     
     // get the visitObject - going to be using this a lot. Maybe better to abstract it, make it public, have it return the object?
 	public Visit determineRole() {
@@ -83,7 +94,6 @@ public class ServiceOverviewActivity extends Activity {
 			Iterator<Visit> iter = vList.iterator();
 			while (iter.hasNext()) {
 				v = iter.next();
-				role = v.getRole();
 			}
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
@@ -93,9 +103,8 @@ public class ServiceOverviewActivity extends Activity {
 	}
 	
 	public void openServiceDetails(View v) {
-		Button btn = (Button)v;
-		String subtype = btn.getText().toString();
-		//Toast.makeText(getApplicationContext(),"You pressed: "+subtype,Toast.LENGTH_LONG).show();
+		String subtype = null;
+        subtype = (String) v.getTag();
 		
     	Intent i = new Intent(ServiceOverviewActivity.this, ServiceDetailsActivity.class);
     	Bundle b = new Bundle();

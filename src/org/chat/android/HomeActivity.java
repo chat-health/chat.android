@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import org.chat.android.models.Attendance;
 import org.chat.android.models.Client;
@@ -50,6 +51,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -64,10 +66,15 @@ public class HomeActivity extends Activity {
 	
 	public ListView lv = null;
 	public ClientsAdapter clAdapter = null;
-	ImageButton serviceBtn = null;
-	ImageView serviceBtnImg = null;
+	ImageButton servicesBtn = null;
 	ImageButton healthBtn = null;
+	ImageView servicesBtnImg = null;
 	ImageView healthBtnImg = null;
+	TextView servicesTitle = null;
+	TextView healthTitle = null;
+	View servicesDivider = null;
+	View healthDivider = null;		
+	
 	
 	// step aside I am here on official sync adapter business
 	// Constants
@@ -86,15 +93,25 @@ public class HomeActivity extends Activity {
         Context context = getApplicationContext();
         setContentView(R.layout.activity_home);
         
+        Locale locale = getResources().getConfiguration().locale;
+        locale.getLanguage();
+        // TODO - set some global value for language, that we'll use later (ie for Health Education Delivery)
+        
+    	servicesTitle = (TextView)findViewById(R.id.services_title_field);
+    	healthTitle = (TextView)findViewById(R.id.health_education_title_field);
+    	servicesDivider = (View)findViewById(R.id.services_divider);
+    	healthDivider = (View)findViewById(R.id.health_education_divider);
+        
         // set the services and health branch buttons to disabled (until user has submitted attendance)
-        serviceBtn = (ImageButton)findViewById(R.id.services_button);
-        //serviceBtn.setEnabled(false);
-        serviceBtnImg = (ImageView)findViewById(R.id.services_button_img);
-        //serviceBtnImg.setEnabled(false);
+    	// SWTICH FOR PROD
+        servicesBtn = (ImageButton)findViewById(R.id.services_button);
+        servicesBtn.setEnabled(false);
+        servicesBtnImg = (ImageView)findViewById(R.id.services_button_img);
+        servicesBtnImg.setEnabled(false);
         healthBtn = (ImageButton)findViewById(R.id.health_education_button);
-        //healthBtn.setEnabled(false);
+        healthBtn.setEnabled(false);
         healthBtnImg = (ImageView)findViewById(R.id.health_education_button_img);
-        //healthBtnImg.setEnabled(false);
+        healthBtnImg.setEnabled(false);
 //        http://stackoverflow.com/questions/7228985/android-disable-image-button-ui-feel (once Miche gives me the right assets)
 //		  will also want to move this out into another function for cleanliness        
         
@@ -124,7 +141,6 @@ public class HomeActivity extends Activity {
 		}
         
         lv = (ListView) findViewById(R.id.attendance_listview);
-    	//ClientsAdapter adapter = new ClientsAdapter(context, android.R.layout.simple_list_item_multiple_choice, R.id.checkbox, hhCList);
         clAdapter = new ClientsAdapter(context, android.R.layout.simple_list_item_multiple_choice, hhCList, visitId);
         lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         lv.setAdapter(clAdapter);
@@ -142,11 +158,7 @@ public class HomeActivity extends Activity {
             if (bText.equals("Done")) {
             	Toast.makeText(getApplicationContext(),"Attendance submitted",Toast.LENGTH_LONG).show();
             	b.setText("Update");
-            	// enable the Service and Health branches
-            	serviceBtn.setEnabled(true);
-            	serviceBtnImg.setEnabled(true);
-            	healthBtn.setEnabled(true);
-            	healthBtnImg.setEnabled(true);
+            	updateUIElementsForSubmission();
             	saveAttendanceList();
             } else {
             	Toast.makeText(getApplicationContext(),"Attendance updated",Toast.LENGTH_LONG).show();
@@ -171,62 +183,27 @@ public class HomeActivity extends Activity {
     	Intent i = new Intent(HomeActivity.this, HealthOverviewActivity.class);
     	startActivity(i);
     }
-
-
-    	
-
-
-//    
-//    ////////// HEALTH EDUCATION TAB //////////
-//    public class HealthEducationFragment extends Fragment {
-//        @Override
-//        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//            // inflate the layout for this fragment
-//            return inflater.inflate(R.layout.fragment_health_overview, container, false);
-//        }
-//        
-//    }
-//    
-//    public void openHealthDetails(View v) {
-//    	String healthTopic = null;
-//        healthTopic = (String) v.getTag();
-//    	
-//		Intent i = new Intent(HomeActivity.this, HealthDetailsActivity.class);
-//		Bundle b = new Bundle();
-//		b.putString("healthTopic",healthTopic);
-//		i.putExtras(b);
-//		startActivity(i);
-//    }
-//       
-//    
-//    
-//    ////////// RESOURCES TAB //////////
-//    public class ResourcesFragment extends Fragment {
-//        @Override
-//        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        	View resourcesFragmentView = inflater.inflate(R.layout.fragment_resources, container, false);
-//        	Context context = getActivity();        	
-//        	
-//    		ListView rList = (ListView) resourcesFragmentView.findViewById(R.id.resources_listview);
-//    		ArrayList<String> rArray = new ArrayList<String>();
-//    		rArray.add("0-6mos.pdf");
-//    		rArray.add("6-12mos.pdf");
-//    		rList.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, rArray));
-//    		rList.setOnItemClickListener(new OnItemClickListener() {
-//    			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//    				String res = (String)parent.getItemAtPosition(position);
-//    				openResource(res);
-//    			}
-//    		});    		
-////    		ResourcesAdapter rAdapter = new ResourcesAdapter(context, android.R.layout.simple_list_item_1, rArray);
-////    		rList.setAdapter(rAdapter);
-//        	
-//        	
-//            // inflate the layout for this fragment
-//            return resourcesFragmentView;
-//        }
-//    }
     
+    public void updateUIElementsForSubmission() {
+    	// enable the Service and Health branches, update the colors
+    	servicesBtn.setImageResource(R.drawable.children_play_screenshot);
+    	servicesBtn.setEnabled(true);
+    	servicesBtnImg.setImageResource(R.drawable.children_play_screenshot);
+    	servicesBtnImg.setEnabled(true);
+    	int c = getResources().getColor(getResources().getIdentifier("services", "color", getPackageName()));
+    	servicesTitle.setTextColor(c);
+    	servicesDivider.setBackgroundColor(c);
+    	
+    	healthBtn.setImageResource(R.drawable.children_play_screenshot);
+    	healthBtn.setEnabled(true);
+    	healthBtnImg.setImageResource(R.drawable.children_play_screenshot);
+    	healthBtnImg.setEnabled(true);
+    	c = getResources().getColor(getResources().getIdentifier("health_education", "color", getPackageName()));
+    	healthTitle.setTextColor(c);
+    	healthDivider.setBackgroundColor(c);
+    }
+
+
     
     
     ////////// HELPER FUNCTIONS //////////
@@ -498,7 +475,7 @@ public class HomeActivity extends Activity {
 	    switch (item.getItemId()) {
 	    case R.id.menu_settings:
 	        Toast.makeText(getApplicationContext(), "These are not the Droids you are looking for. Move along!", Toast.LENGTH_SHORT).show();
-//	        prepopulateDB();
+	        prepopulateDB();
 	        return true;
 	    case R.id.menu_sync:
 	        Toast.makeText(getApplicationContext(), "Triggering sync adapter to sync with server...", Toast.LENGTH_LONG).show();
@@ -527,10 +504,10 @@ public class HomeActivity extends Activity {
 	    }
 	}
     
-//    private void prepopulateDB() {
-//		Intent i = new Intent(HomeActivity.this, SetupDB.class);
-//		startActivity(i);
-//    }
+    private void prepopulateDB() {
+		Intent i = new Intent(HomeActivity.this, SetupDB.class);
+		startActivity(i);
+    }
     
     
 //	private RequestQueue mRequestQueue;

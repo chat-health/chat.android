@@ -1,62 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-
- 	<TextView
-        android:id="@+id/paginationTextField"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1/4" />
- 	<Button
-        android:id="@+id/backButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="moveBack"
-        android:text="Back" /> 	
- 	<Button
-        android:id="@+id/nextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="moveNext"
-        android:text="Next" />
- 	
-
-    <FrameLayout
-       android:id="@+id/your_placeholder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </FrameLayout>
-
-</LinearLayout>
-
-
-
-
-<!-- <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal" >
-   
-    
 
-</LinearLayout>
+    <RelativeLayout
+        android:id="@+id/health_delivery_screen"
+        style="@style/healthContainer"
+        android:layout_centerHorizontal="true" >
+        
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="70dp"
+            android:layout_alignParentBottom="true"
+	        android:background="#B5B5B5" >
+	        
+		 	<Button
+		        android:id="@+id/backButton"
+		        android:layout_width="wrap_content"
+		        android:layout_height="70dp"
+		        android:paddingLeft="32dp"
+		        android:paddingRight="32dp"		        
+		        android:onClick="moveBack"
+		        android:text="BACK" /> 	
+		 	<TextView
+		        android:id="@+id/paginationTextField"
+		        android:layout_width="wrap_content"
+		        android:layout_height="fill_parent"
+		        android:layout_centerHorizontal="true"
+		        android:textSize="26sp"
+		        android:gravity="center"
+		        android:text="1/4" />	        
+		 	<Button
+		        android:id="@+id/nextButton"
+		        android:layout_width="wrap_content"
+		        android:layout_height="70dp"
+		        android:paddingLeft="32dp"
+		        android:paddingRight="32dp"
+		        android:layout_alignParentRight="true"
+		        android:onClick="moveNext"
+		        android:text="NEXT" />
+		</RelativeLayout>
+ 	
 
- -->
+	    <FrameLayout
+	        android:id="@+id/placeholder"
+	        android:layout_width="match_parent"
+	        android:layout_height="fill_parent"
+	        android:padding="50dp"
+	        android:layout_marginBottom="50dp">
+	    </FrameLayout>
 
-<!-- 
 
-
-SCRATCH: 
-	   	<Button
-	        android:id="@+id/attendance_submission_button"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentBottom="true"
-	        android:layout_centerHorizontal="true"
-	        android:paddingLeft="32dp"
-	        android:paddingRight="32dp"
-	        android:onClick="submitAttendance"
-	        android:text="Done" />   --> 
+    </RelativeLayout>
+</RelativeLayout>
