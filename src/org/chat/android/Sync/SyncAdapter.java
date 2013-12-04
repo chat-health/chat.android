@@ -82,12 +82,22 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		
 		// 1) retrieve data from server, add new, handle conflict
 		
-		retrieveDataFromServer("workers");
-		retrieveDataFromServer("clients");
-		retrieveDataFromServer("households");
+		retrieveDataFromServer();
+		pushDataToServer();
 	}
 	
-	private void retrieveDataFromServer(String modelName) {
+	private void retrieveDataFromServer() {
+		retrieveModel("workers");
+		retrieveModel("clients");
+		retrieveModel("households");
+	}
+	
+	private void pushDataToServer() {
+		createJsonArrayOf("visits");
+//		pushModel("visits");
+	}
+	
+	private void retrieveModel(String modelName) {
 		HttpClient httpclient = new DefaultHttpClient();
         HttpResponse response;
         String responseString = null;
@@ -96,6 +106,105 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         	String baseUrl = appContext.getResources().getString(R.string.base_url);
         	String url = baseUrl.concat(modelName);
         	Log.i("SyncAdapter", "Get to URL: "+url);
+        	
+            response = httpclient.execute(new HttpGet(url));
+            // checking response to see if it worked ok
+            StatusLine statusLine = response.getStatusLine();
+            if (statusLine.getStatusCode() == HttpStatus.SC_OK){
+            	// all that obvious receiving business
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                response.getEntity().writeTo(out);
+                out.close();
+                responseString = out.toString();
+                Log.i("SyncAdapter", "Response text: \n"+responseString);
+                
+                // transform response into a JSONArray object
+                JSONArray jsonArray = new JSONArray(responseString);
+                // Database helper for Worker table
+                DatabaseHelper dbHelper = new DatabaseHelper(appContext);
+                
+                if ("workers" == modelName) {
+	                Dao<Worker, Integer> wDao;
+	                wDao = dbHelper.getWorkersDao();
+	                
+	                // delete all entries
+	                if (jsonArray.length() > 0) {
+		                DeleteBuilder<Worker, Integer> deleteWorker = wDao.deleteBuilder();
+		                deleteWorker.delete();
+	                }
+	                
+	                // add new entries received via REST call
+	                for (int i=0; i < jsonArray.length(); i++) {
+	                	JSONObject w = jsonArray.getJSONObject(i);
+	                	// WORKERS
+	            	    Worker worker = new Worker(w.getInt("_id"), w.getString("first_name"), w.getString("last_name"), w.getString("password"), w.getString("role_name"), w.getString("assigned_community"));
+	            	    wDao.create(worker);
+	                }
+                } else if ("clients" == modelName) {
+	                Dao<Client, Integer> clientDao;
+	                clientDao = dbHelper.getClientsDao();
+	                
+	                // delete all entries
+	                if (jsonArray.length() > 0) {
+		                DeleteBuilder<Client, Integer> deleteWorker = clientDao.deleteBuilder();
+		                deleteWorker.delete();
+	                }
+	                
+	                // add new entries received via REST call
+	                for (int i=0; i < jsonArray.length(); i++) {
+	                	JSONObject c = jsonArray.getJSONObject(i);
+	                	// Clients
+	                	Client client = new Client(c.getInt("_id"), c.getString("first_name"), c.getString("last_name"), c.getInt("hh_id"), c.getString("gender"));
+	            	    clientDao.create(client);
+	                }
+                } else if ("households" == modelName) {
+	                Dao<Household, Integer> householdsDao;
+	                householdsDao = dbHelper.getHouseholdsDao();
+	                
+	                // delete all entries
+	                if (jsonArray.length() > 0) {
+		                DeleteBuilder<Household, Integer> deleteHousehold = householdsDao.deleteBuilder();
+		                deleteHousehold.delete();
+	                }
+	                
+	                // add new entries received via REST call
+	                for (int i=0; i < jsonArray.length(); i++) {
+	                	JSONObject h = jsonArray.getJSONObject(i);
+	                	// Clients
+	                	Household household = new Household(h.getInt("_id"), h.getString("hh_name"), h.getString("community"), h.getInt("worker_id"));
+	                	householdsDao.create(household);
+	                }
+                }
+            } else{
+                //Closes the connection.
+                response.getEntity().getContent().close();
+                throw new IOException(statusLine.getReasonPhrase());
+            }
+        } catch (ClientProtocolException e) {
+            //TODO Handle problems..
+        } catch (IOException e) {
+            //TODO Handle problems..
+        } catch (JSONException e) {
+        	//TODO Handle problems..
+        } catch (SQLException e1) {
+	        // TODO Auto-generated catch block
+	        e1.printStackTrace();
+	    }
+	}
+	
+	private void createJsonArrayOf(String modelName) {
+		// TODO? More stuff here to get all data that is needed to create JSON objects to be pushed to server
+	}
+	
+	private void pushModel(String modelName) {
+		HttpClient httpclient = new DefaultHttpClient();
+        HttpResponse response;
+        String responseString = null;
+        try {
+        	// Executing a get request
+        	String baseUrl = appContext.getResources().getString(R.string.base_url);
+        	String url = baseUrl.concat(modelName);
+        	Log.i("SyncAdapter", "Push to URL: "+url);
         	
             response = httpclient.execute(new HttpGet(url));
             // checking response to see if it worked ok
