@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import org.chat.android.models.Attendance;
 import org.chat.android.models.Client;
@@ -92,20 +93,25 @@ public class HomeActivity extends Activity {
         Context context = getApplicationContext();
         setContentView(R.layout.activity_home);
         
+        Locale locale = getResources().getConfiguration().locale;
+        locale.getLanguage();
+        // TODO - set some global value for language, that we'll use later (ie for Health Education Delivery)
+        
     	servicesTitle = (TextView)findViewById(R.id.services_title_field);
     	healthTitle = (TextView)findViewById(R.id.health_education_title_field);
     	servicesDivider = (View)findViewById(R.id.services_divider);
     	healthDivider = (View)findViewById(R.id.health_education_divider);
         
         // set the services and health branch buttons to disabled (until user has submitted attendance)
+    	// SWTICH FOR PROD
         servicesBtn = (ImageButton)findViewById(R.id.services_button);
-        //servicesBtn.setEnabled(false);
+        servicesBtn.setEnabled(false);
         servicesBtnImg = (ImageView)findViewById(R.id.services_button_img);
-        //servicesBtnImg.setEnabled(false);
+        servicesBtnImg.setEnabled(false);
         healthBtn = (ImageButton)findViewById(R.id.health_education_button);
-        //healthBtn.setEnabled(false);
+        healthBtn.setEnabled(false);
         healthBtnImg = (ImageView)findViewById(R.id.health_education_button_img);
-        //healthBtnImg.setEnabled(false);
+        healthBtnImg.setEnabled(false);
 //        http://stackoverflow.com/questions/7228985/android-disable-image-button-ui-feel (once Miche gives me the right assets)
 //		  will also want to move this out into another function for cleanliness        
         
