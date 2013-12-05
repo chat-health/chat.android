@@ -2,7 +2,7 @@
     <string name="app_name">CHAT</string>
     
     <string name="base_url">http://lmbutler-ssa.net:8000/</string>
-
+	<!-- <string name="base_url">http://142.1.160.179:8000/</string> -->
     
     <string name="title_activity_main">CHAT test</string>
     <string name="title_activity_home">CHAT</string>
