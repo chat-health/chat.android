@@ -95,7 +95,7 @@ public class HomeActivity extends Activity {
         
         Locale locale = getResources().getConfiguration().locale;
         locale.getLanguage();
-        // TODO - set some global value for language, that we'll use later (ie for Health Education Delivery)
+        // TODO - set some global value for language, that we'll use later (ie for Health Education Delivery). It's also possible (likely) we'll need to pass it around with intents :/
         
     	servicesTitle = (TextView)findViewById(R.id.services_title_field);
     	healthTitle = (TextView)findViewById(R.id.health_education_title_field);
@@ -116,10 +116,10 @@ public class HomeActivity extends Activity {
 //		  will also want to move this out into another function for cleanliness        
         
         //FOR TESTING, SWITCH FOR PROD
-		//Bundle b = getIntent().getExtras();
-		//setupVisitObject(b.getString("hhName"), b.getString("workerName"), b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));				
+		Bundle b = getIntent().getExtras();
+		setupVisitObject(b.getString("hhName"), b.getString("workerName"), b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));				
 		//setupVisitObject(b.getString("hhName"), "colin", b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));
-        setupVisitObject("John Doe", "colin", "Home Care Volunteer", "home", 11.11, 12.12);     
+        //setupVisitObject("John Doe", "colin", "Home Care Volunteer", "home", 11.11, 12.12);     
     	
     	List<Client> cList = new ArrayList<Client>();
     	// get visit object and get the family, then use that to select TODO: yuck - FIXME (figure out the proper selector with ORM layer)

@@ -17,6 +17,7 @@ import org.chat.android.models.Attendance;
 import org.chat.android.models.Client;
 import org.chat.android.models.Household;
 import org.chat.android.models.Worker;
+import org.chat.android.models.Service;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -85,6 +86,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		retrieveDataFromServer("workers");
 		retrieveDataFromServer("clients");
 		retrieveDataFromServer("households");
+		retrieveDataFromServer("services");
 	}
 	
 	private void retrieveDataFromServer(String modelName) {
@@ -160,9 +162,24 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                // add new entries received via REST call
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject h = jsonArray.getJSONObject(i);
-	                	// Clients
 	                	Household household = new Household(h.getInt("_id"), h.getString("hh_name"), h.getString("community"), h.getInt("worker_id"));
 	                	householdsDao.create(household);
+	                }
+                } else if ("services" == modelName) {
+	                Dao<Service, Integer> servicesDao;
+	                servicesDao = dbHelper.getServicesDao();
+	                
+	                // delete all entries
+	                if (jsonArray.length() > 0) {
+		                DeleteBuilder<Service, Integer> deleteHousehold = servicesDao.deleteBuilder();
+		                deleteHousehold.delete();
+	                }
+	                
+	                // add new entries received via REST call
+	                for (int i=0; i < jsonArray.length(); i++) {
+	                	JSONObject h = jsonArray.getJSONObject(i);
+	                	Service service = new Service (h.getInt("_id"), h.getString("name"), h.getString("type"), h.getString("role"));
+	                	servicesDao.create(service);
 	                }
                 }
             } else{
