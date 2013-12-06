@@ -4,6 +4,15 @@
     <string name="base_url">http://lmbutler-ssa.net:8000/</string>
 
     
+    <string-array name="role_array">
+        <item>Home Care Volunteer</item>
+        <item>Lay Counsellor</item>
+        <item>Social Worker</item>
+        <item>Development Facilitator</item>
+        <item>Nurse</item>
+    </string-array>
+    
+    
     <string name="title_activity_main">CHAT test</string>
     <string name="title_activity_home">CHAT</string>
     <string name="title_activity_pick_video">CHAT > VIDEOS</string>
@@ -43,15 +52,6 @@
     <string name="health_nutrition_title_text">Nutrition</string>
     <string name="health_development_title_text">Development</string> 
     <string name="health_sub_title_text">Subtopic</string>
-      
-    
-    <string-array name="role_array">
-        <item>Home Care Volunteer</item>
-        <item>Lay Counsellor</item>
-        <item>Social Worker</item>
-        <item>Development Facilitator</item>
-        <item>Nurse</item>
-    </string-array>
     
     
 </resources>

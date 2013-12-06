@@ -42,7 +42,7 @@
 	       	    android:layout_toRightOf="@+id/health_HIV_button_img"
 	       	    android:layout_marginLeft="60dp"
 	       	    android:layout_marginTop="40dp"
-	       	    android:src="@drawable/children_play_btn_zulu"
+	       	    android:src="@drawable/hivgobutton"
 	       	    android:tag="HIV"
 	       	    android:onClick="openHealthDetails" />
 	       	
@@ -77,7 +77,7 @@
 	       	    android:layout_toRightOf="@+id/health_disease_button_img"
 	       	    android:layout_marginLeft="60dp"
 	       	    android:layout_marginTop="40dp"
-	       	    android:src="@drawable/children_play_btn_zulu"
+	       	    android:src="@drawable/childhooddiseasesgobutton"
 	       	    android:tag="disease"
 	       	    android:onClick="openHealthDetails" />   
 		</RelativeLayout>		       	     
@@ -117,7 +117,7 @@
 	       	    android:layout_toRightOf="@+id/health_nutrition_button_img"
 	       	    android:layout_marginLeft="60dp"
 	       	    android:layout_marginTop="40dp"
-	       	    android:src="@drawable/children_play_btn_zulu"
+	       	    android:src="@drawable/nutritiongobutton"
 	       	    android:tag="nutrition"
 	       	    android:onClick="openHealthDetails" />
 	       	
@@ -152,7 +152,7 @@
 	       	    android:layout_toRightOf="@+id/health_development_button_img"
 	       	    android:layout_marginLeft="60dp"
 	       	    android:layout_marginTop="40dp"
-	       	    android:src="@drawable/children_play_btn_zulu"
+	       	    android:src="@drawable/developmentgobutton"
 	       	    android:tag="development"
 	       	    android:onClick="openHealthDetails" />   
 		</RelativeLayout>

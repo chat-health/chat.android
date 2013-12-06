@@ -9,7 +9,7 @@
         style="@style/homeContainer"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="100dp"
+        android:layout_marginLeft="60dp"
         android:background="#FFFFFF" >
 
         <TextView
@@ -28,16 +28,15 @@
             android:layout_below="@id/attendance_list_title_field"
             android:choiceMode="multipleChoice"
             android:padding="10dp" />
-	   	<Button
+	   	<ImageButton
 	        android:id="@+id/attendance_submission_button"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
+	        android:layout_width="219dp"
+	        android:layout_height="69dp"
 	        android:layout_alignParentBottom="true"
 	        android:layout_centerHorizontal="true"
-	        android:paddingLeft="32dp"
-	        android:paddingRight="32dp"
+	        android:src="@drawable/donebutton"
 	        android:onClick="submitAttendance"
-	        android:text="Done" />        
+	        android:tag="Done" />        
 
     </RelativeLayout>
     
@@ -45,7 +44,7 @@
         style="@style/homeContainer"
         android:layout_centerVertical="true"
 		android:layout_alignParentRight="true"
-		android:layout_marginRight="100dp"
+		android:layout_marginRight="60dp"
         android:background="#FFFFFF" >
  
         <TextView

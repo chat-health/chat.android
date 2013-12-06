@@ -13,7 +13,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:padding="10dp"
-	        android:textSize="16sp" />
+	        android:textSize="26sp" />
 		<CheckBox
             android:id="@+id/checkbox"
             android:layout_width="wrap_content"
@@ -28,18 +28,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="260dp"
+            android:layout_marginLeft="300dp"
             android:layout_alignParentLeft="true"
+            android:textColor="#808080"
             android:textStyle="italic"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
         <TextView
             android:id="@+id/client_age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/client_gender"
+            android:textColor="#808080"
             android:textStyle="italic"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
 
     </RelativeLayout>
 

@@ -10,7 +10,7 @@
     </style>
 	
     <style name="homeContainer">
-	    <item name="android:layout_width">500dp</item>
+	    <item name="android:layout_width">560dp</item>
 	    <item name="android:layout_height">600dp</item>
 	    <item name="android:padding">25dp</item>
 	</style>
@@ -25,7 +25,7 @@
     <style name="healthContainer">
 	    <item name="android:layout_width">1000dp</item>
 	    <item name="android:layout_height">match_parent</item>
-	    <item name="android:background">#D6D4D4</item>
+	    <item name="android:background">#f5f5f5</item>
 	</style>
 	
 	<style name="titleText">

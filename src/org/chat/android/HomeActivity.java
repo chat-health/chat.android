@@ -150,22 +150,22 @@ public class HomeActivity extends Activity {
     }
     
     public void submitAttendance(View v) {
-    	Button b = (Button)v;
-        String bText = b.getText().toString();
+    	ImageButton b = (ImageButton)v;
+        String bText = b.getTag().toString();
         
         // check if any checkboxes are checked
         if (clAdapter.getSelectedClients().size() > 0) {
             if (bText.equals("Done")) {
             	Toast.makeText(getApplicationContext(),"Attendance submitted",Toast.LENGTH_LONG).show();
-            	b.setText("Update");
-            	updateUIElementsForSubmission();
+            	b.setTag("Update");
+            	updateUIElementsForSubmission(b);
             	saveAttendanceList();
             } else {
             	Toast.makeText(getApplicationContext(),"Attendance updated",Toast.LENGTH_LONG).show();
             	deleteCurrentAttendance();			// saveAttendanceList() is called from the finally in deleteCurrentAttendance()
             }        	
         } else {
-        	Toast.makeText(getApplicationContext(),"Click on the above list of clients to select attending household members",Toast.LENGTH_LONG).show();
+        	Toast.makeText(getApplicationContext(),"Attendance not submitted. Click on the above list of clients to select attending household members",Toast.LENGTH_LONG).show();
         }
 
     }
@@ -184,19 +184,22 @@ public class HomeActivity extends Activity {
     	startActivity(i);
     }
     
-    public void updateUIElementsForSubmission() {
+    public void updateUIElementsForSubmission(ImageButton b) {
+    	// switch the Done button to the Update button
+    	b.setImageResource(R.drawable.updatebutton);
+    	
     	// enable the Service and Health branches, update the colors
-    	servicesBtn.setImageResource(R.drawable.children_play_screenshot);
+    	servicesBtn.setImageResource(R.drawable.servicesgobutton);
     	servicesBtn.setEnabled(true);
-    	servicesBtnImg.setImageResource(R.drawable.children_play_screenshot);
+    	servicesBtnImg.setImageResource(R.drawable.thandananilogo);
     	servicesBtnImg.setEnabled(true);
     	int c = getResources().getColor(getResources().getIdentifier("services", "color", getPackageName()));
     	servicesTitle.setTextColor(c);
     	servicesDivider.setBackgroundColor(c);
     	
-    	healthBtn.setImageResource(R.drawable.children_play_screenshot);
+    	healthBtn.setImageResource(R.drawable.healthedgobutton);
     	healthBtn.setEnabled(true);
-    	healthBtnImg.setImageResource(R.drawable.children_play_screenshot);
+    	healthBtnImg.setImageResource(R.drawable.healthedimage);
     	healthBtnImg.setEnabled(true);
     	c = getResources().getColor(getResources().getIdentifier("health_education", "color", getPackageName()));
     	healthTitle.setTextColor(c);

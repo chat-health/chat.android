@@ -13,7 +13,7 @@
             android:layout_width="fill_parent"
             android:layout_height="70dp"
             android:layout_alignParentBottom="true"
-	        android:background="#B5B5B5" >
+	        android:background="#eeeeee" >
 	        
 		 	<Button
 		        android:id="@+id/backButton"

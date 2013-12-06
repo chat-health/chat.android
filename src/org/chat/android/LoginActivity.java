@@ -60,30 +60,29 @@ public class LoginActivity extends Activity {
 		mUserNameView.setText(mUserName);
 
 		mPasswordView = (EditText) findViewById(R.id.password);
-		mPasswordView
-				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-					@Override
-					public boolean onEditorAction(TextView textView, int id,
-							KeyEvent keyEvent) {
-						if (id == R.id.login || id == EditorInfo.IME_NULL) {
-							attemptLogin();
-							return true;
-						}
-						return false;
-					}
-				});
+		mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView textView, int id,
+					KeyEvent keyEvent) {
+				if (id == R.id.login || id == EditorInfo.IME_NULL) {
+					attemptLogin();
+					return true;
+				}
+				return false;
+			}
+		});
 
 		mLoginFormView = findViewById(R.id.login_form);
 		mLoginStatusView = findViewById(R.id.login_status);
 		mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
 
 		findViewById(R.id.sign_in_button).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(View view) {
-						attemptLogin();
-					}
-				});
+			new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					attemptLogin();
+			}
+		});
 		
 		// TODO: match this up with the UN/PW/ROLE on authentication, maybe thing about other error messages 
 		roleSpinner = (Spinner) findViewById(R.id.role_spinner);
@@ -121,22 +120,22 @@ public class LoginActivity extends Activity {
 		boolean cancel = false;
 		View focusView = null;
 
-		// Check for a valid password - comment out for testing
-//		if (TextUtils.isEmpty(mPassword)) {
-//			mPasswordView.setError(getString(R.string.error_field_required));
-//			focusView = mPasswordView;
-//			cancel = true;
-//		} else if (mPassword.length() < 2) {
-//			mPasswordView.setError(getString(R.string.error_invalid_password));
-//			focusView = mPasswordView;
-//			cancel = true;
-//		}
-//		// Check for a valid user ID.
-//		if (TextUtils.isEmpty(mUserName)) {
-//			mUserNameView.setError(getString(R.string.error_field_required));
-//			focusView = mUserNameView;
-//			cancel = true;
-//		}
+		// Check for a valid password - comment out for testing, use for PROD
+		if (TextUtils.isEmpty(mPassword)) {
+			mPasswordView.setError(getString(R.string.error_field_required));
+			focusView = mPasswordView;
+			cancel = true;
+		} else if (mPassword.length() < 2) {
+			mPasswordView.setError(getString(R.string.error_invalid_password));
+			focusView = mPasswordView;
+			cancel = true;
+		}
+		// Check for a valid user ID.
+		if (TextUtils.isEmpty(mUserName)) {
+			mUserNameView.setError(getString(R.string.error_field_required));
+			focusView = mUserNameView;
+			cancel = true;
+		}
 		// /comment
 		
 		if (cancel) {
@@ -211,14 +210,14 @@ public class LoginActivity extends Activity {
 //			}
 //
 			
-			// if for does not return true, ie if un/pw do not match. Again, comment out for testing			
-//			for (String credential : DUMMY_CREDENTIALS) {
-//				String[] pieces = credential.split(":");
-//				if (pieces[0].equals(mUserName)) {
-//					// Account exists, return true if the password matches.
-//					return pieces[1].equals(mPassword);
-//				}
-//			}
+			// if for does not return true, ie if un/pw do not match. Again, comment out for testing, use for PROD		
+			for (String credential : DUMMY_CREDENTIALS) {
+				String[] pieces = credential.split(":");
+				if (pieces[0].equals(mUserName)) {
+					// Account exists, return true if the password matches.
+					return pieces[1].equals(mPassword);
+				}
+			}
 			// /comment
 
 			return true;

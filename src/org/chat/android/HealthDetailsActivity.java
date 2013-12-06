@@ -85,6 +85,7 @@ public class HealthDetailsActivity extends Activity {
 				subTitle.get(i).setText(subTopicArray[i]);
 				imgView.get(i).setTag(subTopicArray[i]);
 				imgBtn.get(i).setTag(subTopicArray[i]);
+				imgBtn.get(i).setImageResource(R.drawable.hivgobutton);
 			}
 		} else if (healthTopic.equals(healthTopicArray[1])) {
 			subTopicArray = getResources().getStringArray(R.array.topic2_array);
@@ -96,6 +97,7 @@ public class HealthDetailsActivity extends Activity {
 				subTitle.get(i).setText(subTopicArray[i]);
 				imgView.get(i).setTag(subTopicArray[i]);
 				imgBtn.get(i).setTag(subTopicArray[i]);
+				imgBtn.get(i).setImageResource(R.drawable.childhooddiseasesgobutton);
 			}
 		} else if (healthTopic.equals(healthTopicArray[2])) {
 			subTopicArray = getResources().getStringArray(R.array.topic3_array);
@@ -107,6 +109,7 @@ public class HealthDetailsActivity extends Activity {
 				subTitle.get(i).setText(subTopicArray[i]);
 				imgView.get(i).setTag(subTopicArray[i]);
 				imgBtn.get(i).setTag(subTopicArray[i]);
+				imgBtn.get(i).setImageResource(R.drawable.nutritiongobutton);
 			}
 		} else if (healthTopic.equals(healthTopicArray[3])) {
 			subTopicArray = getResources().getStringArray(R.array.topic4_array);
@@ -118,6 +121,7 @@ public class HealthDetailsActivity extends Activity {
 				subTitle.get(i).setText(subTopicArray[i]);
 				imgView.get(i).setTag(subTopicArray[i]);
 				imgBtn.get(i).setTag(subTopicArray[i]);
+				imgBtn.get(i).setImageResource(R.drawable.developmentgobutton);
 			}
 		} else {
 			Log.e("Error, healthTopic is set to: ",healthTopic);
