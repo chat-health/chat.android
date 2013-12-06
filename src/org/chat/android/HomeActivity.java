@@ -105,21 +105,21 @@ public class HomeActivity extends Activity {
         // set the services and health branch buttons to disabled (until user has submitted attendance)
     	// SWTICH FOR PROD
         servicesBtn = (ImageButton)findViewById(R.id.services_button);
-        servicesBtn.setEnabled(false);
+        //servicesBtn.setEnabled(false);
         servicesBtnImg = (ImageView)findViewById(R.id.services_button_img);
-        servicesBtnImg.setEnabled(false);
+        //servicesBtnImg.setEnabled(false);
         healthBtn = (ImageButton)findViewById(R.id.health_education_button);
-        healthBtn.setEnabled(false);
+        //healthBtn.setEnabled(false);
         healthBtnImg = (ImageView)findViewById(R.id.health_education_button_img);
-        healthBtnImg.setEnabled(false);
+        //healthBtnImg.setEnabled(false);
 //        http://stackoverflow.com/questions/7228985/android-disable-image-button-ui-feel (once Miche gives me the right assets)
 //		  will also want to move this out into another function for cleanliness        
         
         //FOR TESTING, SWITCH FOR PROD
-		Bundle b = getIntent().getExtras();
-		setupVisitObject(b.getString("hhName"), b.getString("workerName"), b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));				
+		//Bundle b = getIntent().getExtras();
+		//setupVisitObject(b.getString("hhName"), b.getString("workerName"), b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));				
 		//setupVisitObject(b.getString("hhName"), "colin", b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));
-        //setupVisitObject("John Doe", "colin", "Home Care Volunteer", "home", 11.11, 12.12);     
+        setupVisitObject("John Doe", "colin", "Home Care Volunteer", "home", 11.11, 12.12);     
     	
     	List<Client> cList = new ArrayList<Client>();
     	// get visit object and get the family, then use that to select TODO: yuck - FIXME (figure out the proper selector with ORM layer)

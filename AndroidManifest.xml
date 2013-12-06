@@ -24,10 +24,10 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
             android:screenOrientation="landscape" >
-            <intent-filter>
+<!--             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter> -->
         </activity>
         <activity
             android:name=".SetupVisitActivity"
@@ -38,10 +38,10 @@
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"
             android:screenOrientation="landscape" >
-<!--             <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter> -->
+            </intent-filter>
         </activity>
         <activity
             android:name=".ServiceOverviewActivity"
