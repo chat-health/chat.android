@@ -62,7 +62,7 @@
 	        style="@style/topicImage"
 	        android:layout_below="@id/services_title_field"
 	        android:layout_marginTop="20dp"
-	        android:src="@drawable/children_play_screenshot"
+	        android:src="@drawable/thandananilogodisabled"
 	        android:onClick="openServiceOverview" />
        	<ImageButton
        	    android:id="@+id/services_button"
@@ -71,7 +71,7 @@
        	    android:layout_toRightOf="@+id/services_button_img"
        	    android:layout_marginLeft="60dp"
        	    android:layout_marginTop="40dp"
-       	    android:src="@drawable/children_play_btn_zulu"
+       	    android:src="@drawable/servicesgobuttondisabled"
        	    android:onClick="openServiceOverview" />        
         
        	<TextView
@@ -90,7 +90,7 @@
 	        style="@style/topicImage"
 	        android:layout_below="@id/health_education_title_field"
 	        android:layout_marginTop="20dp"
-	        android:src="@drawable/children_play_screenshot"
+	        android:src="@drawable/healthedimagedisabled"
 	        android:onClick="openHealthOverview" />
        	<ImageButton
        	    android:id="@+id/health_education_button"
@@ -99,7 +99,7 @@
        	    android:layout_toRightOf="@+id/health_education_button_img"
        	    android:layout_marginLeft="60dp"
        	    android:layout_marginTop="40dp"
-       	    android:src="@drawable/children_play_btn_zulu"
+       	    android:src="@drawable/healthedgobuttondisabled"
        	    android:onClick="openHealthOverview" />   
 		
 	</RelativeLayout>
