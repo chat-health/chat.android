@@ -67,6 +67,18 @@
         <item name="android:contentDescription">@string/generic_img_button_text</item>
 	</style>
 	
+	<style name="otherServiceTitle">
+	    <item name="android:layout_width">match_parent</item>
+	    <item name="android:layout_height">wrap_content</item>
+	    <item name="android:layout_marginTop">15dp</item>
+	    <item name="android:textSize">19sp</item> 
+	</style>
+	
+	<style name="otherServiceTextEntry">
+	    <item name="android:layout_width">match_parent</item>
+	    <item name="android:layout_height">wrap_content</item>  
+	</style>
+		
 	<!-- styles used in the health/pages layouts -->
 <!-- 	<style name="smallTextContainer">
 	    <item name="android:layout_width">300dp</item>

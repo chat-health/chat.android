@@ -28,6 +28,7 @@ import android.widget.Toast;
 public class ServiceOverviewActivity extends Activity {
 	int visitId = 0;
 	int hhId = 0;
+	String role = null;
 	
 	// TODO - consider if we want a serviceType class. And via ORM layer as well?
 //	List<String> backgroundURIList = new ArrayList<String>(
@@ -46,7 +47,7 @@ public class ServiceOverviewActivity extends Activity {
 		visitId = b.getInt("visitId");
 		hhId = b.getInt("hhId");
 		Visit v = determineRole();
-		String role = v.getRole();
+		role = v.getRole();
 		
 		setupServiceTypeButtons(role);
 
@@ -105,11 +106,17 @@ public class ServiceOverviewActivity extends Activity {
 	public void openServiceDetails(View v) {
 		String subtype = null;
         subtype = (String) v.getTag();
-		
-    	Intent i = new Intent(ServiceOverviewActivity.this, ServiceDetailsActivity.class);
+		Intent i = null;
+        
+        if (subtype.equals("Other")) {
+        	i = new Intent(ServiceOverviewActivity.this, ServiceOtherActivity.class);
+        } else {
+        	i = new Intent(ServiceOverviewActivity.this, ServiceDetailsActivity.class);
+        }
     	Bundle b = new Bundle();
     	b.putInt("visitId",visitId);
     	b.putInt("hhId",hhId);
+    	b.putString("role",role);
     	b.putString("subtype",subtype);
     	i.putExtras(b);
     	startActivity(i);

@@ -58,6 +58,12 @@
             android:label="@string/title_activity_service_delivery"
             android:screenOrientation="landscape" >
         </activity>
+        <activity
+            android:name=".ServiceOtherActivity"
+            android:label="@string/title_activity_service_delivery"
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="landscape" >
+        </activity>
 		<activity
             android:name=".HealthOverviewActivity"
             android:label="@string/title_activity_health_overview"
