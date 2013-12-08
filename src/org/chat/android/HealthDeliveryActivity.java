@@ -139,7 +139,7 @@ public class HealthDeliveryActivity extends Activity {
 			List<HealthPage> pList = pDao.queryBuilder().where().eq("subtopic_id",subId).query();
 			// clears out the null junk values - there is likely a better way to do this
 			for (HealthPage p : pList) {
-    			pages.add(p);							// START HERE - pages does not get populated
+    			pages.add(p);
         	}
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block

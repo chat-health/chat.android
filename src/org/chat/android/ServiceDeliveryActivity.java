@@ -26,8 +26,10 @@ public class ServiceDeliveryActivity extends Activity {
 	Context context;
 	private int visitId = 0;
 	private int hhId = 0;
+	Boolean adInfoFlag;
 	List<Client> presentClients = new ArrayList<Client>();
 	ArrayList<String> serviceNames = new ArrayList<String>();
+	ArrayList<String> serviceAdInfo = new ArrayList<String>();
 	ServiceDeliveryAdapter sdAdapter = null;
 	
     @Override    
@@ -40,6 +42,10 @@ public class ServiceDeliveryActivity extends Activity {
 		visitId = b.getInt("visitId");
 		hhId = b.getInt("hhId");
 		serviceNames = b.getStringArrayList("serviceNames");
+		adInfoFlag = b.getBoolean("adInfoFlag");
+		if (adInfoFlag == true) {
+			serviceAdInfo = b.getStringArrayList("serviceAdInfo");
+		}
 		
 		// grab list of present clients to show, based on the attendance
 		populateMembersList();
@@ -88,15 +94,21 @@ public class ServiceDeliveryActivity extends Activity {
 		}    
     }
     
-    
+
     public void selectServiceDeliveryClients(View v) {
     	List<Client> attendingClients = sdAdapter.getSelectedClients();
     	// for each checked service
+    	int i = 0;
     	for (String sName : serviceNames) {
-    		//int serviceId = getServiceIdFromName(sName);
     		// for each attending hh member
     		for (Client client : attendingClients) {
-    			ServiceAccessed sa = new ServiceAccessed(getServiceIdFromName(sName), visitId, client.getId());
+    			ServiceAccessed sa = null;
+    			// decide whether there is ad_info (ie it's an outlier type service that is not a simple checkbox)
+    			if (adInfoFlag == true) {
+    				sa = new ServiceAccessed(getServiceIdFromName(sName), visitId, client.getId(), serviceAdInfo.get(i));
+    			} else {
+    				sa = new ServiceAccessed(getServiceIdFromName(sName), visitId, client.getId(), null);
+    			}
     		    Dao<ServiceAccessed, Integer> saDao;
     		    DatabaseHelper saDbHelper = new DatabaseHelper(context);
     		    try {
@@ -107,6 +119,7 @@ public class ServiceDeliveryActivity extends Activity {
     		        e.printStackTrace();
     		    }
     		}
+    		i++;
     	}
     	
     	// update the visit object to reflect that at least one service was accessed

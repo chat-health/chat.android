@@ -119,7 +119,8 @@ public class HomeActivity extends Activity {
 		//Bundle b = getIntent().getExtras();
 		//setupVisitObject(b.getString("hhName"), b.getString("workerName"), b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));				
 		//setupVisitObject(b.getString("hhName"), "colin", b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));
-        setupVisitObject("John Doe", "colin", "Home Care Volunteer", "home", 11.11, 12.12);     
+        //setupVisitObject("John Doe", "colin", "Home Care Volunteer", "home", 11.11, 12.12);
+        setupVisitObject("John Doe", "colin", "Lay Counsellor", "home", 11.11, 12.12);
     	
     	List<Client> cList = new ArrayList<Client>();
     	// get visit object and get the family, then use that to select TODO: yuck - FIXME (figure out the proper selector with ORM layer)

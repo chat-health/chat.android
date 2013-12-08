@@ -196,8 +196,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                // add new entries received via REST call
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject h = jsonArray.getJSONObject(i);
-	                	Service service = new Service (h.getInt("_id"), h.getString("name"), h.getString("type"), h.getString("role"));
+	                	Service service = new Service (h.getInt("_id"), h.getString("name"), h.getString("type"), h.getString("role"), h.getString("instructions"));
 	                	servicesDao.create(service);
+	                	// START HERE - is db populated, is null null, what's going on
 	                }
                 }
             } else{

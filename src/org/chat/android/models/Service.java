@@ -17,7 +17,10 @@ public class Service {
     
     @DatabaseField()
     private String role;						// who has access to this service
-    
+
+    @DatabaseField()
+    private String instructions;						// additional info - usually becomes the hint in the Other list, and will often be null
+
     /**
      * Default Constructor needed by ormlite
      */
@@ -28,11 +31,12 @@ public class Service {
      * Constructor that instantiates the private member variable(s)
      * @param service_name
      */
-    public Service(int id, String name, String type, String role) {
+    public Service(int id, String name, String type, String role, String instructions) {
         this.id = id;
     	this.name = name;
     	this.type = type;
     	this.role = role;
+    	this.instructions = instructions;
     }
 
     /**
@@ -73,5 +77,13 @@ public class Service {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+	
+	public String getInstructions() {
+		return instructions;
+	}
+
+	public void setInstructions(String instructions) {
+		this.instructions = instructions;
 	}
 }

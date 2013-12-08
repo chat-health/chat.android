@@ -17,7 +17,9 @@
         <ScrollView 
             android:layout_width="match_parent"
 	        android:layout_height="400dp"
-		    android:layout_marginTop="60dp">
+		    android:layout_marginTop="60dp"
+		    android:isScrollContainer="false" >
+		    <!-- this might be the all time most poorly named Android property - scrolling is preserved, button outside of scrollview doesn't move with soft keyboard -->
 
 	        <LinearLayout 
 	            android:layout_width="match_parent"
@@ -27,106 +29,105 @@
 			    <TextView
 			        android:id="@+id/other_tv_1"
 					style="@style/otherServiceTitle"
-			        android:text="D1 - Caregiver / Family Consultation on Memory Work" />
+					android:visibility="gone"
+			        android:text="Unfilled" />
 			    <EditText
 			        android:id="@+id/other_et_1"
 					style="@style/otherServiceTextEntry"
-			        android:hint="A=Accepted or D=Declined" />
+					android:visibility="gone"
+			        android:hint="" />
 			    <TextView
 			        android:id="@+id/other_tv_2"
 			        style="@style/otherServiceTitle"
-			        android:text="D1 - Caregiver / Family Consultation on Memory Work" />
+			        android:visibility="gone"
+			        android:text="Unfilled" />
 			    <EditText
 			        android:id="@+id/other_et_2"
 			        style="@style/otherServiceTextEntry"
-			        android:hint="A=Accepted or D=Declined" />
+			        android:visibility="gone"
+			        android:hint="" />
 			    <TextView
 			        android:id="@+id/other_tv_3"
 			        style="@style/otherServiceTitle"
-			        android:text="D1 - Caregiver / Family Consultation on Memory Work" />
+			        android:visibility="gone"
+			        android:text="Unfilled" />
 			    <EditText
 			        android:id="@+id/other_et_3"
 			        style="@style/otherServiceTextEntry"
-			        android:hint="A=Accepted or D=Declined" />
+			        android:visibility="gone"
+			        android:hint="" />
 			    <TextView
 			        android:id="@+id/other_tv_4"
 			        style="@style/otherServiceTitle"
-			        android:text="D1 - Caregiver / Family Consultation on Memory Work" />
+			        android:visibility="gone"
+			        android:text="Unfilled" />
 			    <EditText
 			        android:id="@+id/other_et_4"
 			        style="@style/otherServiceTextEntry"
-			        android:hint="A=Accepted or D=Declined" />
+			        android:visibility="gone"
+			        android:hint="" />
 			    <TextView
 			        android:id="@+id/other_tv_5"
 			        style="@style/otherServiceTitle"
-			        android:text="D1 - Caregiver / Family Consultation on Memory Work" />
+			        android:visibility="gone"
+			        android:text="Unfilled" />
 			    <EditText
 			        android:id="@+id/other_et_5"
 			        style="@style/otherServiceTextEntry"
-			        android:hint="A=Accepted or D=Declined" />	   
+			        android:visibility="gone"
+			        android:hint="" />	   
 			    <TextView
 			        android:id="@+id/other_tv_6"
 			        style="@style/otherServiceTitle"
-			        android:text="D1 - Caregiver / Family Consultation on Memory Work" />
+			        android:visibility="gone"
+			        android:text="Unfilled" />
 			    <EditText
 			        android:id="@+id/other_et_6"
 			        style="@style/otherServiceTextEntry"
-			        android:hint="A=Accepted or D=Declined" />	 
+			        android:visibility="gone"
+			        android:hint="" />	 
 			    <TextView
 			        android:id="@+id/other_tv_7"
 			        style="@style/otherServiceTitle"
-			        android:text="D1 - Caregiver / Family Consultation on Memory Work" />
+			        android:visibility="gone"
+			        android:text="Unfilled" />
 			    <EditText
 			        android:id="@+id/other_et_7"
 			        style="@style/otherServiceTextEntry"
-			        android:hint="A=Accepted or D=Declined" />	
+			        android:visibility="gone"
+			        android:hint="" />	
 			    <TextView
 			        android:id="@+id/other_tv_8"
 			        style="@style/otherServiceTitle"
-			        android:text="D1 - Caregiver / Family Consultation on Memory Work" />
+			        android:visibility="gone"
+			        android:text="Unfilled" />
 			    <EditText
 			        android:id="@+id/other_et_8"
 			        style="@style/otherServiceTextEntry"
-			        android:hint="A=Accepted or D=Declined" />
+			        android:visibility="gone"
+			        android:hint="" />
 			    <TextView
 			        android:id="@+id/other_tv_9"
 			        style="@style/otherServiceTitle"
-			        android:text="D1 - Caregiver / Family Consultation on Memory Work" />
+			        android:visibility="gone"
+			        android:text="Unfilled" />
 			    <EditText
 			        android:id="@+id/other_et_9"
 			        style="@style/otherServiceTextEntry"
-			        android:hint="A=Accepted or D=Declined" />
+			        android:visibility="gone"
+			        android:hint="" />
+			    <TextView
+			        android:id="@+id/other_tv_10"
+			        style="@style/otherServiceTitle"
+			        android:visibility="gone"
+			        android:text="Unfilled" />
+			    <EditText
+			        android:id="@+id/other_et_10"
+			        style="@style/otherServiceTextEntry"
+			        android:visibility="gone"
+			        android:hint="" />
 	        </LinearLayout>
         </ScrollView>
-<!-- 	    <TextView
-	        android:id="@+id/other_tv_1"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_below="@id/service_other_title_field"
-	        android:layout_marginTop="20dp"
-	        android:textSize="21sp"
-	        android:text="D1 - Caregiver / Family Consultation on Memory Work" />
-	    <EditText
-	        android:id="@+id/other_et_1"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_below="@id/other_tv_1"
-	        android:hint="A=Accepted or D=Declined" />
-	    <TextView
-	        android:id="@+id/other_tv_2"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_below="@id/other_et_1"
-	        android:layout_marginTop="20dp"
-	        android:textSize="21sp"
-	        android:text="D1 - Caregiver / Family Consultation on Memory Work" />
-	    <EditText
-	        android:id="@+id/other_et_2"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_below="@id/other_tv_2"
-	        android:hint="A=Accepted or D=Declined" />	   -->  
-	    
 	    
 		<Button
 		    android:id="@+id/deliver_services_other_button"

@@ -36,7 +36,7 @@ public class ServiceDetailsActivity extends Activity {
 		tv.setText(type);
 		
 		// grab list of services to show, based on the service subtype
-		populateServiceList(type);
+		populateServicesList(type);
 		
 		ListView lv = (ListView) findViewById(R.id.service_details_listview);
 		sAdapter = new ServicesAdapter(context, android.R.layout.simple_list_item_multiple_choice, servicesList);
@@ -45,7 +45,7 @@ public class ServiceDetailsActivity extends Activity {
     }
     
     // used to generate the list of services for serviceDelivery
-    private void populateServiceList(String type) {
+    private void populateServicesList(String type) {
         Dao<Service, Integer> sDao;
         List<Service> allServices = new ArrayList<Service>();
         DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
@@ -70,6 +70,7 @@ public class ServiceDetailsActivity extends Activity {
     	b.putInt("visitId",visitId);
     	b.putInt("hhId",hhId);
     	b.putStringArrayList("serviceNames", serviceNames);
+    	b.putBoolean("adInfoFlag",false);
     	i.putExtras(b);
     	startActivity(i);
     }
