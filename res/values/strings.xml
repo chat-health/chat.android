@@ -13,7 +13,6 @@
     </string-array>
     
     
-    <string name="title_activity_main">CHAT test</string>
     <string name="title_activity_home">CHAT</string>
     <string name="title_activity_pick_video">CHAT > VIDEOS</string>
     <string name="title_activity_pick_form">CHAT > FORMS</string>

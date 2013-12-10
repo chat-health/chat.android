@@ -86,8 +86,8 @@ public class LoginActivity extends Activity {
 		
 		// TODO: match this up with the UN/PW/ROLE on authentication, maybe thing about other error messages 
 		roleSpinner = (Spinner) findViewById(R.id.role_spinner);
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.role_array, android.R.layout.simple_spinner_item);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.role_array, R.layout.login_spinner_item);
+		adapter.setDropDownViewResource(R.layout.login_spinner_item);
 		roleSpinner.setAdapter(adapter);
 
 	}

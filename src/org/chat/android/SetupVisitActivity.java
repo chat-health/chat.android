@@ -44,15 +44,15 @@ public class SetupVisitActivity extends Activity {
 		ArrayAdapter<CharSequence> typeArrayAdapter;
 		String[] roleArray = getResources().getStringArray(R.array.role_array);
 		if (role.equals(roleArray[0])) {
-			typeArrayAdapter = ArrayAdapter.createFromResource(this, R.array.volunteer_visit_type_array, android.R.layout.simple_spinner_item);
+			typeArrayAdapter = ArrayAdapter.createFromResource(this, R.array.volunteer_visit_type_array, R.layout.login_spinner_item);
 		} else if (role.equals(roleArray[1])) {
-			typeArrayAdapter = ArrayAdapter.createFromResource(this, R.array.counsellor_visit_type_array, android.R.layout.simple_spinner_item);
+			typeArrayAdapter = ArrayAdapter.createFromResource(this, R.array.counsellor_visit_type_array, R.layout.login_spinner_item);
 		} else {
 			// TODO: expand? Also add proper error here
-			typeArrayAdapter = ArrayAdapter.createFromResource(this, R.array.volunteer_visit_type_array, android.R.layout.simple_spinner_item);
+			typeArrayAdapter = ArrayAdapter.createFromResource(this, R.array.volunteer_visit_type_array, R.layout.login_spinner_item);
 			Toast.makeText(getApplicationContext(),"Role is undefined",Toast.LENGTH_LONG).show();
 		}
-		typeArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		typeArrayAdapter.setDropDownViewResource(R.layout.login_spinner_item);
 		visitTypeSpinner.setAdapter(typeArrayAdapter);
 		
 		// household selections spinner
@@ -61,7 +61,7 @@ public class SetupVisitActivity extends Activity {
 		// TODO: DUMMY DATA. Instead, pull these from DB, based on workerName and role passed from login activity 
 		householdList.add("John Doe");
 		householdList.add("James Doe");
-		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, householdList);
+		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.login_spinner_item, householdList);
 		householdSpinner.setAdapter(arrayAdapter);
 		
 		// gps location button

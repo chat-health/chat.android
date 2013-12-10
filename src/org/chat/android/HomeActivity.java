@@ -112,9 +112,7 @@ public class HomeActivity extends Activity {
         //healthBtn.setEnabled(false);
         healthBtnImg = (ImageView)findViewById(R.id.health_education_button_img);
         //healthBtnImg.setEnabled(false);
-//        http://stackoverflow.com/questions/7228985/android-disable-image-button-ui-feel (once Miche gives me the right assets)
-//		  will also want to move this out into another function for cleanliness        
-        
+
         //FOR TESTING, SWITCH FOR PROD
 		//Bundle b = getIntent().getExtras();
 		//setupVisitObject(b.getString("hhName"), b.getString("workerName"), b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));				
