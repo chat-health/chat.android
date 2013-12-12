@@ -14,9 +14,6 @@ public class HealthSubtopic {
     private String name;
     @DatabaseField
     private String topic;
-    @DatabaseField
-    private int page_count;
-
 
     
     /**
@@ -30,11 +27,10 @@ public class HealthSubtopic {
      * Constructor that instantiates the private member variable(s)
      * @param name
      */
-    public HealthSubtopic(int id, String name, String topic, int page_count) {
+    public HealthSubtopic(int id, String name, String topic) {
     	this.id = id;
         this.name = name;
         this.topic = topic;
-        this.page_count = page_count;
     }
     
     
@@ -45,7 +41,6 @@ public class HealthSubtopic {
     public HealthSubtopic(HealthSubtopic existingHealthSubtopicModel) {
         this.name = existingHealthSubtopicModel.name;
         this.topic = existingHealthSubtopicModel.topic;
-        this.page_count = existingHealthSubtopicModel.page_count;
     }
     
 
@@ -67,13 +62,5 @@ public class HealthSubtopic {
 	
 	public void setTopic(String topic) {
 		this.topic = topic;
-	}
-	
-	public int getPageCount() {
-		return page_count;
-	}
-	
-	public void setPageCount(int page_count) {
-		this.page_count = page_count;
 	}
 }

@@ -16,6 +16,7 @@ import org.chat.android.models.Client;
 import org.chat.android.models.HealthPage;
 import org.chat.android.models.HealthSubtopic;
 import org.chat.android.models.Household;
+import org.chat.android.models.PageText1;
 import org.chat.android.models.Role;
 import org.chat.android.models.Service;
 import org.chat.android.models.ServiceAccessed;
@@ -30,7 +31,7 @@ import org.chat.android.models.Worker;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "chat.db";
-    private static final int DATABASE_VERSION = 25;
+    private static final int DATABASE_VERSION = 28;
     private Dao<Visit, Integer> visitsDao = null;
     private Dao<Client, Integer> clientsDao = null;
     private Dao<Household, Integer> householdsDao = null;
@@ -44,6 +45,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     
     private Dao<HealthSubtopic, Integer> healthSubtopicsDao = null;
     private Dao<HealthPage, Integer> healthPagesDao = null;
+    private Dao<PageText1, Integer> pageText1Dao = null;
     
 
     public DatabaseHelper(Context context) {
@@ -69,6 +71,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, VideoAccessed.class);
             TableUtils.createTable(connectionSource, HealthSubtopic.class);
             TableUtils.createTable(connectionSource, HealthPage.class);
+            TableUtils.createTable(connectionSource, PageText1.class);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Unable to create databases", e);
         }
@@ -89,6 +92,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, VideoAccessed.class, true);
             TableUtils.dropTable(connectionSource, HealthSubtopic.class, true);
             TableUtils.dropTable(connectionSource, HealthPage.class, true);
+            TableUtils.dropTable(connectionSource, PageText1.class, true);
             onCreate(sqLiteDatabase, connectionSource);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Unable to upgrade database from version " + oldVer + " to new " + newVer, e);
@@ -170,6 +174,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
         return healthPagesDao;
     }
+    public Dao<PageText1, Integer> getPageText1Dao() throws SQLException {
+        if (pageText1Dao == null) {
+        	pageText1Dao = getDao(PageText1.class);
+        }
+        return pageText1Dao;
+    }
 
     /**
      * Close the database connections and clear any cached DAOs.
@@ -189,5 +199,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         videoAccessedDao = null;
         healthSubtopicsDao = null;
         healthPagesDao = null;
+        pageText1Dao = null;
     }
 }

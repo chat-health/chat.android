@@ -73,7 +73,7 @@ public class HealthDetailsActivity extends Activity {
     	
     	// setup up the titles for each of the subtopics (UI), from strings_health arrays
 		if (healthTopic.equals(healthTopicArray[0])) {
-			subTopicArray = getResources().getStringArray(R.array.topic1_array);
+			subTopicArray = getResources().getStringArray(R.array.topic1_array);					// TODO move me to the DB - best as health_subtopics table instead splitting it out into arrays here
 			colorName = healthTopicArray[0];
 			// this awkwardness because xml can't deal with uppercase :/
 			if (colorName.equals("HIV"))

@@ -16,7 +16,8 @@ public class HealthPage {
     private int page_number;
     @DatabaseField
     private String type;
-
+    @DatabaseField
+    private int	page_content_id;
 
     
     /**
@@ -30,11 +31,12 @@ public class HealthPage {
      * Constructor that instantiates the private member variable(s)
      * @param subtopic_id
      */
-    public HealthPage(int id, int subtopic_id, int page_number, String type) {
+    public HealthPage(int id, int subtopic_id, int page_number, String type, int page_content_id) {
     	this.id = id;
         this.subtopic_id = subtopic_id;
         this.page_number = page_number;
         this.type = type;
+        this.page_content_id = page_content_id;
     }
     
     
@@ -46,6 +48,7 @@ public class HealthPage {
         this.subtopic_id = existingHealthPageModel.subtopic_id;
         this.page_number = existingHealthPageModel.page_number;
         this.type = existingHealthPageModel.type;
+        this.page_content_id = existingHealthPageModel.page_content_id;
     }
     
 
@@ -75,5 +78,13 @@ public class HealthPage {
 	
 	public void setType(String type) {
 		this.type = type;
+	}
+	
+	public int getPageContentId() {
+		return page_content_id;
+	}
+	
+	public void setPageContentId(int page_content_id) {
+		this.page_content_id = page_content_id;
 	}
 }

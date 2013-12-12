@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.chat.android.models.HealthPage;
 import org.chat.android.models.HealthSubtopic;
+import org.chat.android.models.PageText1;
 
 import com.j256.ormlite.dao.Dao;
 
@@ -51,26 +52,6 @@ public class HealthDeliveryActivity extends Activity {
 	    updatePageCounter("next");
 	    updateDisplayedFragment(pageCounter);
     }
-
-	public void moveNext(View v) {
-		// check if this page is within bounds (1 to lastPage)
-		if (pageCounter + 1 <= lastPage) {
-			updatePageCounter("next");
-			updateDisplayedFragment(pageCounter);	
-		} else {
-			Toast.makeText(getApplicationContext(),"Last page peached",Toast.LENGTH_SHORT).show();
-		}
-	}
-	
-	public void moveBack(View v) {
-		// check if this page is within bounds (1 to lastPage)
-		if (pageCounter - 1 >= 1) {
-			updatePageCounter("back");
-			updateDisplayedFragment(pageCounter);
-		} else {
-			Toast.makeText(getApplicationContext(),"First page reached",Toast.LENGTH_SHORT).show();
-		}
-	}
 	
 	public void updateDisplayedFragment(int pageNum) {
 		HealthPage p = pages.get(pageNum - 1);
@@ -92,9 +73,35 @@ public class HealthDeliveryActivity extends Activity {
 			e.printStackTrace();
 		}
 		
+		// bundle in the unique page parameters to the correct fragment
+		Bundle bundle = new Bundle();
+		bundle.putString("type",p.getType());
+		bundle.putInt("id",p.getPageContentId());
+		newFrag.setArguments(bundle);
+		
 	    FragmentTransaction ft = getFragmentManager().beginTransaction();
 	    ft.replace(R.id.placeholder, newFrag);
 	    ft.commit();
+	}
+	
+	public void moveNext(View v) {
+		// check if this page is within bounds (1 to lastPage)
+		if (pageCounter + 1 <= lastPage) {
+			updatePageCounter("next");
+			updateDisplayedFragment(pageCounter);	
+		} else {
+			Toast.makeText(getApplicationContext(),"Last page reached",Toast.LENGTH_SHORT).show();
+		}
+	}
+	
+	public void moveBack(View v) {
+		// check if this page is within bounds (1 to lastPage)
+		if (pageCounter - 1 >= 1) {
+			updatePageCounter("back");
+			updateDisplayedFragment(pageCounter);
+		} else {
+			Toast.makeText(getApplicationContext(),"First page reached",Toast.LENGTH_SHORT).show();
+		}
 	}
 	
 	public void updatePageCounter(String m) {
@@ -124,14 +131,13 @@ public class HealthDeliveryActivity extends Activity {
 			while (iter.hasNext()) {
 				HealthSubtopic s = iter.next();
 				subId = s.getId();
-				lastPage = s.getPageCount();
 			}
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
 		
-		// populate the pages array based on the subtopic Id
+		// populate the pages array based on the subtopic Id and determine number of pages
 		Dao<HealthPage, Integer> pDao;		
 		DatabaseHelper pDbHelper = new DatabaseHelper(context);
 		try {
@@ -141,9 +147,10 @@ public class HealthDeliveryActivity extends Activity {
 			for (HealthPage p : pList) {
     			pages.add(p);
         	}
+			lastPage = pages.size();
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
-		}	
+		}
 	}
 }
