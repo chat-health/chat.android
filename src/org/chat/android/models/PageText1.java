@@ -1,5 +1,7 @@
 package org.chat.android.models;
 
+import android.util.Log;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -86,5 +88,34 @@ public class PageText1 {
 
 	public String getZuContent2() {
 		return zu_content2;
+	}
+	
+	// and this, ladies and gentlemen, is an argument for JS > Java - this is one easy line in JS
+	// TODO: figure out how to do this in a more elegant way, with casting
+	public String getContent(String lang, String field) {
+		if (lang.equals("en")) {
+			if (field.equals("content1")) {
+				return en_content1;
+			} else if (field.equals("content2")) {
+				return en_content2;
+			} else {
+				Log.e("Unknown field: ", field);
+				return null;
+			}
+		} else if (lang.equals("zu")) {
+			if (field.equals("content1")) {
+				return zu_content1;
+			} else if (field.equals("content2")) {
+				return zu_content2;
+			} else {
+				Log.e("Unknown field: ", field);
+				return null;
+			}
+		} else {
+			Log.e("Unknown language: ", lang);
+			return null;
+		}
+		
+		
 	}
 }
