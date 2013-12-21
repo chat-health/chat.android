@@ -48,7 +48,7 @@
 	    <item name="android:layout_height">2dp</item>
 	</style>
 
-	<style name="topicImage">
+	<style name="themeImage">
 	    <item name="android:layout_width">200dp</item>
 	    <item name="android:layout_height">140dp</item>
         <item name="android:contentDescription">@string/generic_img_button_text</item>
@@ -60,7 +60,7 @@
         <item name="android:contentDescription">@string/generic_img_button_text</item>
 	</style>
 	
-	<style name="topicImageButton">
+	<style name="themeImageButton">
 	    <item name="android:layout_width">140dp</item>
 	    <item name="android:layout_height">60dp</item>
         <item name="android:background">@null</item>

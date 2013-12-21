@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="topics_array">
+    <string-array name="themes_array">
         <item>HIV</item>
         <item>disease</item>
         <item>nutrition</item>
         <item>development</item>
     </string-array>
-    <string-array name="topic1_array">
-        <item>HIV subtopic 1</item>
-        <item>HIV subtopic 2</item>
-        <item>HIV subtopic 3</item>
-        <item>HIV subtopic 4</item>
+    <string-array name="theme1_array">
+        <item>What is HIV?</item>
+        <item>CD4, Viral load</item>
+        <item>ARVs</item>
+        <item>Helping children to take their ARVs</item>
     </string-array>
-    <string-array name="topic2_array">
+    <string-array name="theme2_array">
         <item>Disease subtopic 1</item>
         <item>Disease subtopic 2</item>
         <item>Disease subtopic 3</item>
         <item>Disease subtopic 4</item>
     </string-array> 
-    <string-array name="topic3_array">
+    <string-array name="theme3_array">
         <item>Nutrition subtopic 1</item>
         <item>Nutrition subtopic 2</item>
         <item>Nutrition subtopic 3</item>
         <item>Nutrition subtopic 4</item>
     </string-array> 
-    <string-array name="topic4_array">
+    <string-array name="theme4_array">
         <item>Development subtopic 1</item>
         <item>Development subtopic 2</item>
         <item>Development subtopic 3</item>

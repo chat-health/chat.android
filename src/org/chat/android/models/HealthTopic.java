@@ -6,20 +6,20 @@ import com.j256.ormlite.table.DatabaseTable;
 /**
  * Created by colin
  */
-@DatabaseTable(tableName = "health_subtopics")
-public class HealthSubtopic {
+@DatabaseTable(tableName = "health_topics")
+public class HealthTopic {
 	@DatabaseField(id = true, unique = true, index = true)
 	private int id;
     @DatabaseField
     private String name;
     @DatabaseField
-    private String topic;
+    private String theme;
 
     
     /**
      * Default Constructor needed by ormlite
      */
-    public HealthSubtopic() {
+    public HealthTopic() {
     }
 
     
@@ -27,10 +27,10 @@ public class HealthSubtopic {
      * Constructor that instantiates the private member variable(s)
      * @param name
      */
-    public HealthSubtopic(int id, String name, String topic) {
+    public HealthTopic(int id, String name, String theme) {
     	this.id = id;
         this.name = name;
-        this.topic = topic;
+        this.theme = theme;
     }
     
     
@@ -38,9 +38,9 @@ public class HealthSubtopic {
      * Copy constructor
      * @param existingListModel - List model instance that is copied to new instance
      */
-    public HealthSubtopic(HealthSubtopic existingHealthSubtopicModel) {
-        this.name = existingHealthSubtopicModel.name;
-        this.topic = existingHealthSubtopicModel.topic;
+    public HealthTopic(HealthTopic existingHealthTopicModel) {
+        this.name = existingHealthTopicModel.name;
+        this.theme = existingHealthTopicModel.theme;
     }
     
 
@@ -56,11 +56,11 @@ public class HealthSubtopic {
 		this.name = name;
 	}
 	
-	public String getTopic() {
-		return topic;
+	public String getTheme() {
+		return theme;
 	}
 	
-	public void setTopic(String topic) {
-		this.topic = topic;
+	public void setTheme(String theme) {
+		this.theme = theme;
 	}
 }

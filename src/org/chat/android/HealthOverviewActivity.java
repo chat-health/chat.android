@@ -13,12 +13,12 @@ public class HealthOverviewActivity extends Activity {
     }
    
    public void openHealthDetails(View v) {
-		String healthTopic = null;
-		healthTopic = (String) v.getTag();
+		String healthTheme = null;
+		healthTheme = (String) v.getTag();
 		
 		Intent i = new Intent(HealthOverviewActivity.this, HealthDetailsActivity.class);
 		Bundle b = new Bundle();
-		b.putString("healthTopic",healthTopic);
+		b.putString("healthTheme",healthTheme);
 		i.putExtras(b);
 		startActivity(i);
 	}	   

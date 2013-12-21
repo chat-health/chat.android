@@ -21,110 +21,110 @@ public class HealthDetailsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_health_details);
         
-        String healthTopic = null;
+        String healthTheme = null;
 		Bundle b = getIntent().getExtras();
-		healthTopic = b.getString("healthTopic");
+		healthTheme = b.getString("healthTheme");
 		
-		setupSubtopicButtons(healthTopic);
+		setupTopicButtons(healthTheme);
     }
     
     public void openHealthDelivery(View v) {
-    	String subtopic = null;
-        subtopic = (String) v.getTag();
+    	String topic = null;
+        topic = (String) v.getTag();
     	
     	Intent i = new Intent(HealthDetailsActivity.this, HealthDeliveryActivity.class);
     	Bundle b = new Bundle();
-    	b.putString("subtopic",subtopic);
+    	b.putString("topic",topic);
     	i.putExtras(b);
     	startActivity(i);	
     }
     
-    public void setupSubtopicButtons(String healthTopic) {
-		// set the subtopics based on the healthTopic that was passed into this activity
+    public void setupTopicButtons(String healthTheme) {
+		// set the topics based on the health theme that was passed into this activity
     	// these get put in ArrayLists so that they can easily be referred in conditional statements without having to refer to the actual string values (which could change)
-    	List<TextView> subTitle = new ArrayList<TextView>();
-    	subTitle.add((TextView) findViewById(R.id.health_sub1_title_field));
-    	subTitle.add((TextView) findViewById(R.id.health_sub2_title_field));
-    	subTitle.add((TextView) findViewById(R.id.health_sub3_title_field));
-    	subTitle.add((TextView) findViewById(R.id.health_sub4_title_field));
+    	List<TextView> topicTitle = new ArrayList<TextView>();
+    	topicTitle.add((TextView) findViewById(R.id.health_topic1_title_field));
+    	topicTitle.add((TextView) findViewById(R.id.health_topic2_title_field));
+    	topicTitle.add((TextView) findViewById(R.id.health_topic3_title_field));
+    	topicTitle.add((TextView) findViewById(R.id.health_topic4_title_field));
     	
     	List<View> divider = new ArrayList<View>();
-    	divider.add((View) findViewById(R.id.health_sub1_divider));
-    	divider.add((View) findViewById(R.id.health_sub2_divider));
-    	divider.add((View) findViewById(R.id.health_sub3_divider));
-    	divider.add((View) findViewById(R.id.health_sub4_divider));
+    	divider.add((View) findViewById(R.id.health_topic1_divider));
+    	divider.add((View) findViewById(R.id.health_topic2_divider));
+    	divider.add((View) findViewById(R.id.health_topic3_divider));
+    	divider.add((View) findViewById(R.id.health_topic4_divider));
     	
     	List<ImageView> imgView = new ArrayList<ImageView>();
-    	imgView.add((ImageView) findViewById(R.id.health_sub1_button_img));
-    	imgView.add((ImageView) findViewById(R.id.health_sub2_button_img));
-    	imgView.add((ImageView) findViewById(R.id.health_sub3_button_img));
-    	imgView.add((ImageView) findViewById(R.id.health_sub4_button_img));
+    	imgView.add((ImageView) findViewById(R.id.health_topic1_button_img));
+    	imgView.add((ImageView) findViewById(R.id.health_topic2_button_img));
+    	imgView.add((ImageView) findViewById(R.id.health_topic3_button_img));
+    	imgView.add((ImageView) findViewById(R.id.health_topic4_button_img));
     	
     	List<ImageButton> imgBtn = new ArrayList<ImageButton>();
-    	imgBtn.add((ImageButton) findViewById(R.id.health_sub1_button));
-    	imgBtn.add((ImageButton) findViewById(R.id.health_sub2_button));
-    	imgBtn.add((ImageButton) findViewById(R.id.health_sub3_button));
-    	imgBtn.add((ImageButton) findViewById(R.id.health_sub4_button));    	
+    	imgBtn.add((ImageButton) findViewById(R.id.health_topic1_button));
+    	imgBtn.add((ImageButton) findViewById(R.id.health_topic2_button));
+    	imgBtn.add((ImageButton) findViewById(R.id.health_topic3_button));
+    	imgBtn.add((ImageButton) findViewById(R.id.health_topic4_button));    	
     	
-    	String[] healthTopicArray = getResources().getStringArray(R.array.topics_array);
-    	String[] subTopicArray = null;
+    	String[] themesArray = getResources().getStringArray(R.array.themes_array);
+    	String[] topicArray = null;
     	String colorName = null;
     	int colorRef = 0;
     	
-    	// setup up the titles for each of the subtopics (UI), from strings_health arrays
-		if (healthTopic.equals(healthTopicArray[0])) {
-			subTopicArray = getResources().getStringArray(R.array.topic1_array);					// TODO move me to the DB - best as health_subtopics table instead splitting it out into arrays here
-			colorName = healthTopicArray[0];
+    	// setup up the titles for each of the topics (UI), from strings_health arrays
+		if (healthTheme.equals(themesArray[0])) {
+			topicArray = getResources().getStringArray(R.array.theme1_array);					// TODO move me to the DB - best as health_theme table instead splitting it out into arrays here
+			colorName = themesArray[0];
 			// this awkwardness because xml can't deal with uppercase :/
 			if (colorName.equals("HIV"))
 				colorName = "hiv";
 			colorRef = getResources().getColor(getResources().getIdentifier(colorName, "color", getPackageName()));							// yes, this is seriously how you have to reference it :/   I heart you Android
-			for (int i = 0; i < subTopicArray.length; i++) {
-				subTitle.get(i).setTextColor(colorRef);
+			for (int i = 0; i < topicArray.length; i++) {
+				topicTitle.get(i).setTextColor(colorRef);
 				divider.get(i).setBackgroundColor(colorRef);				
-				subTitle.get(i).setText(subTopicArray[i]);
-				imgView.get(i).setTag(subTopicArray[i]);
-				imgBtn.get(i).setTag(subTopicArray[i]);
+				topicTitle.get(i).setText(topicArray[i]);
+				imgView.get(i).setTag(topicArray[i]);
+				imgBtn.get(i).setTag(topicArray[i]);
 				imgBtn.get(i).setImageResource(R.drawable.hivgobutton);
 			}
-		} else if (healthTopic.equals(healthTopicArray[1])) {
-			subTopicArray = getResources().getStringArray(R.array.topic2_array);
-			colorName = healthTopicArray[1];
+		} else if (healthTheme.equals(themesArray[1])) {
+			topicArray = getResources().getStringArray(R.array.theme2_array);
+			colorName = themesArray[1];
 			colorRef = getResources().getColor(getResources().getIdentifier(colorName, "color", getPackageName()));
-			for (int i = 0; i < subTopicArray.length; i++) {
-				subTitle.get(i).setTextColor(colorRef);
+			for (int i = 0; i < topicArray.length; i++) {
+				topicTitle.get(i).setTextColor(colorRef);
 				divider.get(i).setBackgroundColor(colorRef);
-				subTitle.get(i).setText(subTopicArray[i]);
-				imgView.get(i).setTag(subTopicArray[i]);
-				imgBtn.get(i).setTag(subTopicArray[i]);
+				topicTitle.get(i).setText(topicArray[i]);
+				imgView.get(i).setTag(topicArray[i]);
+				imgBtn.get(i).setTag(topicArray[i]);
 				imgBtn.get(i).setImageResource(R.drawable.childhooddiseasesgobutton);
 			}
-		} else if (healthTopic.equals(healthTopicArray[2])) {
-			subTopicArray = getResources().getStringArray(R.array.topic3_array);
-			colorName = healthTopicArray[2];
+		} else if (healthTheme.equals(themesArray[2])) {
+			topicArray = getResources().getStringArray(R.array.theme3_array);
+			colorName = themesArray[2];
 			colorRef = getResources().getColor(getResources().getIdentifier(colorName, "color", getPackageName()));			
-			for (int i = 0; i < subTopicArray.length; i++) {
-				subTitle.get(i).setTextColor(colorRef);
+			for (int i = 0; i < topicArray.length; i++) {
+				topicTitle.get(i).setTextColor(colorRef);
 				divider.get(i).setBackgroundColor(colorRef);				
-				subTitle.get(i).setText(subTopicArray[i]);
-				imgView.get(i).setTag(subTopicArray[i]);
-				imgBtn.get(i).setTag(subTopicArray[i]);
+				topicTitle.get(i).setText(topicArray[i]);
+				imgView.get(i).setTag(topicArray[i]);
+				imgBtn.get(i).setTag(topicArray[i]);
 				imgBtn.get(i).setImageResource(R.drawable.nutritiongobutton);
 			}
-		} else if (healthTopic.equals(healthTopicArray[3])) {
-			subTopicArray = getResources().getStringArray(R.array.topic4_array);
-			colorName = healthTopicArray[3];
+		} else if (healthTheme.equals(themesArray[3])) {
+			topicArray = getResources().getStringArray(R.array.theme4_array);
+			colorName = themesArray[3];
 			colorRef = getResources().getColor(getResources().getIdentifier(colorName, "color", getPackageName()));
-			for (int i = 0; i < subTopicArray.length; i++) {
-				subTitle.get(i).setTextColor(colorRef);
+			for (int i = 0; i < topicArray.length; i++) {
+				topicTitle.get(i).setTextColor(colorRef);
 				divider.get(i).setBackgroundColor(colorRef);				
-				subTitle.get(i).setText(subTopicArray[i]);
-				imgView.get(i).setTag(subTopicArray[i]);
-				imgBtn.get(i).setTag(subTopicArray[i]);
+				topicTitle.get(i).setText(topicArray[i]);
+				imgView.get(i).setTag(topicArray[i]);
+				imgBtn.get(i).setTag(topicArray[i]);
 				imgBtn.get(i).setImageResource(R.drawable.developmentgobutton);
 			}
 		} else {
-			Log.e("Error, healthTopic is set to: ",healthTopic);
+			Log.e("Error, healthTopic is set to: ",healthTheme);
 		}
     }
 

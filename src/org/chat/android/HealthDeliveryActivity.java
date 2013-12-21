@@ -6,10 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.chat.android.models.HealthPage;
-import org.chat.android.models.HealthSubtopic;
-import org.chat.android.models.PageText1;
-
-import com.j256.ormlite.dao.Dao;
+import org.chat.android.models.HealthTopic;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -17,12 +14,11 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.j256.ormlite.dao.Dao;
 
 public class HealthDeliveryActivity extends Activity {
 	
@@ -39,12 +35,12 @@ public class HealthDeliveryActivity extends Activity {
 	    context = getApplicationContext();
 	    setContentView(R.layout.activity_health_delivery);
 	    
-        String subtopic = null;
+        String topic = null;
 		Bundle b = getIntent().getExtras();
-		subtopic = b.getString("subtopic");
+		topic = b.getString("topic");
 		
-		// get the required pages for the subtopic
-		populatePagesArray(subtopic);
+		// get the required pages for the topic
+		populatePagesArray(topic);
 		
 	    paginationTextField = (TextView) findViewById(R.id.paginationTextField);
 	    
@@ -118,31 +114,31 @@ public class HealthDeliveryActivity extends Activity {
 		}
 	}
 	
-	public void populatePagesArray(String subtopic) {
-		int subId = 0;
+	public void populatePagesArray(String topic) {
+		int topicId = 0;
 		
-		// get the subtopic Id based on the subtopic name
-		Dao<HealthSubtopic, Integer> sDao;		
+		// get the topic Id based on the topic name
+		Dao<HealthTopic, Integer> sDao;		
 		DatabaseHelper sDbHelper = new DatabaseHelper(context);
 		try {
-			sDao = sDbHelper.getHealthSubtopicsDao();
-			List<HealthSubtopic> sList = sDao.queryBuilder().where().eq("name",subtopic).query();
-			Iterator<HealthSubtopic> iter = sList.iterator();
+			sDao = sDbHelper.getHealthTopicsDao();
+			List<HealthTopic> sList = sDao.queryBuilder().where().eq("name",topic).query();
+			Iterator<HealthTopic> iter = sList.iterator();
 			while (iter.hasNext()) {
-				HealthSubtopic s = iter.next();
-				subId = s.getId();
+				HealthTopic s = iter.next();
+				topicId = s.getId();
 			}
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
+			Log.e("Topic does not exist in the DB: ", topic);
 			e2.printStackTrace();
 		}
 		
-		// populate the pages array based on the subtopic Id and determine number of pages
+		// populate the pages array based on the topic Id and determine number of pages
 		Dao<HealthPage, Integer> pDao;		
 		DatabaseHelper pDbHelper = new DatabaseHelper(context);
 		try {
 			pDao = pDbHelper.getHealthPagesDao();
-			List<HealthPage> pList = pDao.queryBuilder().where().eq("subtopic_id",subId).query();
+			List<HealthPage> pList = pDao.queryBuilder().where().eq("topic_id",topicId).query();
 			// clears out the null junk values - there is likely a better way to do this
 			for (HealthPage p : pList) {
     			pages.add(p);

@@ -11,7 +11,7 @@ public class HealthPage {
 	@DatabaseField(id = true, unique = true, index = true)
 	private int id;
     @DatabaseField
-    private int subtopic_id;
+    private int topic_id;
     @DatabaseField
     private int page_number;
     @DatabaseField
@@ -29,11 +29,11 @@ public class HealthPage {
     
     /**
      * Constructor that instantiates the private member variable(s)
-     * @param subtopic_id
+     * @param topic_id
      */
-    public HealthPage(int id, int subtopic_id, int page_number, String type, int page_content_id) {
+    public HealthPage(int id, int topic_id, int page_number, String type, int page_content_id) {
     	this.id = id;
-        this.subtopic_id = subtopic_id;
+        this.topic_id = topic_id;
         this.page_number = page_number;
         this.type = type;
         this.page_content_id = page_content_id;
@@ -45,7 +45,7 @@ public class HealthPage {
      * @param existingListModel - List model instance that is copied to new instance
      */
     public HealthPage(HealthPage existingHealthPageModel) {
-        this.subtopic_id = existingHealthPageModel.subtopic_id;
+        this.topic_id = existingHealthPageModel.topic_id;
         this.page_number = existingHealthPageModel.page_number;
         this.type = existingHealthPageModel.type;
         this.page_content_id = existingHealthPageModel.page_content_id;
@@ -56,12 +56,12 @@ public class HealthPage {
 		return id;
 	}
 	
-	public int getSubtopicId() {
-		return subtopic_id;
+	public int getTopicId() {
+		return topic_id;
 	}
 	
-	public void setSubtopicId(int subtopic_id) {
-		this.subtopic_id = subtopic_id;
+	public void setTopicId(int topic_id) {
+		this.topic_id = topic_id;
 	}
 	
 	public int getPageNumber() {

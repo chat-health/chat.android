@@ -59,14 +59,14 @@
             android:layout_below="@id/services_title_field" />
         <ImageView
 	        android:id="@+id/services_button_img"
-	        style="@style/topicImage"
+	        style="@style/themeImage"
 	        android:layout_below="@id/services_title_field"
 	        android:layout_marginTop="20dp"
 	        android:src="@drawable/thandananilogodisabled"
 	        android:onClick="openServiceOverview" />
        	<ImageButton
        	    android:id="@+id/services_button"
-       	    style="@style/topicImageButton"
+       	    style="@style/themeImageButton"
        	    android:layout_alignTop="@+id/services_button_img"
        	    android:layout_toRightOf="@+id/services_button_img"
        	    android:layout_marginLeft="60dp"
@@ -87,14 +87,14 @@
             android:layout_below="@id/health_education_title_field" />
         <ImageView
 	        android:id="@+id/health_education_button_img"
-	        style="@style/topicImage"
+	        style="@style/themeImage"
 	        android:layout_below="@id/health_education_title_field"
 	        android:layout_marginTop="20dp"
 	        android:src="@drawable/healthedimagedisabled"
 	        android:onClick="openHealthOverview" />
        	<ImageButton
        	    android:id="@+id/health_education_button"
-       	    style="@style/topicImageButton"
+       	    style="@style/themeImageButton"
        	    android:layout_alignTop="@+id/health_education_button_img"
        	    android:layout_toRightOf="@+id/health_education_button_img"
        	    android:layout_marginLeft="60dp"

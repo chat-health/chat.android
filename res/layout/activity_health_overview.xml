@@ -29,7 +29,7 @@
 	            android:layout_below="@id/health_HIV_title_field" />
 	        <ImageView
 		        android:id="@+id/health_HIV_button_img"
-		        style="@style/topicImage"
+		        style="@style/themeImage"
 		        android:layout_below="@id/health_HIV_title_field"
 		        android:layout_marginTop="20dp"
 		        android:src="@drawable/children_play_screenshot"
@@ -37,7 +37,7 @@
 		        android:onClick="openHealthDetails" />
 	       	<ImageButton
 	       	    android:id="@+id/health_HIV_button"
-	       	    style="@style/topicImageButton"
+	       	    style="@style/themeImageButton"
 	       	    android:layout_alignTop="@+id/health_HIV_button_img"
 	       	    android:layout_toRightOf="@+id/health_HIV_button_img"
 	       	    android:layout_marginLeft="60dp"
@@ -64,7 +64,7 @@
 	            android:layout_below="@id/health_disease_title_field" />
 	        <ImageView
 		        android:id="@+id/health_disease_button_img"
-		        style="@style/topicImage"
+		        style="@style/themeImage"
 		        android:layout_below="@id/health_disease_title_field"
 		        android:layout_marginTop="20dp"
 		        android:src="@drawable/children_play_screenshot"
@@ -72,7 +72,7 @@
 		        android:onClick="openHealthDetails" />
 	       	<ImageButton
 	       	    android:id="@+id/health_disease_button"
-	       	    style="@style/topicImageButton"
+	       	    style="@style/themeImageButton"
 	       	    android:layout_alignTop="@+id/health_disease_button_img"
 	       	    android:layout_toRightOf="@+id/health_disease_button_img"
 	       	    android:layout_marginLeft="60dp"
@@ -104,7 +104,7 @@
 	            android:layout_below="@id/health_nutrition_title_field" />
 	        <ImageView
 		        android:id="@+id/health_nutrition_button_img"
-		        style="@style/topicImage"
+		        style="@style/themeImage"
 		        android:layout_below="@id/health_nutrition_title_field"
 		        android:layout_marginTop="20dp"
 		        android:src="@drawable/children_play_screenshot"
@@ -112,7 +112,7 @@
 		        android:onClick="openHealthDetails" />
 	       	<ImageButton
 	       	    android:id="@+id/health_nutrition_button"
-	       	    style="@style/topicImageButton"
+	       	    style="@style/themeImageButton"
 	       	    android:layout_alignTop="@+id/health_nutrition_button_img"
 	       	    android:layout_toRightOf="@+id/health_nutrition_button_img"
 	       	    android:layout_marginLeft="60dp"
@@ -139,7 +139,7 @@
 	            android:layout_below="@id/health_development_title_field" />
 	        <ImageView
 		        android:id="@+id/health_development_button_img"
-		        style="@style/topicImage"
+		        style="@style/themeImage"
 		        android:layout_below="@id/health_development_title_field"
 		        android:layout_marginTop="20dp"
 		        android:src="@drawable/children_play_screenshot"
@@ -147,7 +147,7 @@
 		        android:onClick="openHealthDetails" />
 	       	<ImageButton
 	       	    android:id="@+id/health_development_button"
-	       	    style="@style/topicImageButton"
+	       	    style="@style/themeImageButton"
 	       	    android:layout_alignTop="@+id/health_development_button_img"
 	       	    android:layout_toRightOf="@+id/health_development_button_img"
 	       	    android:layout_marginLeft="60dp"
