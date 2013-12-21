@@ -48,6 +48,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<HealthPage, Integer> healthPagesDao = null;
     private Dao<PageText1, Integer> pageText1Dao = null;
     private Dao<PageSelect1, Integer> pageSelect1Dao = null;
+    //private Dao<PageVideo1, Integer> pageVideo1Dao = null;
     
 
     public DatabaseHelper(Context context) {

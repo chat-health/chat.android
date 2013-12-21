@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="health_HIV_title_text">HIV</string>
+    <string name="health_disease_title_text">Severe Childhood Illnesses</string>
+    <string name="health_nutrition_title_text">Nutrition</string>
+    <string name="health_development_title_text">Psychosocial Support</string> 
+    <string name="health_topic_title_text">Topic</string>    
+    
     <string-array name="themes_array">
         <item>HIV</item>
         <item>disease</item>
         <item>nutrition</item>
         <item>development</item>
     </string-array>
+    
+    <!-- these are duplicated in the DB - they're used here to fill the health details layouts -->
     <string-array name="theme1_array">
         <item>What is HIV?</item>
         <item>CD4, Viral load</item>

@@ -45,12 +45,5 @@
     <string name="home_health_education_title_text">Health Education</string>
     
     <string name="service_delivery_title_text">Who were these services delivered to?</string> 
-    
-    <string name="health_HIV_title_text">HIV</string>
-    <string name="health_disease_title_text">Childhood Diseases</string>
-    <string name="health_nutrition_title_text">Nutrition</string>
-    <string name="health_development_title_text">Development</string> 
-    <string name="health_topic_title_text">Topic</string>
-    
-    
+        
 </resources>
