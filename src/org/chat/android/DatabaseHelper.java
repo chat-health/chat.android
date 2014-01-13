@@ -15,6 +15,7 @@ import org.chat.android.models.Attendance;
 import org.chat.android.models.Client;
 import org.chat.android.models.HealthPage;
 import org.chat.android.models.HealthTopic;
+import org.chat.android.models.HealthTopicAccessed;
 import org.chat.android.models.Household;
 import org.chat.android.models.PageSelect1;
 import org.chat.android.models.PageText1;
@@ -32,7 +33,7 @@ import org.chat.android.models.Worker;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "chat.db";
-    private static final int DATABASE_VERSION = 43;
+    private static final int DATABASE_VERSION = 44;
     private Dao<Visit, Integer> visitsDao = null;
     private Dao<Client, Integer> clientsDao = null;
     private Dao<Household, Integer> householdsDao = null;
@@ -45,6 +46,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<VideoAccessed, Integer> videoAccessedDao = null;
     
     private Dao<HealthTopic, Integer> healthTopicsDao = null;
+    private Dao<HealthTopicAccessed, Integer> healthTopicAccessedDao = null;
     private Dao<HealthPage, Integer> healthPagesDao = null;
     private Dao<PageText1, Integer> pageText1Dao = null;
     private Dao<PageSelect1, Integer> pageSelect1Dao = null;
@@ -73,6 +75,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Video.class);
             TableUtils.createTable(connectionSource, VideoAccessed.class);
             TableUtils.createTable(connectionSource, HealthTopic.class);
+            TableUtils.createTable(connectionSource, HealthTopicAccessed.class);
             TableUtils.createTable(connectionSource, HealthPage.class);
             TableUtils.createTable(connectionSource, PageText1.class);
             TableUtils.createTable(connectionSource, PageSelect1.class);
@@ -95,6 +98,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, Video.class, true);
             TableUtils.dropTable(connectionSource, VideoAccessed.class, true);
             TableUtils.dropTable(connectionSource, HealthTopic.class, true);
+            TableUtils.dropTable(connectionSource, HealthTopicAccessed.class, true);
             TableUtils.dropTable(connectionSource, HealthPage.class, true);
             TableUtils.dropTable(connectionSource, PageText1.class, true);
             TableUtils.dropTable(connectionSource, PageSelect1.class, true);
@@ -173,6 +177,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
         return healthTopicsDao;
     }
+    public Dao<HealthTopicAccessed, Integer> getHealthTopicsAccessed() throws SQLException {
+        if (healthTopicAccessedDao == null) {
+        	healthTopicAccessedDao = getDao(HealthTopicAccessed.class);
+        }
+        return healthTopicAccessedDao;
+    }
     public Dao<HealthPage, Integer> getHealthPagesDao() throws SQLException {
         if (healthPagesDao == null) {
         	healthPagesDao = getDao(HealthPage.class);
@@ -209,6 +219,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         videosDao = null;
         videoAccessedDao = null;
         healthTopicsDao = null;
+        healthTopicAccessedDao = null;
         healthPagesDao = null;
         pageText1Dao = null;
         pageSelect1Dao = null;

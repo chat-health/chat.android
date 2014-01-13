@@ -1,9 +1,19 @@
 package org.chat.android;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import org.chat.android.models.HealthPage;
+import org.chat.android.models.HealthTopic;
+import org.chat.android.models.HealthTopicAccessed;
+import org.chat.android.models.Household;
+
+import com.j256.ormlite.dao.Dao;
+
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -16,6 +26,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class HealthDetailsActivity extends Activity {
+	int hhId = 0;
+	int visitId = 0;
 	Boolean largeTopicScreen = false;
 	String[] themesArray;
 	
@@ -24,6 +36,8 @@ public class HealthDetailsActivity extends Activity {
         
         String healthTheme = null;
 		Bundle b = getIntent().getExtras();
+		hhId = b.getInt("hhId");
+		visitId = b.getInt("visitId");
 		healthTheme = b.getString("healthTheme");
 		themesArray = getResources().getStringArray(R.array.themes_array);
 		
@@ -41,6 +55,8 @@ public class HealthDetailsActivity extends Activity {
     public void openHealthDelivery(View v) {
     	String topic = null;
         topic = (String) v.getTag();
+        
+        markTopicAccessed(topic);
     	
     	Intent i = new Intent(HealthDetailsActivity.this, HealthDeliveryActivity.class);
     	Bundle b = new Bundle();
@@ -147,6 +163,39 @@ public class HealthDetailsActivity extends Activity {
 		} else {
 			Log.e("Error, healthTopic is set to: ",healthTheme);
 		}
+    }
+    
+    public void markTopicAccessed(String topic) {
+    	Context context = getApplicationContext();
+    	int topicId = 0;
+    	
+    	// get the topicId
+		Dao<HealthTopic, Integer> tDao;		
+		DatabaseHelper tDbHelper = new DatabaseHelper(context);
+		try {
+			tDao = tDbHelper.getHealthTopicsDao();
+			List<HealthTopic> tList = tDao.queryBuilder().where().eq("name",topic).query();
+			Iterator<HealthTopic> iter = tList.iterator();
+			while (iter.hasNext()) {
+				HealthTopic t = iter.next();
+				topicId = t.getId();
+			}
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		// create the HealthTopicAccessed object and save to DB
+		HealthTopicAccessed hta = new HealthTopicAccessed(topicId, visitId, hhId);
+	    Dao<HealthTopicAccessed, Integer> htaDao;
+	    DatabaseHelper htaDbHelper = new DatabaseHelper(context);
+	    try {
+	    	htaDao = htaDbHelper.getHealthTopicsAccessed();
+	    	htaDao.create(hta);
+	    } catch (SQLException e1) {
+	        // TODO Auto-generated catch block
+	        e1.printStackTrace();
+	    }
     }
 
 }

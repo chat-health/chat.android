@@ -180,6 +180,10 @@ public class HomeActivity extends Activity {
 
     public void openHealthOverview(View v) {
     	Intent i = new Intent(HomeActivity.this, HealthOverviewActivity.class);
+    	Bundle b = new Bundle();
+    	b.putInt("visitId",visitId);
+    	b.putInt("hhId",hhId);
+    	i.putExtras(b);    	
     	startActivity(i);
     }
     
