@@ -16,14 +16,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class HealthDetailsActivity extends Activity {
+	Boolean largeTopicScreen = false;
+	String[] themesArray;
 	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_health_details);
         
         String healthTheme = null;
 		Bundle b = getIntent().getExtras();
 		healthTheme = b.getString("healthTheme");
+		themesArray = getResources().getStringArray(R.array.themes_array);
+		
+		// sloppy/hacky way of choosing whether the view is going to have 4 or 6 topics (disease and nutrition have 6, so largeTopicScreen == true)
+		if (healthTheme.equals(themesArray[1]) || healthTheme.equals(themesArray[2])) {
+			largeTopicScreen = true;
+			setContentView(R.layout.activity_health_details_large);
+		} else {
+			setContentView(R.layout.activity_health_details_small);
+		}
 		
 		setupTopicButtons(healthTheme);
     }
@@ -64,9 +74,20 @@ public class HealthDetailsActivity extends Activity {
     	imgBtn.add((ImageButton) findViewById(R.id.health_topic1_button));
     	imgBtn.add((ImageButton) findViewById(R.id.health_topic2_button));
     	imgBtn.add((ImageButton) findViewById(R.id.health_topic3_button));
-    	imgBtn.add((ImageButton) findViewById(R.id.health_topic4_button));    	
+    	imgBtn.add((ImageButton) findViewById(R.id.health_topic4_button));
     	
-    	String[] themesArray = getResources().getStringArray(R.array.themes_array);
+    	// if we're using the large layout, we need the additional elements
+    	if (largeTopicScreen == true) {
+    		topicTitle.add((TextView) findViewById(R.id.health_topic5_title_field));
+        	topicTitle.add((TextView) findViewById(R.id.health_topic6_title_field));
+        	divider.add((View) findViewById(R.id.health_topic5_divider));
+        	divider.add((View) findViewById(R.id.health_topic6_divider));
+        	imgView.add((ImageView) findViewById(R.id.health_topic5_button_img));
+        	imgView.add((ImageView) findViewById(R.id.health_topic6_button_img));
+        	imgBtn.add((ImageButton) findViewById(R.id.health_topic5_button));
+        	imgBtn.add((ImageButton) findViewById(R.id.health_topic6_button));
+    	}
+    	
     	String[] topicArray = null;
     	String colorName = null;
     	int colorRef = 0;
