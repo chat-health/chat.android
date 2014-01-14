@@ -20,6 +20,8 @@ public class HealthTopicAccessed {
     private int visit_id;
     @DatabaseField
     private int hh_id;
+    @DatabaseField
+    private String topic_name;
 
     /**
      * Default Constructor needed by ormlite
@@ -32,12 +34,14 @@ public class HealthTopicAccessed {
      * @param topic_id
      * @param visit_id
      * @param hh_id
+     * @param topic_name
      * 
      */
-    public HealthTopicAccessed(int topic_id, int visit_id, int hh_id) {
+    public HealthTopicAccessed(int topic_id, int visit_id, int hh_id, String topic_name) {
     	this.topic_id = topic_id;
     	this.visit_id = visit_id;
     	this.hh_id = hh_id;
+    	this.topic_name = topic_name;
     }
     
     /**
@@ -48,6 +52,7 @@ public class HealthTopicAccessed {
         this.topic_id = existingServicesAccessedModel.topic_id;
         this.visit_id = existingServicesAccessedModel.visit_id;
         this.hh_id = existingServicesAccessedModel.hh_id;
+        this.topic_name = existingServicesAccessedModel.topic_name;
     }
 
 	public int getId() {
@@ -76,6 +81,14 @@ public class HealthTopicAccessed {
 	
 	public void setHouseholdId(int hh_id) {
 		this.hh_id = hh_id;
+	}
+	
+	public String getTopicName() {
+		return topic_name;
+	}
+	
+	public void setTopicName(String topic_name) {
+		this.topic_name = topic_name;
 	}
 	
 }

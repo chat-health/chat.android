@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.chat.android.models.Attendance;
 import org.chat.android.models.HealthPage;
 import org.chat.android.models.HealthTopic;
 import org.chat.android.models.HealthTopicAccessed;
@@ -26,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class HealthDetailsActivity extends Activity {
+	Context context;
 	int hhId = 0;
 	int visitId = 0;
 	Boolean largeTopicScreen = false;
@@ -33,6 +35,7 @@ public class HealthDetailsActivity extends Activity {
 	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = getApplicationContext();
         
         String healthTheme = null;
 		Bundle b = getIntent().getExtras();
@@ -163,10 +166,46 @@ public class HealthDetailsActivity extends Activity {
 		} else {
 			Log.e("Error, healthTopic is set to: ",healthTheme);
 		}
+		
+
+		// grey out the buttons that have already been accessed
+		
+		// pull all of the topics accessed for this household
+		List<HealthTopicAccessed> topicsAccessed = new ArrayList<HealthTopicAccessed>();
+		Dao<HealthTopicAccessed, Integer> htaDao;		
+		DatabaseHelper htaDbHelper = new DatabaseHelper(context);
+		try {
+			htaDao = htaDbHelper.getHealthTopicsAccessed();
+			List<HealthTopicAccessed> htaList = htaDao.queryBuilder().where().eq("hh_id",hhId).query();
+			Iterator<HealthTopicAccessed> iter = htaList.iterator();
+			while (iter.hasNext()) {
+				HealthTopicAccessed hta = iter.next();
+				topicsAccessed.add(hta);
+			}
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		// for each health topic that has been accessed by this household
+		for (HealthTopicAccessed hta : topicsAccessed) {
+			// for each button on this page
+			// for (ImageView iv : imgView) {
+			for (int i = 0; i < imgView.size(); i++) {
+				// if the button's tag is the topic accessed (ie if this button should be greyed out)
+				if (imgView.get(i).getTag().equals(hta.getTopicName())) {
+					Log.d("The result is: ", (String) imgView.get(i).getTag());
+					imgView.get(i).setAlpha(90);
+					imgBtn.get(i).setAlpha(90);
+					// topicTitle.get(i).setTextColor(Color.argb(90, 255, 0, 0));
+					// divider.get(i).setAlpha(90);
+				}
+			}			
+		}
+	
     }
     
     public void markTopicAccessed(String topic) {
-    	Context context = getApplicationContext();
     	int topicId = 0;
     	
     	// get the topicId
@@ -186,7 +225,7 @@ public class HealthDetailsActivity extends Activity {
 		}
 		
 		// create the HealthTopicAccessed object and save to DB
-		HealthTopicAccessed hta = new HealthTopicAccessed(topicId, visitId, hhId);
+		HealthTopicAccessed hta = new HealthTopicAccessed(topicId, visitId, hhId, topic);
 	    Dao<HealthTopicAccessed, Integer> htaDao;
 	    DatabaseHelper htaDbHelper = new DatabaseHelper(context);
 	    try {
