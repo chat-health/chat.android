@@ -34,7 +34,7 @@
 		        android:layout_marginTop="20dp"
 		        android:src="@drawable/children_play_screenshot"
 		        android:tag="HIV"
-		        android:onClick="openHealthDetails" />
+		        android:onClick="openHealthOverviewRecord" />
 	       	<ImageButton
 	       	    android:id="@+id/health_HIV_button"
 	       	    style="@style/themeImageButton"
@@ -44,7 +44,7 @@
 	       	    android:layout_marginTop="40dp"
 	       	    android:src="@drawable/hivgobutton"
 	       	    android:tag="HIV"
-	       	    android:onClick="openHealthDetails" />
+	       	    android:onClick="openHealthOverviewRecord" />
 	       	
 		</RelativeLayout>
 		<RelativeLayout
@@ -68,8 +68,8 @@
 		        android:layout_below="@id/health_disease_title_field"
 		        android:layout_marginTop="20dp"
 		        android:src="@drawable/children_play_screenshot"
-		        android:tag="disease"
-		        android:onClick="openHealthDetails" />
+		        android:tag="Severe Childhood Illnesses"
+		        android:onClick="openHealthOverviewRecord" />
 	       	<ImageButton
 	       	    android:id="@+id/health_disease_button"
 	       	    style="@style/themeImageButton"
@@ -78,8 +78,8 @@
 	       	    android:layout_marginLeft="60dp"
 	       	    android:layout_marginTop="40dp"
 	       	    android:src="@drawable/childhooddiseasesgobutton"
-	       	    android:tag="disease"
-	       	    android:onClick="openHealthDetails" />   
+	       	    android:tag="Severe Childhood Illnesses"
+	       	    android:onClick="openHealthOverviewRecord" />   
 		</RelativeLayout>		       	     
 	    
 	</TableRow>
@@ -108,8 +108,8 @@
 		        android:layout_below="@id/health_nutrition_title_field"
 		        android:layout_marginTop="20dp"
 		        android:src="@drawable/children_play_screenshot"
-		        android:tag="nutrition"
-		        android:onClick="openHealthDetails" />
+		        android:tag="Nutrition"
+		        android:onClick="openHealthOverviewRecord" />
 	       	<ImageButton
 	       	    android:id="@+id/health_nutrition_button"
 	       	    style="@style/themeImageButton"
@@ -118,8 +118,8 @@
 	       	    android:layout_marginLeft="60dp"
 	       	    android:layout_marginTop="40dp"
 	       	    android:src="@drawable/nutritiongobutton"
-	       	    android:tag="nutrition"
-	       	    android:onClick="openHealthDetails" />
+	       	    android:tag="Nutrition"
+	       	    android:onClick="openHealthOverviewRecord" />
 	       	
 		</RelativeLayout>
 		<RelativeLayout
@@ -143,8 +143,8 @@
 		        android:layout_below="@id/health_development_title_field"
 		        android:layout_marginTop="20dp"
 		        android:src="@drawable/children_play_screenshot"
-		        android:tag="development"
-		        android:onClick="openHealthDetails" />
+		        android:tag="Psychosocial Support"
+		        android:onClick="openHealthOverviewRecord" />
 	       	<ImageButton
 	       	    android:id="@+id/health_development_button"
 	       	    style="@style/themeImageButton"
@@ -153,8 +153,8 @@
 	       	    android:layout_marginLeft="60dp"
 	       	    android:layout_marginTop="40dp"
 	       	    android:src="@drawable/developmentgobutton"
-	       	    android:tag="development"
-	       	    android:onClick="openHealthDetails" />   
+	       	    android:tag="Psychosocial Support"
+	       	    android:onClick="openHealthOverviewRecord" />   
 		</RelativeLayout>
 	    
 	</TableRow>

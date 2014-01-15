@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?><RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:padding="20dp">
+    
+    <TextView
+        android:id="@+id/overviewRecordTitle1"
+        style="@style/titleContainer"
+        android:text="Observe" />
+
+    <TextView
+        android:id="@+id/overviewRecordContent1"
+        style="@style/shortTextContainer"
+        android:layout_below="@id/overviewRecordTitle1"
+
+        android:layout_marginLeft="20dp"
+        android:text="TBF" />
+
+    <TextView
+        android:id="@+id/overviewRecordTitle2"
+        style="@style/titleContainer"
+        android:layout_below="@id/overviewRecordContent1"
+        android:layout_marginTop="30dp"
+        android:text="Record" />
+
+    <TextView
+        android:id="@+id/overviewRecordContent2"
+        style="@style/shortTextContainer"
+        android:layout_below="@id/overviewRecordTitle2"
+
+        android:layout_marginLeft="20dp"
+        android:text="TBF" />
+    
+    <RadioGroup
+        android:id="@+id/overviewRecordRadio"
+        style="@style/healthRadioGroup"
+        android:layout_below="@id/overviewRecordContent2"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="15dp">
+ 
+        <RadioButton
+            android:id="@+id/overviewRecordRadioButton1"
+            style="@style/healthRadioButton"
+            android:tag="1"
+            android:text="TBF"/>
+        <RadioButton
+            android:id="@+id/overviewRecordRadioButton2"
+            style="@style/healthRadioButton"
+            android:tag="2"
+            android:text="TBF" />
+        <RadioButton
+            android:id="@+id/overviewRecordRadioButton3"
+            style="@style/healthRadioButton"
+            android:tag="3"
+            android:text="TBF" />
+        <RadioButton
+            android:id="@+id/overviewRecordRadioButton4"
+            style="@style/healthRadioButton"
+            android:tag="4"
+            android:text="TBF" />
+    </RadioGroup>
+    
+    <Button
+        android:id="@+id/continueButton"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"		        
+        android:onClick="openHealthDetails"
+        android:text="Continue" />
+
+</RelativeLayout>

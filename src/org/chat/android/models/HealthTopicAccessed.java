@@ -10,7 +10,7 @@ import com.j256.ormlite.table.DatabaseTable;
 /**
  * Created by colin
  */
-@DatabaseTable(tableName = "health_topic_accessed")
+@DatabaseTable(tableName = "health_topics_accessed")
 public class HealthTopicAccessed {
 	@DatabaseField(generatedId = true)
 	private int id;

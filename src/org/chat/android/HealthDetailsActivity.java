@@ -168,7 +168,7 @@ public class HealthDetailsActivity extends Activity {
 		}
 		
 
-		// grey out the buttons that have already been accessed
+		// **grey out the buttons that have already been accessed**
 		
 		// pull all of the topics accessed for this household
 		List<HealthTopicAccessed> topicsAccessed = new ArrayList<HealthTopicAccessed>();
@@ -196,7 +196,7 @@ public class HealthDetailsActivity extends Activity {
 				if (imgView.get(i).getTag().equals(hta.getTopicName())) {
 					Log.d("The result is: ", (String) imgView.get(i).getTag());
 					imgView.get(i).setAlpha(90);
-					imgBtn.get(i).setAlpha(90);
+					// imgBtn.get(i).setAlpha(90);
 					// topicTitle.get(i).setTextColor(Color.argb(90, 255, 0, 0));
 					// divider.get(i).setAlpha(90);
 				}

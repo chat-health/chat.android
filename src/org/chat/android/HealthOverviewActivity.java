@@ -19,11 +19,11 @@ public class HealthOverviewActivity extends Activity {
 		visitId = b.getInt("visitId");
     }
    
-	public void openHealthDetails(View v) {
+	public void openHealthOverviewRecord(View v) {
 		String healthTheme = null;
 		healthTheme = (String) v.getTag();
 		
-		Intent i = new Intent(HealthOverviewActivity.this, HealthDetailsActivity.class);
+		Intent i = new Intent(HealthOverviewActivity.this, HealthOverviewRecordActivity.class);
 		Bundle b = new Bundle();
 		b.putString("healthTheme",healthTheme);
 		b.putInt("visitId",visitId);
@@ -33,5 +33,5 @@ public class HealthOverviewActivity extends Activity {
 	}	   
 }
 
-
+// TODO: clean this up so that it uses themes pulled from the health_themes table as opposed to hardcoded
 

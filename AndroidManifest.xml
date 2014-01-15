@@ -68,7 +68,12 @@
             android:name=".HealthOverviewActivity"
             android:label="@string/title_activity_health_overview"
             android:screenOrientation="landscape" >
-        </activity>        
+        </activity>
+        <activity
+            android:name=".HealthOverviewRecordActivity"
+            android:label="@string/title_activity_health_overview"
+            android:screenOrientation="landscape" >
+        </activity>     
         <activity
             android:name=".HealthDetailsActivity"
             android:label="@string/title_activity_health_details"

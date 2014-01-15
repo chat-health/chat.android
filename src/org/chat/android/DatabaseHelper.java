@@ -14,6 +14,9 @@ import java.sql.SQLException;
 import org.chat.android.models.Attendance;
 import org.chat.android.models.Client;
 import org.chat.android.models.HealthPage;
+import org.chat.android.models.HealthSelect;
+import org.chat.android.models.HealthSelectRecorded;
+import org.chat.android.models.HealthTheme;
 import org.chat.android.models.HealthTopic;
 import org.chat.android.models.HealthTopicAccessed;
 import org.chat.android.models.Household;
@@ -33,7 +36,7 @@ import org.chat.android.models.Worker;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "chat.db";
-    private static final int DATABASE_VERSION = 45;
+    private static final int DATABASE_VERSION = 48;
     private Dao<Visit, Integer> visitsDao = null;
     private Dao<Client, Integer> clientsDao = null;
     private Dao<Household, Integer> householdsDao = null;
@@ -44,6 +47,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<Worker, Integer> workersDao = null;
     private Dao<Video, Integer> videosDao = null;
     private Dao<VideoAccessed, Integer> videoAccessedDao = null;
+    
+    private Dao<HealthTheme, Integer> healthThemeDao = null;
+    private Dao<HealthSelect, Integer> healthSelectDao = null;
+    private Dao<HealthSelectRecorded, Integer> healthSelectRecordedDao = null;
     
     private Dao<HealthTopic, Integer> healthTopicsDao = null;
     private Dao<HealthTopicAccessed, Integer> healthTopicAccessedDao = null;
@@ -74,6 +81,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Worker.class);
             TableUtils.createTable(connectionSource, Video.class);
             TableUtils.createTable(connectionSource, VideoAccessed.class);
+            TableUtils.createTable(connectionSource, HealthTheme.class);
+            TableUtils.createTable(connectionSource, HealthSelect.class);
+            TableUtils.createTable(connectionSource, HealthSelectRecorded.class);
             TableUtils.createTable(connectionSource, HealthTopic.class);
             TableUtils.createTable(connectionSource, HealthTopicAccessed.class);
             TableUtils.createTable(connectionSource, HealthPage.class);
@@ -97,6 +107,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, Worker.class, true);
             TableUtils.dropTable(connectionSource, Video.class, true);
             TableUtils.dropTable(connectionSource, VideoAccessed.class, true);
+            TableUtils.dropTable(connectionSource, HealthTheme.class, true);
+            TableUtils.dropTable(connectionSource, HealthSelect.class, true);
+            TableUtils.dropTable(connectionSource, HealthSelectRecorded.class, true);
             TableUtils.dropTable(connectionSource, HealthTopic.class, true);
             TableUtils.dropTable(connectionSource, HealthTopicAccessed.class, true);
             TableUtils.dropTable(connectionSource, HealthPage.class, true);
@@ -170,6 +183,24 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         	videoAccessedDao = getDao(VideoAccessed.class);
         }
         return videoAccessedDao;
+    }
+    public Dao<HealthTheme, Integer> getHealthThemeDao() throws SQLException {
+        if (healthThemeDao == null) {
+        	healthThemeDao = getDao(HealthTheme.class);
+        }
+        return healthThemeDao;
+    }
+    public Dao<HealthSelect, Integer> getHealthSelectDao() throws SQLException {
+        if (healthSelectDao == null) {
+        	healthSelectDao = getDao(HealthSelect.class);
+        }
+        return healthSelectDao;
+    }
+    public Dao<HealthSelectRecorded, Integer> getHealthSelectRecordedDao() throws SQLException {
+        if (healthSelectRecordedDao == null) {
+        	healthSelectRecordedDao = getDao(HealthSelectRecorded.class);
+        }
+        return healthSelectRecordedDao;
     }
     public Dao<HealthTopic, Integer> getHealthTopicsDao() throws SQLException {
         if (healthTopicsDao == null) {
