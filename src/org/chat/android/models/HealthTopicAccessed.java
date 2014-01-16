@@ -22,6 +22,10 @@ public class HealthTopicAccessed {
     private int hh_id;
     @DatabaseField
     private String topic_name;
+    @DatabaseField
+    private Date start_time;
+    @DatabaseField
+    private Date end_time;
 
     /**
      * Default Constructor needed by ormlite
@@ -35,13 +39,15 @@ public class HealthTopicAccessed {
      * @param visit_id
      * @param hh_id
      * @param topic_name
+     * @param start_time
      * 
      */
-    public HealthTopicAccessed(int topic_id, int visit_id, int hh_id, String topic_name) {
+    public HealthTopicAccessed(int topic_id, int visit_id, int hh_id, String topic_name, Date start_time) {
     	this.topic_id = topic_id;
     	this.visit_id = visit_id;
     	this.hh_id = hh_id;
     	this.topic_name = topic_name;
+    	this.start_time = start_time;
     }
     
     /**
@@ -53,6 +59,8 @@ public class HealthTopicAccessed {
         this.visit_id = existingServicesAccessedModel.visit_id;
         this.hh_id = existingServicesAccessedModel.hh_id;
         this.topic_name = existingServicesAccessedModel.topic_name;
+        this.start_time = existingServicesAccessedModel.start_time;
+        this.end_time = existingServicesAccessedModel.end_time;
     }
 
 	public int getId() {
@@ -89,6 +97,22 @@ public class HealthTopicAccessed {
 	
 	public void setTopicName(String topic_name) {
 		this.topic_name = topic_name;
+	}
+	
+	public Date setStartTime() {
+		return start_time;
+	}
+
+	public void setStartTime(Date start_time) {
+		this.start_time = start_time;
+	}
+	
+	public Date setEndTime() {
+		return end_time;
+	}
+
+	public void setEndTime(Date end_time) {
+		this.end_time = end_time;
 	}
 	
 }

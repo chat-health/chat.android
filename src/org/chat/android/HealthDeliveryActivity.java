@@ -2,6 +2,7 @@ package org.chat.android;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -31,6 +32,7 @@ public class HealthDeliveryActivity extends Activity {
 	String topic = null;
 	int pageCounter = 0;
 	int lastPage = 0;
+	HealthTopicAccessed healthTopicAccessed;
 	
 	TextView paginationTextField = null;
 	Button backButton = null;
@@ -49,6 +51,9 @@ public class HealthDeliveryActivity extends Activity {
 		paginationTextField = (TextView)findViewById(R.id.paginationTextField);
 		backButton = (Button)findViewById(R.id.backButton);
 		nextButton = (Button)findViewById(R.id.nextButton);
+		
+		// create the health topic accessed object
+		createHTAObject();
 		
 		// get the required pages for the topic
 		populatePagesArray(topic);
@@ -173,9 +178,7 @@ public class HealthDeliveryActivity extends Activity {
 		}
 	}
 	
-	public void markTopicComplete() {
-		Toast.makeText(getApplicationContext(),"Health topic marked as delivered to client",Toast.LENGTH_SHORT).show();
-		// mark topic complete
+	public void createHTAObject() {
     	int topicId = 0;
     	
     	// get the topicId
@@ -194,13 +197,32 @@ public class HealthDeliveryActivity extends Activity {
 			e2.printStackTrace();
 		}
 		
-		// create the HealthTopicAccessed object and save to DB
-		HealthTopicAccessed hta = new HealthTopicAccessed(topicId, visitId, hhId, topic);
+		// update the HealthTopicAccessed object and save to DB
+		Date startTime = new Date();
+		healthTopicAccessed = new HealthTopicAccessed(topicId, visitId, hhId, topic, startTime);
 	    Dao<HealthTopicAccessed, Integer> htaDao;
 	    DatabaseHelper htaDbHelper = new DatabaseHelper(context);
 	    try {
 	    	htaDao = htaDbHelper.getHealthTopicsAccessed();
-	    	htaDao.create(hta);
+	    	htaDao.create(healthTopicAccessed);
+	    } catch (SQLException e1) {
+	        // TODO Auto-generated catch block
+	        e1.printStackTrace();
+	    }		
+	}
+	
+	public void markTopicComplete() {
+		Toast.makeText(getApplicationContext(),"Health topic marked as delivered to client",Toast.LENGTH_SHORT).show();
+		
+		// update the HealthTopicAccessed object and save to DB
+		Date endTime = new Date();
+		healthTopicAccessed.setEndTime(endTime);
+		
+	    Dao<HealthTopicAccessed, Integer> htaDao;
+	    DatabaseHelper htaDbHelper = new DatabaseHelper(context);
+	    try {
+	    	htaDao = htaDbHelper.getHealthTopicsAccessed();
+	    	htaDao.update(healthTopicAccessed);
 	    } catch (SQLException e1) {
 	        // TODO Auto-generated catch block
 	        e1.printStackTrace();

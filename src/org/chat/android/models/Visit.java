@@ -61,7 +61,7 @@ public class Visit {
      * @param lat 
      * @param start_time
      */
-    public Visit(int worker_id, String role, Date date, int hh_id, String type, double lat, double lon, Date startTime) {
+    public Visit(int worker_id, String role, Date date, int hh_id, String type, double lat, double lon, Date start_time) {
     	this.hh_id = hh_id;
         this.worker_id = worker_id;
         this.role = role;
@@ -72,7 +72,7 @@ public class Visit {
         this.service_accessed = false;
         this.video_accessed = false;
         this.resource_accessed = false;
-        this.start_time = startTime;
+        this.start_time = start_time;
     }
     
     /**
@@ -180,15 +180,15 @@ public class Visit {
 		return start_time;
 	}
 
-	public void setStartTime(Date startTime) {
-		this.start_time = startTime;
+	public void setStartTime(Date start_time) {
+		this.start_time = start_time;
 	}
 	
 	public Date setEndTime() {
 		return end_time;
 	}
 
-	public void setEndTime(Date endTime) {
-		this.end_time = endTime;
+	public void setEndTime(Date end_time) {
+		this.end_time = end_time;
 	}
 }
