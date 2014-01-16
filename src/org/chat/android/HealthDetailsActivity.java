@@ -58,11 +58,11 @@ public class HealthDetailsActivity extends Activity {
     public void openHealthDelivery(View v) {
     	String topic = null;
         topic = (String) v.getTag();
-        
-        markTopicAccessed(topic);
     	
     	Intent i = new Intent(HealthDetailsActivity.this, HealthDeliveryActivity.class);
     	Bundle b = new Bundle();
+    	b.putInt("hhId",hhId);
+    	b.putInt("visitId",visitId);
     	b.putString("topic",topic);
     	i.putExtras(b);
     	startActivity(i);	
@@ -186,7 +186,7 @@ public class HealthDetailsActivity extends Activity {
 			for (int i = 0; i < imgView.size(); i++) {
 				// if the button's tag is the topic accessed (ie if this button should be greyed out)
 				if (imgView.get(i).getTag().equals(hta.getTopicName())) {
-					Log.d("The result is: ", (String) imgView.get(i).getTag());
+					// Log.d("The result is: ", (String) imgView.get(i).getTag());
 					imgView.get(i).setAlpha(90);
 					// imgBtn.get(i).setAlpha(90);
 					// topicTitle.get(i).setTextColor(Color.argb(90, 255, 0, 0));
@@ -195,38 +195,6 @@ public class HealthDetailsActivity extends Activity {
 			}			
 		}
 	
-    }
-    
-    public void markTopicAccessed(String topic) {
-    	int topicId = 0;
-    	
-    	// get the topicId
-		Dao<HealthTopic, Integer> tDao;		
-		DatabaseHelper tDbHelper = new DatabaseHelper(context);
-		try {
-			tDao = tDbHelper.getHealthTopicsDao();
-			List<HealthTopic> tList = tDao.queryBuilder().where().eq("name",topic).query();
-			Iterator<HealthTopic> iter = tList.iterator();
-			while (iter.hasNext()) {
-				HealthTopic t = iter.next();
-				topicId = t.getId();
-			}
-		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-		
-		// create the HealthTopicAccessed object and save to DB
-		HealthTopicAccessed hta = new HealthTopicAccessed(topicId, visitId, hhId, topic);
-	    Dao<HealthTopicAccessed, Integer> htaDao;
-	    DatabaseHelper htaDbHelper = new DatabaseHelper(context);
-	    try {
-	    	htaDao = htaDbHelper.getHealthTopicsAccessed();
-	    	htaDao.create(hta);
-	    } catch (SQLException e1) {
-	        // TODO Auto-generated catch block
-	        e1.printStackTrace();
-	    }
     }
 
 }

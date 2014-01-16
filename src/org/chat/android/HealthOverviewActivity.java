@@ -31,7 +31,6 @@ public class HealthOverviewActivity extends Activity {
 	public void openHealthOverviewRecord(View v) {
 		String healthTheme = null;
 		healthTheme = (String) v.getTag();
-
 		Boolean previouslyAccessedFlag = false;
 		
 		Dao<HealthSelectRecorded, Integer> hsrDao;		
