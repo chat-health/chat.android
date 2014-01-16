@@ -30,6 +30,7 @@ public class HealthDetailsActivity extends Activity {
 	Context context;
 	int hhId = 0;
 	int visitId = 0;
+	String healthTheme = null;
 	Boolean largeTopicScreen = false;
 	String[] themesArray;
 	
@@ -37,7 +38,6 @@ public class HealthDetailsActivity extends Activity {
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
         
-        String healthTheme = null;
 		Bundle b = getIntent().getExtras();
 		hhId = b.getInt("hhId");
 		visitId = b.getInt("visitId");
@@ -55,6 +55,11 @@ public class HealthDetailsActivity extends Activity {
 		setupTopicButtons(healthTheme);
     }
     
+//    public void onResume(Bundle savedInstanceState) {
+//    	super.onCreate(savedInstanceState);
+//    	setupTopicButtons(healthTheme);
+//    }
+    
     public void openHealthDelivery(View v) {
     	String topic = null;
         topic = (String) v.getTag();
@@ -63,8 +68,10 @@ public class HealthDetailsActivity extends Activity {
     	Bundle b = new Bundle();
     	b.putInt("hhId",hhId);
     	b.putInt("visitId",visitId);
+    	b.putString("healthTheme",healthTheme);
     	b.putString("topic",topic);
     	i.putExtras(b);
+    	finish();
     	startActivity(i);	
     }
     

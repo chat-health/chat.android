@@ -14,6 +14,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +30,7 @@ public class HealthDeliveryActivity extends Activity {
 	List<HealthPage> pages = new ArrayList<HealthPage>();
 	int hhId = 0;
 	int visitId = 0;
+	String healthTheme = null;
 	String topic = null;
 	int pageCounter = 0;
 	int lastPage = 0;
@@ -46,6 +48,7 @@ public class HealthDeliveryActivity extends Activity {
 		Bundle b = getIntent().getExtras();
 		hhId = b.getInt("hhId");
 		visitId = b.getInt("visitId");
+		healthTheme = b.getString("healthTheme");
 		topic = b.getString("topic");
 		
 		paginationTextField = (TextView)findViewById(R.id.paginationTextField);
@@ -62,6 +65,18 @@ public class HealthDeliveryActivity extends Activity {
 	    updateNonFragmentUIElements("next");
 	    updateDisplayedFragment(pageCounter);
     }
+	
+	public void onBackPressed() {
+		// TODO: add a confirm check here
+		finish();
+		Intent i = new Intent(HealthDeliveryActivity.this, HealthDetailsActivity.class);
+		Bundle b = new Bundle();
+		b.putString("healthTheme",healthTheme);
+		b.putInt("visitId",visitId);
+    	b.putInt("hhId",hhId);
+		i.putExtras(b);
+		startActivity(i);
+	}
 	
 	public void updateDisplayedFragment(int pageNum) {
 		HealthPage p = pages.get(pageNum - 1);
@@ -230,5 +245,12 @@ public class HealthDeliveryActivity extends Activity {
 
 		// finish this activity
 		finish();
+		Intent i = new Intent(HealthDeliveryActivity.this, HealthDetailsActivity.class);
+		Bundle b = new Bundle();
+		b.putString("healthTheme",healthTheme);
+		b.putInt("visitId",visitId);
+    	b.putInt("hhId",hhId);
+		i.putExtras(b);
+		startActivity(i);
 	}
 }

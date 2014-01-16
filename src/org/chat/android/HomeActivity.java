@@ -480,7 +480,7 @@ public class HomeActivity extends Activity {
 	    // Handle item selection
 	    switch (item.getItemId()) {
 	    case R.id.menu_settings:
-	        Toast.makeText(getApplicationContext(), "These are not the Droids you are looking for. Move along!", Toast.LENGTH_SHORT).show();
+	        Toast.makeText(getApplicationContext(), "Running setupDB...", Toast.LENGTH_SHORT).show();
 	        prepopulateDB();
 	        return true;
 	    case R.id.menu_sync:
