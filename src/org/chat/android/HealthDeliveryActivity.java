@@ -205,7 +205,7 @@ public class HealthDeliveryActivity extends Activity {
 	        // TODO Auto-generated catch block
 	        e1.printStackTrace();
 	    }
-	
+
 		// finish this activity
 		finish();
 	}
