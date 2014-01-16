@@ -10,16 +10,14 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "health_selects_recorded")
 public class HealthSelectRecorded {
-	@DatabaseField(id = true, unique = true, index = true)
+	@DatabaseField(unique = true, index = true, generatedId = true)
 	private int id;
     @DatabaseField
     private int visit_id;
     @DatabaseField
-    private int response;
-    @DatabaseField
     private int select_id;
-  
-
+    @DatabaseField
+    private String theme;
     
     /**
      * Default Constructor needed by ormlite
@@ -32,10 +30,10 @@ public class HealthSelectRecorded {
      * Constructor that instantiates the private member variable(s)
      * @param health_page_id
      */
-    public HealthSelectRecorded(int visit_id, int response, int select_id) {
+    public HealthSelectRecorded(int visit_id, int select_id, String theme) {
     	this.visit_id = visit_id;
-        this.response = response;
         this.select_id = select_id;
+        this.theme = theme;
     }
     
     
@@ -45,8 +43,8 @@ public class HealthSelectRecorded {
      */
     public HealthSelectRecorded(HealthSelectRecorded existingHealthSelectRecordedModel) {
     	this.visit_id = existingHealthSelectRecordedModel.visit_id;
-        this.response = existingHealthSelectRecordedModel.response;
         this.select_id = existingHealthSelectRecordedModel.select_id;
+        this.theme = existingHealthSelectRecordedModel.theme;
     }
     
 
@@ -62,20 +60,20 @@ public class HealthSelectRecorded {
 		this.visit_id = visit_id;
 	}
 	
-	public int getResponse() {
-		return response;
-	}
-	
-	public void setResponse(int response) {
-		this.response = response;
-	}
-	
 	public void setSelectId(int select_id) {
 		this.select_id = select_id;
 	}
 	
 	public int getSelectId() {
 		return select_id;
+	}
+	
+	public void setTheme(String theme) {
+		this.theme = theme;
+	}
+	
+	public String getTheme() {
+		return theme;
 	}
 	
 }

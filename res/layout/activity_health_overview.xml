@@ -21,11 +21,11 @@
     	    <TextView
 	            android:id="@+id/health_HIV_title_field"
 	            style="@style/titleText"
-	            android:textColor="@color/hiv"
+	            android:textColor="@color/theme1"
 	            android:text="@string/health_HIV_title_text" />
 	        <View
 	            style="@style/titleDivider"
-	            android:background="@color/hiv"
+	            android:background="@color/theme1"
 	            android:layout_below="@id/health_HIV_title_field" />
 	        <ImageView
 		        android:id="@+id/health_HIV_button_img"
@@ -56,11 +56,11 @@
       	    <TextView
 	            android:id="@+id/health_disease_title_field"
 	            style="@style/titleText"
-	            android:textColor="@color/disease"
+	            android:textColor="@color/theme2"
 	            android:text="@string/health_disease_title_text" />
 	        <View
 	            style="@style/titleDivider"
-	            android:background="@color/disease"
+	            android:background="@color/theme2"
 	            android:layout_below="@id/health_disease_title_field" />
 	        <ImageView
 		        android:id="@+id/health_disease_button_img"
@@ -96,11 +96,11 @@
     	    <TextView
 	            android:id="@+id/health_nutrition_title_field"
 	            style="@style/titleText"
-	            android:textColor="@color/nutrition"
+	            android:textColor="@color/theme3"
 	            android:text="@string/health_nutrition_title_text" />
 	        <View
 	            style="@style/titleDivider"
-	            android:background="@color/nutrition"
+	            android:background="@color/theme3"
 	            android:layout_below="@id/health_nutrition_title_field" />
 	        <ImageView
 		        android:id="@+id/health_nutrition_button_img"
@@ -131,11 +131,11 @@
       	    <TextView
 	            android:id="@+id/health_development_title_field"
 	            style="@style/titleText"
-	            android:textColor="@color/development"
+	            android:textColor="@color/theme4"
 	            android:text="@string/health_development_title_text" />
 	        <View
 	            style="@style/titleDivider"
-	            android:background="@color/development"
+	            android:background="@color/theme4"
 	            android:layout_below="@id/health_development_title_field" />
 	        <ImageView
 		        android:id="@+id/health_development_button_img"

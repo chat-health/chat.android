@@ -8,9 +8,9 @@
     
     <string-array name="themes_array">
         <item>HIV</item>
-        <item>disease</item>
-        <item>nutrition</item>
-        <item>development</item>
+        <item>Severe Childhood Illnesses</item>
+        <item>Nutrition</item>
+        <item>Psychosocial Support</item>
     </string-array>
     
     <!-- these are duplicated in the DB - they're used here to fill the health details layouts -->

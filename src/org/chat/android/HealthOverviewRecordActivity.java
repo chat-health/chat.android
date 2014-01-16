@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.chat.android.models.Attendance;
 import org.chat.android.models.HealthSelect;
+import org.chat.android.models.HealthSelectRecorded;
 import org.chat.android.models.HealthTheme;
 import org.chat.android.models.HealthTheme;
+import org.chat.android.models.VideoAccessed;
 
 import com.j256.ormlite.dao.Dao;
 
@@ -94,19 +97,41 @@ public class HealthOverviewRecordActivity extends Activity {
 		}
 		
 		if (selects.size() == 4) {
+			// set up the radio buttons, tagged with ID (to be used when saving)
 			r1.setText(selects.get(0).getEnContent());
+			r1.setTag(selects.get(0).getId());
 			r2.setText(selects.get(1).getEnContent());
+			r2.setTag(selects.get(1).getId());
 			r3.setText(selects.get(2).getEnContent());
+			r3.setTag(selects.get(2).getId());
 			r4.setText(selects.get(3).getEnContent());
+			r4.setTag(selects.get(3).getId());
 		}
 
 	}
    
 	public void openHealthDetails(View v) {
 		// save radio value
+		int selectResp = 0;
 		int radioButtonID = rbg.getCheckedRadioButtonId();
-		View rb = rbg.findViewById(radioButtonID);
-		int selectResp = (Integer) rb.getTag();
+		View rb = rbg.findViewById(radioButtonID);		
+		
+		// TODO: temporary until the DB has been filled with all of the theme content - after that is done, use this to force user to select before proceeding
+		if (rb != null) {
+			selectResp = (Integer) rb.getTag();
+		}
+			
+		HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, healthTheme);
+    	Dao<HealthSelectRecorded, Integer> hsrDao;
+    	DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
+    	try {
+    		hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
+    		hsrDao.create(hsr);
+    	} catch (SQLException e) {
+    	    // TODO Auto-generated catch block
+    	    e.printStackTrace();
+    	}
+		
 		
 		// open new intent
 		Intent i = new Intent(HealthOverviewRecordActivity.this, HealthDetailsActivity.class);

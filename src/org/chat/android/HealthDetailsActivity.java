@@ -108,17 +108,12 @@ public class HealthDetailsActivity extends Activity {
     	}
     	
     	String[] topicArray = null;
-    	String colorName = null;
     	int colorRef = 0;
     	
     	// setup up the titles for each of the topics (UI), from strings_health arrays
 		if (healthTheme.equals(themesArray[0])) {
-			topicArray = getResources().getStringArray(R.array.theme1_array);					// TODO move me to the DB - best as health_theme table instead splitting it out into arrays here
-			colorName = themesArray[0];
-			// this awkwardness because xml can't deal with uppercase :/
-			if (colorName.equals("HIV"))
-				colorName = "hiv";
-			colorRef = getResources().getColor(getResources().getIdentifier(colorName, "color", getPackageName()));							// yes, this is seriously how you have to reference it :/   I heart you Android
+			topicArray = getResources().getStringArray(R.array.theme1_array);					// TODO update to pull from DB instead of values file
+			colorRef = getResources().getColor(getResources().getIdentifier("theme1", "color", getPackageName()));							// yes, this is seriously how you have to reference it :/   I heart you Android
 			for (int i = 0; i < topicArray.length; i++) {
 				topicTitle.get(i).setTextColor(colorRef);
 				divider.get(i).setBackgroundColor(colorRef);				
@@ -129,8 +124,7 @@ public class HealthDetailsActivity extends Activity {
 			}
 		} else if (healthTheme.equals(themesArray[1])) {
 			topicArray = getResources().getStringArray(R.array.theme2_array);
-			colorName = themesArray[1];
-			colorRef = getResources().getColor(getResources().getIdentifier(colorName, "color", getPackageName()));
+			colorRef = getResources().getColor(getResources().getIdentifier("theme2", "color", getPackageName()));
 			for (int i = 0; i < topicArray.length; i++) {
 				topicTitle.get(i).setTextColor(colorRef);
 				divider.get(i).setBackgroundColor(colorRef);
@@ -141,8 +135,7 @@ public class HealthDetailsActivity extends Activity {
 			}
 		} else if (healthTheme.equals(themesArray[2])) {
 			topicArray = getResources().getStringArray(R.array.theme3_array);
-			colorName = themesArray[2];
-			colorRef = getResources().getColor(getResources().getIdentifier(colorName, "color", getPackageName()));			
+			colorRef = getResources().getColor(getResources().getIdentifier("theme3", "color", getPackageName()));			
 			for (int i = 0; i < topicArray.length; i++) {
 				topicTitle.get(i).setTextColor(colorRef);
 				divider.get(i).setBackgroundColor(colorRef);				
@@ -153,8 +146,7 @@ public class HealthDetailsActivity extends Activity {
 			}
 		} else if (healthTheme.equals(themesArray[3])) {
 			topicArray = getResources().getStringArray(R.array.theme4_array);
-			colorName = themesArray[3];
-			colorRef = getResources().getColor(getResources().getIdentifier(colorName, "color", getPackageName()));
+			colorRef = getResources().getColor(getResources().getIdentifier("theme4", "color", getPackageName()));
 			for (int i = 0; i < topicArray.length; i++) {
 				topicTitle.get(i).setTextColor(colorRef);
 				divider.get(i).setBackgroundColor(colorRef);				
