@@ -16,6 +16,7 @@ import java.util.Locale;
 
 import org.chat.android.models.Attendance;
 import org.chat.android.models.Client;
+import org.chat.android.models.HealthTopicAccessed;
 import org.chat.android.models.Household;
 import org.chat.android.models.Video;
 import org.chat.android.models.VideoAccessed;
@@ -58,7 +59,7 @@ import android.widget.Toast;
 public class HomeActivity extends Activity {
 
 	String TAG = "INFO"; //Log.i(TAG, "Testing: "+somevar);
-
+	Context context = null;
 	private Visit visit;
 	public int workerId = 0;
 	public int visitId = 0;
@@ -90,7 +91,7 @@ public class HomeActivity extends Activity {
     @Override    
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Context context = getApplicationContext();
+        context = getApplicationContext();
         setContentView(R.layout.activity_home);
         
         Locale locale = getResources().getConfiguration().locale;
@@ -114,11 +115,34 @@ public class HomeActivity extends Activity {
         //healthBtnImg.setEnabled(false);
 
         //FOR TESTING, SWITCH FOR PROD
-		//Bundle b = getIntent().getExtras();
-		//setupVisitObject(b.getString("hhName"), b.getString("workerName"), b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));				
-		//setupVisitObject(b.getString("hhName"), "colin", b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));
-        //setupVisitObject("John Doe", "colin", "Home Care Volunteer", "home", 11.11, 12.12);
-        setupVisitObject("John Doe", "colin", "Lay Counsellor", "home", 11.11, 12.12);
+		Bundle b = getIntent().getExtras();
+		visitId = b.getInt("visitId");
+
+        // visitId is 0 when starting new visit, else not 0
+        if (visitId == 0) {
+    		//setupVisitObject(b.getString("hhName"), b.getString("workerName"), b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));				
+    		//setupVisitObject(b.getString("hhName"), "colin", b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));
+            //setupVisitObject("John Doe", "colin", "Home Care Volunteer", "home", 11.11, 12.12);
+            setupVisitObject("John Doe", "colin", "Lay Counsellor", "home", 11.11, 12.12);
+        } else if (visitId != 0) {
+        	// pull the uncompleted visit object
+        	Dao<Visit, Integer> vDao;		
+    		DatabaseHelper vDbHelper = new DatabaseHelper(context);
+    		try {
+    			vDao = vDbHelper.getVisitsDao();
+    			List<Visit> vList = vDao.queryBuilder().where().eq("id",visitId).query();
+    			Iterator<Visit> iter = vList.iterator();
+    			while (iter.hasNext()) {
+    				Visit v = iter.next();
+    				visit = v;
+    			}
+    		} catch (SQLException e2) {
+    			// TODO Auto-generated catch block
+    			e2.printStackTrace();
+    		}
+        } else {
+        	Log.e("Neither a new visit or a resume visit. VisitId: ", "");
+        }
     	
     	List<Client> cList = new ArrayList<Client>();
     	// get visit object and get the family, then use that to select TODO: yuck - FIXME (figure out the proper selector with ORM layer)
@@ -322,7 +346,28 @@ public class HomeActivity extends Activity {
     	} finally {
     		saveAttendanceList();
     	}
-	}    
+	}
+	
+	public void markVisitComplete() {
+		Toast.makeText(getApplicationContext(),"Visit saved and marked as complete",Toast.LENGTH_SHORT).show();
+		
+		// update the Visit object and save to DB
+		Date endTime = new Date();
+		visit.setEndTime(endTime);
+		
+	    Dao<Visit, Integer> vDao;
+	    DatabaseHelper vDbHelper = new DatabaseHelper(context);
+	    try {
+	    	vDao = vDbHelper.getVisitsDao();
+	    	vDao.update(visit);
+	    } catch (SQLException e1) {
+	        // TODO Auto-generated catch block
+	        e1.printStackTrace();
+	    }
+		
+	    // official end of visit
+		finish();
+	}
     
     public void openResource(String r) {
     	// determining path to sdcard (readable by video player)
@@ -493,8 +538,8 @@ public class HomeActivity extends Activity {
 	    	       .setCancelable(false)
 	    	       .setPositiveButton("Yes, mark this visit as complete and log me out", new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
+	    	        	   markVisitComplete();
 	    	        	   //triggerSyncAdapter();
-	    	        	   finish();
 	    	           }
 	    	       })
 	    	       .setNegativeButton("No, cancel and return to the visit in progress", new DialogInterface.OnClickListener() {

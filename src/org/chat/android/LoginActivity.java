@@ -1,6 +1,14 @@
 package org.chat.android;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.chat.android.models.Household;
+import org.chat.android.models.Visit;
+
+import com.j256.ormlite.dao.Dao;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -229,9 +237,35 @@ public class LoginActivity extends Activity {
 			showProgress(false);
 			
 			if (success) {
-				// Switch to setup visit view, bundling in the role
-				Intent i = new Intent(LoginActivity.this, SetupVisitActivity.class);
+				int vId = 0;
+				// check if there are previously uncompleted visits. NB: this assumes there is only ever one unrestored visit (TESTME)
+				Dao<Visit, Integer> vDao;		
+				DatabaseHelper vDbHelper = new DatabaseHelper(getApplicationContext());
+				try {
+					vDao = vDbHelper.getVisitsDao();
+					List<Visit> vList = vDao.queryBuilder().where().isNull("end_time").query();
+					Iterator<Visit> iter = vList.iterator();
+					while (iter.hasNext()) {
+						Visit v = iter.next();
+						vId = v.getId();
+					}
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				
+				// figure out what activity to launch next 
+				Intent i;
 				Bundle b = new Bundle();
+				
+				// if there is no uncompleted visit, go to SetupVisitActivity, else go to RestoreVisitActivity
+				if (vId == 0) {
+					i = new Intent(LoginActivity.this, SetupVisitActivity.class);
+				} else {
+					i = new Intent(LoginActivity.this, RestoreVisitActivity.class);
+					b.putInt("visitId",vId);
+				}
+				
 				b.putString("workerName",mUserNameView.getText().toString());
 				b.putString("role",roleSpinner.getSelectedItem().toString());
 				i.putExtras(b);
