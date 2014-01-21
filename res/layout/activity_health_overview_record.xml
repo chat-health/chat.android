@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?><RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="20dp">
+    android:paddingTop="40dp"
+    android:paddingRight="80dp"
+    android:paddingBottom="20dp"
+    android:paddingLeft="120dp" >
     
     <TextView
         android:id="@+id/overviewRecordTitle1"
@@ -13,8 +16,7 @@
         android:id="@+id/overviewRecordContent1"
         style="@style/shortTextContainer"
         android:layout_below="@id/overviewRecordTitle1"
-
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="30dp"
         android:text="TBF" />
 
     <TextView
@@ -28,8 +30,7 @@
         android:id="@+id/overviewRecordContent2"
         style="@style/shortTextContainer"
         android:layout_below="@id/overviewRecordTitle2"
-
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="30dp"
         android:text="TBF" />
     
     <RadioGroup

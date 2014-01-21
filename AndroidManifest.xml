@@ -49,6 +49,11 @@
             </intent-filter> -->
         </activity>
         <activity
+            android:name=".ResourcesActivity"
+            android:label="@string/title_activity_resources"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
             android:name=".ServiceOverviewActivity"
             android:label="@string/title_activity_service_overview"
             android:screenOrientation="landscape" >

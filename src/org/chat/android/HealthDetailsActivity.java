@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.chat.android.models.Attendance;
 import org.chat.android.models.HealthPage;
+import org.chat.android.models.HealthTheme;
 import org.chat.android.models.HealthTopic;
 import org.chat.android.models.HealthTopicAccessed;
 import org.chat.android.models.Household;
@@ -30,7 +31,7 @@ public class HealthDetailsActivity extends Activity {
 	Context context;
 	int hhId = 0;
 	int visitId = 0;
-	String healthTheme = null;
+	String healthThemeName = null;
 	Boolean largeTopicScreen = false;
 	String[] themesArray;
 	
@@ -41,18 +42,18 @@ public class HealthDetailsActivity extends Activity {
 		Bundle b = getIntent().getExtras();
 		hhId = b.getInt("hhId");
 		visitId = b.getInt("visitId");
-		healthTheme = b.getString("healthTheme");
+		healthThemeName = b.getString("healthTheme");
 		themesArray = getResources().getStringArray(R.array.themes_array);
 		
 		// sloppy/hacky way of choosing whether the view is going to have 4 or 6 topics (disease and nutrition have 6, so largeTopicScreen == true)
-		if (healthTheme.equals(themesArray[1]) || healthTheme.equals(themesArray[2])) {
+		if (healthThemeName.equals(themesArray[1]) || healthThemeName.equals(themesArray[2])) {
 			largeTopicScreen = true;
 			setContentView(R.layout.activity_health_details_large);
 		} else {
 			setContentView(R.layout.activity_health_details_small);
 		}
 		
-		setupTopicButtons(healthTheme);
+		setupTopicButtons(healthThemeName);
     }
     
 //    public void onResume(Bundle savedInstanceState) {
@@ -68,7 +69,7 @@ public class HealthDetailsActivity extends Activity {
     	Bundle b = new Bundle();
     	b.putInt("hhId",hhId);
     	b.putInt("visitId",visitId);
-    	b.putString("healthTheme",healthTheme);
+    	b.putString("healthTheme",healthThemeName);
     	b.putString("topic",topic);
     	i.putExtras(b);
     	finish();

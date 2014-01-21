@@ -17,6 +17,7 @@ import com.j256.ormlite.dao.Dao;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
@@ -27,8 +28,11 @@ public class HealthOverviewRecordActivity extends Activity {
 	Context context;
 	int hhId = 0;
 	int visitId = 0;
-	String healthTheme = null;
+	String healthThemeName = null;
+	HealthTheme theme = null;
+	TextView obsTitle = null;
 	TextView obsTv = null;
+	TextView recTitle = null;
 	TextView recTv = null;
 	RadioGroup rbg = null;
 	RadioButton r1 = null;
@@ -41,7 +45,9 @@ public class HealthOverviewRecordActivity extends Activity {
         context = getApplicationContext();
 
 		setContentView(R.layout.activity_health_overview_record);
+		obsTitle = (TextView)findViewById(R.id.overviewRecordTitle1);
 		obsTv = (TextView)findViewById(R.id.overviewRecordContent1);
+		recTitle = (TextView)findViewById(R.id.overviewRecordTitle2);
 		recTv = (TextView)findViewById(R.id.overviewRecordContent2);
 		rbg = (RadioGroup)findViewById(R.id.overviewRecordRadio);
 		r1 = (RadioButton)findViewById(R.id.overviewRecordRadioButton1);
@@ -52,18 +58,18 @@ public class HealthOverviewRecordActivity extends Activity {
 		Bundle b = getIntent().getExtras();
 		hhId = b.getInt("hhId");
 		visitId = b.getInt("visitId");
-		healthTheme = b.getString("healthTheme");
+		healthThemeName = b.getString("healthTheme");
 		
 		populateThemeContent();
+		updateUIColors();
     }
 	
 	public void populateThemeContent() {
-		HealthTheme theme = null;
 		Dao<HealthTheme, Integer> tDao;		
 		DatabaseHelper tDbHelper = new DatabaseHelper(context);
 		try {
 			tDao = tDbHelper.getHealthThemeDao();
-			List<HealthTheme> tList = tDao.queryBuilder().where().eq("name",healthTheme).query();
+			List<HealthTheme> tList = tDao.queryBuilder().where().eq("name",healthThemeName).query();
 			Iterator<HealthTheme> iter = tList.iterator();
 			while (iter.hasNext()) {
 				HealthTheme t = iter.next();
@@ -109,6 +115,15 @@ public class HealthOverviewRecordActivity extends Activity {
 		}
 
 	}
+	
+	public void updateUIColors() {
+		int colorRef = Color.parseColor(theme.getColor());
+		
+		obsTitle.setTextColor(colorRef);
+		recTitle.setTextColor(colorRef);
+		
+		// switch button color
+	}
    
 	public void openHealthDetails(View v) {
 		// save radio value
@@ -121,7 +136,7 @@ public class HealthOverviewRecordActivity extends Activity {
 			selectResp = (Integer) rb.getTag();
 		}
 			
-		HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, healthTheme);
+		HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, healthThemeName);
     	Dao<HealthSelectRecorded, Integer> hsrDao;
     	DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
     	try {
@@ -138,7 +153,7 @@ public class HealthOverviewRecordActivity extends Activity {
 		Bundle b = new Bundle();
 		b.putInt("visitId",visitId);
     	b.putInt("hhId",hhId);
-    	b.putString("healthTheme",healthTheme);
+    	b.putString("healthTheme",healthThemeName);
 		i.putExtras(b);
 		startActivity(i);
 	}	   

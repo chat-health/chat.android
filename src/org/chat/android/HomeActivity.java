@@ -524,6 +524,10 @@ public class HomeActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    // Handle item selection
 	    switch (item.getItemId()) {
+	    case R.id.menu_resources:
+	    	Intent i = new Intent(HomeActivity.this, ResourcesActivity.class);
+	    	startActivity(i);
+	        return true;
 	    case R.id.menu_settings:
 	        Toast.makeText(getApplicationContext(), "Running setupDB...", Toast.LENGTH_SHORT).show();
 	        prepopulateDB();
