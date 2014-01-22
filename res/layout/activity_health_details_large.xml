@@ -38,6 +38,12 @@
 		        android:layout_marginTop="20dp"
 		        android:src="@drawable/children_play_screenshot"
 		        android:onClick="openHealthDelivery" />
+	        <ImageView
+                android:id="@+id/health_topic1_checkmark"
+                style="@style/checkmarkImage"
+                android:layout_below="@id/health_topic1_title_field"
+                android:src="@drawable/checkmark"
+                android:visibility="invisible" />
 			<ImageButton
 	       	    android:id="@+id/health_topic1_button"
 	       	    style="@style/themeImageButton"
@@ -75,6 +81,12 @@
 		        android:layout_marginTop="20dp"
 		        android:src="@drawable/children_play_screenshot"
 		        android:onClick="openHealthDelivery" />
+	        <ImageView
+                android:id="@+id/health_topic2_checkmark"
+                style="@style/checkmarkImage"
+                android:layout_below="@id/health_topic2_title_field"
+                android:src="@drawable/checkmark"
+                android:visibility="invisible" />
 			<ImageButton
 	       	    android:id="@+id/health_topic2_button"
 	       	    style="@style/themeImageButton"
@@ -112,6 +124,12 @@
 		        android:layout_marginTop="20dp"
 		        android:src="@drawable/children_play_screenshot"
 		        android:onClick="openHealthDelivery" />
+	        <ImageView
+                android:id="@+id/health_topic3_checkmark"
+                style="@style/checkmarkImage"
+                android:layout_below="@id/health_topic3_title_field"
+                android:src="@drawable/checkmark"
+                android:visibility="invisible" />
   			<ImageButton
 	       	    android:id="@+id/health_topic3_button"
 	       	    style="@style/themeImageButton"
@@ -154,6 +172,12 @@
 		        android:layout_marginTop="20dp"
 		        android:src="@drawable/children_play_screenshot"
 		        android:onClick="openHealthDelivery" />
+	        <ImageView
+                android:id="@+id/health_topic4_checkmark"
+                style="@style/checkmarkImage"
+                android:layout_below="@id/health_topic4_title_field"
+                android:src="@drawable/checkmark"
+                android:visibility="invisible" />
 	       	<ImageButton
 	       	    android:id="@+id/health_topic4_button"
 	       	    style="@style/themeImageButton"
@@ -191,6 +215,12 @@
 		        android:layout_marginTop="20dp"
 		        android:src="@drawable/children_play_screenshot"
 		        android:onClick="openHealthDelivery" />
+	        <ImageView
+                android:id="@+id/health_topic5_checkmark"
+                style="@style/checkmarkImage"
+                android:layout_below="@id/health_topic5_title_field"
+                android:src="@drawable/checkmark"
+                android:visibility="invisible" />
 	       	<ImageButton
 	       	    android:id="@+id/health_topic5_button"
 	       	    style="@style/themeImageButton"
@@ -227,6 +257,12 @@
 		        android:layout_marginTop="20dp"
 		        android:src="@drawable/children_play_screenshot"
 		        android:onClick="openHealthDelivery" />
+	        <ImageView
+                android:id="@+id/health_topic6_checkmark"
+                style="@style/checkmarkImage"
+                android:layout_below="@id/health_topic6_title_field"
+                android:src="@drawable/checkmark"
+                android:visibility="invisible" />
 	       	<ImageButton
 	       	    android:id="@+id/health_topic6_button"
 	       	    style="@style/themeImageButton"

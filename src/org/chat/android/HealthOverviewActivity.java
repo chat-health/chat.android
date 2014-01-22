@@ -79,6 +79,12 @@ public class HealthOverviewActivity extends Activity {
     	imgViewList.add((ImageView)findViewById(R.id.health_nutrition_button_img));
     	imgViewList.add((ImageView)findViewById(R.id.health_development_button_img));
     	
+    	List<ImageView> checkmarkList = new ArrayList<ImageView>();
+    	checkmarkList.add((ImageView) findViewById(R.id.health_HIV_checkmark));
+    	checkmarkList.add((ImageView) findViewById(R.id.health_disease_checkmark));
+    	checkmarkList.add((ImageView) findViewById(R.id.health_nutrition_checkmark));
+    	checkmarkList.add((ImageView) findViewById(R.id.health_development_checkmark));
+    	
 		// pull all of the topics accessed for this household, then clear those with duplicate 
 		List<HealthTopicAccessed> topicsAccessed = new ArrayList<HealthTopicAccessed>();
 		Dao<HealthTopicAccessed, Integer> htaDao;		
@@ -130,6 +136,7 @@ public class HealthOverviewActivity extends Activity {
 			// mark as complete the button if all of the topic_ids are in the hta list (for this household)
 			if (healthTopics.size() > 0 && compareCounter == healthTopics.size()) {
 				imgViewList.get(i).setAlpha(90);
+				checkmarkList.get(i).setVisibility(View.VISIBLE);
 			}
 			
 		}

@@ -97,6 +97,12 @@ public class HealthDetailsActivity extends Activity {
     	imgView.add((ImageView) findViewById(R.id.health_topic3_button_img));
     	imgView.add((ImageView) findViewById(R.id.health_topic4_button_img));
     	
+    	List<ImageView> checkmark = new ArrayList<ImageView>();
+    	checkmark.add((ImageView) findViewById(R.id.health_topic1_checkmark));
+    	checkmark.add((ImageView) findViewById(R.id.health_topic2_checkmark));
+    	checkmark.add((ImageView) findViewById(R.id.health_topic3_checkmark));
+    	checkmark.add((ImageView) findViewById(R.id.health_topic4_checkmark));
+    	
     	List<ImageButton> imgBtn = new ArrayList<ImageButton>();
     	imgBtn.add((ImageButton) findViewById(R.id.health_topic1_button));
     	imgBtn.add((ImageButton) findViewById(R.id.health_topic2_button));
@@ -111,6 +117,8 @@ public class HealthDetailsActivity extends Activity {
         	divider.add((View) findViewById(R.id.health_topic6_divider));
         	imgView.add((ImageView) findViewById(R.id.health_topic5_button_img));
         	imgView.add((ImageView) findViewById(R.id.health_topic6_button_img));
+        	checkmark.add((ImageView) findViewById(R.id.health_topic5_checkmark));
+        	checkmark.add((ImageView) findViewById(R.id.health_topic6_checkmark));
         	imgBtn.add((ImageButton) findViewById(R.id.health_topic5_button));
         	imgBtn.add((ImageButton) findViewById(R.id.health_topic6_button));
     	}
@@ -194,8 +202,8 @@ public class HealthDetailsActivity extends Activity {
 			for (int i = 0; i < imgView.size(); i++) {
 				// if the button's tag is the topic accessed (ie if this button should be greyed out)
 				if (imgView.get(i).getTag().equals(hta.getTopicName())) {
-					// Log.d("The result is: ", (String) imgView.get(i).getTag());
 					imgView.get(i).setAlpha(90);
+					checkmark.get(i).setVisibility(View.VISIBLE);
 					// imgBtn.get(i).setAlpha(90);
 					// topicTitle.get(i).setTextColor(Color.argb(90, 255, 0, 0));
 					// divider.get(i).setAlpha(90);

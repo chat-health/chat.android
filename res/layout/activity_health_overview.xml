@@ -35,6 +35,12 @@
 		        android:src="@drawable/children_play_screenshot"
 		        android:tag="HIV"
 		        android:onClick="openHealthOverviewRecord" />
+	        <ImageView
+                android:id="@+id/health_HIV_checkmark"
+                style="@style/checkmarkImage"
+                android:layout_below="@id/health_HIV_title_field"
+                android:src="@drawable/checkmark"
+                android:visibility="invisible" />
 	       	<ImageButton
 	       	    android:id="@+id/health_HIV_button"
 	       	    style="@style/themeImageButton"
@@ -70,6 +76,12 @@
 		        android:src="@drawable/children_play_screenshot"
 		        android:tag="Severe Childhood Illnesses"
 		        android:onClick="openHealthOverviewRecord" />
+	        <ImageView
+                android:id="@+id/health_disease_checkmark"
+                style="@style/checkmarkImage"
+                android:layout_below="@id/health_disease_title_field"
+                android:src="@drawable/checkmark"
+                android:visibility="invisible" />
 	       	<ImageButton
 	       	    android:id="@+id/health_disease_button"
 	       	    style="@style/themeImageButton"
@@ -110,6 +122,12 @@
 		        android:src="@drawable/children_play_screenshot"
 		        android:tag="Nutrition"
 		        android:onClick="openHealthOverviewRecord" />
+	        <ImageView
+                android:id="@+id/health_nutrition_checkmark"
+                style="@style/checkmarkImage"
+                android:layout_below="@id/health_nutrition_title_field"
+                android:src="@drawable/checkmark"
+                android:visibility="invisible" />
 	       	<ImageButton
 	       	    android:id="@+id/health_nutrition_button"
 	       	    style="@style/themeImageButton"
@@ -145,6 +163,12 @@
 		        android:src="@drawable/children_play_screenshot"
 		        android:tag="Psychosocial Support"
 		        android:onClick="openHealthOverviewRecord" />
+	        <ImageView
+                android:id="@+id/health_development_checkmark"
+                style="@style/checkmarkImage"
+                android:layout_below="@id/health_development_title_field"
+                android:src="@drawable/checkmark"
+                android:visibility="invisible" />
 	       	<ImageButton
 	       	    android:id="@+id/health_development_button"
 	       	    style="@style/themeImageButton"

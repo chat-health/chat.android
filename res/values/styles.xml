@@ -84,6 +84,14 @@
         <item name="android:contentDescription">@string/generic_img_button_text</item>
 	</style>
 	
+	<style name="checkmarkImage">
+	    <item name="android:layout_width">wrap_content</item>
+	    <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@null</item>
+        <item name="android:layout_marginTop">50dp</item>
+        <item name="android:layout_marginLeft">60dp</item>
+	</style>
+	
 	<style name="otherServiceTitle">
 	    <item name="android:layout_width">match_parent</item>
 	    <item name="android:layout_height">wrap_content</item>
