@@ -22,6 +22,8 @@ public class ServiceAccessed {
 	private int client_id;
     @DatabaseField
 	private String ad_info;
+    @DatabaseField
+	private Date time;
 
     /**
      * Default Constructor needed by ormlite
@@ -35,13 +37,15 @@ public class ServiceAccessed {
      * @param visit_id
      * @param client_id
      * @param ad_info
+     * @param time
      * 
      */
-    public ServiceAccessed(int service_id, int visit_id, int client_id, String ad_info) {
+    public ServiceAccessed(int service_id, int visit_id, int client_id, String ad_info, Date time) {
     	this.service_id = service_id;
     	this.visit_id = visit_id;
         this.client_id = client_id;
         this.ad_info = ad_info;
+        this.time = time;
     }
     
     /**
@@ -53,6 +57,7 @@ public class ServiceAccessed {
         this.visit_id = existingServicesAccessedModel.visit_id;
         this.client_id = existingServicesAccessedModel.client_id;
         this.ad_info = existingServicesAccessedModel.ad_info;
+        this.time = existingServicesAccessedModel.time;
     }
 
 	public int getId() {
@@ -89,5 +94,13 @@ public class ServiceAccessed {
 	
 	public void setAdInfo(String ad_info) {
 		this.ad_info = ad_info;
+	}
+	
+	public Date getTime() {
+		return time;
+	}
+	
+	public void setTime(Date time) {
+		this.time = time;
 	}
 }

@@ -25,13 +25,7 @@ public class Visit {
     @DatabaseField
     private double lat;
     @DatabaseField
-    private double lon;
-    @DatabaseField
-    private Boolean service_accessed;
-    @DatabaseField
-    private Boolean video_accessed;
-    @DatabaseField
-    private Boolean resource_accessed;    
+    private double lon;   
     @DatabaseField
     private Date start_time;
     @DatabaseField
@@ -69,9 +63,6 @@ public class Visit {
         this.type = type;
         this.lat = lat;
         this.lon = lon;
-        this.service_accessed = false;
-        this.video_accessed = false;
-        this.resource_accessed = false;
         this.start_time = start_time;
     }
     
@@ -88,9 +79,6 @@ public class Visit {
         this.type = existingVisitModel.type;
         this.lat = existingVisitModel.lat;
         this.lon = existingVisitModel.lon;
-        this.service_accessed = existingVisitModel.service_accessed;
-        this.video_accessed = existingVisitModel.video_accessed;
-        this.resource_accessed = existingVisitModel.resource_accessed;
         this.start_time = existingVisitModel.start_time;
         this.end_time = existingVisitModel.end_time;
     }
@@ -150,30 +138,6 @@ public class Visit {
 
 	public void setType(String type) {
 		this.type = type;
-	}
-	
-	public Boolean getServiceAccessed() {
-		return service_accessed;
-	}
-
-	public void setServiceAccessed(Boolean service_accessed) {
-		this.service_accessed = service_accessed;
-	}
-	
-	public Boolean getVideoAccessed() {
-		return video_accessed;
-	}
-
-	public void setVideoAccessed(Boolean video_accessed) {
-		this.video_accessed = video_accessed;
-	}
-	
-	public Boolean getResourceAccessed() {
-		return resource_accessed;
-	}
-
-	public void setResourceAccessed(Boolean resource_accessed) {
-		this.resource_accessed = resource_accessed;
 	}
 	
 	public Date setStartTime() {

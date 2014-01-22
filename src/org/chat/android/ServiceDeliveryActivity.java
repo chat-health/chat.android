@@ -2,6 +2,7 @@ package org.chat.android;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.chat.android.models.Attendance;
@@ -104,10 +105,11 @@ public class ServiceDeliveryActivity extends Activity {
     		for (Client client : attendingClients) {
     			ServiceAccessed sa = null;
     			// decide whether there is ad_info (ie it's an outlier type service that is not a simple checkbox)
+    			Date time = new Date();
     			if (adInfoFlag == true) {
-    				sa = new ServiceAccessed(getServiceIdFromName(sName), visitId, client.getId(), serviceAdInfo.get(i));
+    				sa = new ServiceAccessed(getServiceIdFromName(sName), visitId, client.getId(), serviceAdInfo.get(i), time);
     			} else {
-    				sa = new ServiceAccessed(getServiceIdFromName(sName), visitId, client.getId(), null);
+    				sa = new ServiceAccessed(getServiceIdFromName(sName), visitId, client.getId(), null, time);
     			}
     		    Dao<ServiceAccessed, Integer> saDao;
     		    DatabaseHelper saDbHelper = new DatabaseHelper(context);

@@ -3,11 +3,14 @@ package org.chat.android;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.chat.android.models.HealthTopicAccessed;
 import org.chat.android.models.Household;
 import org.chat.android.models.Resource;
+import org.chat.android.models.ResourceAccessed;
 
 import com.j256.ormlite.dao.Dao;
 
@@ -29,12 +32,15 @@ import android.widget.Toast;
 
 public class ResourcesActivity extends ListActivity {
 	Context context = null;
+	Bundle bundle;
 	ArrayList<Resource> resources;
 	ArrayList<String> resourceNames;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		context = getApplicationContext();
+		
+		bundle = getIntent().getExtras();
 		
 		resources = new ArrayList<Resource>();
 		resourceNames = new ArrayList<String>();
@@ -63,6 +69,7 @@ public class ResourcesActivity extends ListActivity {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				//String res = (String)parent.getItemAtPosition(position);
 				Resource res = resources.get(position);
+				markResourceAccessed(res);
 				openResource(res.getURI());
 			}
 	    });
@@ -82,5 +89,28 @@ public class ResourcesActivity extends ListActivity {
 	    i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 	    i.setDataAndType(Uri.fromFile(resFile), "application/pdf");
 	    startActivity(i);
+	}
+	
+	public void markResourceAccessed(Resource res) {
+		int workerId = 0;
+		int visitId = 0;
+		Date time = new Date();
+		if (bundle.getInt("workerId") != 0) {
+			workerId = bundle.getInt("workerId");
+		}
+		if (bundle.getInt("visitId") != 0) {
+			visitId = bundle.getInt("visitId");
+		}
+		
+		ResourceAccessed ra = new ResourceAccessed(res.getId(), visitId, workerId, time);
+	    Dao<ResourceAccessed, Integer> raDao;
+	    DatabaseHelper raDbHelper = new DatabaseHelper(context);
+	    try {
+	    	raDao = raDbHelper.getResourceAccessedDao();
+	    	raDao.create(ra);
+	    } catch (SQLException e1) {
+	        // TODO Auto-generated catch block
+	        e1.printStackTrace();
+	    }	
 	}
 }

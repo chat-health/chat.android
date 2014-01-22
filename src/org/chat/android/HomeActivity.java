@@ -247,7 +247,11 @@ public class HomeActivity extends Activity {
     }
     
     public void openResources(View v) {
-    	Intent i = new Intent(HomeActivity.this, ResourcesActivity.class);   	
+    	Intent i = new Intent(HomeActivity.this, ResourcesActivity.class);
+    	Bundle b = new Bundle();
+    	b.putInt("visitId",visitId);
+    	b.putInt("workerId",workerId);
+    	i.putExtras(b);    	
     	startActivity(i);
     }
     
@@ -424,40 +428,23 @@ public class HomeActivity extends Activity {
 	    // official end of visit
 		finish();
 	}
-    
-    public void openResource(String r) {
-    	// determining path to sdcard (readable by video player)
-    	File sdCard = Environment.getExternalStorageDirectory();
-    	// adding chat dir to path (copyAsset func ensures dir exists)
-        File dir = new File (sdCard.getAbsolutePath() + "/chat");
-        
-        // create file that points at video in sdcard dir (to retrieve URI)
-        File myvid = new File(dir, r);
-        
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.setDataAndType(Uri.fromFile(myvid), "application/pdf");
-        startActivity(intent);
-    }
 
 	public void playVideo (View v) {
 		Context context = getApplicationContext();
 		
 		// mark that a video was accessed
-		visit.setVideoAccessed(true);
-		Dao<Visit, Integer> vDao;
-		DatabaseHelper vDbHelper = new DatabaseHelper(context);
-		try {
-			vDao = vDbHelper.getVisitsDao();
-			UpdateBuilder<Visit, Integer> updateBuilder = vDao.updateBuilder();
-			updateBuilder.updateColumnValue("video_accessed", true);
-			updateBuilder.where().eq("id",visitId);
-			updateBuilder.update();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		Dao<Visit, Integer> vDao;
+//		DatabaseHelper vDbHelper = new DatabaseHelper(context);
+//		try {
+//			vDao = vDbHelper.getVisitsDao();
+//			UpdateBuilder<Visit, Integer> updateBuilder = vDao.updateBuilder();
+//			updateBuilder.updateColumnValue("video_accessed", true);
+//			updateBuilder.where().eq("id",visitId);
+//			updateBuilder.update();
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
     	// figure out which video to play by determining which button was pressed
     	int chosenVideoId = 0;
@@ -582,6 +569,10 @@ public class HomeActivity extends Activity {
 	    switch (item.getItemId()) {
 	    case R.id.menu_resources:
 	    	Intent i = new Intent(HomeActivity.this, ResourcesActivity.class);
+	    	Bundle b = new Bundle();
+	    	b.putInt("visitId",visitId);
+	    	b.putInt("workerId",workerId);
+	    	i.putExtras(b);    	
 	    	startActivity(i);
 	        return true;
 	    case R.id.menu_settings:

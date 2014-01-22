@@ -1,5 +1,7 @@
 package org.chat.android.models;
 
+import java.util.Date;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -12,6 +14,10 @@ public class ResourceAccessed {
     private int resource_id;
     @DatabaseField
     private int visit_id;
+    @DatabaseField
+    private int worker_id;
+    @DatabaseField
+    private Date time;
 
 
     /**
@@ -24,11 +30,15 @@ public class ResourceAccessed {
      * Constructor that instantiates the private member variable(s)
      * @param resource_id
      * @param visit_id
+     * @param worker_id
+     * @param time
      * 
      */
-    public ResourceAccessed(int resource_id, int visit_id) {
+    public ResourceAccessed(int resource_id, int visit_id, int worker_id, Date time) {
     	this.resource_id = resource_id;
+    	this.worker_id = worker_id;
     	this.visit_id = visit_id;
+    	this.time = time;
     }
     
     /**
@@ -38,6 +48,8 @@ public class ResourceAccessed {
     public ResourceAccessed(ResourceAccessed existingResourcesAccessedModel) {
         this.resource_id = existingResourcesAccessedModel.resource_id;
         this.visit_id = existingResourcesAccessedModel.visit_id;
+        this.worker_id = existingResourcesAccessedModel.worker_id;
+        this.time = existingResourcesAccessedModel.time;
     }
 
 	public int getResourceId() {
@@ -54,5 +66,21 @@ public class ResourceAccessed {
 	
 	public void setVisitId(int visit_id) {
 		this.visit_id = visit_id;
+	}
+	
+	public int getWorkerId() {
+		return worker_id;
+	}
+	
+	public void setWorkerId(int worker_id) {
+		this.worker_id = worker_id;
+	}
+	
+	public Date getTime() {
+		return time;
+	}
+	
+	public void setTime(Date time) {
+		this.time = time;
 	}
 }
