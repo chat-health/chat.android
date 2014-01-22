@@ -276,7 +276,7 @@ public class HomeActivity extends Activity {
     	chaBtn.setEnabled(true);
     	chaBtnImg.setImageResource(R.drawable.thandananilogo);
     	chaBtnImg.setEnabled(true);
-    	c = getResources().getColor(getResources().getIdentifier("services", "color", getPackageName()));
+    	c = getResources().getColor(getResources().getIdentifier("child_health_assessment", "color", getPackageName()));
     	chaTitle.setTextColor(c);
     	chaDivider.setBackgroundColor(c);
     	
@@ -284,7 +284,7 @@ public class HomeActivity extends Activity {
     	resourcesBtn.setEnabled(true);
     	resourcesBtnImg.setImageResource(R.drawable.healthedimage);
     	resourcesBtnImg.setEnabled(true);
-    	c = getResources().getColor(getResources().getIdentifier("health_education", "color", getPackageName()));
+    	c = getResources().getColor(getResources().getIdentifier("resources", "color", getPackageName()));
     	resourcesTitle.setTextColor(c);
     	resourcesDivider.setBackgroundColor(c);
     }
@@ -377,7 +377,7 @@ public class HomeActivity extends Activity {
     		Client c = pArray.get(i);
         	Attendance a = new Attendance(visitId, c.getId());
         	Dao<Attendance, Integer> aDao;
-        	DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
+        	DatabaseHelper dbHelper = new DatabaseHelper(context);
         	try {
         		aDao = dbHelper.getAttendanceDao();
         		aDao.create(a);
