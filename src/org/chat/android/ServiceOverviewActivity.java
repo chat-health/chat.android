@@ -10,11 +10,13 @@ import org.chat.android.models.Visit;
 
 import com.j256.ormlite.dao.Dao;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -30,19 +32,15 @@ public class ServiceOverviewActivity extends Activity {
 	int hhId = 0;
 	String role = null;
 	
-	// TODO - consider if we want a serviceType class. And via ORM layer as well?
-//	List<String> backgroundURIList = new ArrayList<String>(
-//		Arrays.asList("children_play_screenshot", "children_play_screenshot")
-//	);
-//	String fakeURI = "children_play_screenshot";
-	
-	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Context context = getApplicationContext();
         
 		setContentView(R.layout.activity_service_overview);
 
+		ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+		
 		Bundle b = getIntent().getExtras();
 		visitId = b.getInt("visitId");
 		hhId = b.getInt("hhId");
@@ -50,8 +48,23 @@ public class ServiceOverviewActivity extends Activity {
 		role = v.getRole();
 		
 		setupServiceTypeButtons(role);
-
 	}
+    
+    // using this override cause we're on an old android version and I can't get the support libraries to work correctly
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case android.R.id.home:
+        	Intent i = new Intent(ServiceOverviewActivity.this, HomeActivity.class);
+        	Bundle b = new Bundle();
+        	b.putInt("visitId",visitId);
+        	i.putExtras(b);
+        	startActivity(i);
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
+        }
+    }
     
     public void setupServiceTypeButtons(String role) {
     	// figure out which button names we need for this screen

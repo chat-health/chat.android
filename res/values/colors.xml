@@ -5,6 +5,10 @@
     <color name="services_disabled">#dbcdde</color>
     <color name="health_education">#ff7f00</color>
     <color name="health_education_disabled">#fbd2a6</color>
+    <color name="child_health_assessment">#936394</color>
+    <color name="child_health_assessment_disabled">#dbcdde</color>
+    <color name="resources">#ff7f00</color>
+    <color name="resources_disabled">#fbd2a6</color>
     <color name="theme1">#a01718</color>
 	<color name="theme2">#ebbb28</color>
 	<color name="theme3">#5b943d</color>

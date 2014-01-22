@@ -14,20 +14,12 @@
     
     
     <string name="title_activity_home">CHAT</string>
-<!--     <string name="title_activity_pick_video">CHAT > VIDEOS</string>
-    <string name="title_activity_pick_form">CHAT > FORMS</string> -->
-    <string name="title_activity_resources">RESOURCES</string>
+    <string name="title_activity_resources">CHAT > RESOURCES</string>
     <string name="title_activity_service_overview">CHAT > SERVICES</string>
-    <string name="title_activity_service_delivery">CHAT > SERVICES > SUBTOPIC</string>
+    <string name="title_activity_service_delivery">CHAT > SERVICES > DELIVERY</string>
     <string name="title_activity_health_overview">CHAT > HEALTH</string>
-    <string name="title_activity_health_details">CHAT > HEALTH</string> 
-    <string name="title_activity_health_delivery">CHAT > HEALTH > SUBTOPIC</string> 
-    <string name="button_show_forms">Forms</string>
-    <string name="button_show_videos">Videos</string>
-    <string name="button_video_1_text">Play video 1</string>
-    <string name="button_video_2_text">Play video 2</string>
-    <string name="button_video_3_text">Play video 3</string>
-    <string name="button_video_4_text">Play video 4</string>
+    <string name="title_activity_health_details">CHAT > HEALTH > TOPICS</string> 
+    <string name="title_activity_health_delivery">CHAT > HEALTH > TOPICS > DELIVERY</string> 
     
     
     <string name="lorum_ipsom">Lorum Ipsom</string>
@@ -45,6 +37,8 @@
     <string name="home_attendance_title_text">Attendance</string>
     <string name="home_services_title_text">Services</string>
     <string name="home_health_education_title_text">Health Education</string>
+    <string name="home_child_health_assessment_title_text">Ch Health Assessment</string>
+    <string name="home_resources_title_text">Resources</string>
     
     <string name="service_delivery_title_text">Who were these services delivered to?</string> 
         

@@ -2,15 +2,15 @@
 	android:orientation="horizontal"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
-	android:background="#ECF8FC" >
+	android:background="#FFFFFF" >
     
     <RelativeLayout
         android:id="@+id/attendance_list_screen"
-        style="@style/homeContainer"
+        style="@style/attendanceContainer"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="60dp"
-        android:background="#FFFFFF" >
+        android:layout_marginLeft="30dp"
+        android:background="#EAEAEA" >
 
         <TextView
             android:id="@+id/attendance_list_title_field"
@@ -37,71 +37,145 @@
 	        android:src="@drawable/donebutton"
 	        android:onClick="submitAttendance"
 	        android:tag="Done" />        
-
     </RelativeLayout>
     
     <RelativeLayout
-        style="@style/homeContainer"
+	    android:layout_width="700dp"
+	    android:layout_height="640dp"
         android:layout_centerVertical="true"
 		android:layout_alignParentRight="true"
-		android:layout_marginRight="60dp"
-        android:background="#FFFFFF" >
- 
-        <TextView
-            android:id="@+id/services_title_field"
-            style="@style/titleText"
-            android:textColor="@color/services_disabled"
-            android:text="@string/home_services_title_text" />
-        <View
-            android:id="@+id/services_divider"
-            style="@style/titleDivider"
-            android:background="@color/services_disabled"
-            android:layout_below="@id/services_title_field" />
-        <ImageView
-	        android:id="@+id/services_button_img"
-	        style="@style/themeImage"
-	        android:layout_below="@id/services_title_field"
-	        android:layout_marginTop="20dp"
-	        android:src="@drawable/thandananilogodisabled"
-	        android:onClick="openServiceOverview" />
-       	<ImageButton
-       	    android:id="@+id/services_button"
-       	    style="@style/themeImageButton"
-       	    android:layout_alignTop="@+id/services_button_img"
-       	    android:layout_toRightOf="@+id/services_button_img"
-       	    android:layout_marginLeft="60dp"
-       	    android:layout_marginTop="40dp"
-       	    android:src="@drawable/servicesgobuttondisabled"
-       	    android:onClick="openServiceOverview" />        
-        
-       	<TextView
-            android:id="@+id/health_education_title_field"
-            style="@style/titleText"
-            android:layout_marginTop="275dp"
-            android:textColor="@color/health_education_disabled"
-            android:text="@string/home_health_education_title_text" />
-        <View
-            android:id="@+id/health_education_divider"
-            style="@style/titleDivider"
-            android:background="@color/health_education_disabled"
-            android:layout_below="@id/health_education_title_field" />
-        <ImageView
-	        android:id="@+id/health_education_button_img"
-	        style="@style/themeImage"
-	        android:layout_below="@id/health_education_title_field"
-	        android:layout_marginTop="20dp"
-	        android:src="@drawable/healthedimagedisabled"
-	        android:onClick="openHealthOverview" />
-       	<ImageButton
-       	    android:id="@+id/health_education_button"
-       	    style="@style/themeImageButton"
-       	    android:layout_alignTop="@+id/health_education_button_img"
-       	    android:layout_toRightOf="@+id/health_education_button_img"
-       	    android:layout_marginLeft="60dp"
-       	    android:layout_marginTop="40dp"
-       	    android:src="@drawable/healthedgobuttondisabled"
-       	    android:onClick="openHealthOverview" />   
+		android:layout_marginRight="30dp" >
+	   	
+	    <RelativeLayout
+			style="@style/branchContainer"
+	        android:layout_alignParentTop="true"
+			android:layout_alignParentLeft="true"
+			android:background="#EAEAEA" >
+	        <TextView
+	            android:id="@+id/services_title_field"
+	            style="@style/titleText"
+	            android:textColor="@color/services_disabled"
+	            android:text="@string/home_services_title_text" />
+	        <View
+	            android:id="@+id/services_divider"
+	            style="@style/titleDivider"
+	            android:background="@color/services_disabled"
+	            android:layout_below="@id/services_title_field" />
+	        <ImageView
+		        android:id="@+id/services_button_img"
+		        style="@style/branchImage"
+		        android:layout_below="@id/services_title_field"
+		        android:layout_marginTop="40dp"
+		        android:src="@drawable/thandananilogodisabled"
+		        android:onClick="openServiceOverview" />
+	       	<ImageButton
+	       	    android:id="@+id/services_button"
+	       	    style="@style/themeImageButton"
+	       	    android:layout_alignTop="@+id/services_button_img"
+	       	    android:layout_toRightOf="@+id/services_button_img"
+	       	    android:layout_marginLeft="20dp"
+	       	    android:layout_marginTop="40dp"
+	       	    android:src="@drawable/servicesgobuttondisabled"
+	       	    android:onClick="openServiceOverview" />      
+		</RelativeLayout>
 		
+	    <RelativeLayout
+			style="@style/branchContainer"
+	        android:layout_alignParentBottom="true"
+			android:layout_alignParentLeft="true"
+			android:background="#EAEAEA" >
+	        <TextView
+	            android:id="@+id/health_education_title_field"
+	            style="@style/titleText"
+	            android:textColor="@color/health_education_disabled"
+	            android:text="@string/home_health_education_title_text" />
+	        <View
+	            android:id="@+id/health_education_divider"
+	            style="@style/titleDivider"
+	            android:background="@color/health_education_disabled"
+	            android:layout_below="@id/health_education_title_field" />
+	       	<ImageView
+	       	    android:id="@+id/health_education_button_img"
+	       	    style="@style/branchImage"
+	       	    android:layout_below="@+id/health_education_title_field"
+	       	    android:layout_marginTop="40dp"
+				android:src="@drawable/healthedimagedisabled"
+	       	    android:onClick="openHealthOverview" />
+	       	<ImageButton
+	       	    android:id="@+id/health_education_button"
+	       	    style="@style/themeImageButton"
+	       	    android:layout_alignTop="@+id/health_education_button_img"
+	       	    android:layout_toRightOf="@+id/health_education_button_img"
+	       	    android:layout_marginLeft="20dp"
+	       	    android:layout_marginTop="40dp"
+	       	    android:src="@drawable/healthedgobuttondisabled"
+	       	    android:onClick="openHealthOverview" />
+		</RelativeLayout>
+		
+	    <RelativeLayout
+			style="@style/branchContainer"
+	        android:layout_alignParentTop="true"
+			android:layout_alignParentRight="true"
+			android:background="#EAEAEA" >
+	        <TextView
+	            android:id="@+id/child_health_assessment_title_field"
+	            style="@style/titleText"
+	            android:textColor="@color/child_health_assessment_disabled"
+	            android:text="@string/home_child_health_assessment_title_text" />
+	        <View
+	            android:id="@+id/child_health_assessment_divider"
+	            style="@style/titleDivider"
+	            android:background="@color/child_health_assessment_disabled"
+	            android:layout_below="@id/child_health_assessment_title_field" />
+	        <ImageView
+		        android:id="@+id/child_health_assessment_button_img"
+		        style="@style/branchImage"
+		        android:layout_below="@id/child_health_assessment_title_field"
+		        android:layout_marginTop="40dp"
+		        android:src="@drawable/thandananilogodisabled"
+		        android:onClick="openCHA" />
+	       	<ImageButton
+	       	    android:id="@+id/child_health_assessment_button"
+	       	    style="@style/themeImageButton"
+	       	    android:layout_alignTop="@+id/child_health_assessment_button_img"
+	       	    android:layout_toRightOf="@+id/child_health_assessment_button_img"
+	       	    android:layout_marginLeft="20dp"
+	       	    android:layout_marginTop="40dp"
+	       	    android:src="@drawable/servicesgobuttondisabled"
+	       	    android:onClick="openCHA" />      
+		</RelativeLayout>
+		
+	    <RelativeLayout
+			style="@style/branchContainer"
+	        android:layout_alignParentBottom="true"
+			android:layout_alignParentRight="true"
+			android:background="#EAEAEA" >    
+	        <TextView
+	            android:id="@+id/resources_title_field"
+	            style="@style/titleText"
+	            android:textColor="@color/resources_disabled"
+	            android:text="@string/home_resources_title_text" />
+	        <View
+	            android:id="@+id/resources_divider"
+	            style="@style/titleDivider"
+	            android:background="@color/resources_disabled"
+	            android:layout_below="@id/resources_title_field" />
+	       	<ImageView
+	       	    android:id="@+id/resources_button_img"
+	       	    style="@style/branchImage"
+	       	    android:layout_below="@+id/resources_title_field"
+	       	    android:layout_marginTop="40dp"
+				android:src="@drawable/healthedimagedisabled"
+	       	    android:onClick="openResources" />
+	       	<ImageButton
+	       	    android:id="@+id/resources_button"
+	       	    style="@style/themeImageButton"
+	       	    android:layout_alignTop="@+id/resources_button_img"
+	       	    android:layout_toRightOf="@+id/resources_button_img"
+	       	    android:layout_marginLeft="20dp"
+	       	    android:layout_marginTop="40dp"
+	       	    android:src="@drawable/healthedgobuttondisabled"
+	       	    android:onClick="openResources" />
+		</RelativeLayout>	    
 	</RelativeLayout>
-	
 </RelativeLayout>

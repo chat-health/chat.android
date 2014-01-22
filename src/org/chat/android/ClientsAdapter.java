@@ -2,8 +2,7 @@ package org.chat.android;
 
 import static org.chat.android.R.id.client_row;
 import static org.chat.android.R.id.client_name;
-import static org.chat.android.R.id.client_gender;
-import static org.chat.android.R.id.client_age;
+import static org.chat.android.R.id.client_metadata;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,27 +13,19 @@ import org.chat.android.R;
 import org.chat.android.models.Attendance;
 import org.chat.android.models.Client;
 
-import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.DeleteBuilder;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
+
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ClientsAdapter extends ArrayAdapter<Client> {
 	private LayoutInflater mInflater;
@@ -61,24 +52,27 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
         Client c = clientsArray.get(position);
 
         TextView name = null;
-        TextView gender = null;
-        TextView age = null;
+        TextView metadataTv = null;
+        // TextView age = null;
         CheckBox cb = null;
+        String metadata = null;
         if (convertView != null) {
             name = (TextView)convertView.findViewById(client_name);
             name.setText(c.getFirstName() + " " + c.getLastName());
-            gender = (TextView)convertView.findViewById(client_gender);
-            gender.setText(c.getGender());
+            metadataTv = (TextView)convertView.findViewById(client_metadata);
+            // gender.setText(c.getGender());
             if (c.getGender().equals("male")) {
+            	metadata = "male, ";
             	name.setTextColor(Color.parseColor("#0071bc"));
             } else if (c.getGender().equals("female")) {
+            	metadata = "female, ";
             	name.setTextColor(Color.parseColor("#93278f"));
             } else {
             	Log.e("No gender assigned for", c.getFirstName()+" "+c.getLastName());
             }
-            age = (TextView)convertView.findViewById(client_age);
             //TODO: add ages to clients
-            age.setText(", aged 22");
+            metadata += "22";
+            metadataTv.setText(metadata);
             //age.setText(", aged "+calculateAge(c.getBirthday()));
             cb = (CheckBox) convertView.findViewById(R.id.checkbox);
             cb.setTag(c);

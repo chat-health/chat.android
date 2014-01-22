@@ -10,10 +10,16 @@ import org.chat.android.models.Visit;
 
 import com.j256.ormlite.dao.Dao;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -21,6 +27,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
@@ -56,6 +63,16 @@ public class LoginActivity extends Activity {
 	private TextView mLoginStatusMessageView;
 	private Spinner roleSpinner;
 
+    // The authority for the sync adapter's content provider
+    public static final String AUTHORITY = "org.chat.provider";
+    // An account type, in the form of a domain name
+    public static final String ACCOUNT_TYPE = "chat.org";
+    // The account name
+    public static final String ACCOUNT = "chat-tablet";
+    // Create the account type and default account
+    static Account newAccount = new Account(ACCOUNT, ACCOUNT_TYPE);
+    
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -285,4 +302,76 @@ public class LoginActivity extends Activity {
 			showProgress(false);
 		}
 	}
+	
+	
+	// NB: some of this is here for testing, some will be deleted for prod
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_home, menu);
+        return true;
+    }
+	
+    @Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle item selection
+	    switch (item.getItemId()) {
+	    case R.id.menu_resources:
+	    	Intent i = new Intent(LoginActivity.this, ResourcesActivity.class);
+	    	startActivity(i);
+	        return true;
+	    case R.id.menu_settings:
+	        Toast.makeText(getApplicationContext(), "Running setupDB...", Toast.LENGTH_SHORT).show();
+	        prepopulateDB();
+	        return true;
+	    case R.id.menu_sync:
+	        Toast.makeText(getApplicationContext(), "Triggering sync adapter to sync with server...", Toast.LENGTH_LONG).show();
+	        triggerSyncAdaper();
+	        return true;
+	    default:
+	        return super.onOptionsItemSelected(item);
+	    }
+	}
+    
+    private void prepopulateDB() {
+		Intent i = new Intent(LoginActivity.this, SetupDB.class);
+		startActivity(i);
+    }
+    
+    public void triggerSyncAdaper() {
+    	Account mAccount = CreateSyncAccount(this);
+        // Pass the settings flags by inserting them in a bundle
+        Bundle settingsBundle = new Bundle();
+        settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        /*
+         * Request the sync for the default account, authority, and
+         * manual sync settings
+         */
+        ContentResolver.requestSync(mAccount, AUTHORITY, settingsBundle);
+    }
+    
+    public static Account CreateSyncAccount(Context context) {
+        // Get an instance of the Android account manager
+        AccountManager accountManager = (AccountManager) context.getSystemService(ACCOUNT_SERVICE);
+        /*
+         * Add the account and account type, no password or user data
+         * If successful, return the Account object, otherwise report an error.
+         */
+        if (accountManager.addAccountExplicitly(newAccount, null, null)) {
+            /*
+             * If you don't set android:syncable="true" in
+             * in your <provider> element in the manifest,
+             * then call context.setIsSyncable(account, AUTHORITY, 1)
+             * here.
+             */
+        	ContentResolver.setSyncAutomatically(newAccount, AUTHORITY, true); //this programmatically turns on the sync for new sync adapters.
+        	return newAccount;
+        } else {
+            /*
+             * The account exists or some other error occurred. Log this, report it,
+             * or handle it internally.
+             */
+        	return null;
+        }
+    }
 }

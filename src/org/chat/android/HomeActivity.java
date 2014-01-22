@@ -37,6 +37,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
@@ -69,12 +70,20 @@ public class HomeActivity extends Activity {
 	public ClientsAdapter clAdapter = null;
 	ImageButton servicesBtn = null;
 	ImageButton healthBtn = null;
+	ImageButton chaBtn = null;
+	ImageButton resourcesBtn = null;
 	ImageView servicesBtnImg = null;
 	ImageView healthBtnImg = null;
+	ImageView chaBtnImg = null;
+	ImageView resourcesBtnImg = null;
 	TextView servicesTitle = null;
 	TextView healthTitle = null;
+	TextView chaTitle = null;
+	TextView resourcesTitle = null;
 	View servicesDivider = null;
-	View healthDivider = null;		
+	View healthDivider = null;
+	View chaDivider = null;
+	View resourcesDivider = null;
 	
 	
 	// step aside I am here on official sync adapter business
@@ -96,15 +105,19 @@ public class HomeActivity extends Activity {
         
         Locale locale = getResources().getConfiguration().locale;
         locale.getLanguage();
-        // TODO - set some global value for language, that we'll use later (ie for Health Education Delivery). It's also possible (likely) we'll need to pass it around with intents :/
+        // TODO - set some global value for language, that we'll use later (ie for Health Education Delivery). It's also possible (likely) we'll need to pass it around with intents :/ Or maybe refetch?
         
-    	servicesTitle = (TextView)findViewById(R.id.services_title_field);
+        servicesTitle = (TextView)findViewById(R.id.services_title_field);
     	healthTitle = (TextView)findViewById(R.id.health_education_title_field);
+    	chaTitle = (TextView)findViewById(R.id.child_health_assessment_title_field);
+    	resourcesTitle = (TextView)findViewById(R.id.resources_title_field);
     	servicesDivider = (View)findViewById(R.id.services_divider);
     	healthDivider = (View)findViewById(R.id.health_education_divider);
+    	chaDivider = (View)findViewById(R.id.child_health_assessment_divider);
+    	resourcesDivider = (View)findViewById(R.id.resources_divider);
         
         // set the services and health branch buttons to disabled (until user has submitted attendance)
-    	// SWTICH FOR PROD
+    	// SWITCH FOR PROD
         servicesBtn = (ImageButton)findViewById(R.id.services_button);
         //servicesBtn.setEnabled(false);
         servicesBtnImg = (ImageView)findViewById(R.id.services_button_img);
@@ -113,10 +126,21 @@ public class HomeActivity extends Activity {
         //healthBtn.setEnabled(false);
         healthBtnImg = (ImageView)findViewById(R.id.health_education_button_img);
         //healthBtnImg.setEnabled(false);
+        chaBtn = (ImageButton)findViewById(R.id.child_health_assessment_button);
+        //chaBtn.setEnabled(false);
+        chaBtnImg = (ImageView)findViewById(R.id.child_health_assessment_button_img);
+        //chaBtnImg.setEnabled(false);
+        resourcesBtn = (ImageButton)findViewById(R.id.resources_button);
+        //resourcesBtn.setEnabled(false);
+        resourcesBtnImg = (ImageView)findViewById(R.id.resources_button_img);
+        //resourcesBtnImg.setEnabled(false);
+        
 
         //FOR TESTING, SWITCH FOR PROD
 		Bundle b = getIntent().getExtras();
-		visitId = b.getInt("visitId");
+		if (b != null) {
+			visitId = b.getInt("visitId");
+		}
 
         // visitId is 0 when starting new visit, else not 0
         if (visitId == 0) {
@@ -140,6 +164,7 @@ public class HomeActivity extends Activity {
     			// TODO Auto-generated catch block
     			e2.printStackTrace();
     		}
+    		// TODO update UI - ie attendance - likely needs a refactor
         } else {
         	Log.e("Neither a new visit or a resume visit. VisitId: ", "");
         }
@@ -211,6 +236,21 @@ public class HomeActivity extends Activity {
     	startActivity(i);
     }
     
+    public void openCHA(View v) {
+    	Toast.makeText(context,"Under construction",Toast.LENGTH_SHORT).show();
+//    	Intent i = new Intent(HomeActivity.this, HealthOverviewActivity.class);
+//    	Bundle b = new Bundle();
+//    	b.putInt("visitId",visitId);
+//    	b.putInt("hhId",hhId);
+//    	i.putExtras(b);    	
+//    	startActivity(i);
+    }
+    
+    public void openResources(View v) {
+    	Intent i = new Intent(HomeActivity.this, ResourcesActivity.class);   	
+    	startActivity(i);
+    }
+    
     public void updateUIElementsForSubmission(ImageButton b) {
     	// switch the Done button to the Update button
     	b.setImageResource(R.drawable.updatebutton);
@@ -231,6 +271,22 @@ public class HomeActivity extends Activity {
     	c = getResources().getColor(getResources().getIdentifier("health_education", "color", getPackageName()));
     	healthTitle.setTextColor(c);
     	healthDivider.setBackgroundColor(c);
+    	
+    	chaBtn.setImageResource(R.drawable.servicesgobutton);
+    	chaBtn.setEnabled(true);
+    	chaBtnImg.setImageResource(R.drawable.thandananilogo);
+    	chaBtnImg.setEnabled(true);
+    	c = getResources().getColor(getResources().getIdentifier("services", "color", getPackageName()));
+    	chaTitle.setTextColor(c);
+    	chaDivider.setBackgroundColor(c);
+    	
+    	resourcesBtn.setImageResource(R.drawable.healthedgobutton);
+    	resourcesBtn.setEnabled(true);
+    	resourcesBtnImg.setImageResource(R.drawable.healthedimage);
+    	resourcesBtnImg.setEnabled(true);
+    	c = getResources().getColor(getResources().getIdentifier("health_education", "color", getPackageName()));
+    	resourcesTitle.setTextColor(c);
+    	resourcesDivider.setBackgroundColor(c);
     }
 
 

@@ -9,10 +9,16 @@
         <item name="android:padding">16dp</item>
     </style>
 	
-    <style name="homeContainer">
-	    <item name="android:layout_width">560dp</item>
-	    <item name="android:layout_height">600dp</item>
-	    <item name="android:padding">25dp</item>
+    <style name="attendanceContainer">
+	    <item name="android:layout_width">500dp</item>
+	    <item name="android:layout_height">640dp</item>
+	    <item name="android:padding">20dp</item>
+	</style>
+	
+    <style name="branchContainer">
+	    <item name="android:layout_width">340dp</item>
+	    <item name="android:layout_height">310dp</item>
+	    <item name="android:padding">10dp</item>
 	</style>
 	
     <style name="servicesContainer">
@@ -36,16 +42,27 @@
         <item name="android:padding">6dp</item>
 	</style>
 	
+	<style name="titleDivider">
+	    <item name="android:layout_width">fill_parent</item>
+	    <item name="android:layout_height">2dp</item>
+	</style>
+	
+	<style name="branchImage">
+	    <item name="android:layout_width">150dp</item>
+	    <item name="android:layout_height">150dp</item>
+	</style>
+	
+	<style name="branchImageButton">
+	    <item name="android:layout_width">70dp</item>
+	    <item name="android:layout_height">30dp</item>
+        <item name="android:background">@null</item>
+	</style>
+	
 	<style name="serviceTypeTitle">
 	    <item name="android:layout_width">wrap_content</item>
 	    <item name="android:layout_height">50dp</item>
         <item name="android:textSize">26sp</item>
         <item name="android:padding">6dp</item>
-	</style>
-	
-	<style name="titleDivider">
-	    <item name="android:layout_width">fill_parent</item>
-	    <item name="android:layout_height">2dp</item>
 	</style>
 
 	<style name="themeImage">
