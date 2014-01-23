@@ -134,7 +134,7 @@ public class HomeActivity extends Activity {
     	resourcesDivider = (View)findViewById(R.id.resources_divider);
         
         // set the services and health branch buttons to disabled (until user has submitted attendance)
-    	// SWITCH FOR PROD
+    	// SWITCH FOR PROD - do these need to be in onResume?
         servicesBtn = (ImageButton)findViewById(R.id.services_button);
         //servicesBtn.setEnabled(false);
         servicesBtnImg = (ImageView)findViewById(R.id.services_button_img);
@@ -217,9 +217,8 @@ public class HomeActivity extends Activity {
         if (clAdapter.getSelectedClients().size() > 0) {
             if (bText.equals("Done")) {
             	Toast.makeText(getApplicationContext(),"Attendance submitted",Toast.LENGTH_LONG).show();
-            	attendanceBtn.setTag("Update");
-            	updateUIElements();
             	saveAttendanceList();
+            	updateUIElements();
             } else {
             	Toast.makeText(getApplicationContext(),"Attendance updated",Toast.LENGTH_LONG).show();
             	deleteCurrentAttendance();			// saveAttendanceList() is called from the finally in deleteCurrentAttendance()
@@ -268,41 +267,62 @@ public class HomeActivity extends Activity {
     }
     
     public void updateUIElements() {
-    	// switch the Done button to the Update button
-    	attendanceBtn.setImageResource(R.drawable.updatebutton);
+    	Boolean attSubmitted = false;
     	
-    	// enable the Service and Health branches, update the colors
-    	servicesBtn.setImageResource(R.drawable.servicesgobutton);
-    	servicesBtn.setEnabled(true);
-    	servicesBtnImg.setImageResource(R.drawable.thandananilogo);
-    	servicesBtnImg.setEnabled(true);
-    	int c = getResources().getColor(getResources().getIdentifier("services", "color", getPackageName()));
-    	servicesTitle.setTextColor(c);
-    	servicesDivider.setBackgroundColor(c);
+    	// check if there is an attendance object for this visitId
+		Dao<Attendance, Integer> aDao;		
+		DatabaseHelper aDbHelper = new DatabaseHelper(context);
+		try {
+			aDao = aDbHelper.getAttendanceDao();
+			List<Attendance> aList = aDao.queryBuilder().where().eq("visit_id",visitId).query();
+			Iterator<Attendance> iter = aList.iterator();
+			while (iter.hasNext()) {
+				Attendance a = iter.next();
+				attSubmitted = true;
+			}
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
     	
-    	healthBtn.setImageResource(R.drawable.healthedgobutton);
-    	healthBtn.setEnabled(true);
-    	healthBtnImg.setImageResource(R.drawable.healthedimage);
-    	healthBtnImg.setEnabled(true);
-    	c = getResources().getColor(getResources().getIdentifier("health_education", "color", getPackageName()));
-    	healthTitle.setTextColor(c);
-    	healthDivider.setBackgroundColor(c);
-    	
-    	chaBtn.setImageResource(R.drawable.childhealthassessmentgobutton);
-    	chaBtn.setEnabled(true);
-    	chaBtnImg.setImageResource(R.drawable.thandananilogo);
-    	chaBtnImg.setEnabled(true);
-    	c = getResources().getColor(getResources().getIdentifier("child_health_assessment", "color", getPackageName()));
-    	chaTitle.setTextColor(c);
-    	chaDivider.setBackgroundColor(c);
-    	
-    	resourcesBtn.setImageResource(R.drawable.resourcesgobutton);
-    	resourcesBtn.setEnabled(true);
-    	resourcesBtnImg.setImageResource(R.drawable.healthedimage);
-    	resourcesBtnImg.setEnabled(true);
-    	c = getResources().getColor(getResources().getIdentifier("resources", "color", getPackageName()));
-    	resourcesTitle.setTextColor(c);
-    	resourcesDivider.setBackgroundColor(c);
+    	if (attSubmitted == true) {
+        	// switch the Done button to the Update button
+        	attendanceBtn.setTag("Update");
+        	attendanceBtn.setImageResource(R.drawable.updatebutton);
+        	
+        	// enable the Service and Health branches, update the colors
+        	servicesBtn.setImageResource(R.drawable.servicesgobutton);
+        	servicesBtn.setEnabled(true);
+        	servicesBtnImg.setImageResource(R.drawable.thandananilogo);
+        	servicesBtnImg.setEnabled(true);
+        	int c = getResources().getColor(getResources().getIdentifier("services", "color", getPackageName()));
+        	servicesTitle.setTextColor(c);
+        	servicesDivider.setBackgroundColor(c);
+        	
+        	healthBtn.setImageResource(R.drawable.healthedgobutton);
+        	healthBtn.setEnabled(true);
+        	healthBtnImg.setImageResource(R.drawable.healthedimage);
+        	healthBtnImg.setEnabled(true);
+        	c = getResources().getColor(getResources().getIdentifier("health_education", "color", getPackageName()));
+        	healthTitle.setTextColor(c);
+        	healthDivider.setBackgroundColor(c);
+        	
+        	chaBtn.setImageResource(R.drawable.childhealthassessmentgobutton);
+        	chaBtn.setEnabled(true);
+        	chaBtnImg.setImageResource(R.drawable.thandananilogo);
+        	chaBtnImg.setEnabled(true);
+        	c = getResources().getColor(getResources().getIdentifier("child_health_assessment", "color", getPackageName()));
+        	chaTitle.setTextColor(c);
+        	chaDivider.setBackgroundColor(c);
+        	
+        	resourcesBtn.setImageResource(R.drawable.resourcesgobutton);
+        	resourcesBtn.setEnabled(true);
+        	resourcesBtnImg.setImageResource(R.drawable.healthedimage);
+        	resourcesBtnImg.setEnabled(true);
+        	c = getResources().getColor(getResources().getIdentifier("resources", "color", getPackageName()));
+        	resourcesTitle.setTextColor(c);
+        	resourcesDivider.setBackgroundColor(c);    		
+    	}
     }
 
 
@@ -384,7 +404,6 @@ public class HomeActivity extends Activity {
     
     
     public void saveAttendanceList() {
-    	//final SparseBooleanArray checkedItems = lv.getCheckedItemPositions();
     	List<Client> pArray = clAdapter.getSelectedClients();
     	int len = pArray.size();
     	
