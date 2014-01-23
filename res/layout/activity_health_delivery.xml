@@ -15,14 +15,12 @@
             android:layout_alignParentBottom="true"
 	        android:background="#eeeeee" >
 	        
-		 	<Button
+		 	<ImageButton
 		        android:id="@+id/backButton"
-		        android:layout_width="wrap_content"
-		        android:layout_height="70dp"
-		        android:paddingLeft="32dp"
-		        android:paddingRight="32dp"		        
-		        android:onClick="moveBack"
-		        android:text="BACK" /> 	
+		        android:layout_width="238dp"
+		        android:layout_height="71dp"
+		        android:src="@drawable/backbutton"
+		        android:onClick="moveBack" /> 	
 		 	<TextView
 		        android:id="@+id/paginationTextField"
 		        android:layout_width="wrap_content"
@@ -30,16 +28,13 @@
 		        android:layout_centerHorizontal="true"
 		        android:textSize="26sp"
 		        android:gravity="center"
-		        android:text="1/4" />	        
-		 	<Button
+		        android:text="1/4" />
+		 	<ImageButton
 		        android:id="@+id/nextButton"
-		        android:layout_width="wrap_content"
-		        android:layout_height="70dp"
-		        android:paddingLeft="32dp"
-		        android:paddingRight="32dp"
+		        android:layout_width="238dp"
+		        android:layout_height="71dp"
 		        android:layout_alignParentRight="true"
-		        android:onClick="moveNext"
-		        android:text="NEXT" />
+		        android:onClick="moveNext" />
 		</RelativeLayout>
  	
 

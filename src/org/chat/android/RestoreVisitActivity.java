@@ -44,6 +44,7 @@ public class RestoreVisitActivity extends Activity {
 		b.putString("workerName",workerName);
 		b.putString("role",role);
 		b.putInt("visitId",visitId);
+		b.putBoolean("fromBack",true);
 		i.putExtras(b);
 		startActivity(i);
 		finish();

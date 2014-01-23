@@ -111,7 +111,7 @@ public class HomeActivity extends Activity {
     @Override    
     protected void onResume() {
     	super.onResume();
-    	//Toast.makeText(getApplicationContext(),"onResume triggered",Toast.LENGTH_LONG).show();
+    	//Toast.makeText(getApplicationContext(),"onResume triggered",Toast.LENGTH_SHORT).show();
     	
     	//setupUIElements();				CAREFUL HERE - does the visit need to be repulled?
     	// if this is coming from a back or home click in another activity, then update

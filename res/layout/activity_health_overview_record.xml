@@ -62,17 +62,14 @@
             android:text="TBF" />
     </RadioGroup>
     
-    <Button
+    <ImageButton
         android:id="@+id/continueButton"
-        android:layout_width="wrap_content"
-        android:layout_height="70dp"
+        android:layout_width="238dp"
+        android:layout_height="71dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="20dp"
-        android:layout_marginRight="20dp"
-        android:paddingLeft="32dp"
-        android:paddingRight="32dp"		        
-        android:onClick="openHealthDetails"
-        android:text="Continue" />
+        android:layout_marginRight="20dp" 
+        android:onClick="openHealthDetails" />
 
 </RelativeLayout>

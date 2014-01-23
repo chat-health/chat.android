@@ -19,7 +19,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -39,6 +41,7 @@ public class HealthOverviewRecordActivity extends Activity {
 	RadioButton r2 = null;
 	RadioButton r3 = null;
 	RadioButton r4 = null;
+	ImageButton continueBtn = null;
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +57,7 @@ public class HealthOverviewRecordActivity extends Activity {
 		r2 = (RadioButton)findViewById(R.id.overviewRecordRadioButton2);
 		r3 = (RadioButton)findViewById(R.id.overviewRecordRadioButton3);
 		r4 = (RadioButton)findViewById(R.id.overviewRecordRadioButton4);
+		continueBtn = (ImageButton)findViewById(R.id.continueButton);
 		
 		Bundle b = getIntent().getExtras();
 		hhId = b.getInt("hhId");
@@ -122,7 +126,18 @@ public class HealthOverviewRecordActivity extends Activity {
 		obsTitle.setTextColor(colorRef);
 		recTitle.setTextColor(colorRef);
 		
-		// switch button color
+		// button color
+		if (theme.getId() == 1) {
+			continueBtn.setImageResource(R.drawable.hivcontinuebutton);
+		} else if (theme.getId() == 2) {
+			continueBtn.setImageResource(R.drawable.childhooddiseasescontinuebutton);
+		} else if (theme.getId() == 3) {
+			continueBtn.setImageResource(R.drawable.nutritioncontinuebutton);
+		} else if (theme.getId() == 4) {
+			continueBtn.setImageResource(R.drawable.developmentcontinuebutton);
+		} else {
+			Log.e("Specified themeId is no in DB for: ", theme.getName());
+		}
 	}
    
 	public void openHealthDetails(View v) {

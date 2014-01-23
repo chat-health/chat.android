@@ -139,14 +139,14 @@ public class ServiceOverviewActivity extends Activity {
     	startActivity(i);
 	}
 	
-	@Override
-    public void onBackPressed() {
-		Intent i = new Intent(ServiceOverviewActivity.this, HomeActivity.class);
-    	Bundle b = new Bundle();
-    	b.putInt("visitId",visitId);
-    	b.putBoolean("fromBack", true);
-    	i.putExtras(b);
-    	startActivity(i);
-    }
+//	@Override
+//    public void onBackPressed() {
+//		Intent i = new Intent(ServiceOverviewActivity.this, HomeActivity.class);
+//    	Bundle b = new Bundle();
+//    	b.putInt("visitId",visitId);
+//    	b.putBoolean("fromBack", true);
+//    	i.putExtras(b);
+//    	startActivity(i);
+//    }
 	
 }

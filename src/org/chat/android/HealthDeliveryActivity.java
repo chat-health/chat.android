@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,8 +40,8 @@ public class HealthDeliveryActivity extends Activity {
 	HealthTopicAccessed healthTopicAccessed;
 	
 	TextView paginationTextField = null;
-	Button backButton = null;
-	Button nextButton = null;
+	ImageButton backBtn = null;
+	ImageButton nextBtn = null;
 	
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
@@ -54,8 +55,8 @@ public class HealthDeliveryActivity extends Activity {
 		topic = b.getString("topic");
 		
 		paginationTextField = (TextView)findViewById(R.id.paginationTextField);
-		backButton = (Button)findViewById(R.id.backButton);
-		nextButton = (Button)findViewById(R.id.nextButton);
+		backBtn = (ImageButton)findViewById(R.id.backButton);
+		nextBtn = (ImageButton)findViewById(R.id.nextButton);
 		
 		// create the health topic accessed object
 		createHTAObject();
@@ -120,6 +121,7 @@ public class HealthDeliveryActivity extends Activity {
 	}
 	
 	public void updateNonFragmentUIElements(String m) {
+		// update the page number
 		if (m.equals("next")) {
 			pageCounter++;
 			String p = pageCounter + "/" + lastPage;
@@ -134,17 +136,39 @@ public class HealthDeliveryActivity extends Activity {
 			Log.e("Incorrect parameter passed to updateNonFragmentUIElements: ", m);
 		}
 		
-		if (pageCounter == lastPage) {
-			nextButton.setText("DONE");
-		} else {
-			nextButton.setText("NEXT");
-		}
+		// remove Back button if it's the first page (note this must happen after the pageCounter incr/decr)
 		if (pageCounter == 1) {
-			// remove Back button
-			backButton.setVisibility(View.GONE);
+			backBtn.setVisibility(View.GONE);
 		} else {
-			backButton.setVisibility(View.VISIBLE);
+			backBtn.setVisibility(View.VISIBLE);
 		}
+		// update source for next/back buttons (again, after incr/decr of pageCounter)
+		if (pageCounter == lastPage) {
+			// TODO: fetch theme from db, use ids instead of names 
+			if (healthTheme.equals("HIV")) {
+				nextBtn.setImageResource(R.drawable.hivdonebutton);
+			} else if (healthTheme.equals("Severe Childhood Illnesses")) {
+				nextBtn.setImageResource(R.drawable.childhooddiseasesdonebutton);
+			} else if (healthTheme.equals("Nutrition")) {
+				nextBtn.setImageResource(R.drawable.nutritiondonebutton);
+			} else if (healthTheme.equals("Psychsocial Support")) {
+				nextBtn.setImageResource(R.drawable.developmentdonebutton);
+			} else {
+				Log.e("Specified themeId is no in DB for: ", healthTheme);
+			}
+		} else {
+			if (healthTheme.equals("HIV")) {
+				nextBtn.setImageResource(R.drawable.hivnextbutton);
+			} else if (healthTheme.equals("Severe Childhood Illnesses")) {
+				nextBtn.setImageResource(R.drawable.childhooddiseasesnextbutton);
+			} else if (healthTheme.equals("Nutrition")) {
+				nextBtn.setImageResource(R.drawable.nutritionnextbutton);
+			} else if (healthTheme.equals("Psychsocial Support")) {
+				nextBtn.setImageResource(R.drawable.developmentnextbutton);
+			} else {
+				Log.e("Specified themeId is no in DB for: ", healthTheme);
+			}
+		}	
 	}
 	
 	public void populatePagesArray(String topic) {
