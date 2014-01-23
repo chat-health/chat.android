@@ -15,6 +15,7 @@
         <TextView
             android:id="@+id/attendance_list_title_field"
             style="@style/titleText"
+            android:layout_marginTop="0dp"
             android:textColor="@color/attendance"
             android:text="@string/home_attendance_title_text" />
         <View
@@ -141,7 +142,7 @@
 	       	    android:layout_toRightOf="@+id/child_health_assessment_button_img"
 	       	    android:layout_marginLeft="20dp"
 	       	    android:layout_marginTop="40dp"
-	       	    android:src="@drawable/servicesgobuttondisabled"
+	       	    android:src="@drawable/childhealthassessmentgobuttondisabled"
 	       	    android:onClick="openCHA" />      
 		</RelativeLayout>
 		
@@ -174,7 +175,7 @@
 	       	    android:layout_toRightOf="@+id/resources_button_img"
 	       	    android:layout_marginLeft="20dp"
 	       	    android:layout_marginTop="40dp"
-	       	    android:src="@drawable/healthedgobuttondisabled"
+	       	    android:src="@drawable/resourcesgobuttondisabled"
 	       	    android:onClick="openResources" />
 		</RelativeLayout>	    
 	</RelativeLayout>

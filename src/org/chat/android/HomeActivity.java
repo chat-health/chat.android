@@ -7,16 +7,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
 import org.chat.android.models.Attendance;
 import org.chat.android.models.Client;
-import org.chat.android.models.HealthTopicAccessed;
 import org.chat.android.models.Household;
 import org.chat.android.models.Video;
 import org.chat.android.models.VideoAccessed;
@@ -24,20 +21,14 @@ import org.chat.android.models.Visit;
 import org.chat.android.models.Worker;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.dao.CloseableIterator;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.stmt.DeleteBuilder;
-import com.j256.ormlite.stmt.PreparedQuery;
-import com.j256.ormlite.stmt.QueryBuilder;
-import com.j256.ormlite.stmt.UpdateBuilder;
 
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
@@ -49,7 +40,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -68,6 +58,7 @@ public class HomeActivity extends Activity {
 	
 	public ListView lv = null;
 	public ClientsAdapter clAdapter = null;
+	ImageButton attendanceBtn = null;
 	ImageButton servicesBtn = null;
 	ImageButton healthBtn = null;
 	ImageButton chaBtn = null;
@@ -103,11 +94,37 @@ public class HomeActivity extends Activity {
         context = getApplicationContext();
         setContentView(R.layout.activity_home);
         
+        if (getIntent().getBooleanExtra("EXIT", false)) {
+            finish();  
+        }
+        
         Locale locale = getResources().getConfiguration().locale;
         locale.getLanguage();
         // TODO - set some global value for language, that we'll use later (ie for Health Education Delivery). It's also possible (likely) we'll need to pass it around with intents :/ Or maybe refetch?
         
-        servicesTitle = (TextView)findViewById(R.id.services_title_field);
+        setupUIElements();
+        
+        // Create the dummy account (needed for sync adapter)
+        mAccount = CreateSyncAccount(this);
+    }
+    
+    @Override    
+    protected void onResume() {
+    	super.onResume();
+    	//Toast.makeText(getApplicationContext(),"onResume triggered",Toast.LENGTH_LONG).show();
+    	
+    	//setupUIElements();				CAREFUL HERE - does the visit need to be repulled?
+    	// if this is coming from a back or home click in another activity, then update
+    	// TODO: this is kind of sloppy - better to have a checkAttendanceSubmitted() then conditional update
+    	if (getIntent().getBooleanExtra("fromBack", false)) {
+    		updateUIElements();
+    	}
+    }
+    
+    public void setupUIElements() {
+    	attendanceBtn = (ImageButton)findViewById(R.id.attendance_submission_button);
+    	
+    	servicesTitle = (TextView)findViewById(R.id.services_title_field);
     	healthTitle = (TextView)findViewById(R.id.health_education_title_field);
     	chaTitle = (TextView)findViewById(R.id.child_health_assessment_title_field);
     	resourcesTitle = (TextView)findViewById(R.id.resources_title_field);
@@ -181,7 +198,6 @@ public class HomeActivity extends Activity {
         		if (c.getHhId() == visit.getHhId()) {
         			hhCList.add(c);
         		}
-//        		Log.d("HH members: ", c.getFirstName());
         	}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -192,21 +208,17 @@ public class HomeActivity extends Activity {
         clAdapter = new ClientsAdapter(context, android.R.layout.simple_list_item_multiple_choice, hhCList, visitId);
         lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         lv.setAdapter(clAdapter);
-        
-        // Create the dummy account (needed for sync adapter)
-        mAccount = CreateSyncAccount(this);
     }
     
     public void submitAttendance(View v) {
-    	ImageButton b = (ImageButton)v;
-        String bText = b.getTag().toString();
+        String bText = attendanceBtn.getTag().toString();
         
         // check if any checkboxes are checked
         if (clAdapter.getSelectedClients().size() > 0) {
             if (bText.equals("Done")) {
             	Toast.makeText(getApplicationContext(),"Attendance submitted",Toast.LENGTH_LONG).show();
-            	b.setTag("Update");
-            	updateUIElementsForSubmission(b);
+            	attendanceBtn.setTag("Update");
+            	updateUIElements();
             	saveAttendanceList();
             } else {
             	Toast.makeText(getApplicationContext(),"Attendance updated",Toast.LENGTH_LONG).show();
@@ -255,9 +267,9 @@ public class HomeActivity extends Activity {
     	startActivity(i);
     }
     
-    public void updateUIElementsForSubmission(ImageButton b) {
+    public void updateUIElements() {
     	// switch the Done button to the Update button
-    	b.setImageResource(R.drawable.updatebutton);
+    	attendanceBtn.setImageResource(R.drawable.updatebutton);
     	
     	// enable the Service and Health branches, update the colors
     	servicesBtn.setImageResource(R.drawable.servicesgobutton);
@@ -276,7 +288,7 @@ public class HomeActivity extends Activity {
     	healthTitle.setTextColor(c);
     	healthDivider.setBackgroundColor(c);
     	
-    	chaBtn.setImageResource(R.drawable.servicesgobutton);
+    	chaBtn.setImageResource(R.drawable.childhealthassessmentgobutton);
     	chaBtn.setEnabled(true);
     	chaBtnImg.setImageResource(R.drawable.thandananilogo);
     	chaBtnImg.setEnabled(true);
@@ -284,7 +296,7 @@ public class HomeActivity extends Activity {
     	chaTitle.setTextColor(c);
     	chaDivider.setBackgroundColor(c);
     	
-    	resourcesBtn.setImageResource(R.drawable.healthedgobutton);
+    	resourcesBtn.setImageResource(R.drawable.resourcesgobutton);
     	resourcesBtn.setEnabled(true);
     	resourcesBtnImg.setImageResource(R.drawable.healthedimage);
     	resourcesBtnImg.setEnabled(true);
@@ -409,7 +421,7 @@ public class HomeActivity extends Activity {
 	}
 	
 	public void markVisitComplete() {
-		Toast.makeText(getApplicationContext(),"Visit saved and marked as complete",Toast.LENGTH_SHORT).show();
+		Toast.makeText(getApplicationContext(),"Visit saved and marked as complete",Toast.LENGTH_LONG).show();
 		
 		// update the Visit object and save to DB
 		Date endTime = new Date();
@@ -425,8 +437,11 @@ public class HomeActivity extends Activity {
 	        e1.printStackTrace();
 	    }
 		
-	    // official end of visit
-		finish();
+	 // official end of visit - TODO, decide if this is what we want
+	    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+	    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+	    intent.putExtra("EXIT", true);
+	    startActivity(intent);
 	}
 
 	public void playVideo (View v) {

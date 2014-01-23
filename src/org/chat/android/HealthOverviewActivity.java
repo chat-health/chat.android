@@ -35,6 +35,11 @@ public class HealthOverviewActivity extends Activity {
 		
 		checkThemeComplete();
     }
+	
+	public void onResume() {
+		super.onResume();
+		checkThemeComplete();
+	}
    
 	public void openHealthOverviewRecord(View v) {
 		String healthTheme = null;
@@ -91,7 +96,7 @@ public class HealthOverviewActivity extends Activity {
 		DatabaseHelper htaDbHelper = new DatabaseHelper(context);
 		try {
 			htaDao = htaDbHelper.getHealthTopicsAccessed();
-			List<HealthTopicAccessed> htaList = htaDao.queryBuilder().where().eq("hh_id",hhId).query();
+			List<HealthTopicAccessed> htaList = htaDao.queryBuilder().where().eq("hh_id",hhId).and().isNotNull("end_time").query();
 			Iterator<HealthTopicAccessed> iter = htaList.iterator();
 			while (iter.hasNext()) {
 				HealthTopicAccessed hta = iter.next();

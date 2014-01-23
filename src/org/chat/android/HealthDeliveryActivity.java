@@ -11,9 +11,11 @@ import org.chat.android.models.HealthTopic;
 import org.chat.android.models.HealthTopicAccessed;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -65,18 +67,6 @@ public class HealthDeliveryActivity extends Activity {
 	    updateNonFragmentUIElements("next");
 	    updateDisplayedFragment(pageCounter);
     }
-	
-	public void onBackPressed() {
-		// TODO: add a confirm check here
-		finish();
-		Intent i = new Intent(HealthDeliveryActivity.this, HealthDetailsActivity.class);
-		Bundle b = new Bundle();
-		b.putString("healthTheme",healthTheme);
-		b.putInt("visitId",visitId);
-    	b.putInt("hhId",hhId);
-		i.putExtras(b);
-		startActivity(i);
-	}
 	
 	public void updateDisplayedFragment(int pageNum) {
 		HealthPage p = pages.get(pageNum - 1);
@@ -227,7 +217,7 @@ public class HealthDeliveryActivity extends Activity {
 	}
 	
 	public void markTopicComplete() {
-		Toast.makeText(getApplicationContext(),"Health topic marked as delivered to client",Toast.LENGTH_SHORT).show();
+		Toast.makeText(getApplicationContext(),"Health topic marked as delivered to client",Toast.LENGTH_LONG).show();
 		
 		// update the HealthTopicAccessed object and save to DB
 		Date endTime = new Date();
@@ -243,14 +233,30 @@ public class HealthDeliveryActivity extends Activity {
 	        e1.printStackTrace();
 	    }
 
-		// finish this activity
-		finish();
-		Intent i = new Intent(HealthDeliveryActivity.this, HealthDetailsActivity.class);
-		Bundle b = new Bundle();
-		b.putString("healthTheme",healthTheme);
-		b.putInt("visitId",visitId);
-    	b.putInt("hhId",hhId);
-		i.putExtras(b);
-		startActivity(i);
+		finishHealthDelivery();
 	}
+	
+	public void finishHealthDelivery() {
+		// finish this activity (will bump the last activity to the front - HealthDetails - which is what we want)
+		finish();
+	}
+
+	public void onBackPressed() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setMessage("Exit health education delivery?")
+    	       .setCancelable(false)
+    	       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+    	           public void onClick(DialogInterface dialog, int id) {
+    	        	   finishHealthDelivery();
+    	           }
+    	       })
+    	       .setNegativeButton("No", new DialogInterface.OnClickListener() {
+    	           public void onClick(DialogInterface dialog, int id) {
+    	                dialog.cancel();
+    	           }
+    	       });
+    	AlertDialog alert = builder.create();
+    	alert.show();
+	}
+	
 }

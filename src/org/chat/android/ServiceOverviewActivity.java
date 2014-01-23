@@ -12,8 +12,11 @@ import com.j256.ormlite.dao.Dao;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -50,7 +53,7 @@ public class ServiceOverviewActivity extends Activity {
 		setupServiceTypeButtons(role);
 	}
     
-    // using this override cause we're on an old android version and I can't get the support libraries to work correctly
+    // using this override cause we're on an old android version and I can't get the support libraries to work correctly. TODO - look into this and expand to other pages?
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -58,6 +61,7 @@ public class ServiceOverviewActivity extends Activity {
         	Intent i = new Intent(ServiceOverviewActivity.this, HomeActivity.class);
         	Bundle b = new Bundle();
         	b.putInt("visitId",visitId);
+        	b.putBoolean("fromBack", true);
         	i.putExtras(b);
         	startActivity(i);
             return true;
@@ -134,5 +138,15 @@ public class ServiceOverviewActivity extends Activity {
     	i.putExtras(b);
     	startActivity(i);
 	}
+	
+	@Override
+    public void onBackPressed() {
+		Intent i = new Intent(ServiceOverviewActivity.this, HomeActivity.class);
+    	Bundle b = new Bundle();
+    	b.putInt("visitId",visitId);
+    	b.putBoolean("fromBack", true);
+    	i.putExtras(b);
+    	startActivity(i);
+    }
 	
 }

@@ -16,6 +16,7 @@ import com.j256.ormlite.stmt.UpdateBuilder;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -124,21 +125,13 @@ public class ServiceDeliveryActivity extends Activity {
     		i++;
     	}
     	
-    	// update the visit object to reflect that at least one service was accessed
-		Dao<Visit, Integer> vDao;
-		DatabaseHelper vDbHelper = new DatabaseHelper(context);
-		try {
-			vDao = vDbHelper.getVisitsDao();
-			UpdateBuilder<Visit, Integer> updateBuilder = vDao.updateBuilder();
-			updateBuilder.updateColumnValue("service_accessed", true);
-			updateBuilder.where().eq("id",visitId);
-			updateBuilder.update();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	
     	Toast.makeText(getApplicationContext(),"Service(s) marked as delivered to client(s)",Toast.LENGTH_LONG).show();
+    	Intent intent = new Intent(ServiceDeliveryActivity.this, ServiceOverviewActivity.class);
+    	Bundle b = new Bundle();
+    	b.putInt("visitId",visitId);
+    	b.putInt("hhId",hhId);
+    	intent.putExtras(b);
+    	startActivity(intent);
     	finish();
     }
     

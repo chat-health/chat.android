@@ -5,23 +5,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.chat.android.models.Attendance;
-import org.chat.android.models.HealthPage;
-import org.chat.android.models.HealthTheme;
-import org.chat.android.models.HealthTopic;
 import org.chat.android.models.HealthTopicAccessed;
-import org.chat.android.models.Household;
 
 import com.j256.ormlite.dao.Dao;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,6 +27,9 @@ public class HealthDetailsActivity extends Activity {
 	String healthThemeName = null;
 	Boolean largeTopicScreen = false;
 	String[] themesArray;
+	
+	List<ImageView> imgView = null;
+	List<ImageView> checkmark = null;
 	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,13 +49,18 @@ public class HealthDetailsActivity extends Activity {
 			setContentView(R.layout.activity_health_details_small);
 		}
 		
+		// create UI elements
 		setupTopicButtons(healthThemeName);
+		// grey out elements based on topic completion
+		updateUIElements();
     }
     
-//    public void onResume(Bundle savedInstanceState) {
-//    	super.onCreate(savedInstanceState);
-//    	setupTopicButtons(healthTheme);
-//    }
+    @Override
+    public void onResume() {
+    	super.onResume();
+    	//Toast.makeText(getApplicationContext(),"onResume triggered",Toast.LENGTH_SHORT).show();
+		updateUIElements();
+    }
     
     public void openHealthDelivery(View v) {
     	String topic = null;
@@ -72,7 +73,6 @@ public class HealthDetailsActivity extends Activity {
     	b.putString("healthTheme",healthThemeName);
     	b.putString("topic",topic);
     	i.putExtras(b);
-    	finish();
     	startActivity(i);	
     }
     
@@ -91,13 +91,13 @@ public class HealthDetailsActivity extends Activity {
     	divider.add((View) findViewById(R.id.health_topic3_divider));
     	divider.add((View) findViewById(R.id.health_topic4_divider));
     	
-    	List<ImageView> imgView = new ArrayList<ImageView>();
+    	imgView = new ArrayList<ImageView>();
     	imgView.add((ImageView) findViewById(R.id.health_topic1_button_img));
     	imgView.add((ImageView) findViewById(R.id.health_topic2_button_img));
     	imgView.add((ImageView) findViewById(R.id.health_topic3_button_img));
     	imgView.add((ImageView) findViewById(R.id.health_topic4_button_img));
     	
-    	List<ImageView> checkmark = new ArrayList<ImageView>();
+    	checkmark = new ArrayList<ImageView>();
     	checkmark.add((ImageView) findViewById(R.id.health_topic1_checkmark));
     	checkmark.add((ImageView) findViewById(R.id.health_topic2_checkmark));
     	checkmark.add((ImageView) findViewById(R.id.health_topic3_checkmark));
@@ -174,17 +174,17 @@ public class HealthDetailsActivity extends Activity {
 		} else {
 			Log.e("Error, healthTopic is set to: ",healthTheme);
 		}
-		
+    }
 
-		// **grey out the buttons that have already been accessed**
-		
-		// pull all of the topics accessed for this household
+	// grey out the buttons that have already been accessed
+    public void updateUIElements() {
+		// pull all of the completed topics accessed for this household
 		List<HealthTopicAccessed> topicsAccessed = new ArrayList<HealthTopicAccessed>();
 		Dao<HealthTopicAccessed, Integer> htaDao;		
 		DatabaseHelper htaDbHelper = new DatabaseHelper(context);
 		try {
 			htaDao = htaDbHelper.getHealthTopicsAccessed();
-			List<HealthTopicAccessed> htaList = htaDao.queryBuilder().where().eq("hh_id",hhId).query();
+			List<HealthTopicAccessed> htaList = htaDao.queryBuilder().where().eq("hh_id",hhId).and().isNotNull("end_time").query();
 			Iterator<HealthTopicAccessed> iter = htaList.iterator();
 			while (iter.hasNext()) {
 				HealthTopicAccessed hta = iter.next();
@@ -210,7 +210,6 @@ public class HealthDetailsActivity extends Activity {
 				}
 			}			
 		}
-	
     }
 
 }

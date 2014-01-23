@@ -133,7 +133,7 @@ public class HealthOverviewRecordActivity extends Activity {
 		
 		// TODO: temporary until the DB has been filled with all of the theme content - after that is done, use this to force user to select before proceeding
 		if (rb != null) {
-			selectResp = (Integer) rb.getTag();
+			selectResp = Integer.parseInt(rb.getTag().toString());
 		}
 			
 		HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, healthThemeName);
@@ -147,7 +147,6 @@ public class HealthOverviewRecordActivity extends Activity {
     	    e.printStackTrace();
     	}
 		
-		
 		// open new intent
 		Intent i = new Intent(HealthOverviewRecordActivity.this, HealthDetailsActivity.class);
 		Bundle b = new Bundle();
@@ -156,6 +155,7 @@ public class HealthOverviewRecordActivity extends Activity {
     	b.putString("healthTheme",healthThemeName);
 		i.putExtras(b);
 		startActivity(i);
+		finish();
 	}	   
 }
 
