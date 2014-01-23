@@ -2,11 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".LoginActivity" >
 
-	<ImageView
+<!-- 	<ImageView
 	    android:id="@+id/chatBkgn"
 	    android:layout_height="fill_parent"
 	    android:layout_width="fill_parent"
-	    android:background="@drawable/blue_bkgd" />    
+	    android:background="@drawable/blue_bkgd" />     -->
     
     <!-- Login progress -->
 

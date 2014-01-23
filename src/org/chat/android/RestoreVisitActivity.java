@@ -33,7 +33,7 @@ public class RestoreVisitActivity extends Activity {
 		setContentView(R.layout.activity_restore_visit);
 		
 		Bundle b = getIntent().getExtras();
-		visitId = b.getInt("visitId");					// what will visitId be if it doesn't exist? Needs to be 0 or needs an if wrapped around it. Then clean this (lots of dup in the two functions) wou
+		visitId = b.getInt("visitId");					// what will visitId be if it doesn't exist? Needs to be 0 or needs an if wrapped around it. Then clean this (lots of dup in the two functions)
 		workerName = b.getString("workerName");
 		role = b.getString("role");
 	}
@@ -89,7 +89,7 @@ public class RestoreVisitActivity extends Activity {
 			e2.printStackTrace();	
 		}
 		
-		// delete old visits (FIX ME)
+		// delete old visits
     	DatabaseHelper helper = OpenHelperManager.getHelper(getApplicationContext(), DatabaseHelper.class);
     	Dao vDao;
 	    try {
