@@ -94,6 +94,7 @@ public class HomeActivity extends Activity {
         context = getApplicationContext();
         setContentView(R.layout.activity_home);
         
+        // the best we can currently do for actually killing all activities - will land us on the LoginActivity
         if (getIntent().getBooleanExtra("EXIT", false)) {
             finish();  
         }
@@ -163,25 +164,12 @@ public class HomeActivity extends Activity {
         if (visitId == 0) {
     		//setupVisitObject(b.getString("hhName"), b.getString("workerName"), b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));				
     		//setupVisitObject(b.getString("hhName"), "colin", b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));
-            //setupVisitObject("John Doe", "colin", "Home Care Volunteer", "home", 11.11, 12.12);
-            setupVisitObject("John Doe", "colin", "Lay Counsellor", "home", 11.11, 12.12);
+            setupVisitObject("John Doe", "colin", "Home Care Volunteer", "home", 11.11, 12.12);
+            //setupVisitObject("John Doe", "colin", "Lay Counsellor", "home", 11.11, 12.12);
         } else if (visitId != 0) {
         	// pull the uncompleted visit object
-        	Dao<Visit, Integer> vDao;		
-    		DatabaseHelper vDbHelper = new DatabaseHelper(context);
-    		try {
-    			vDao = vDbHelper.getVisitsDao();
-    			List<Visit> vList = vDao.queryBuilder().where().eq("id",visitId).query();
-    			Iterator<Visit> iter = vList.iterator();
-    			while (iter.hasNext()) {
-    				Visit v = iter.next();
-    				visit = v;
-    			}
-    		} catch (SQLException e2) {
-    			// TODO Auto-generated catch block
-    			e2.printStackTrace();
-    		}
-    		// TODO update UI - ie attendance - likely needs a refactor
+        	visit = ModelHelper.getVisitForId(context, visitId);
+    		// TODO? update UI - ie attendance - likely needs a refactor
         } else {
         	Log.e("Neither a new visit or a resume visit. VisitId: ", "");
         }
@@ -226,7 +214,6 @@ public class HomeActivity extends Activity {
         } else {
         	Toast.makeText(getApplicationContext(),"Attendance not submitted. Click on the above list of clients to select attending household members",Toast.LENGTH_LONG).show();
         }
-
     }
     
     public void openServiceOverview(View v) {
@@ -267,25 +254,13 @@ public class HomeActivity extends Activity {
     }
     
     public void updateUIElements() {
-    	Boolean attSubmitted = false;
+    	Attendance attendance = null;
+    	//Boolean attSubmitted = false;
     	
     	// check if there is an attendance object for this visitId
-		Dao<Attendance, Integer> aDao;		
-		DatabaseHelper aDbHelper = new DatabaseHelper(context);
-		try {
-			aDao = aDbHelper.getAttendanceDao();
-			List<Attendance> aList = aDao.queryBuilder().where().eq("visit_id",visitId).query();
-			Iterator<Attendance> iter = aList.iterator();
-			while (iter.hasNext()) {
-				Attendance a = iter.next();
-				attSubmitted = true;
-			}
-		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+    	attendance = ModelHelper.getAttendanceForVisitId(context, visitId);
     	
-    	if (attSubmitted == true) {
+    	if (attendance != null) {
         	// switch the Done button to the Update button
         	attendanceBtn.setTag("Update");
         	attendanceBtn.setImageResource(R.drawable.updatebutton);
@@ -333,45 +308,10 @@ public class HomeActivity extends Activity {
         Context context = getApplicationContext();
 
         // get the workerId
-		Dao<Worker, Integer> wDao;		
-		DatabaseHelper wDbHelper = new DatabaseHelper(context);
-		try {
-			wDao = wDbHelper.getWorkersDao();
-			List<Worker> wList = wDao.queryBuilder().where().eq("first_name",workerName).query();
-			Iterator<Worker> iter = wList.iterator();
-			while (iter.hasNext()) {
-				Worker worker = iter.next();
-				workerId = worker.getId();
-			}
-//			OTHER OPTION:		
-//			CloseableIterator<Worker> iterator = wDao.iterator(preparedQuery);
-//			 try {
-//			     while (iterator.hasNext()) {
-//			    	 Worker worker = iterator.next();
-//			     }
-//			 } finally {
-//			     iterator.close();
-//			 }
-		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+        workerId = ModelHelper.getWorkerForName(context, workerName).getId();
 
 		// get the householdId
-		Dao<Household, Integer> hDao;		
-		DatabaseHelper hDbHelper = new DatabaseHelper(context);
-		try {
-			hDao = hDbHelper.getHouseholdsDao();
-			List<Household> hList = hDao.queryBuilder().where().eq("hh_name",hhName).query();
-			Iterator<Household> iter = hList.iterator();
-			while (iter.hasNext()) {
-				Household hh = iter.next();
-				hhId = hh.getId();
-			}
-		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+        hhId = ModelHelper.getHouseholdForName(context, hhName).getId();
 
 		Date date  = new Date();
 		Date startTime = new Date();
@@ -388,18 +328,7 @@ public class HomeActivity extends Activity {
     	} catch (SQLException e) {
     		// TODO Auto-generated catch block
     		e.printStackTrace();
-    	}    	
-//    	OTHER OPTION?
-//    	DatabaseHelper helper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
-//    	try {
-//    		Dao vDao = helper.getDao(Visit.class);
-//    		vDao = helper.getClientsDao();
-//    		vDao.create(visit);
-//    	} catch (SQLException e) {
-//    		// TODO Auto-generated catch block
-//    		e.printStackTrace();
-//    	}
-		
+    	} 
 	}
     
     
@@ -456,7 +385,7 @@ public class HomeActivity extends Activity {
 	        e1.printStackTrace();
 	    }
 		
-	 // official end of visit - TODO, decide if this is what we want
+	    // official end of visit - TODO, decide if this is what we want
 	    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
 	    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
 	    intent.putExtra("EXIT", true);
@@ -465,20 +394,6 @@ public class HomeActivity extends Activity {
 
 	public void playVideo (View v) {
 		Context context = getApplicationContext();
-		
-		// mark that a video was accessed
-//		Dao<Visit, Integer> vDao;
-//		DatabaseHelper vDbHelper = new DatabaseHelper(context);
-//		try {
-//			vDao = vDbHelper.getVisitsDao();
-//			UpdateBuilder<Visit, Integer> updateBuilder = vDao.updateBuilder();
-//			updateBuilder.updateColumnValue("video_accessed", true);
-//			updateBuilder.where().eq("id",visitId);
-//			updateBuilder.update();
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 		
     	// figure out which video to play by determining which button was pressed
     	int chosenVideoId = 0;

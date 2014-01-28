@@ -73,22 +73,7 @@ public class RestoreVisitActivity extends Activity {
 	
 	public void setupNewVisit() {
 		int workerId = 0;
-		
-		// retrieve worker id
-		Dao<Worker, Integer> wDao;		
-		DatabaseHelper wDbHelper = new DatabaseHelper(context);
-		try {
-			wDao = wDbHelper.getWorkersDao();
-			List<Worker> wList = wDao.queryBuilder().where().eq("first_name",workerName).query();
-			Iterator<Worker> iter = wList.iterator();
-			while (iter.hasNext()) {
-				Worker worker = iter.next();
-				workerId = worker.getId();
-			}
-		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();	
-		}
+		workerId = ModelHelper.getWorkerForName(context, workerName).getId();
 		
 		// delete old visits
     	DatabaseHelper helper = OpenHelperManager.getHelper(getApplicationContext(), DatabaseHelper.class);

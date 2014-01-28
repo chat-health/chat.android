@@ -26,8 +26,6 @@ public class ServicesAdapter extends ArrayAdapter<Service> {
 	private LayoutInflater mInflater;
 	private List<Service> servicesArray;
 	List<Service> selectedServices = new ArrayList<Service>();
-	//String selectedServices[];
-    //private int visitId = 0;    , int vId
 
     public ServicesAdapter(Context context, int layoutResourceId, List<Service> servicesArray) {
         super(context, layoutResourceId, servicesArray);
@@ -66,29 +64,8 @@ public class ServicesAdapter extends ArrayAdapter<Service> {
             }
         });    	
   
-    	//LinearLayout row = (LinearLayout)convertView.findViewById(client_row);    
     	return convertView;
     }
-    
-    
-    // TODO!
-    // check all boxes for hh members that are already marked as present for this visit (restore state, essentially)    
-//	List<Attendance> cpList = new ArrayList<Attendance>();
-//    Dao<Attendance, Integer> cpDao;
-//    DatabaseHelper cpHelper = new DatabaseHelper(context);
-//    try {
-//		cpDao = cpHelper.getAttendanceDao();
-//		cpList = cpDao.query(cpDao.queryBuilder().prepare());
-//    	for (Attendance a : cpList) {
-//			if (a.getVisitId() == visitId && a.getClientId() == c.getId()) {
-//				cb.setChecked(true);
-//				presenceArrayList.add(c);
-//			}
-//    	}
-//	} catch (SQLException e) {
-//		// TODO Auto-generated catch block
-//		e.printStackTrace();
-//	}      
     
 	public ArrayList<String> getSelectedServices() {
 		ArrayList<String> sNames = new ArrayList<String>();

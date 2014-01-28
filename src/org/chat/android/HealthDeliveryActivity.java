@@ -34,7 +34,8 @@ public class HealthDeliveryActivity extends Activity {
 	int hhId = 0;
 	int visitId = 0;
 	String healthTheme = null;
-	String topic = null;
+	String topicName = null;
+	int topicId = 0;
 	int pageCounter = 0;
 	int lastPage = 0;
 	HealthTopicAccessed healthTopicAccessed;
@@ -52,17 +53,19 @@ public class HealthDeliveryActivity extends Activity {
 		hhId = b.getInt("hhId");
 		visitId = b.getInt("visitId");
 		healthTheme = b.getString("healthTheme");
-		topic = b.getString("topic");
+		topicName = b.getString("topic");
 		
 		paginationTextField = (TextView)findViewById(R.id.paginationTextField);
 		backBtn = (ImageButton)findViewById(R.id.backButton);
 		nextBtn = (ImageButton)findViewById(R.id.nextButton);
 		
+		topicId = ModelHelper.getTopicForName(context, topicName).getId();
+		
 		// create the health topic accessed object
 		createHTAObject();
 		
 		// get the required pages for the topic
-		populatePagesArray(topic);
+		populatePagesArray();
 	    
 	    // update the fragment in the UI to the first page
 	    updateNonFragmentUIElements("next");
@@ -171,25 +174,7 @@ public class HealthDeliveryActivity extends Activity {
 		}	
 	}
 	
-	public void populatePagesArray(String topic) {
-		int topicId = 0;
-		
-		// get the topic Id based on the topic name
-		Dao<HealthTopic, Integer> sDao;		
-		DatabaseHelper sDbHelper = new DatabaseHelper(context);
-		try {
-			sDao = sDbHelper.getHealthTopicsDao();
-			List<HealthTopic> sList = sDao.queryBuilder().where().eq("name",topic).query();
-			Iterator<HealthTopic> iter = sList.iterator();
-			while (iter.hasNext()) {
-				HealthTopic s = iter.next();
-				topicId = s.getId();
-			}
-		} catch (SQLException e2) {
-			Log.e("Topic does not exist in the DB: ", topic);
-			e2.printStackTrace();
-		}
-		
+	public void populatePagesArray() {
 		// populate the pages array based on the topic Id and determine number of pages
 		Dao<HealthPage, Integer> pDao;		
 		DatabaseHelper pDbHelper = new DatabaseHelper(context);
@@ -208,27 +193,9 @@ public class HealthDeliveryActivity extends Activity {
 	}
 	
 	public void createHTAObject() {
-    	int topicId = 0;
-    	
-    	// get the topicId
-		Dao<HealthTopic, Integer> tDao;		
-		DatabaseHelper tDbHelper = new DatabaseHelper(context);
-		try {
-			tDao = tDbHelper.getHealthTopicsDao();
-			List<HealthTopic> tList = tDao.queryBuilder().where().eq("name",topic).query();
-			Iterator<HealthTopic> iter = tList.iterator();
-			while (iter.hasNext()) {
-				HealthTopic t = iter.next();
-				topicId = t.getId();
-			}
-		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-		
 		// update the HealthTopicAccessed object and save to DB
 		Date startTime = new Date();
-		healthTopicAccessed = new HealthTopicAccessed(topicId, visitId, hhId, topic, startTime);
+		healthTopicAccessed = new HealthTopicAccessed(topicId, visitId, hhId, topicName, startTime);
 	    Dao<HealthTopicAccessed, Integer> htaDao;
 	    DatabaseHelper htaDbHelper = new DatabaseHelper(context);
 	    try {

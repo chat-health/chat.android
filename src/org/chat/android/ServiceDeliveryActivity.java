@@ -107,10 +107,12 @@ public class ServiceDeliveryActivity extends Activity {
     			ServiceAccessed sa = null;
     			// decide whether there is ad_info (ie it's an outlier type service that is not a simple checkbox)
     			Date time = new Date();
+    			int serviceId = 00;
+    			serviceId = ModelHelper.getServiceForName(context, sName).getId();
     			if (adInfoFlag == true) {
-    				sa = new ServiceAccessed(getServiceIdFromName(sName), visitId, client.getId(), serviceAdInfo.get(i), time);
+    				sa = new ServiceAccessed(serviceId, visitId, client.getId(), serviceAdInfo.get(i), time);
     			} else {
-    				sa = new ServiceAccessed(getServiceIdFromName(sName), visitId, client.getId(), null, time);
+    				sa = new ServiceAccessed(serviceId, visitId, client.getId(), null, time);
     			}
     		    Dao<ServiceAccessed, Integer> saDao;
     		    DatabaseHelper saDbHelper = new DatabaseHelper(context);
@@ -139,26 +141,4 @@ public class ServiceDeliveryActivity extends Activity {
     public void cancelServiceDelivery(View v) {
     	finish();
     }
-    
-    
-    private int getServiceIdFromName(String sName) {
-    	int sId = 0;
-        Dao<Service, Integer> sDao;
-        List<Service> allServices = new ArrayList<Service>();
-        DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
-        try {
-			sDao = dbHelper.getServicesDao();
-			allServices = sDao.query(sDao.queryBuilder().prepare());
-        	for (Service s : allServices) {
-    			if (s.getName().equals(sName)) {
-    				sId = s.getId();
-    			}
-        	}
-		} catch (SQLException e) {
-			Log.e("Unable to locate service id from name:", sName);
-			e.printStackTrace();
-		}
-        return sId;
-    }
-    
 }

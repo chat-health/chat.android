@@ -69,20 +69,7 @@ public class HealthOverviewRecordActivity extends Activity {
     }
 	
 	public void populateThemeContent() {
-		Dao<HealthTheme, Integer> tDao;		
-		DatabaseHelper tDbHelper = new DatabaseHelper(context);
-		try {
-			tDao = tDbHelper.getHealthThemeDao();
-			List<HealthTheme> tList = tDao.queryBuilder().where().eq("name",healthThemeName).query();
-			Iterator<HealthTheme> iter = tList.iterator();
-			while (iter.hasNext()) {
-				HealthTheme t = iter.next();
-				theme = t;
-			}
-		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+		HealthTheme theme = ModelHelper.getThemeForName(context, healthThemeName);
 		
 		List<HealthSelect> selects = new ArrayList<HealthSelect>();
 		Dao<HealthSelect, Integer> hsDao;		

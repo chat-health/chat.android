@@ -31,13 +31,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ServiceOverviewActivity extends Activity {
+	Context context;
 	int visitId = 0;
 	int hhId = 0;
 	String role = null;
 	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Context context = getApplicationContext();
+        context = getApplicationContext();
         
 		setContentView(R.layout.activity_service_overview);
 
@@ -47,8 +48,8 @@ public class ServiceOverviewActivity extends Activity {
 		Bundle b = getIntent().getExtras();
 		visitId = b.getInt("visitId");
 		hhId = b.getInt("hhId");
-		Visit v = determineRole();
-		role = v.getRole();
+		//Visit v = ModelHelper.getVisitForId(context, visitId);
+		role = ModelHelper.getVisitForId(context, visitId).getRole();
 		
 		setupServiceTypeButtons(role);
 	}
@@ -102,23 +103,23 @@ public class ServiceOverviewActivity extends Activity {
     }
     
     // get the visitObject - going to be using this a lot. Maybe better to abstract it, make it public, have it return the object?
-	public Visit determineRole() {
-		Dao<Visit, Integer> vDao;		
-		DatabaseHelper vDbHelper = new DatabaseHelper(getBaseContext());
-		Visit v = null;
-		try {
-			vDao = vDbHelper.getVisitsDao();
-			List<Visit> vList = vDao.queryBuilder().where().eq("id",visitId).query();
-			Iterator<Visit> iter = vList.iterator();
-			while (iter.hasNext()) {
-				v = iter.next();
-			}
-		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}			
-		return v;
-	}
+//	public Visit determineRole() {
+//		Dao<Visit, Integer> vDao;		
+//		DatabaseHelper vDbHelper = new DatabaseHelper(getBaseContext());
+//		Visit v = null;
+//		try {
+//			vDao = vDbHelper.getVisitsDao();
+//			List<Visit> vList = vDao.queryBuilder().where().eq("id",visitId).query();
+//			Iterator<Visit> iter = vList.iterator();
+//			while (iter.hasNext()) {
+//				v = iter.next();
+//			}
+//		} catch (SQLException e2) {
+//			// TODO Auto-generated catch block
+//			e2.printStackTrace();
+//		}			
+//		return v;
+//	}
 	
 	public void openServiceDetails(View v) {
 		String subtype = null;

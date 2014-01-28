@@ -319,7 +319,7 @@ public class LoginActivity extends Activity {
 	    case R.id.menu_resources:
 	    	Intent i = new Intent(LoginActivity.this, ResourcesActivity.class);
 	    	Bundle b = new Bundle();
-	    	int workerId = retrieveWorkerId(mUserNameView.getText().toString());
+	    	int workerId = ModelHelper.getWorkerForName(getApplicationContext(), mUserNameView.getText().toString()).getId();
 	    	b.putInt("workerId",workerId);
 	    	i.putExtras(b);  
 	    	startActivity(i);
@@ -340,27 +340,6 @@ public class LoginActivity extends Activity {
     private void prepopulateDB() {
 		Intent i = new Intent(LoginActivity.this, SetupDB.class);
 		startActivity(i);
-    }
-    
-    private int retrieveWorkerId(String name) {
-    	int wId = 0;
-    	
-    	Dao<Worker, Integer> wDao;		
-		DatabaseHelper wDbHelper = new DatabaseHelper(getApplicationContext());
-		try {
-			wDao = wDbHelper.getWorkersDao();
-			List<Worker> wList = wDao.queryBuilder().where().eq("first_name",name).query();
-			Iterator<Worker> iter = wList.iterator();
-			while (iter.hasNext()) {
-				Worker w = iter.next();
-				wId = w.getId();
-			}
-		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-		
-    	return wId;
     }
     
     public void triggerSyncAdaper() {
