@@ -65,6 +65,9 @@
             android:name=".ServiceDetailsActivity"
             android:label="@string/title_activity_service_delivery"
             android:screenOrientation="landscape" >
+            <meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="org.chat.android.HomeActivity" />
         </activity>
         <activity
             android:name=".ServiceDeliveryActivity"

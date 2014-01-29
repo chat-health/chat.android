@@ -8,15 +8,17 @@ import org.chat.android.models.Service;
 
 import com.j256.ormlite.dao.Dao;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class ServiceDetailsActivity extends Activity {
+public class ServiceDetailsActivity extends BaseActivity {
 	private int visitId = 0;
 	private int hhId = 0;
 	private List<Service> servicesList = new ArrayList<Service>();
@@ -27,11 +29,15 @@ public class ServiceDetailsActivity extends Activity {
         super.onCreate(savedInstanceState);
         Context context = getApplicationContext();
         setContentView(R.layout.activity_service_details);
+        
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
 		Bundle b = getIntent().getExtras();
 		visitId = b.getInt("visitId");
 		hhId = b.getInt("hhId");
 		String type = b.getString("subtype");
+		
 		TextView tv = (TextView) findViewById(R.id.service_details_title_field);
 		tv.setText(type);
 		
@@ -43,6 +49,23 @@ public class ServiceDetailsActivity extends Activity {
 	    lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 	    lv.setAdapter(sAdapter);         
     }
+    
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//    	BaseClass.homeButtonPress(item, this, visitId);
+//        switch (item.getItemId()) {
+//        case android.R.id.home:
+//        	Intent i = new Intent(this, HomeActivity.class);
+//        	Bundle b = new Bundle();
+//        	b.putInt("visitId",visitId);
+//        	b.putBoolean("fromBack", true);
+//        	i.putExtras(b);
+//        	startActivity(i);
+//            return true;
+//        default:
+//            return super.onOptionsItemSelected(item);
+//        }
+//    }
     
     // used to generate the list of services for serviceDelivery
     private void populateServicesList(String type) {
