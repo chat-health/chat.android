@@ -20,7 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class HealthDetailsActivity extends Activity {
+public class HealthDetailsActivity extends BaseActivity {
 	Context context;
 	int hhId = 0;
 	int visitId = 0;

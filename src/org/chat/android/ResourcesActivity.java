@@ -14,13 +14,17 @@ import org.chat.android.models.ResourceAccessed;
 
 import com.j256.ormlite.dao.Dao;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -40,8 +44,10 @@ public class ResourcesActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		context = getApplicationContext();
 		
-		bundle = getIntent().getExtras();
+		ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 		
+		bundle = getIntent().getExtras();
 		resources = new ArrayList<Resource>();
 		resourceNames = new ArrayList<String>();
 
@@ -113,4 +119,20 @@ public class ResourcesActivity extends ListActivity {
 	        e1.printStackTrace();
 	    }	
 	}
+	
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case android.R.id.home:
+        	Intent homeI = new Intent(this, HomeActivity.class);
+        	Bundle homeB = new Bundle();
+        	homeB.putInt("visitId",bundle.getInt("visitId"));
+        	homeB.putBoolean("fromBack", true);
+        	homeI.putExtras(homeB);
+        	startActivity(homeI);
+            return true;          
+        default:
+            return super.onOptionsItemSelected(item);
+        }
+    }
 }

@@ -17,7 +17,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class ServiceOtherActivity extends Activity {
+public class ServiceOtherActivity extends BaseActivity {
 	private int visitId = 0;
 	private int hhId = 0;
 	private List<Service> servicesList = new ArrayList<Service>();

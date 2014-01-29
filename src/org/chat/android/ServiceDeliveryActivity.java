@@ -14,6 +14,7 @@ import org.chat.android.models.Visit;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.UpdateBuilder;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -24,7 +25,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
-public class ServiceDeliveryActivity extends Activity {
+public class ServiceDeliveryActivity extends BaseActivity {
 	Context context;
 	private int visitId = 0;
 	private int hhId = 0;

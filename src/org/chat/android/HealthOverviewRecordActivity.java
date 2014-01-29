@@ -26,7 +26,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-public class HealthOverviewRecordActivity extends Activity {
+public class HealthOverviewRecordActivity extends BaseActivity {
 	Context context;
 	int hhId = 0;
 	int visitId = 0;
@@ -46,8 +46,8 @@ public class HealthOverviewRecordActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
-
 		setContentView(R.layout.activity_health_overview_record);
+		
 		obsTitle = (TextView)findViewById(R.id.overviewRecordTitle1);
 		obsTv = (TextView)findViewById(R.id.overviewRecordContent1);
 		recTitle = (TextView)findViewById(R.id.overviewRecordTitle2);
@@ -63,14 +63,13 @@ public class HealthOverviewRecordActivity extends Activity {
 		hhId = b.getInt("hhId");
 		visitId = b.getInt("visitId");
 		healthThemeName = b.getString("healthTheme");
+		theme = ModelHelper.getThemeForName(context, healthThemeName);
 		
 		populateThemeContent();
 		updateUIColors();
     }
 	
 	public void populateThemeContent() {
-		HealthTheme theme = ModelHelper.getThemeForName(context, healthThemeName);
-		
 		List<HealthSelect> selects = new ArrayList<HealthSelect>();
 		Dao<HealthSelect, Integer> hsDao;		
 		DatabaseHelper hsDbHelper = new DatabaseHelper(context);

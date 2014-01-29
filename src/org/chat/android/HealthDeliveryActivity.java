@@ -27,7 +27,7 @@ import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
 
-public class HealthDeliveryActivity extends Activity {
+public class HealthDeliveryActivity extends BaseActivity {
 	Context context = null;
 	
 	List<HealthPage> pages = new ArrayList<HealthPage>();

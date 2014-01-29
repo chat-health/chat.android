@@ -9,6 +9,7 @@ import com.j256.ormlite.dao.Dao;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
@@ -41,6 +42,9 @@ public class BaseActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
+        
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         Bundle b = getIntent().getExtras();
 		visitId = b.getInt("visitId");
@@ -58,6 +62,7 @@ public class BaseActivity extends Activity {
     }
 
 	// action bar items
+	// using this override cause we're on an old android version and I can't get the support libraries to work correctly
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

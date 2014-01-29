@@ -30,7 +30,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ServiceOverviewActivity extends Activity {
+public class ServiceOverviewActivity extends BaseActivity {
 	Context context;
 	int visitId = 0;
 	int hhId = 0;
@@ -39,11 +39,7 @@ public class ServiceOverviewActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
-        
-		setContentView(R.layout.activity_service_overview);
-
-		ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        setContentView(R.layout.activity_service_overview);
 		
 		Bundle b = getIntent().getExtras();
 		visitId = b.getInt("visitId");
@@ -53,23 +49,6 @@ public class ServiceOverviewActivity extends Activity {
 		
 		setupServiceTypeButtons(role);
 	}
-    
-    // using this override cause we're on an old android version and I can't get the support libraries to work correctly. TODO - look into this and expand to other pages?
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-        case android.R.id.home:
-        	Intent i = new Intent(this, HomeActivity.class);
-        	Bundle b = new Bundle();
-        	b.putInt("visitId",visitId);
-        	b.putBoolean("fromBack", true);
-        	i.putExtras(b);
-        	startActivity(i);
-            return true;
-        default:
-            return super.onOptionsItemSelected(item);
-        }
-    }
     
     public void setupServiceTypeButtons(String role) {
     	// figure out which button names we need for this screen

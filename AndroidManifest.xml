@@ -52,6 +52,9 @@
             android:name=".ResourcesActivity"
             android:label="@string/title_activity_resources"
             android:screenOrientation="landscape" >
+            <meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="org.chat.android.HomeActivity" />
         </activity>
         <activity
             android:name=".ServiceOverviewActivity"
@@ -73,32 +76,50 @@
             android:name=".ServiceDeliveryActivity"
             android:label="@string/title_activity_service_delivery"
             android:screenOrientation="landscape" >
+            <meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="org.chat.android.HomeActivity" />
         </activity>
         <activity
             android:name=".ServiceOtherActivity"
             android:label="@string/title_activity_service_delivery"
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="landscape" >
+            <meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="org.chat.android.HomeActivity" />
         </activity>
 		<activity
             android:name=".HealthOverviewActivity"
             android:label="@string/title_activity_health_overview"
             android:screenOrientation="landscape" >
+            <meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="org.chat.android.HomeActivity" />
         </activity>
         <activity
             android:name=".HealthOverviewRecordActivity"
             android:label="@string/title_activity_health_overview"
             android:screenOrientation="landscape" >
+            <meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="org.chat.android.HomeActivity" />
         </activity>     
         <activity
             android:name=".HealthDetailsActivity"
             android:label="@string/title_activity_health_details"
             android:screenOrientation="landscape" >
+            <meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="org.chat.android.HomeActivity" />
         </activity>
         <activity
             android:name=".HealthDeliveryActivity"
             android:label="@string/title_activity_health_delivery"
             android:screenOrientation="landscape" >
+            <meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="org.chat.android.HomeActivity" />
         </activity> 
         <activity
             android:name=".SetupDB"

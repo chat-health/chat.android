@@ -29,9 +29,6 @@ public class ServiceDetailsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         Context context = getApplicationContext();
         setContentView(R.layout.activity_service_details);
-        
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
 
 		Bundle b = getIntent().getExtras();
 		visitId = b.getInt("visitId");
@@ -49,23 +46,6 @@ public class ServiceDetailsActivity extends BaseActivity {
 	    lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 	    lv.setAdapter(sAdapter);         
     }
-    
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//    	BaseClass.homeButtonPress(item, this, visitId);
-//        switch (item.getItemId()) {
-//        case android.R.id.home:
-//        	Intent i = new Intent(this, HomeActivity.class);
-//        	Bundle b = new Bundle();
-//        	b.putInt("visitId",visitId);
-//        	b.putBoolean("fromBack", true);
-//        	i.putExtras(b);
-//        	startActivity(i);
-//            return true;
-//        default:
-//            return super.onOptionsItemSelected(item);
-//        }
-//    }
     
     // used to generate the list of services for serviceDelivery
     private void populateServicesList(String type) {

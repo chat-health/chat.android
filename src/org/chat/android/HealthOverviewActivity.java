@@ -18,7 +18,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-public class HealthOverviewActivity extends Activity {
+public class HealthOverviewActivity extends BaseActivity {
 	Context context = null;
 	int hhId = 0;
 	int visitId = 0;
@@ -26,7 +26,6 @@ public class HealthOverviewActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
-
 		setContentView(R.layout.activity_health_overview);
 		
 		Bundle b = getIntent().getExtras();
