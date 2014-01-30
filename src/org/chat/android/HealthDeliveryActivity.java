@@ -94,6 +94,7 @@ public class HealthDeliveryActivity extends BaseActivity {
 		
 		// bundle in the unique page parameters to the correct fragment
 		Bundle bundle = new Bundle();
+		bundle.putString("themeName",healthTheme);
 		bundle.putString("type",p.getType());
 		bundle.putInt("id",p.getPageContentId());
 		newFrag.setArguments(bundle);
@@ -166,7 +167,7 @@ public class HealthDeliveryActivity extends BaseActivity {
 				nextBtn.setImageResource(R.drawable.childhooddiseasesnextbutton);
 			} else if (healthTheme.equals("Nutrition")) {
 				nextBtn.setImageResource(R.drawable.nutritionnextbutton);
-			} else if (healthTheme.equals("Psychsocial Support")) {
+			} else if (healthTheme.equals("Psychosocial Support")) {
 				nextBtn.setImageResource(R.drawable.developmentnextbutton);
 			} else {
 				Log.e("Specified themeId is no in DB for: ", healthTheme);

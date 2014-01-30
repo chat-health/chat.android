@@ -6,13 +6,16 @@ import java.util.List;
 import java.util.Locale;
 
 import org.chat.android.DatabaseHelper;
+import org.chat.android.ModelHelper;
 import org.chat.android.R;
 import org.chat.android.R.layout;
+import org.chat.android.models.HealthTheme;
 import org.chat.android.models.PageText1;
 
 import com.j256.ormlite.dao.Dao;
 
 import android.app.Fragment;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,12 +36,12 @@ public class Text1Fragment extends Fragment {
 		// determine language from current tablet settings
 		String lang = Locale.getDefault().getLanguage();
         
-	    populateDisplayedFragment(getArguments().getString("type"), getArguments().getInt("id"), lang);
+	    populateDisplayedFragment(getArguments().getString("themeName"), getArguments().getString("type"), getArguments().getInt("id"), lang);
     	
     	return view;
     }
     
-	public void populateDisplayedFragment(String type, int pageContentId, String lang) {
+	public void populateDisplayedFragment(String themeName, String type, int pageContentId, String lang) {
 		// get this particular page in this particular table/type
 		Dao<PageText1, Integer> ptDao;		
 		DatabaseHelper ptDbHelper = new DatabaseHelper(getActivity());
@@ -57,5 +60,9 @@ public class Text1Fragment extends Fragment {
 
 		content1.setText(pt.getContent(lang, "content1"));
 		content2.setText(pt.getContent(lang, "content2"));
+		
+		HealthTheme theme = ModelHelper.getThemeForName(getActivity(), themeName);
+		int colorRef = Color.parseColor(theme.getColor());
+		content1.setTextColor(colorRef);
     }
 }

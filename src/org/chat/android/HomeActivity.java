@@ -305,13 +305,24 @@ public class HomeActivity extends Activity {
     
     ////////// HELPER FUNCTIONS //////////
     private void setupVisitObject(String hhName, String workerName, String role, String type, Double lat, Double lon) {
-        Context context = getApplicationContext();
-
         // get the workerId
-        workerId = ModelHelper.getWorkerForName(context, workerName).getId();
+    	// SWITCH FOR PROD
+        //workerId = ModelHelper.getWorkerForName(context, workerName).getId();
+    	Worker worker = ModelHelper.getWorkerForName(context, workerName);
+    	if (worker != null) {
+    		workerId = worker.getId();
+    	} else {
+    		workerId = 1;
+    	}
 
 		// get the householdId
-        hhId = ModelHelper.getHouseholdForName(context, hhName).getId();
+        //hhId = ModelHelper.getHouseholdForName(context, hhName).getId();
+    	Household household = ModelHelper.getHouseholdForName(context, hhName);
+    	if (household != null) {
+    		hhId = household.getId();
+    	} else {
+    		hhId = 1;
+    	}
 
 		Date date  = new Date();
 		Date startTime = new Date();

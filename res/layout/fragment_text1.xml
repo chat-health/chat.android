@@ -6,14 +6,19 @@
     
     <TextView
         android:id="@+id/t1tv1"
-        style="@style/shortTextContainer"
+        style="@style/titleContainer"
         android:text="Unfilled" />
     
-     <TextView
-        android:id="@+id/t1tv2"
-        style="@style/shortTextContainer"
-        android:layout_below="@id/t1tv1"
-        android:layout_marginTop="50dp"
-        android:text="Unfilled" />
+    <ScrollView
+        android:layout_width="match_parent"
+	    android:layout_height="600dp"
+	    android:layout_below="@id/t1tv1"
+	    android:layout_marginTop="20dp"
+	    android:layout_marginLeft="30dp">
+	    <TextView
+	        android:id="@+id/t1tv2"
+	        style="@style/shortTextContainer"
+	        android:text="Unfilled" />
+	</ScrollView>
 
 </RelativeLayout>
