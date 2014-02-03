@@ -1,5 +1,6 @@
 package org.chat.android;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,6 +10,8 @@ import java.util.List;
 import org.chat.android.models.HealthPage;
 import org.chat.android.models.HealthTopic;
 import org.chat.android.models.HealthTopicAccessed;
+import org.chat.android.models.Video;
+import org.chat.android.models.VideoAccessed;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -17,7 +20,9 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -94,6 +99,7 @@ public class HealthDeliveryActivity extends BaseActivity {
 		
 		// bundle in the unique page parameters to the correct fragment
 		Bundle bundle = new Bundle();
+		bundle.putInt("visitId",visitId);
 		bundle.putString("themeName",healthTheme);
 		bundle.putString("type",p.getType());
 		bundle.putInt("id",p.getPageContentId());
@@ -250,5 +256,40 @@ public class HealthDeliveryActivity extends BaseActivity {
     	AlertDialog alert = builder.create();
     	alert.show();
 	}
+	
+	public void playVideo (View v) {
+    	// figure out which video to play by determining which button was pressed
+    	int chosenVideoId = 0;
+    	chosenVideoId = (Integer) v.getTag();
+    	Video chosenVideo = ModelHelper.getVideoForId(context, chosenVideoId);
+    	
+    	// record which video was played in videos_accessed table
+	    VideoAccessed va = new VideoAccessed(chosenVideoId, visitId);
+	    Dao<VideoAccessed, Integer> vaDao;
+	    DatabaseHelper vaDbHelper = new DatabaseHelper(context);
+	    try {
+	        vaDao = vaDbHelper.getVideosAccessedDao();
+	        vaDao.create(va);
+	    } catch (SQLException e1) {
+	        // TODO Auto-generated catch block
+	        e1.printStackTrace();
+	    }
+		
+    	// determining path to sdcard (readable by video player)
+    	File sdCard = Environment.getExternalStorageDirectory();
+    	// adding chat dir to path (copyAsset func ensures dir exists)
+        File dir = new File (sdCard.getAbsolutePath() + "/chat");
+        // copy video from within the APK to the sdcard/chat dir
+        // copyAsset(videoName, dir);
+        
+        // create file that points at video in sdcard dir (to retrieve URI)
+        File myvid = new File(dir, chosenVideo.getURI());
+        
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setDataAndType(Uri.fromFile(myvid), "video/*");
+        startActivity(intent);
+    }
 	
 }

@@ -36,6 +36,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -98,6 +99,10 @@ public class HomeActivity extends Activity {
         if (getIntent().getBooleanExtra("EXIT", false)) {
             finish();  
         }
+        
+//        Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/Roboto/Roboto-Black.ttf");
+//        servicesTitle = (TextView) findViewById(R.id.services_title_field);
+//        servicesTitle.setTypeface(tf);
         
         Locale locale = getResources().getConfiguration().locale;
         locale.getLanguage();

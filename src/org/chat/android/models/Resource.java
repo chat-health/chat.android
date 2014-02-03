@@ -8,11 +8,11 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "resources")
 public class Resource {
-    @DatabaseField
+    @DatabaseField(index = true, uniqueCombo = true)
     private int id;
     @DatabaseField
     private String name;
-    @DatabaseField
+    @DatabaseField(index = true, uniqueCombo = true)
     private String uri;
 
 

@@ -10,11 +10,15 @@ import org.chat.android.models.HealthTheme;
 import org.chat.android.models.HealthTopic;
 import org.chat.android.models.Household;
 import org.chat.android.models.Service;
+import org.chat.android.models.TopicVideo;
+import org.chat.android.models.Video;
 import org.chat.android.models.Visit;
 import org.chat.android.models.Worker;
 
+import android.R.array;
 import android.content.Context;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.j256.ormlite.dao.Dao;
 
@@ -37,10 +41,8 @@ public class ModelHelper {
 		
 		return visit;
 	}
-	
-	
-	
-	
+
+
 	public static Worker getWorkerForName(Context context, String workerName) {
 		Worker worker = null;
 		Dao<Worker, Integer> wDao;		
@@ -59,10 +61,8 @@ public class ModelHelper {
 		
 		return worker;
 	}
-	
-	
-	
-	
+
+
 	public static Household getHouseholdForName(Context context, String hhName) {
 		Household household = null;
 		Dao<Household, Integer> hDao;		
@@ -81,7 +81,6 @@ public class ModelHelper {
 		
 		return household;
 	}
-	
 	
 	
 	public static Attendance getAttendanceForVisitId(Context context, int visitId) {
@@ -163,4 +162,44 @@ public class ModelHelper {
 		
 		return topic;
 	}
+	
+	public static List<TopicVideo> getVideoIdsForPageVideo1Id(Context context, int vId) {
+		List<TopicVideo> tvList = null;
+		Dao<TopicVideo, Integer> tvDao;		
+		DatabaseHelper tvDbHelper = new DatabaseHelper(context);
+		try {
+			tvDao = tvDbHelper.getTopicVideosDao();
+			tvList = tvDao.queryBuilder().where().eq("page_video1_id",vId).query();
+//			Iterator<TopicVideo> iter = tvList.iterator();
+//			while (iter.hasNext()) {
+//				video = iter.next();
+//			}
+		} catch (SQLException e2) {
+			Log.e("Video does not exist in the DB: ", "");
+			e2.printStackTrace();
+		}
+		
+		return tvList;
+	}
+	
+	public static Video getVideoForId(Context context, int vId) {
+		Video video = null;
+		Dao<Video, Integer> vDao;		
+		DatabaseHelper vDbHelper = new DatabaseHelper(context);
+		try {
+			vDao = vDbHelper.getVideosDao();
+			List<Video> vList = vDao.queryBuilder().where().eq("id",vId).query();
+			Iterator<Video> iter = vList.iterator();
+			while (iter.hasNext()) {
+				video = iter.next();
+			}
+		} catch (SQLException e2) {
+			Log.e("Video does not exist in the DB: ", "");
+			e2.printStackTrace();
+		}
+		
+		return video;
+	}
+	
+	
 }

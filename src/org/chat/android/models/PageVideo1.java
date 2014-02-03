@@ -16,7 +16,6 @@ public class PageVideo1 {
     private String en_content1;
     @DatabaseField
     private String zu_content1;
-  
 
     
     /**

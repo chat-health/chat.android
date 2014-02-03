@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -17,6 +18,7 @@ import org.chat.android.R.layout;
 import org.chat.android.models.HealthTheme;
 import org.chat.android.models.PageText1;
 import org.chat.android.models.PageVideo1;
+import org.chat.android.models.TopicVideo;
 import org.chat.android.models.Video;
 import org.chat.android.models.VideoAccessed;
 
@@ -33,17 +35,37 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class Video1Fragment extends Fragment {
+	Context context;
+	int visitId = 0;
     TextView title = null;
     TextView content1 = null;
+    List<ImageView> imgViewList = null;
+    List<TextView> videoNameList = null;
     
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	View view = inflater.inflate(R.layout.fragment_video1, container, false);
+    	context = getActivity();
+    	
+    	visitId = getArguments().getInt("visitId"); 
     	
     	title = (TextView) view.findViewById(R.id.v1title);
     	content1 = (TextView) view.findViewById(R.id.v1content1);
+    	
+    	imgViewList = new ArrayList<ImageView>();
+    	imgViewList.add((ImageView) view.findViewById(R.id.v1videoImage1));
+    	imgViewList.add((ImageView) view.findViewById(R.id.v1videoImage2));
+    	imgViewList.add((ImageView) view.findViewById(R.id.v1videoImage3));
+    	imgViewList.add((ImageView) view.findViewById(R.id.v1videoImage4));
+    	
+    	videoNameList = new ArrayList<TextView>();
+    	videoNameList.add((TextView) view.findViewById(R.id.v1videoText1));
+    	videoNameList.add((TextView) view.findViewById(R.id.v1videoText2));
+    	videoNameList.add((TextView) view.findViewById(R.id.v1videoText3));
+    	videoNameList.add((TextView) view.findViewById(R.id.v1videoText4));
     	
     	String lang = Locale.getDefault().getLanguage();
     	
@@ -55,7 +77,7 @@ public class Video1Fragment extends Fragment {
 	public void populateDisplayedFragment(String themeName, String type, int pageContentId, String lang) {
 		// get this particular page in this particular table/type
 		Dao<PageVideo1, Integer> pvDao;		
-		DatabaseHelper pvDbHelper = new DatabaseHelper(getActivity());
+		DatabaseHelper pvDbHelper = new DatabaseHelper(context);
 		PageVideo1 pv = null;
 		try {
 			pvDao = pvDbHelper.getPageVideo1Dao();
@@ -71,120 +93,21 @@ public class Video1Fragment extends Fragment {
 
 		content1.setText(pv.getContent(lang, "content1"));
 		
-		HealthTheme theme = ModelHelper.getThemeForName(getActivity(), themeName);
+		HealthTheme theme = ModelHelper.getThemeForName(context, themeName);
 		int colorRef = Color.parseColor(theme.getColor());
 		title.setTextColor(colorRef);
+		
+		// grab the videos for this page
+		List<TopicVideo> topicVideos = ModelHelper.getVideoIdsForPageVideo1Id(context, pv.getId());				// this is from a bridge table, containing page_video1_ids and video_ids
+		
+		// populate the images and text from video list
+		//v1videoImage1  v1videoText1
+		for (int i = 0; i < topicVideos.size(); i++) {
+			Video video = ModelHelper.getVideoForId(context, topicVideos.get(i).getVideoId());
+			int screenshotId = getResources().getIdentifier(video.getScreenshot(), "drawable", context.getPackageName());
+			imgViewList.get(i).setImageResource(screenshotId);
+			imgViewList.get(i).setTag(video.getId());
+			videoNameList.get(i).setText(video.getName());
+		}	
     }
-	
-//	public void playVideo (View v) {
-//		Context context = getApplicationContext();
-//		
-//    	// figure out which video to play by determining which button was pressed
-//    	int chosenVideoId = 0;
-//    	int buttonId = v.getId();
-////    	switch (buttonId) {
-////	        case R.id.button_video_1:
-////	        	chosenVideoId = 1;
-////	            break;
-////	        case R.id.button_video_2:
-////	        	chosenVideoId = 2;
-////	            break;
-////	        case R.id.button_video_3:
-////	        	chosenVideoId = 3;
-////	            break;
-////	        case R.id.button_video_4:
-////	        	chosenVideoId = 4;
-////	            break;
-////	        case R.id.image_video_1:
-////	        	chosenVideoId = 1;
-////	            break;
-////	        case R.id.image_video_2:
-////	        	chosenVideoId = 2;
-////	            break;
-////	        case R.id.image_video_3:
-////	        	chosenVideoId = 3;
-////	            break;
-////	        case R.id.image_video_4:
-////	        	chosenVideoId = 4;
-////	            break;	            
-////	        default:
-////	        	chosenVideoId = 1;
-////	            break;
-////	    }
-//    	
-//    	// record which video was played in videos_accessed table
-//	    VideoAccessed va = new VideoAccessed(chosenVideoId, visitId);
-//	    Dao<VideoAccessed, Integer> vaDao;
-//	    DatabaseHelper vaDbHelper = new DatabaseHelper(context);
-//	    try {
-//	        vaDao = vaDbHelper.getVideosAccessedDao();
-//	        vaDao.create(va);
-//	    } catch (SQLException e1) {
-//	        // TODO Auto-generated catch block
-//	        e1.printStackTrace();
-//	    }
-//    	
-//		// get the video_uri
-//	    String videoURI = "";
-//		Dao<Video, Integer> vidDao;		
-//		DatabaseHelper vidDbHelper = new DatabaseHelper(context);
-//		try {
-//			vidDao = vidDbHelper.getVideosDao();
-//			List<Video> vidList = vidDao.queryBuilder().where().eq("id",chosenVideoId).query();
-//			Iterator<Video> iter = vidList.iterator();
-//			while (iter.hasNext()) {
-//				Video vid = iter.next();
-//				videoURI = vid.getURI();
-//			}
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//    	// determining path to sdcard (readable by video player)
-//    	File sdCard = Environment.getExternalStorageDirectory();
-//    	// adding chat dir to path (copyAsset func ensures dir exists)
-//        File dir = new File (sdCard.getAbsolutePath() + "/chat");
-//        // copy video from within the APK to the sdcard/chat dir
-//        // copyAsset(videoName, dir);
-//        
-//        // create file that points at video in sdcard dir (to retrieve URI)
-//        File myvid = new File(dir, videoURI);
-//        
-//        Intent intent = new Intent();
-//        intent.setAction(Intent.ACTION_VIEW);
-//        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//        intent.setDataAndType(Uri.fromFile(myvid), "video/*");
-//        startActivity(intent);
-//    }
-//    
-//    private void copyAsset(String fileToCopy, File targetDir) {
-//        InputStream in = null;
-//        OutputStream out = null;
-//        try {
-//          in = getAssets().open(fileToCopy);
-//          
-//          if(targetDir.isDirectory() != true) {
-//        	  targetDir.mkdirs();
-//          }
-//          
-//          out = new FileOutputStream(new File(targetDir, fileToCopy));
-//          copyFile(in, out);
-//          in.close();
-//          in = null;
-//          out.flush();
-//          out.close();
-//          out = null;
-//        } catch(IOException e) {
-//            Log.e("tag", "Failed to copy asset file: " + fileToCopy, e);
-//        }   
-//    }
-//    
-//    private void copyFile(InputStream in, OutputStream out) throws IOException {
-//        byte[] buffer = new byte[1024];
-//        int read;
-//        while((read = in.read(buffer)) != -1){
-//        	out.write(buffer, 0, read);
-//        }
-//    }
 }

@@ -8,12 +8,14 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "videos")
 public class Video {
-    @DatabaseField
+    @DatabaseField(index = true, uniqueCombo = true)
     private int id;
     @DatabaseField
     private String name;
-    @DatabaseField
+    @DatabaseField(index = true, uniqueCombo = true)
     private String uri;
+    @DatabaseField
+    private String screenshot;
 
 
     /**
@@ -27,12 +29,14 @@ public class Video {
      * @param id
      * @param name
      * @param uri
+     * @param screenshot
      * 
      */
-    public Video(int id, String name, String uri) {
+    public Video(int id, String name, String uri, String screenshot) {
     	this.id = id;
     	this.name = name;
     	this.uri = uri;
+    	this.screenshot = screenshot;
     }
     
     /**
@@ -43,6 +47,7 @@ public class Video {
         this.id = existingVideosAccessedModel.id;
         this.name = existingVideosAccessedModel.name;
         this.uri = existingVideosAccessedModel.uri;
+        this.screenshot = existingVideosAccessedModel.screenshot;
     }
 
 	public int getId() {
@@ -67,5 +72,13 @@ public class Video {
 	
 	public void setURI(String uri) {
 		this.uri = uri;
+	}
+	
+	public String getScreenshot() {
+		return screenshot;
+	}
+	
+	public void setScreenshot(String screenshot) {
+		this.screenshot = screenshot;
 	}	
 }
