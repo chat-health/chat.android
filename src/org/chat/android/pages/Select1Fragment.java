@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.chat.android.DatabaseHelper;
+import org.chat.android.ModelHelper;
 import org.chat.android.R;
 import org.chat.android.R.layout;
 import org.chat.android.models.PageSelect1;
