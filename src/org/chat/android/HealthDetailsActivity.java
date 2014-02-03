@@ -184,12 +184,7 @@ public class HealthDetailsActivity extends BaseActivity {
 		DatabaseHelper htaDbHelper = new DatabaseHelper(context);
 		try {
 			htaDao = htaDbHelper.getHealthTopicsAccessed();
-			List<HealthTopicAccessed> htaList = htaDao.queryBuilder().where().eq("hh_id",hhId).and().isNotNull("end_time").query();
-			Iterator<HealthTopicAccessed> iter = htaList.iterator();
-			while (iter.hasNext()) {
-				HealthTopicAccessed hta = iter.next();
-				topicsAccessed.add(hta);
-			}
+			topicsAccessed = htaDao.queryBuilder().where().eq("hh_id",hhId).and().isNotNull("end_time").query();
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();

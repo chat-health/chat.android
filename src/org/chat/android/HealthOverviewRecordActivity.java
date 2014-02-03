@@ -75,12 +75,7 @@ public class HealthOverviewRecordActivity extends BaseActivity {
 		DatabaseHelper hsDbHelper = new DatabaseHelper(context);
 		try {
 			hsDao = hsDbHelper.getHealthSelectDao();
-			List<HealthSelect> hsList = hsDao.queryBuilder().where().eq("subject_id",theme.getId()).query();
-			Iterator<HealthSelect> iter = hsList.iterator();
-			while (iter.hasNext()) {
-				HealthSelect hs = iter.next();
-				selects.add(hs);
-			}
+			selects = hsDao.queryBuilder().where().eq("subject_id",theme.getId()).query();
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();

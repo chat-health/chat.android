@@ -80,25 +80,6 @@ public class ServiceOverviewActivity extends BaseActivity {
 			iv.setTag(serviceTypes[i-1]);
 		}
     }
-    
-    // get the visitObject - going to be using this a lot. Maybe better to abstract it, make it public, have it return the object?
-//	public Visit determineRole() {
-//		Dao<Visit, Integer> vDao;		
-//		DatabaseHelper vDbHelper = new DatabaseHelper(getBaseContext());
-//		Visit v = null;
-//		try {
-//			vDao = vDbHelper.getVisitsDao();
-//			List<Visit> vList = vDao.queryBuilder().where().eq("id",visitId).query();
-//			Iterator<Visit> iter = vList.iterator();
-//			while (iter.hasNext()) {
-//				v = iter.next();
-//			}
-//		} catch (SQLException e2) {
-//			// TODO Auto-generated catch block
-//			e2.printStackTrace();
-//		}			
-//		return v;
-//	}
 	
 	public void openServiceDetails(View v) {
 		String subtype = null;
