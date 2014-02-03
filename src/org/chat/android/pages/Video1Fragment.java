@@ -60,6 +60,10 @@ public class Video1Fragment extends Fragment {
     	imgViewList.add((ImageView) view.findViewById(R.id.v1videoImage2));
     	imgViewList.add((ImageView) view.findViewById(R.id.v1videoImage3));
     	imgViewList.add((ImageView) view.findViewById(R.id.v1videoImage4));
+    	// make them not clickable until (and if) they've been pulled from DB - ie they should not be clickable if that image is not filled
+    	for (ImageView i : imgViewList) {
+    		i.setEnabled(false);
+    	}
     	
     	videoNameList = new ArrayList<TextView>();
     	videoNameList.add((TextView) view.findViewById(R.id.v1videoText1));
@@ -107,6 +111,7 @@ public class Video1Fragment extends Fragment {
 			int screenshotId = getResources().getIdentifier(video.getScreenshot(), "drawable", context.getPackageName());
 			imgViewList.get(i).setImageResource(screenshotId);
 			imgViewList.get(i).setTag(video.getId());
+			imgViewList.get(i).setEnabled(true);
 			videoNameList.get(i).setText(video.getName());
 		}	
     }
