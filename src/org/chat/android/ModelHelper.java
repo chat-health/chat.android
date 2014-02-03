@@ -9,6 +9,9 @@ import org.chat.android.models.Attendance;
 import org.chat.android.models.HealthTheme;
 import org.chat.android.models.HealthTopic;
 import org.chat.android.models.Household;
+import org.chat.android.models.PageSelect1;
+import org.chat.android.models.PageText1;
+import org.chat.android.models.PageVideo1;
 import org.chat.android.models.Service;
 import org.chat.android.models.TopicVideo;
 import org.chat.android.models.Video;
@@ -201,5 +204,61 @@ public class ModelHelper {
 		return video;
 	}
 	
+	public static PageText1 getPageText1ForId(Context context, int pageContentId) {
+		Dao<PageText1, Integer> ptDao;		
+		DatabaseHelper ptDbHelper = new DatabaseHelper(context);
+		PageText1 pt = null;
+		try {
+			ptDao = ptDbHelper.getPageText1Dao();
+			List<PageText1> ptList = ptDao.queryBuilder().where().eq("id",pageContentId).query();
+			Iterator<PageText1> iter = ptList.iterator();
+			while (iter.hasNext()) {
+				pt = iter.next();
+			}
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		return pt;
+	}
+	
+	public static PageSelect1 getPageSelect1ForId(Context context, int pageContentId) {
+		Dao<PageSelect1, Integer> psDao;		
+		DatabaseHelper psDbHelper = new DatabaseHelper(context);
+		PageSelect1 ps = null;
+		try {
+			psDao = psDbHelper.getPageSelect1Dao();
+			List<PageSelect1> psList = psDao.queryBuilder().where().eq("id",pageContentId).query();
+			Iterator<PageSelect1> iter = psList.iterator();
+			while (iter.hasNext()) {
+				ps = iter.next();
+			}
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		return ps;
+	}
+	
+	public static PageVideo1 getPageVideo1ForId(Context context, int pageContentId) {
+		Dao<PageVideo1, Integer> pvDao;		
+		DatabaseHelper pvDbHelper = new DatabaseHelper(context);
+		PageVideo1 pv = null;
+		try {
+			pvDao = pvDbHelper.getPageVideo1Dao();
+			List<PageVideo1> pvList = pvDao.queryBuilder().where().eq("id",pageContentId).query();
+			Iterator<PageVideo1> iter = pvList.iterator();
+			while (iter.hasNext()) {
+				pv = iter.next();
+			}
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		return pv;
+	}
 	
 }

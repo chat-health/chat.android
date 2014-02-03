@@ -79,21 +79,7 @@ public class Video1Fragment extends Fragment {
     }
 
 	public void populateDisplayedFragment(String themeName, String type, int pageContentId, String lang) {
-		// get this particular page in this particular table/type
-		Dao<PageVideo1, Integer> pvDao;		
-		DatabaseHelper pvDbHelper = new DatabaseHelper(context);
-		PageVideo1 pv = null;
-		try {
-			pvDao = pvDbHelper.getPageVideo1Dao();
-			List<PageVideo1> pvList = pvDao.queryBuilder().where().eq("id",pageContentId).query();
-			Iterator<PageVideo1> iter = pvList.iterator();
-			while (iter.hasNext()) {
-				pv = iter.next();
-			}
-		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+		PageVideo1 pv = ModelHelper.getPageVideo1ForId(context, pageContentId);
 
 		content1.setText(pv.getContent(lang, "content1"));
 		

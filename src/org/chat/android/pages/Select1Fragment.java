@@ -25,6 +25,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 public class Select1Fragment extends Fragment {
+	Context context;
 	ImageView image1 = null;
     TextView content1 = null;
     TextView question1 = null;
@@ -35,6 +36,7 @@ public class Select1Fragment extends Fragment {
 	
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	View view = inflater.inflate(R.layout.fragment_select1, container, false);
+    	context = getActivity();
     	
     	image1 = (ImageView) view.findViewById(R.id.s1i1);
 		content1 = (TextView) view.findViewById(R.id.s1tv1);
@@ -57,22 +59,8 @@ public class Select1Fragment extends Fragment {
     }
     
 	public void populateDisplayedFragment(String type, int pageContentId, String lang) {
-		// get this particular page in this particular table/type
-		Dao<PageSelect1, Integer> psDao;		
-		DatabaseHelper psDbHelper = new DatabaseHelper(getActivity());
-		PageSelect1 ps = null;
-		try {
-			psDao = psDbHelper.getPageSelect1Dao();
-			List<PageSelect1> psList = psDao.queryBuilder().where().eq("id",pageContentId).query();
-			Iterator<PageSelect1> iter = psList.iterator();
-			while (iter.hasNext()) {
-				ps = iter.next();
-			}
-		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-
+		PageSelect1 ps = ModelHelper.getPageSelect1ForId(context, pageContentId);
+		
 		image1.setImageResource(getActivity().getResources().getIdentifier("drawable/" + ps.getImage1(), null, getActivity().getPackageName()));
 		content1.setText(ps.getContent(lang, "content1"));
 		question1.setText(ps.getContent(lang, "question1"));
