@@ -71,15 +71,7 @@ public class HealthOverviewRecordActivity extends BaseActivity {
 	
 	public void populateThemeContent() {
 		List<HealthSelect> selects = new ArrayList<HealthSelect>();
-		Dao<HealthSelect, Integer> hsDao;		
-		DatabaseHelper hsDbHelper = new DatabaseHelper(context);
-		try {
-			hsDao = hsDbHelper.getHealthSelectDao();
-			selects = hsDao.queryBuilder().where().eq("subject_id",theme.getId()).query();
-		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+		selects = ModelHelper.getSelectsForSubjectId(context, theme.getId());
 		
 		// TODO set these up to work with Zulu (in the model)
 		if (theme != null) {
@@ -132,7 +124,7 @@ public class HealthOverviewRecordActivity extends BaseActivity {
 			selectResp = Integer.parseInt(rb.getTag().toString());
 		}
 			
-		HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, healthThemeName);
+		HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, healthThemeName, null);
     	Dao<HealthSelectRecorded, Integer> hsrDao;
     	DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
     	try {

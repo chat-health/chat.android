@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.chat.android.models.Attendance;
+import org.chat.android.models.HealthSelect;
+import org.chat.android.models.HealthSelectRecorded;
 import org.chat.android.models.HealthTheme;
 import org.chat.android.models.HealthTopic;
 import org.chat.android.models.Household;
@@ -45,7 +47,6 @@ public class ModelHelper {
 		return visit;
 	}
 
-
 	public static Worker getWorkerForName(Context context, String workerName) {
 		Worker worker = null;
 		Dao<Worker, Integer> wDao;		
@@ -64,7 +65,6 @@ public class ModelHelper {
 		
 		return worker;
 	}
-
 
 	public static Household getHouseholdForName(Context context, String hhName) {
 		Household household = null;
@@ -85,7 +85,6 @@ public class ModelHelper {
 		return household;
 	}
 	
-	
 	public static Attendance getAttendanceForVisitId(Context context, int visitId) {
 		Attendance attendance = null;
 		Dao<Attendance, Integer> aDao;		
@@ -104,8 +103,7 @@ public class ModelHelper {
 		
 		return attendance;
 	}
-	
-	
+
 	public static Service getServiceForName(Context context, String sName) {
     	Service service = null;
         Dao<Service, Integer> sDao;
@@ -126,7 +124,6 @@ public class ModelHelper {
         return service;
 	}
 	
-	
 	public static HealthTheme getThemeForName(Context context, String themeName) {
 		HealthTheme theme = null;
 		Dao<HealthTheme, Integer> tDao;		
@@ -146,6 +143,20 @@ public class ModelHelper {
 		return theme;
 	}
 	
+	public static List<HealthSelect> getSelectsForSubjectId(Context context, int subjectId) {
+		List<HealthSelect> selectList = null;
+		Dao<HealthSelect, Integer> hsDao;		
+		DatabaseHelper hsDbHelper = new DatabaseHelper(context);
+		try {
+			hsDao = hsDbHelper.getHealthSelectDao();
+			selectList = hsDao.queryBuilder().where().eq("subject_id",subjectId).query();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		return selectList;
+	}
 	
 	public static HealthTopic getTopicForName(Context context, String topicName) {
 		HealthTopic topic = null;
@@ -173,10 +184,6 @@ public class ModelHelper {
 		try {
 			tvDao = tvDbHelper.getTopicVideosDao();
 			tvList = tvDao.queryBuilder().where().eq("page_video1_id",vId).query();
-//			Iterator<TopicVideo> iter = tvList.iterator();
-//			while (iter.hasNext()) {
-//				video = iter.next();
-//			}
 		} catch (SQLException e2) {
 			Log.e("Video does not exist in the DB: ", "");
 			e2.printStackTrace();
@@ -259,6 +266,44 @@ public class ModelHelper {
 		}
 		
 		return pv;
+	}
+	
+	public static HealthSelect getHealthSelectForId(Context context, int id) {
+		HealthSelect hs = null;
+		Dao<HealthSelect, Integer> hsDao;		
+		DatabaseHelper hsDbHelper = new DatabaseHelper(context);
+		try {
+			hsDao = hsDbHelper.getHealthSelectDao();
+			List<HealthSelect> selectList = hsDao.queryBuilder().where().eq("id",id).query();
+			Iterator<HealthSelect> iter = selectList.iterator();
+			while (iter.hasNext()) {
+				hs = iter.next();
+			}
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		return hs;
+	}
+	
+	public static HealthSelectRecorded getHealthSelectRecordedsForVisitIdAndTopicName(Context context, int visitId, String topicName) {
+		Dao<HealthSelectRecorded, Integer> hsrDao;		
+		DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
+		HealthSelectRecorded hsr = null;
+		try {
+			hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
+			List<HealthSelectRecorded> hsrList = hsrDao.queryBuilder().where().eq("visit_id",visitId).and().eq("topic",topicName).query();
+			Iterator<HealthSelectRecorded> iter = hsrList.iterator();
+			while (iter.hasNext()) {
+				hsr = iter.next();
+			}
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		return hsr;
 	}
 	
 }

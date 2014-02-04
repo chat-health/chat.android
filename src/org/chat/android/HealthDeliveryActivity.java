@@ -4,16 +4,15 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import org.chat.android.models.HealthPage;
-import org.chat.android.models.HealthTopic;
+import org.chat.android.models.HealthSelectRecorded;
 import org.chat.android.models.HealthTopicAccessed;
 import org.chat.android.models.Video;
 import org.chat.android.models.VideoAccessed;
+import org.chat.android.models.Visit;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -25,7 +24,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -101,12 +99,14 @@ public class HealthDeliveryActivity extends BaseActivity {
 		Bundle bundle = new Bundle();
 		bundle.putInt("visitId",visitId);
 		bundle.putString("themeName",healthTheme);
+		bundle.putString("topicName",topicName);
 		bundle.putString("type",p.getType());
 		bundle.putInt("id",p.getPageContentId());
 		newFrag.setArguments(bundle);
 		
 	    FragmentTransaction ft = getFragmentManager().beginTransaction();
-	    ft.replace(R.id.placeholder, newFrag);
+	    // type is added as a tag to be used later in identifying which fragment we're in
+	    ft.replace(R.id.placeholder, newFrag, type);
 	    ft.commit();
 	}
 	
@@ -255,6 +255,41 @@ public class HealthDeliveryActivity extends BaseActivity {
     	       });
     	AlertDialog alert = builder.create();
     	alert.show();
+	}
+	
+	
+	// **The following methods are for the fragments**
+	public void recordSelect(View v) {
+		int selectResp = 0;
+		selectResp = (Integer) v.getTag();
+		HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, null, topicName);
+		
+		HealthSelectRecorded prevHsr = null;
+		prevHsr = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicName(context, visitId, topicName);
+		// this nonsense is necessary because there is no 'submit' button... we can't rely on the Next in the Activity, so we just update the row each time a select is made
+		// if this has not already been done this visit and this topic
+		Dao<HealthSelectRecorded, Integer> hsrDao;
+		DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
+		if (prevHsr == null) {
+			try {
+	    		hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
+	    		hsrDao.create(hsr);
+	    	} catch (SQLException e) {
+	    	    // TODO Auto-generated catch block
+	    	    e.printStackTrace();
+	    	}
+		} else {
+			prevHsr.setSelectId(selectResp);
+		    try {
+		    	hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
+		    	hsrDao.update(prevHsr);
+		    } catch (SQLException e1) {
+		        // TODO Auto-generated catch block
+		        e1.printStackTrace();
+		    }
+		}
+
+		
 	}
 	
 	public void playVideo (View v) {

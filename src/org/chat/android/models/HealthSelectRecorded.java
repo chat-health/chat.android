@@ -18,6 +18,8 @@ public class HealthSelectRecorded {
     private int select_id;
     @DatabaseField
     private String theme;
+    @DatabaseField
+    private String topic;
     
     /**
      * Default Constructor needed by ormlite
@@ -28,12 +30,12 @@ public class HealthSelectRecorded {
     
     /**
      * Constructor that instantiates the private member variable(s)
-     * @param health_page_id
      */
-    public HealthSelectRecorded(int visit_id, int select_id, String theme) {
+    public HealthSelectRecorded(int visit_id, int select_id, String theme, String topic) {
     	this.visit_id = visit_id;
         this.select_id = select_id;
         this.theme = theme;
+        this.topic = topic;
     }
     
     
@@ -45,19 +47,20 @@ public class HealthSelectRecorded {
     	this.visit_id = existingHealthSelectRecordedModel.visit_id;
         this.select_id = existingHealthSelectRecordedModel.select_id;
         this.theme = existingHealthSelectRecordedModel.theme;
+        this.topic = existingHealthSelectRecordedModel.topic;
     }
     
 
 	public int getId() {
 		return id;
 	}
+
+	public void setVisitId(int visit_id) {
+		this.visit_id = visit_id;
+	}
 	
 	public int getVisitId() {
 		return visit_id;
-	}
-	
-	public void setVisitId(int visit_id) {
-		this.visit_id = visit_id;
 	}
 	
 	public void setSelectId(int select_id) {
@@ -76,4 +79,11 @@ public class HealthSelectRecorded {
 		return theme;
 	}
 	
+	public void setTopic(String topic) {
+		this.topic = topic;
+	}
+	
+	public String getTopic() {
+		return topic;
+	}
 }

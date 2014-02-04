@@ -13,7 +13,7 @@ public class HealthSelect {
 	@DatabaseField(id = true, unique = true, index = true)
 	private int id;
     @DatabaseField
-    private int subject_id;				// refers to theme or topic
+    private int subject_id;				// refers to theme or topic, 1-99 for theme, 100+ for topic
     @DatabaseField
     private String en_content;
     @DatabaseField
