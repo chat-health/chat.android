@@ -112,11 +112,11 @@ public class HealthDeliveryActivity extends BaseActivity {
 	
 	public void moveNext(View v) {
 		// check if this page is within bounds (1 to lastPage)
-		if (pageCounter + 1 <= lastPage) {
+		if (pageCounter == lastPage) {
+			updateNonFragmentUIElements("done");
+		} else {
 			updateNonFragmentUIElements("next");
 			updateDisplayedFragment(pageCounter);	
-		} else {
-			updateNonFragmentUIElements("done");
 		}
 	}
 	
@@ -161,7 +161,7 @@ public class HealthDeliveryActivity extends BaseActivity {
 				nextBtn.setImageResource(R.drawable.childhooddiseasesdonebutton);
 			} else if (healthTheme.equals("Nutrition")) {
 				nextBtn.setImageResource(R.drawable.nutritiondonebutton);
-			} else if (healthTheme.equals("Psychsocial Support")) {
+			} else if (healthTheme.equals("Psychosocial Support")) {
 				nextBtn.setImageResource(R.drawable.developmentdonebutton);
 			} else {
 				Log.e("Specified themeId is no in DB for: ", healthTheme);
@@ -176,7 +176,7 @@ public class HealthDeliveryActivity extends BaseActivity {
 			} else if (healthTheme.equals("Psychosocial Support")) {
 				nextBtn.setImageResource(R.drawable.developmentnextbutton);
 			} else {
-				Log.e("Specified themeId is no in DB for: ", healthTheme);
+				Log.e("Specified themeId is not in DB for: ", healthTheme);
 			}
 		}	
 	}
