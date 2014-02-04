@@ -123,9 +123,9 @@
 	    <item name="android:layout_width">fill_parent</item>
 	    <item name="android:layout_height">wrap_content</item>
 	    <item name="android:textSize">28sp</item>
-	    <item name="android:lineSpacingMultiplier">1.4</item>    
+	      
 	</style>
-	
+	<!-- <item name="android:lineSpacingMultiplier">1.4</item>   -->
 	<style name="healthRadioGroup">
 	    <item name="android:layout_width">wrap_content</item>
 	    <item name="android:layout_height">wrap_content</item> 
@@ -134,7 +134,7 @@
 	<style name="healthRadioButton">
 	    <item name="android:layout_width">800dp</item>
 	    <item name="android:layout_height">wrap_content</item>
-	    <item name="android:layout_margin">15dp</item>
+	    <item name="android:layout_margin">8dp</item>
 	    <item name="android:textSize">28sp</item>	    
 	</style>
 	

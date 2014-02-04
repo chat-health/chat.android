@@ -351,7 +351,6 @@ public class HomeActivity extends Activity {
     	List<Client> pArray = clAdapter.getSelectedClients();
     	int len = pArray.size();
     	
-    	// TODO: need to check if this visit already has attendance saved, then overwrite as necessary - maybe ask Armin?
     	for (int i = 0; i < len; i++) {
     		Client c = pArray.get(i);
         	Attendance a = new Attendance(visitId, c.getId());

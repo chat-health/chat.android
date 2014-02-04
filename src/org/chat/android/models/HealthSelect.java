@@ -1,7 +1,5 @@
 package org.chat.android.models;
 
-import android.util.Log;
-
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -10,7 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "health_selects")
 public class HealthSelect {
-	@DatabaseField(id = true, unique = true, index = true)
+	@DatabaseField(generatedId = true)
 	private int id;
     @DatabaseField
     private int subject_id;				// refers to theme or topic, 1-99 for theme, 100+ for topic
@@ -18,7 +16,6 @@ public class HealthSelect {
     private String en_content;
     @DatabaseField
     private String zu_content;
-  
 
     
     /**
@@ -32,8 +29,7 @@ public class HealthSelect {
      * Constructor that instantiates the private member variable(s)
      * @param health_page_id
      */
-    public HealthSelect(int id, int subject_id, String en_content, String zu_content) {
-    	this.id = id;
+    public HealthSelect(int subject_id, String en_content, String zu_content) {
     	this.subject_id = subject_id;
         this.en_content = en_content;
         this.zu_content = zu_content;

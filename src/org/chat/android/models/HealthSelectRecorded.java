@@ -1,7 +1,5 @@
 package org.chat.android.models;
 
-import android.util.Log;
-
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -10,7 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "health_selects_recorded")
 public class HealthSelectRecorded {
-	@DatabaseField(unique = true, index = true, generatedId = true)
+	@DatabaseField(generatedId = true)
 	private int id;
     @DatabaseField
     private int visit_id;

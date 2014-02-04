@@ -8,11 +8,11 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "resources")
 public class Resource {
-    @DatabaseField(index = true, uniqueCombo = true)
+    @DatabaseField(generatedId = true)
     private int id;
     @DatabaseField
     private String name;
-    @DatabaseField(index = true, uniqueCombo = true)
+    @DatabaseField()
     private String uri;
 
 
@@ -24,13 +24,11 @@ public class Resource {
 
     /**
      * Constructor that instantiates the private member variable(s)
-     * @param id
      * @param name
      * @param uri
      * 
      */
-    public Resource(int id, String name, String uri) {
-    	this.id = id;
+    public Resource(String name, String uri) {
     	this.name = name;
     	this.uri = uri;
     }
@@ -47,10 +45,6 @@ public class Resource {
 
 	public int getId() {
 		return id;
-	}
-	
-	public void setId(int id) {
-		this.id = id;
 	}
 	
 	public String getName() {

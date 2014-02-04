@@ -1,14 +1,12 @@
 package org.chat.android.models;
 
-import android.util.Log;
-
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 /**
  * Created by colin
  */
-@DatabaseTable(tableName = "topic_video")
+@DatabaseTable(tableName = "topic_video")				// bridge table to relate videos to their video pages
 public class TopicVideo {
 	@DatabaseField
 	private int page_video1_id;

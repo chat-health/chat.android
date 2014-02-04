@@ -6,18 +6,14 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "services")
 public class Service {
-	@DatabaseField()
+	@DatabaseField(index = true, uniqueCombo = true)
 	private int id;
-	
-    @DatabaseField(uniqueCombo = true)			// need to figure out the uniqueCombo and index here (and _id)
+    @DatabaseField(index = true, uniqueCombo = true)
     private String name;
-
     @DatabaseField()
     private String type;						// this represents the service supertype ie (Emotional Well Being)
-    
     @DatabaseField()
     private String role;						// who has access to this service
-
     @DatabaseField()
     private String instructions;						// additional info - usually becomes the hint in the Other list, and will often be null
 

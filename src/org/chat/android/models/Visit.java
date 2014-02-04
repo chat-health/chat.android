@@ -33,10 +33,6 @@ public class Visit {
     @DatabaseField
     private String type;							// this may get moved to Service
     
-    //@ForeignCollectionField()						// TODO: revisit this when I understand what's going on
-    //ForeignCollection<Client> clients;
-
-    
     
     /**
      * Default Constructor needed by ormlite

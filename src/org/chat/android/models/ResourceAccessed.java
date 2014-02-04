@@ -10,6 +10,8 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "resources_accessed")
 public class ResourceAccessed {
+	@DatabaseField(generatedId = true)
+	private int id;
     @DatabaseField
     private int resource_id;
     @DatabaseField
@@ -51,6 +53,10 @@ public class ResourceAccessed {
         this.worker_id = existingResourcesAccessedModel.worker_id;
         this.time = existingResourcesAccessedModel.time;
     }
+    
+    public int getId() {
+		return id;
+	}
 
 	public int getResourceId() {
 		return resource_id;

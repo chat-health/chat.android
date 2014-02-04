@@ -8,7 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "health_pages")
 public class HealthPage {
-	@DatabaseField(id = true, unique = true, index = true)
+	@DatabaseField(generatedId = true)
 	private int id;
     @DatabaseField
     private int topic_id;
@@ -31,8 +31,7 @@ public class HealthPage {
      * Constructor that instantiates the private member variable(s)
      * @param topic_id
      */
-    public HealthPage(int id, int topic_id, int page_number, String type, int page_content_id) {
-    	this.id = id;
+    public HealthPage(int topic_id, int page_number, String type, int page_content_id) {
         this.topic_id = topic_id;
         this.page_number = page_number;
         this.type = type;

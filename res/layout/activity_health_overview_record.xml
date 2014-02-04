@@ -23,7 +23,7 @@
         android:id="@+id/overviewRecordTitle2"
         style="@style/titleContainer"
         android:layout_below="@id/overviewRecordContent1"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:text="Record" />
 
     <TextView
@@ -37,28 +37,28 @@
         android:id="@+id/overviewRecordRadio"
         style="@style/healthRadioGroup"
         android:layout_below="@id/overviewRecordContent2"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="15dp">
  
         <RadioButton
             android:id="@+id/overviewRecordRadioButton1"
             style="@style/healthRadioButton"
-            android:tag="1"
+            android:tag="4"
             android:text="TBF"/>
         <RadioButton
             android:id="@+id/overviewRecordRadioButton2"
             style="@style/healthRadioButton"
-            android:tag="2"
+            android:tag="3"
             android:text="TBF" />
         <RadioButton
             android:id="@+id/overviewRecordRadioButton3"
             style="@style/healthRadioButton"
-            android:tag="3"
+            android:tag="2"
             android:text="TBF" />
         <RadioButton
             android:id="@+id/overviewRecordRadioButton4"
             style="@style/healthRadioButton"
-            android:tag="4"
+            android:tag="1"
             android:text="TBF" />
     </RadioGroup>
     

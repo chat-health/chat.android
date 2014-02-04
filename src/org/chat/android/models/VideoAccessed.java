@@ -8,6 +8,8 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "videos_accessed")
 public class VideoAccessed {
+	@DatabaseField(generatedId = true)
+	private int id;
     @DatabaseField
     private int video_id;
     @DatabaseField
@@ -39,6 +41,10 @@ public class VideoAccessed {
         this.video_id = existingVideosAccessedModel.video_id;
         this.visit_id = existingVideosAccessedModel.visit_id;
     }
+    
+    public int getId() {
+		return id;
+	}
 
 	public int getVideoId() {
 		return video_id;
