@@ -547,6 +547,10 @@ public class HomeActivity extends Activity {
             .setPositiveButton(android.R.string.yes, new OnClickListener() {
                 public void onClick(DialogInterface arg0, int arg1) {
                     HomeActivity.super.onBackPressed();
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            	    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+            	    intent.putExtra("EXIT", true);
+            	    startActivity(intent);
                 }
             }).create().show();
     }

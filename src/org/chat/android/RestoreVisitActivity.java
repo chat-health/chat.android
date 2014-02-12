@@ -24,8 +24,8 @@ import android.view.View;
 public class RestoreVisitActivity extends Activity {
 	Context context;
 	int visitId = 0;
-	String workerName = null;
-	String role = null;
+	String workerName = "";
+	String role = "";
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,7 +34,10 @@ public class RestoreVisitActivity extends Activity {
 		
 		Bundle b = getIntent().getExtras();
 		visitId = b.getInt("visitId");					// what will visitId be if it doesn't exist? Needs to be 0 or needs an if wrapped around it. Then clean this (lots of dup in the two functions)
-		workerName = b.getString("workerName");
+		
+		// SWITCH FOR PROD
+		//workerName = b.getString("workerName");
+		workerName = "colin";
 		role = b.getString("role");
 	}
 	
