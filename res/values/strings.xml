@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">CHAT</string>
     
-    <string name="base_url">http://lmbutler-ssa.net:8000/</string>
-	<!-- <string name="base_url">http://142.1.160.179:8000/</string> -->
+    <!-- <string name="base_url">http://lmbutler-ssa.net:8000/</string> -->
+	<string name="base_url">http://10.0.1.112:8000/</string>
     
     <string-array name="role_array">
         <item>Home Care Volunteer</item>

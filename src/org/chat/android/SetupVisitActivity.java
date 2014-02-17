@@ -75,27 +75,27 @@ public class SetupVisitActivity extends Activity {
 		
 		// new visit button
 		findViewById(R.id.new_visit_button).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(View view) {
-						// TODO complete these - missing this page's dropdowns. Also, need some way of not getting stuck while also enforcing GPS
-						if (latitude == 0.0 && longitude == 0.0) {
-							Toast.makeText(getApplicationContext(),"WARNING: GPS has not been recorded. If GPS is available, close CHAT app and restart this visit",Toast.LENGTH_LONG).show();
-						}
-						Intent myIntent = new Intent(SetupVisitActivity.this, HomeActivity.class);
-						Bundle b = new Bundle();			
-						b.putString("hhName",householdSpinner.getSelectedItem().toString());
-						b.putString("workerName", workerName);
-						b.putString("role", role);
-						
-						b.putString("type",visitTypeSpinner.getSelectedItem().toString());
-						b.putDouble("lat", latitude);
-						b.putDouble("lon", longitude);
-						myIntent.putExtras(b);
-						startActivity(myIntent);
-						finish();
+			new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					// TODO complete these - missing this page's dropdowns. Also, need some way of not getting stuck while also enforcing GPS
+					if (latitude == 0.0 && longitude == 0.0) {
+						Toast.makeText(getApplicationContext(),"WARNING: GPS has not been recorded. If GPS is available, close CHAT app and restart this visit",Toast.LENGTH_LONG).show();
 					}
-				});
+					Intent myIntent = new Intent(SetupVisitActivity.this, HomeActivity.class);
+					Bundle b = new Bundle();			
+					b.putString("hhName",householdSpinner.getSelectedItem().toString());
+					b.putString("workerName", workerName);
+					b.putString("role", role);
+					
+					b.putString("type",visitTypeSpinner.getSelectedItem().toString());
+					b.putDouble("lat", latitude);
+					b.putDouble("lon", longitude);
+					myIntent.putExtras(b);
+					startActivity(myIntent);
+					finish();
+				}
+			});
 	}
 
 	

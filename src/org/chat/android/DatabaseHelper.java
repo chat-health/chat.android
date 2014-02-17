@@ -29,6 +29,8 @@ import org.chat.android.models.Role;
 import org.chat.android.models.Service;
 import org.chat.android.models.ServiceAccessed;
 import org.chat.android.models.TopicVideo;
+import org.chat.android.models.Vaccine;
+import org.chat.android.models.VaccineRecorded;
 import org.chat.android.models.Video;
 import org.chat.android.models.VideoAccessed;
 import org.chat.android.models.Visit;
@@ -40,7 +42,7 @@ import org.chat.android.models.Worker;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "chat.db";
-    private static final int DATABASE_VERSION = 77;
+    private static final int DATABASE_VERSION = 83;
     private Dao<Visit, Integer> visitsDao = null;
     private Dao<Client, Integer> clientsDao = null;
     private Dao<Household, Integer> householdsDao = null;
@@ -65,6 +67,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<PageSelect1, Integer> pageSelect1Dao = null;
     private Dao<PageVideo1, Integer> pageVideo1Dao = null;
     private Dao<TopicVideo, Integer> topicVideoDao = null;
+    
+    private Dao<Vaccine, Integer> vaccineDao = null;
+    private Dao<VaccineRecorded, Integer> vaccineRecordedDao = null;
     
 
     public DatabaseHelper(Context context) {
@@ -100,6 +105,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, PageSelect1.class);
             TableUtils.createTable(connectionSource, PageVideo1.class);
             TableUtils.createTable(connectionSource, TopicVideo.class);
+            TableUtils.createTable(connectionSource, Vaccine.class);
+            TableUtils.createTable(connectionSource, VaccineRecorded.class);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Unable to create databases", e);
         }
@@ -130,6 +137,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, PageSelect1.class, true);
             TableUtils.dropTable(connectionSource, PageVideo1.class, true);
             TableUtils.dropTable(connectionSource, TopicVideo.class, true);
+            TableUtils.dropTable(connectionSource, Vaccine.class, true);
+            TableUtils.dropTable(connectionSource, VaccineRecorded.class, true);
             onCreate(sqLiteDatabase, connectionSource);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Unable to upgrade database from version " + oldVer + " to new " + newVer, e);
@@ -271,6 +280,18 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
         return topicVideoDao;
     }
+    public Dao<Vaccine, Integer> getVaccineDao() throws SQLException {
+        if (vaccineDao == null) {
+        	vaccineDao = getDao(Vaccine.class);
+        }
+        return vaccineDao;
+    }
+    public Dao<VaccineRecorded, Integer> getVaccineRecordedDao() throws SQLException {
+        if (vaccineRecordedDao == null) {
+        	vaccineRecordedDao = getDao(VaccineRecorded.class);
+        }
+        return vaccineRecordedDao;
+    }    
 
     /**
      * Close the database connections and clear any cached DAOs.
@@ -297,5 +318,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         pageSelect1Dao = null;
         pageVideo1Dao = null;
         topicVideoDao = null;
+        vaccineDao = null;
+        vaccineRecordedDao = null;
     }
 }

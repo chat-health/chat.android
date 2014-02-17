@@ -3,6 +3,7 @@ package org.chat.android.Sync;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -103,8 +104,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	}
 	
 	private void pushDataToServer() {
-		JSONArray visitsJson = createJsonArrayOf("visits");
-		pushModel("visits", visitsJson);
+//		JSONArray visitsJson = createJsonArrayOf("visits");
+//		pushModel("visits", visitsJson);
+		
+		JSONArray attendanceJson = createJsonArrayOf("attendance");
+		pushModel("attendance", attendanceJson);
 	}
 	
 	private void retrieveModel(String modelName) {
@@ -244,6 +248,27 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 				}
 				Log.i("SyncAdapter", jsonArray.toString());
 			}
+			
+			else if ("attendance" == modelName) {
+				Dao<Attendance, Integer> aDao;
+				aDao = dbHelper.getAttendanceDao();
+				
+				List<Attendance> attendanceList = aDao.queryBuilder().where().eq("visit_id", 2).query();
+				Iterator<Attendance> iterator = attendanceList.iterator();
+				
+				while (iterator.hasNext()) {
+					Attendance a = iterator.next();
+					Log.i("SyncAdapter", a.getId()+", "+a.getVisitId()+", "+a.getClientId());
+					JSONObject json = new JSONObject();
+					json.put("id", a.getId());
+					json.put("visit_id", a.getVisitId());
+					json.put("client_id", a.getClientId());
+					// put object into array
+					jsonArray.put(json);
+				}
+				Log.i("SyncAdapter", jsonArray.toString());
+			}
+			
 		} catch (SQLException e1) {
 	        // TODO Auto-generated catch block
 	        e1.printStackTrace();

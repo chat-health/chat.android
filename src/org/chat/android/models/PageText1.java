@@ -115,7 +115,5 @@ public class PageText1 {
 			Log.e("Unknown language: ", lang);
 			return null;
 		}
-		
-		
 	}
 }

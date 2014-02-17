@@ -25,6 +25,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.accounts.Account;
@@ -37,6 +38,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -99,6 +101,20 @@ public class HomeActivity extends Activity {
         if (getIntent().getBooleanExtra("EXIT", false)) {
             finish();  
         }
+        
+//        try {
+//			String deviceSerial = (String) Build.class.getField("SERIAL").get(null);
+//			Toast.makeText(getApplicationContext(),"Device ID: "+deviceSerial,Toast.LENGTH_SHORT).show();
+//		} catch (IllegalArgumentException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IllegalAccessException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (NoSuchFieldException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
         
 //        Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/Roboto/Roboto-Black.ttf");
 //        servicesTitle = (TextView) findViewById(R.id.services_title_field);
@@ -241,7 +257,7 @@ public class HomeActivity extends Activity {
     
     public void openCHA(View v) {
     	Toast.makeText(context,"Under construction",Toast.LENGTH_SHORT).show();
-//    	Intent i = new Intent(HomeActivity.this, HealthOverviewActivity.class);
+//    	Intent i = new Intent(HomeActivity.this, CHAOverview.class);
 //    	Bundle b = new Bundle();
 //    	b.putInt("visitId",visitId);
 //    	b.putInt("hhId",hhId);

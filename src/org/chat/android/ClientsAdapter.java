@@ -6,6 +6,7 @@ import static org.chat.android.R.id.client_metadata;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -21,7 +22,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -70,10 +70,10 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
             } else {
             	Log.e("No gender assigned for", c.getFirstName()+" "+c.getLastName());
             }
-            //TODO: add ages to clients
-            metadata += "22";
+            //metadata += calculateAge(c.getDateOfBirth());
+            GregorianCalendar date = new GregorianCalendar(1980, 12, 29);
+            metadata += calculateAge(date);
             metadataTv.setText(metadata);
-            //age.setText(", aged "+calculateAge(c.getBirthday()));
             cb = (CheckBox) convertView.findViewById(R.id.checkbox);
             cb.setTag(c);
         }
@@ -118,14 +118,15 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
     }
     
     
-    private String calculateAge (GregorianCalendar dob) {
+    private String calculateAge(GregorianCalendar dob) {
     	String age_string;
     	GregorianCalendar today = new GregorianCalendar();
     	int age = today.get(GregorianCalendar.YEAR) - dob.get(GregorianCalendar.YEAR);
-    	if (today.get(GregorianCalendar.DAY_OF_YEAR) <= dob.get(GregorianCalendar.DAY_OF_YEAR))
-    	age--;
-    	age_string = Integer.toString(age);
+//    	if (today.get(GregorianCalendar.DAY_OF_YEAR) <= dob.get(GregorianCalendar.DAY_OF_YEAR)) {
+//    		age--;
+//    	}
     	
+    	age_string = Integer.toString(age);
     	return age_string;
     }
 
