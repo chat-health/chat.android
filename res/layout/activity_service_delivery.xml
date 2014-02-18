@@ -47,30 +47,3 @@
 	 	</RelativeLayout>		    
 	</RelativeLayout>
 </RelativeLayout>
-
-
-
-        
-<!--         <TextView
-            android:id="@+id/service_details_title_field"
-            style="@style/titleText"
-            android:gravity="center"
-            android:text="@string/home_attendance_title_text" />
-	 	<ListView
-	        android:id="@+id/service_details_listview"
-	        android:layout_width="match_parent"
-	        android:layout_height="400dp"
-	        android:layout_below="@id/service_details_title_field"
-	        android:padding="10dp" />
-		<Button
-		    android:id="@+id/deliver_services_button"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_alignParentBottom="true"
-		    android:layout_centerHorizontal="true"
-		    android:paddingLeft="32dp"
-		    android:paddingRight="32dp"
-		    android:text="@string/action_confirm"
-		    android:onClick="selectServiceTargets" />
-		
-    </RelativeLayout> -->

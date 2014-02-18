@@ -26,40 +26,35 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class ClientsAdapter extends ArrayAdapter<Client> {
+public class CHASelectChildAdapter extends ArrayAdapter<Client> {
 	private LayoutInflater mInflater;
     private List<Client> clientsArray;
     private int visitId = 0;
     List<Client> presenceArrayList = new ArrayList<Client>();
 
     
-    public ClientsAdapter(Context context, int layoutResourceId, List<Client> clientsArray, int vId) {
+    public CHASelectChildAdapter(Context context, int layoutResourceId, List<Client> clientsArray, int vId) {
         super(context, layoutResourceId, clientsArray);
         visitId = vId;
         this.mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.clientsArray = clientsArray;
     }
 
-    /*
-	 * we are overriding the getView method here - this is what defines how each
-	 * list item will look.
-	 */
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = this.mInflater.inflate(R.layout.attendance_listview_row, null);
+        convertView = this.mInflater.inflate(R.layout.cha_select_child_row, null);
         final Context context = getContext();
         
         Client c = clientsArray.get(position);
 
         TextView name = null;
         TextView metadataTv = null;
-        CheckBox cb = null;
         String metadata = null;
         if (convertView != null) {
             name = (TextView)convertView.findViewById(client_name);
             name.setText(c.getFirstName() + " " + c.getLastName());
             metadataTv = (TextView)convertView.findViewById(client_metadata);
-            // gender.setText(c.getGender());
             if (c.getGender().equals("male")) {
             	metadata = "male, ";
             	name.setTextColor(Color.parseColor("#0071bc"));
@@ -71,48 +66,21 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
             }
             metadata += c.getAgeString();
             metadataTv.setText(metadata);
-            cb = (CheckBox) convertView.findViewById(R.id.checkbox);
-            cb.setTag(c);
         }
         
         LinearLayout row = (LinearLayout)convertView.findViewById(client_row);
-        
-        // hacky way to override standard Android behaviour. Checkboxes have been made unclickable in the xml. presenceArrayList holds the checked (ie attending) client objects
+
         row.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                CheckBox cb = (CheckBox) v.findViewById(R.id.checkbox);
-                Client c = (Client) cb.getTag();
-                if (cb.isChecked()) {
-                	cb.setChecked(false);
-                	presenceArrayList.remove(c);
-                } else {
-                	cb.setChecked(true);
-                	presenceArrayList.add(c);             	
-                }
+            	Toast.makeText(context,"clicked",Toast.LENGTH_LONG).show();
 
             }
         });
-        
-        // check all boxes for hh members that are already marked as present for this visit (restore state, essentially)    
-		List<Attendance> cpList = new ArrayList<Attendance>();
-        Dao<Attendance, Integer> cpDao;
-        DatabaseHelper cpHelper = new DatabaseHelper(context);
-        try {
-			cpDao = cpHelper.getAttendanceDao();
-			cpList = cpDao.query(cpDao.queryBuilder().prepare());
-        	for (Attendance a : cpList) {
-    			if (a.getVisitId() == visitId && a.getClientId() == c.getId()) {
-    				cb.setChecked(true);
-    				presenceArrayList.add(c);
-    			}
-        	}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}  
 
         return convertView;
     }
+    
+    
 
 	public List<Client> getSelectedClients() {
 		return presenceArrayList;

@@ -16,7 +16,7 @@ public class CHASelectChildActivity extends BaseActivity {
 	int visitId = 0;
 	int hhId = 0;
 	List<Client> presentClients = new ArrayList<Client>();	
-	ServiceDeliveryAdapter sdAdapter = null;
+	CHASelectChildAdapter adapter = null;
 	
     @Override    
     public void onCreate(Bundle savedInstanceState) {
@@ -27,15 +27,14 @@ public class CHASelectChildActivity extends BaseActivity {
 		Bundle b = getIntent().getExtras();
 		visitId = b.getInt("visitId");
 		hhId = b.getInt("hhId");
-//		serviceNames = b.getStringArrayList("serviceNames");
 		
 		// grab list of present clients to show, based on the attendance
 		populateMembersList();
 		
 		ListView lv = (ListView) findViewById(R.id.attending_children_listview);
-		sdAdapter = new ServiceDeliveryAdapter(context, android.R.layout.simple_list_item_multiple_choice, presentClients, visitId);
+		adapter = new CHASelectChildAdapter(context, android.R.layout.simple_list_item_1, presentClients, visitId);
 	    lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-	    lv.setAdapter(sdAdapter);		
+	    lv.setAdapter(adapter);		
     }
     
     private void populateMembersList() {
@@ -65,7 +64,7 @@ public class CHASelectChildActivity extends BaseActivity {
 			allClients = cDao.query(cDao.queryBuilder().prepare());
         	for (Client c : allClients) {
         		for (Integer i : presentHHMembers) {
-        			if (i == c.getId()) {
+        			if (i == c.getId() && c.getAge() <= 5) {
         				presentClients.add(c);
         			}        			
         		}
