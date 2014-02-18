@@ -19,8 +19,8 @@
     <string name="title_activity_service_delivery">CHAT > SERVICES > DELIVERY</string>
     <string name="title_activity_health_overview">CHAT > HEALTH</string>
     <string name="title_activity_health_details">CHAT > HEALTH > TOPICS</string> 
-    <string name="title_activity_health_delivery">CHAT > HEALTH > TOPICS > DELIVERY</string> 
-    
+    <string name="title_activity_health_delivery">CHAT > HEALTH > TOPICS > DELIVERY</string>
+    <string name="title_activity_cha_select_child">CHAT > CHILD HEALTH ASSESSMENT</string>
     
     <string name="lorum_ipsom">Lorum Ipsom</string>
     <string name="generic_img_button_text">Image button</string>

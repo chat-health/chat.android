@@ -256,13 +256,12 @@ public class HomeActivity extends Activity {
     }
     
     public void openCHA(View v) {
-    	Toast.makeText(context,"Under construction",Toast.LENGTH_SHORT).show();
-//    	Intent i = new Intent(HomeActivity.this, CHAOverview.class);
-//    	Bundle b = new Bundle();
-//    	b.putInt("visitId",visitId);
-//    	b.putInt("hhId",hhId);
-//    	i.putExtras(b);    	
-//    	startActivity(i);
+    	Intent i = new Intent(HomeActivity.this, CHASelectChildActivity.class);
+    	Bundle b = new Bundle();
+    	b.putInt("visitId",visitId);
+    	b.putInt("hhId",hhId);
+    	i.putExtras(b);    	
+    	startActivity(i);
     }
     
     public void openResources(View v) {

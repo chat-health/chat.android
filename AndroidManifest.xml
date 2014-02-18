@@ -120,7 +120,16 @@
             <meta-data
             	android:name="android.support.PARENT_ACTIVITY"
             	android:value="org.chat.android.HomeActivity" />
-        </activity> 
+        </activity>
+        <activity
+            android:name=".CHASelectChildActivity"
+            android:label="@string/title_activity_cha_select_child"
+            android:screenOrientation="landscape" >
+            <meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="org.chat.android.HomeActivity" />
+        </activity>
+
         <activity
             android:name=".SetupDB"
             android:screenOrientation="landscape" >

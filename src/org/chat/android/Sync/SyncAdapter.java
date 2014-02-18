@@ -3,6 +3,9 @@ package org.chat.android.Sync;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
@@ -168,7 +171,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject c = jsonArray.getJSONObject(i);
 	                	// Clients
-	                	Client client = new Client(c.getInt("_id"), c.getString("first_name"), c.getString("last_name"), c.getInt("hh_id"), c.getString("gender"));
+	                	Client client = new Client(c.getInt("_id"), c.getString("first_name"), c.getString("last_name"), c.getInt("hh_id"), c.getString("gender"), parseDateString(c.getString("date_of_birth")));
 	            	    clientDao.create(client);
 	                }
                 } else if ("households" == modelName) {
@@ -202,7 +205,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	JSONObject h = jsonArray.getJSONObject(i);
 	                	Service service = new Service (h.getInt("_id"), h.getString("name"), h.getString("type"), h.getString("role"), h.getString("instructions"));
 	                	servicesDao.create(service);
-	                	// START HERE - is db populated, is null null, what's going on
 	                }
                 }
             } else{
@@ -219,7 +221,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         } catch (SQLException e1) {
 	        // TODO Auto-generated catch block
 	        e1.printStackTrace();
-	    }
+	    } catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	private JSONArray createJsonArrayOf(String modelName) {
@@ -298,7 +303,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
             //sets the post request as the resulting string
             httpost.setEntity(se);
-            //sets a request header so the page receving the request
+            //sets a request header so the page receiving the request
             //will know what to do with it
             httpost.setHeader("Accept", "application/json");
             httpost.setHeader("Content-type", "application/json");
@@ -328,5 +333,50 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             //TODO Handle problems..
         }
 	}
+	
+	
+	private Date parseDateString(String input) throws ParseException {
+		//JSON: 2014-02-18T18:04:39.546Z
+		//ORM Date: 2014-02-18 18:04:39.555
+		Log.i("SyncAdapter", "dateStr: "+input);
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:SS");
+		if ( input.endsWith( "Z" ) ) {
+            input = input.substring( 0, input.length() - 1) + "GMT-00:00";
+        } else {
+            int inset = 6;
+            String s0 = input.substring( 0, input.length() - inset );
+            String s1 = input.substring( input.length() - inset, input.length() );
+            input = s0 + "GMT" + s1;
+        }
+		//Log.i("SyncAdapter", "formatter: "+formatter);
+        Date convertedDate = (Date) formatter.parse(input);
+        //Log.i("SyncAdapter", "date obj: "+convertedDate);
+		return convertedDate;
+	}
+	
+	// TODO: needed later?
+//	private static String toString( Date date ) {
+//        
+//        SimpleDateFormat df = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ssz" );
+//        
+//        TimeZone tz = TimeZone.getTimeZone( "UTC" );
+//        
+//        df.setTimeZone( tz );
+//
+//        String output = df.format( date );
+//
+//        int inset0 = 9;
+//        int inset1 = 6;
+//        
+//        String s0 = output.substring( 0, output.length() - inset0 );
+//        String s1 = output.substring( output.length() - inset1, output.length() );
+//
+//        String result = s0 + s1;
+//
+//        result = result.replaceAll( "UTC", "+00:00" );
+//        
+//        return result;
+//        
+//    }
 
 }

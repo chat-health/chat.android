@@ -70,9 +70,7 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
             } else {
             	Log.e("No gender assigned for", c.getFirstName()+" "+c.getLastName());
             }
-            //metadata += calculateAge(c.getDateOfBirth());
-            GregorianCalendar date = new GregorianCalendar(1980, 12, 29);
-            metadata += calculateAge(date);
+            metadata += c.getAgeString();
             metadataTv.setText(metadata);
             cb = (CheckBox) convertView.findViewById(R.id.checkbox);
             cb.setTag(c);
@@ -116,21 +114,7 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
 
         return convertView;
     }
-    
-    
-    private String calculateAge(GregorianCalendar dob) {
-    	String age_string;
-    	GregorianCalendar today = new GregorianCalendar();
-    	int age = today.get(GregorianCalendar.YEAR) - dob.get(GregorianCalendar.YEAR);
-//    	if (today.get(GregorianCalendar.DAY_OF_YEAR) <= dob.get(GregorianCalendar.DAY_OF_YEAR)) {
-//    		age--;
-//    	}
-    	
-    	age_string = Integer.toString(age);
-    	return age_string;
-    }
 
-    
 	public List<Client> getSelectedClients() {
 		return presenceArrayList;
 	}
