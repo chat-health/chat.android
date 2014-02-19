@@ -11,7 +11,7 @@ public class CHADeliveryAsk extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
-        setContentView(R.layout.activity_cha_select_child);
+        setContentView(R.layout.activity_cha_delivery_ask);
         
 		Bundle b = getIntent().getExtras();
 		visitId = b.getInt("visitId");

@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.chat.android.models.Attendance;
+import org.chat.android.models.Client;
 import org.chat.android.models.HealthSelect;
 import org.chat.android.models.HealthSelectRecorded;
 import org.chat.android.models.HealthTheme;
@@ -16,6 +17,7 @@ import org.chat.android.models.PageText1;
 import org.chat.android.models.PageVideo1;
 import org.chat.android.models.Service;
 import org.chat.android.models.TopicVideo;
+import org.chat.android.models.Vaccine;
 import org.chat.android.models.Video;
 import org.chat.android.models.Visit;
 import org.chat.android.models.Worker;
@@ -83,6 +85,25 @@ public class ModelHelper {
 		}
 		
 		return household;
+	}
+	
+	public static Client getClientForId(Context context, int clientId) {
+		Client client = null;
+		Dao<Client, Integer> cDao;		
+		DatabaseHelper cDbHelper = new DatabaseHelper(context);
+		try {
+			cDao = cDbHelper.getClientsDao();
+			List<Client> cList = cDao.queryBuilder().where().eq("id",clientId).query();
+			Iterator<Client> iter = cList.iterator();
+			while (iter.hasNext()) {
+				client = iter.next();
+			}
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		return client;
 	}
 	
 	public static Attendance getAttendanceForVisitId(Context context, int visitId) {
@@ -304,6 +325,21 @@ public class ModelHelper {
 		}
 		
 		return hsr;
+	}
+	
+	public static List<Vaccine> getVaccinesForAge(Context context, int age) {
+		List<Vaccine> vList = null;
+		Dao<Vaccine, Integer> vDao;		
+		DatabaseHelper vDbHelper = new DatabaseHelper(context);
+		try {
+			vDao = vDbHelper.getVaccineDao();
+			vList = vDao.queryBuilder().where().le("age",age).query();
+		} catch (SQLException e2) {
+			Log.e("Video does not exist in the DB: ", "");
+			e2.printStackTrace();
+		}
+		
+		return vList;		
 	}
 	
 }

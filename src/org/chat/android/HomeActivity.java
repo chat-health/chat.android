@@ -1,10 +1,5 @@
 package org.chat.android;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,8 +10,6 @@ import java.util.Locale;
 import org.chat.android.models.Attendance;
 import org.chat.android.models.Client;
 import org.chat.android.models.Household;
-import org.chat.android.models.Video;
-import org.chat.android.models.VideoAccessed;
 import org.chat.android.models.Visit;
 import org.chat.android.models.Worker;
 
@@ -24,10 +17,7 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
