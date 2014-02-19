@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+	 	<RelativeLayout
+	 	    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_centerVertical="true"
+		    android:layout_centerHorizontal="true"
+		    android:layout_marginBottom="40dp">
+	 	    <Button
+			    android:id="@+id/cha_delivery_button"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:paddingLeft="32dp"
+			    android:paddingRight="32dp"
+			    android:text="CHA"
+			    android:onClick="openCHADeliveryAsk" /> 
+		 	<Button
+			    android:id="@+id/immunizations_button"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_toRightOf="@id/cha_delivery_button"
+			    android:paddingLeft="32dp"
+			    android:paddingRight="32dp"
+			    android:text="Vaccines"
+			    android:onClick="openImmunizationsReceived" /> 
+	 	</RelativeLayout>
+	 	
+</RelativeLayout>

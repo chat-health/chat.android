@@ -111,6 +111,8 @@ public class Client {
 		this.date_of_birth = date_of_birth;
 	}
 	
+	
+	// WATCH FOR TIMEZONE
 	public int getAge() {
 		//String age_string;
     	Date today = new Date();

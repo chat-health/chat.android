@@ -17,7 +17,9 @@ import org.chat.android.models.Client;
 import com.j256.ormlite.dao.Dao;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,12 +34,14 @@ public class CHASelectChildAdapter extends ArrayAdapter<Client> {
 	private LayoutInflater mInflater;
     private List<Client> clientsArray;
     private int visitId = 0;
+    private int hhId = 0;
     List<Client> presenceArrayList = new ArrayList<Client>();
 
     
-    public CHASelectChildAdapter(Context context, int layoutResourceId, List<Client> clientsArray, int vId) {
+    public CHASelectChildAdapter(Context context, int layoutResourceId, List<Client> clientsArray, int vId, int hId) {
         super(context, layoutResourceId, clientsArray);
         visitId = vId;
+        hhId = hId;
         this.mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.clientsArray = clientsArray;
     }
@@ -46,7 +50,7 @@ public class CHASelectChildAdapter extends ArrayAdapter<Client> {
         convertView = this.mInflater.inflate(R.layout.cha_select_child_row, null);
         final Context context = getContext();
         
-        Client c = clientsArray.get(position);
+        final Client c = clientsArray.get(position);
 
         TextView name = null;
         TextView metadataTv = null;
@@ -72,8 +76,14 @@ public class CHASelectChildAdapter extends ArrayAdapter<Client> {
 
         row.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-            	Toast.makeText(context,"clicked",Toast.LENGTH_LONG).show();
-
+            	final Intent i = new Intent(context, CHAOverviewActivity.class);
+            	i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    	    	Bundle b = new Bundle();
+    	    	b.putInt("visitId",visitId);
+    	    	b.putInt("hhId",hhId);
+    	    	b.putInt("clientId",c.getId());
+    	    	i.putExtras(b);    	
+    	    	v.getContext().startActivity(i);
             }
         });
 

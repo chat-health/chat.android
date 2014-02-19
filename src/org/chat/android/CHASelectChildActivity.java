@@ -32,7 +32,7 @@ public class CHASelectChildActivity extends BaseActivity {
 		populateMembersList();
 		
 		ListView lv = (ListView) findViewById(R.id.attending_children_listview);
-		adapter = new CHASelectChildAdapter(context, android.R.layout.simple_list_item_1, presentClients, visitId);
+		adapter = new CHASelectChildAdapter(context, android.R.layout.simple_list_item_1, presentClients, visitId, hhId);
 	    lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 	    lv.setAdapter(adapter);		
     }
