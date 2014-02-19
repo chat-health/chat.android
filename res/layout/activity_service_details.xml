@@ -19,16 +19,28 @@
 	        android:layout_height="400dp"
 	        android:layout_below="@id/service_details_title_field"
 	        android:padding="10dp" />
-		<Button
+		<ImageButton
 		    android:id="@+id/deliver_services_button"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
+		    android:layout_width="147dp"
+		    android:layout_height="69dp"
 		    android:layout_alignParentBottom="true"
 		    android:layout_centerHorizontal="true"
 		    android:paddingLeft="32dp"
 		    android:paddingRight="32dp"
-		    android:text="@string/action_confirm"
+		    android:src="@drawable/submitbutton"
 		    android:onClick="selectServiceTargets" />
+		
+<!-- 	       	<ImageButton
+	       	    android:id="@+id/health_HIV_button"
+	       	    style="@style/themeImageButton"
+	       	    android:layout_alignTop="@+id/health_HIV_button_img"
+	       	    android:layout_toRightOf="@+id/health_HIV_button_img"
+	       	    android:layout_marginLeft="60dp"
+	       	    android:layout_marginTop="40dp"
+	       	    android:src="@drawable/hivgobutton"
+	       	    android:tag="HIV"
+	       	    android:onClick="openHealthOverviewRecord" /> -->
+	       	
 		
     </RelativeLayout>
  	

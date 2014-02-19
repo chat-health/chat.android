@@ -7,11 +7,13 @@ import org.chat.android.models.Vaccine;
 
 import android.os.Bundle;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class ImmunizationsReceivedActivity extends BaseActivity {
 	private int visitId = 0;
 	private int hhId = 0;
 	private int clientId = 0;
+	Client client = null;
 	
     @Override    
     public void onCreate(Bundle savedInstanceState) {
@@ -23,6 +25,11 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
 		visitId = b.getInt("visitId");
 		hhId = b.getInt("hhId");
 		clientId = b.getInt("clientId");
+		
+		client = ModelHelper.getClientForId(context, clientId);
+		
+		TextView tv = (TextView) findViewById(R.id.immunization_title_field);
+		tv.setText("Which vaccines has " + client.getFirstName() +  " " + client.getLastName() + " received?");
 		
 		populateVaccineList();
     }

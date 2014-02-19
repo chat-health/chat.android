@@ -23,27 +23,22 @@
 	 	    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 		    android:layout_alignParentBottom="true"
-		    android:layout_centerHorizontal="true"
-		    android:layout_marginBottom="40dp">
-	 	    <Button
+		    android:layout_centerHorizontal="true" >
+	 	    <ImageButton
 			    android:id="@+id/cancel_services_delivered_button"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:paddingLeft="32dp"
-			    android:paddingRight="32dp"
-			    android:text="@string/action_cancel"
+			    android:layout_width="147dp"
+		    	android:layout_height="69dp"
+			    android:src="@drawable/cancelbutton"
 			    android:onClick="cancelServiceDelivery" /> 
-		 	<Button
+		 	<ImageButton
 			    android:id="@+id/confirm_services_delivered_button"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
+			    android:layout_width="147dp"
+		    	android:layout_height="69dp"
 			    android:layout_toRightOf="@id/cancel_services_delivered_button"
-			    android:paddingLeft="32dp"
-			    android:paddingRight="32dp"
-			    android:text="@string/action_confirm"
+			    android:layout_marginLeft="40dp"
+			    android:src="@drawable/submitbutton"
 			    android:onClick="selectServiceDeliveryClients" /> 
-
-		    
-	 	</RelativeLayout>		    
+	 	</RelativeLayout>
+	 		    
 	</RelativeLayout>
 </RelativeLayout>

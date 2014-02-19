@@ -3,10 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
     
+    <TextView
+        android:id="@+id/immunization_title_field"
+        style="@style/titleText"
+        android:gravity="center" />
+    
    	<ListView
         android:id="@+id/immunization_listview"
         android:layout_width="match_parent"
         android:layout_height="400dp"
+        android:layout_below="@id/immunization_title_field"
         android:padding="10dp" />
     
 </RelativeLayout>
