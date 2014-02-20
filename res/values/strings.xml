@@ -30,6 +30,8 @@
     <string name="action_submit_note">Submit note</string>
     <string name="action_confirm"><b>Confirm</b></string>
     <string name="action_cancel"><b>Cancel</b></string>
+    <string name="action_yes"><b>Yes</b></string>
+    <string name="action_no"><b>No</b></string>
     
     <string name="menu_resources">Resources</string>
     <string name="menu_settings">Settings</string>

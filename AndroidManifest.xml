@@ -146,6 +146,14 @@
             	android:value="org.chat.android.HomeActivity" />
         </activity>
         <activity
+            android:name=".ImmunizationsSummaryActivity"
+            android:label="@string/title_activity_immunizations"
+            android:screenOrientation="landscape" >
+            <meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="org.chat.android.HomeActivity" />
+        </activity>
+        <activity
             android:name=".CHADeliveryAsk"
             android:label="@string/title_activity_cha_delivery_ask"
             android:screenOrientation="landscape" >
