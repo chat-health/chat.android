@@ -2,6 +2,7 @@ package org.chat.android.models;
 
 import java.util.Date;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -16,7 +17,7 @@ public class VaccineRecorded {
     private int client_id;
     @DatabaseField
     private int visit_id;
-    @DatabaseField
+    @DatabaseField(dataType = DataType.DATE_STRING)
 	private Date date;
 
 

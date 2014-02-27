@@ -2,6 +2,7 @@ package org.chat.android.models;
 
 import java.util.Date;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -20,7 +21,7 @@ public class Client {
 	private int hh_id;	
 	@DatabaseField
 	private String gender;
-	@DatabaseField
+	@DatabaseField(dataType = DataType.DATE_STRING)
 	private Date date_of_birth;
 
 	/**
@@ -113,10 +114,14 @@ public class Client {
 	
 	
 	// WATCH FOR TIMEZONE
-	public int getAge() {
+	// TODO: fix this pile of crap. Ignores leap years, many other issues - need better api instead of doing this nonsense manually
+	public double getAge() {
 		//String age_string;
     	Date today = new Date();
-    	int age = today.getYear() - date_of_birth.getYear();
+    	//double age = today.getYear() - date_of_birth.getYear();
+    	double ageInMS = today.getTime() - date_of_birth.getTime();
+    	double age = Math.floor(ageInMS / 31536000);
+    	age = age/1000;				// LOLOLOLOL
     	
 		return age;
 	}

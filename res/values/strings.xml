@@ -45,5 +45,14 @@
     <string name="home_resources_title_text">Resources</string>
     
     <string name="service_delivery_title_text">Who were these services delivered to?</string>
+    
+    
+    <string name="cha_vaccine_age1_text">Birth</string>
+    <string name="cha_vaccine_age2_text">6 weeks</string>
+    <string name="cha_vaccine_age3_text">10 weeks</string>
+    <string name="cha_vaccine_age4_text">14 weeks</string>
+    <string name="cha_vaccine_age5_text">9 months</string>
+    <string name="cha_vaccine_age6_text">18 months</string>
+        
         
 </resources>

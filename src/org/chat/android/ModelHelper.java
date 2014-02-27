@@ -18,6 +18,7 @@ import org.chat.android.models.PageVideo1;
 import org.chat.android.models.Service;
 import org.chat.android.models.TopicVideo;
 import org.chat.android.models.Vaccine;
+import org.chat.android.models.VaccineRecorded;
 import org.chat.android.models.Video;
 import org.chat.android.models.Visit;
 import org.chat.android.models.Worker;
@@ -327,7 +328,7 @@ public class ModelHelper {
 		return hsr;
 	}
 	
-	public static List<Vaccine> getVaccinesForAge(Context context, int age) {
+	public static List<Vaccine> getVaccinesForAge(Context context, double age) {
 		List<Vaccine> vList = null;
 		Dao<Vaccine, Integer> vDao;		
 		DatabaseHelper vDbHelper = new DatabaseHelper(context);
@@ -340,6 +341,25 @@ public class ModelHelper {
 		}
 		
 		return vList;		
+	}
+	
+	public static VaccineRecorded getVaccineRecordedForClientIdAndVaccineId(Context context, int clientId, int vaccineId) {
+		Dao<VaccineRecorded, Integer> vrDao;		
+		DatabaseHelper vrDbHelper = new DatabaseHelper(context);
+		VaccineRecorded vr = null;
+		try {
+			vrDao = vrDbHelper.getVaccineRecordedDao();
+			List<VaccineRecorded> pvList = vrDao.queryBuilder().where().eq("client_id",clientId).and().eq("vaccine_id",vaccineId).query();
+			Iterator<VaccineRecorded> iter = pvList.iterator();
+			while (iter.hasNext()) {
+				vr = iter.next();
+			}
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		return vr;
 	}
 	
 }

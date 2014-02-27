@@ -147,10 +147,46 @@
 	    <item name="android:layout_width">200dp</item>
 	    <item name="android:layout_height">wrap_content</item>
 	    <item name="android:gravity">center</item>
-	    <item name="android:textSize">18dp</item>
+	    <item name="android:textSize">18sp</item>
 	</style>
 	
-	<!-- <item name="android:background">#444444</item>  -->
+	<style name="immunizationAgeTextBox">
+	    <item name="android:layout_width">wrap_content</item>
+	    <item name="android:layout_height">wrap_content</item> 
+	    <item name="android:layout_marginLeft">120dp</item>
+	    <item name="android:layout_marginTop">20dp</item>
+	    <item name="android:layout_marginBottom">10dp</item>
+	    <item name="android:textSize">36sp</item>
+	    <item name="android:textColor">#7DD1D0</item>
+	</style>
+	
+	<style name="immunizationFlagBox">
+	    <item name="android:layout_width">120dp</item>
+	    <item name="android:layout_height">wrap_content</item> 
+	</style>
+	
+	<style name="immunizationShortNameTextBox">
+	    <item name="android:layout_width">250dp</item>
+	    <item name="android:layout_height">wrap_content</item>
+	    <item name="android:padding">10dp</item>
+	    <item name="android:gravity">center_vertical</item>
+	    <item name="android:textSize">26sp</item>
+	</style>
+	
+	<style name="immunizationLongNameTextBox">
+	    <item name="android:layout_width">660dp</item>
+	    <item name="android:layout_height">wrap_content</item>
+	    <item name="android:padding">10dp</item>
+	    <item name="android:gravity">center_vertical</item>
+	    <item name="android:textSize">18sp</item>
+	</style>
+
+	<style name="immunizationDateButton">
+	    <item name="android:layout_width">250dp</item>
+	    <item name="android:layout_height">wrap_content</item>
+	    <item name="android:text">Date received</item>
+	    <item name="android:onClick">showDatePickerDialog</item>
+	</style>
 	
 </resources>
 

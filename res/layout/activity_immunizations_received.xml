@@ -3,85 +3,342 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
     
-    <TextView
+<!--     <TextView
         android:id="@+id/immunization_title_field"
         style="@style/titleText"
         android:gravity="center"
-        android:layout_marginBottom="20dp" />
-    
-<!--    	<ListView
-        android:id="@+id/immunization_listview"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_below="@id/immunization_title_field"
-        android:padding="10dp" /> -->
-        
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/immunization_title_field"
-        android:orientation="vertical" >
-                
+        android:layout_marginBottom="20dp" /> -->
+
+    <ScrollView
+       	android:layout_width="match_parent"
+        android:layout_height="560dp">
 	    <LinearLayout
-	        android:id="@+id/vaccine1"
-	        android:layout_width="wrap_content"
+	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:orientation="horizontal" >
-	      	<TextView
-		        android:id="@+id/vaccine_age1"
-		        android:layout_width="200dp"
-		        android:layout_height="wrap_content"
-		        android:padding="10dp"
-		        android:textSize="24sp" />
+	        android:orientation="vertical" >
+	        
 	        <TextView
-		        android:id="@+id/vaccine_name1"
-		        android:layout_width="400dp"
+				style="@style/immunizationAgeTextBox"
+		        android:text="@string/cha_vaccine_age1_text" />  
+		    <LinearLayout
+		        android:id="@+id/vaccine_row1"
+		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
-		        android:padding="10dp"
-		        android:textSize="21sp" />
-	        <Button
-	            android:id="@+id/vaccine_date_select1"
-			    android:layout_width="140dp" 
-			    android:layout_height="wrap_content"
-			    android:text="Date received"
-			    android:onClick="showDatePickerDialog" />
-	    </LinearLayout>
-	    <LinearLayout
-	        android:id="@+id/vaccine2"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:orientation="horizontal" >
-	      	<TextView
-		        android:id="@+id/vaccine_age2"
-		        android:layout_width="200dp"
+		        android:orientation="horizontal"
+		        android:gravity="center_vertical"
+		        android:background="#99E1E3E3"
+		        android:visibility="gone" >
+		        <ImageView
+			        android:id="@+id/vaccine_flag1"
+			        style="@style/immunizationFlagBox"
+			        android:src="@drawable/backbutton"
+			        android:visibility="invisible" />
+		        <TextView
+			        android:id="@+id/vaccine_short_name1"
+			        style="@style/immunizationShortNameTextBox" />
+			    <TextView
+			        android:id="@+id/vaccine_long_name1"
+			        style="@style/immunizationLongNameTextBox" />
+			    <Button
+		            android:id="@+id/vaccine_date_select1"
+				    style="@style/immunizationDateButton" />
+			</LinearLayout>
+			<LinearLayout
+			    android:id="@+id/vaccine_row2"
+		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
-		        android:padding="10dp"
-		        android:textSize="24sp" />
+		        android:orientation="horizontal"
+		        android:gravity="center_vertical"
+		        android:visibility="gone" >
+		        <ImageView
+			        android:id="@+id/vaccine_flag2"
+			        style="@style/immunizationFlagBox"
+			        android:src="@drawable/backbutton"
+			        android:visibility="invisible" />
+		        <TextView
+			        android:id="@+id/vaccine_short_name2"
+			        style="@style/immunizationShortNameTextBox" />
+			    <TextView
+			        android:id="@+id/vaccine_long_name2"
+			        style="@style/immunizationLongNameTextBox" />
+			    <Button
+		            android:id="@+id/vaccine_date_select2"
+				    style="@style/immunizationDateButton" />
+			</LinearLayout>  
+		    
 	        <TextView
-		        android:id="@+id/vaccine_name2"
-		        android:layout_width="400dp"
+	            android:id="@+id/age_header2"
+				style="@style/immunizationAgeTextBox"
+		        android:text="@string/cha_vaccine_age2_text"
+		        android:visibility="gone" />  
+		    <LinearLayout
+		        android:id="@+id/vaccine_row3"
+		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
-		        android:padding="10dp"
-		        android:textSize="21sp" />
-	        <Button
-	            android:id="@+id/vaccine_date_select2"
-			    android:layout_width="140dp" 
-			    android:layout_height="wrap_content"
-			    android:text="Date received"
-			    android:onClick="showDatePickerDialog" />
-	    </LinearLayout>	    
-	    
-	    
-	    
-	    
-	    
-	</LinearLayout>
+		        android:orientation="horizontal"
+		        android:gravity="center_vertical"
+		        android:background="#99E1E3E3"
+		        android:visibility="gone" >
+		        <ImageView
+			        android:id="@+id/vaccine_flag3"
+			        style="@style/immunizationFlagBox"
+			        android:src="@drawable/backbutton"
+			        android:visibility="invisible" />
+		        <TextView
+			        android:id="@+id/vaccine_short_name3"
+			        style="@style/immunizationShortNameTextBox" />
+			    <TextView
+			        android:id="@+id/vaccine_long_name3"
+			        style="@style/immunizationLongNameTextBox" />
+			    <Button
+		            android:id="@+id/vaccine_date_select3"
+				    style="@style/immunizationDateButton" />
+			</LinearLayout>
+		    <LinearLayout
+		        android:id="@+id/vaccine_row4"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="horizontal"
+		        android:gravity="center_vertical"
+		        android:visibility="gone" >
+		        <ImageView
+			        android:id="@+id/vaccine_flag4"
+			        style="@style/immunizationFlagBox"
+			        android:src="@drawable/backbutton"
+			        android:visibility="invisible" />
+		        <TextView
+			        android:id="@+id/vaccine_short_name4"
+			        style="@style/immunizationShortNameTextBox" />
+			    <TextView
+			        android:id="@+id/vaccine_long_name4"
+			        style="@style/immunizationLongNameTextBox" />
+			    <Button
+		            android:id="@+id/vaccine_date_select4"
+				    style="@style/immunizationDateButton" />
+			</LinearLayout> 	    
+		    <LinearLayout
+		        android:id="@+id/vaccine_row5"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="horizontal"
+		        android:gravity="center_vertical"
+		        android:background="#99E1E3E3"
+		        android:visibility="gone" >
+		        <ImageView
+			        android:id="@+id/vaccine_flag5"
+			        style="@style/immunizationFlagBox"
+			        android:src="@drawable/backbutton"
+			        android:visibility="invisible" />
+		        <TextView
+			        android:id="@+id/vaccine_short_name5"
+			        style="@style/immunizationShortNameTextBox" />
+			    <TextView
+			        android:id="@+id/vaccine_long_name5"
+			        style="@style/immunizationLongNameTextBox" />
+			    <Button
+		            android:id="@+id/vaccine_date_select5"
+				    style="@style/immunizationDateButton" />
+			</LinearLayout>
+		    <LinearLayout
+		        android:id="@+id/vaccine_row6"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="horizontal" 
+		        android:gravity="center_vertical"
+		        android:visibility="gone" >
+		        <ImageView
+			        android:id="@+id/vaccine_flag6"
+			        style="@style/immunizationFlagBox"
+			        android:src="@drawable/backbutton"
+			        android:visibility="invisible" />
+		        <TextView
+			        android:id="@+id/vaccine_short_name6"
+			        style="@style/immunizationShortNameTextBox" />
+			    <TextView
+			        android:id="@+id/vaccine_long_name6"
+			        style="@style/immunizationLongNameTextBox" />
+			    <Button
+		            android:id="@+id/vaccine_date_select6"
+				    style="@style/immunizationDateButton" />
+			</LinearLayout>
+		    <LinearLayout
+		        android:id="@+id/vaccine_row7"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="horizontal"
+		        android:gravity="center_vertical"
+		        android:background="#99E1E3E3"
+		        android:visibility="gone" >
+		        <ImageView
+			        android:id="@+id/vaccine_flag7"
+			        style="@style/immunizationFlagBox"
+			        android:src="@drawable/backbutton"
+			        android:visibility="invisible" />
+		        <TextView
+			        android:id="@+id/vaccine_short_name7"
+			        style="@style/immunizationShortNameTextBox" />
+			    <TextView
+			        android:id="@+id/vaccine_long_name7"
+			        style="@style/immunizationLongNameTextBox" />
+			    <Button
+		            android:id="@+id/vaccine_date_select7"
+				    style="@style/immunizationDateButton" />
+			</LinearLayout>	 	    
+		    
+	        <TextView
+	            android:id="@+id/age_header3"
+				style="@style/immunizationAgeTextBox"
+		        android:text="@string/cha_vaccine_age3_text"
+		        android:visibility="gone" />  
+		    <LinearLayout
+		        android:id="@+id/vaccine_row8"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="horizontal"
+		        android:gravity="center_vertical"
+		        android:background="#99E1E3E3"
+		        android:visibility="gone" >
+		        <ImageView
+			        android:id="@+id/vaccine_flag8"
+			        style="@style/immunizationFlagBox"
+			        android:src="@drawable/backbutton"
+			        android:visibility="invisible" />
+		        <TextView
+			        android:id="@+id/vaccine_short_name8"
+			        style="@style/immunizationShortNameTextBox" />
+			    <TextView
+			        android:id="@+id/vaccine_long_name8"
+			        style="@style/immunizationLongNameTextBox" />
+			    <Button
+		            android:id="@+id/vaccine_date_select8"
+				    style="@style/immunizationDateButton" />
+			</LinearLayout>
+		    <LinearLayout
+		        android:id="@+id/vaccine_row9"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="horizontal"
+		        android:gravity="center_vertical"
+		        android:visibility="gone" >
+		        <ImageView
+			        android:id="@+id/vaccine_flag9"
+			        style="@style/immunizationFlagBox"
+			        android:src="@drawable/backbutton"
+			        android:visibility="invisible" />
+		        <TextView
+			        android:id="@+id/vaccine_short_name9"
+			        style="@style/immunizationShortNameTextBox" />
+			    <TextView
+			        android:id="@+id/vaccine_long_name9"
+			        style="@style/immunizationLongNameTextBox" />
+			    <Button
+		            android:id="@+id/vaccine_date_select9"
+				    style="@style/immunizationDateButton" />
+			</LinearLayout>
+			
+		    <TextView
+	            android:id="@+id/age_header4"
+				style="@style/immunizationAgeTextBox"
+		        android:text="@string/cha_vaccine_age4_text"
+		        android:visibility="gone" />  
+		    <LinearLayout
+		        android:id="@+id/vaccine_row10"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="horizontal"
+		        android:gravity="center_vertical"
+		        android:visibility="gone" >
+		        <ImageView
+			        android:id="@+id/vaccine_flag10"
+			        style="@style/immunizationFlagBox"
+			        android:src="@drawable/backbutton"
+			        android:visibility="invisible" />
+		        <TextView
+			        android:id="@+id/vaccine_short_name10"
+			        style="@style/immunizationShortNameTextBox" />
+			    <TextView
+			        android:id="@+id/vaccine_long_name10"
+			        style="@style/immunizationLongNameTextBox" />
+			    <Button
+		            android:id="@+id/vaccine_date_select10"
+				    style="@style/immunizationDateButton" />
+			</LinearLayout>
+			<LinearLayout
+		        android:id="@+id/vaccine_row11"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="horizontal"
+		        android:gravity="center_vertical"
+		        android:visibility="gone" >
+		        <ImageView
+			        android:id="@+id/vaccine_flag11"
+			        style="@style/immunizationFlagBox"
+			        android:src="@drawable/backbutton"
+			        android:visibility="invisible" />
+		        <TextView
+			        android:id="@+id/vaccine_short_name11"
+			        style="@style/immunizationShortNameTextBox" />
+			    <TextView
+			        android:id="@+id/vaccine_long_name11"
+			        style="@style/immunizationLongNameTextBox" />
+			    <Button
+		            android:id="@+id/vaccine_date_select11"
+				    style="@style/immunizationDateButton" />
+			</LinearLayout>				
+			<LinearLayout
+		        android:id="@+id/vaccine_row12"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="horizontal"
+		        android:gravity="center_vertical"
+		        android:visibility="gone" >
+		        <ImageView
+			        android:id="@+id/vaccine_flag12"
+			        style="@style/immunizationFlagBox"
+			        android:src="@drawable/backbutton"
+			        android:visibility="invisible" />
+		        <TextView
+			        android:id="@+id/vaccine_short_name12"
+			        style="@style/immunizationShortNameTextBox" />
+			    <TextView
+			        android:id="@+id/vaccine_long_name12"
+			        style="@style/immunizationLongNameTextBox" />
+			    <Button
+		            android:id="@+id/vaccine_date_select12"
+				    style="@style/immunizationDateButton" />
+			</LinearLayout>
+		    <LinearLayout
+		        android:id="@+id/vaccine_row13"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="horizontal"
+		        android:gravity="center_vertical"
+		        android:visibility="gone" >
+		        <ImageView
+			        android:id="@+id/vaccine_flag13"
+			        style="@style/immunizationFlagBox"
+			        android:src="@drawable/backbutton"
+			        android:visibility="invisible" />
+		        <TextView
+			        android:id="@+id/vaccine_short_name13"
+			        style="@style/immunizationShortNameTextBox" />
+			    <TextView
+			        android:id="@+id/vaccine_long_name13"
+			        style="@style/immunizationLongNameTextBox" />
+			    <Button
+		            android:id="@+id/vaccine_date_select13"
+				    style="@style/immunizationDateButton" />
+			</LinearLayout>
+			
+		</LinearLayout>
+	</ScrollView>
    	
    	<Button 
-	    android:layout_width="wrap_content" 
+	    android:layout_width="120dp" 
 	    android:layout_height="wrap_content"
 	    android:layout_centerHorizontal="true"
 	    android:layout_alignParentBottom="true"
+	    android:layout_marginBottom="20dp"
 	    android:text="Done" 
 	    android:onClick="completeImmunizationReceived" />
     
