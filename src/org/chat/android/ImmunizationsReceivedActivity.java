@@ -67,6 +67,10 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
     	rows.add((LinearLayout) findViewById(R.id.vaccine_row11));
     	rows.add((LinearLayout) findViewById(R.id.vaccine_row12));
     	rows.add((LinearLayout) findViewById(R.id.vaccine_row13));
+    	rows.add((LinearLayout) findViewById(R.id.vaccine_row14));
+    	rows.add((LinearLayout) findViewById(R.id.vaccine_row15));
+    	rows.add((LinearLayout) findViewById(R.id.vaccine_row16));
+    	rows.add((LinearLayout) findViewById(R.id.vaccine_row17));
 
     	vList = ModelHelper.getVaccinesForAge(context, client.getAge());
     	
@@ -75,8 +79,18 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
 	    	for (int i = 0; i < vList.size(); i++) {
 	    		Vaccine v = vList.get(i);
 	    		// make the headers visible - TODO, finish these, find a cleaner way to do this
+	    		// 18 months
+	    		if (v.getAge() >= 1.5) {
+	    			TextView tv = (TextView) findViewById(R.id.age_header6);
+	    			tv.setVisibility(View.VISIBLE);
+	    		}
+	    		// 9 months
+	    		else if (v.getAge() >= 0.75) {
+	    			TextView tv = (TextView) findViewById(R.id.age_header5);
+	    			tv.setVisibility(View.VISIBLE);
+	    		}
 	    		// 14 weeks
-	    		if (v.getAge() >= 0.2692) {
+	    		else if (v.getAge() >= 0.2692) {
 	    			TextView tv = (TextView) findViewById(R.id.age_header4);
 	    			tv.setVisibility(View.VISIBLE);
 	    		}

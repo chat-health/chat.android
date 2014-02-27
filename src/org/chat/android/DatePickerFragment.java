@@ -14,10 +14,13 @@ import com.j256.ormlite.field.DatabaseField;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
@@ -63,6 +66,13 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     		e.printStackTrace();
     	} 
     	
+    	// wish we had a backbone style MVC thing going. So UI gets updated separately from the save. They'll be unsynced until next 
 		activity_date_selected.setText(String.valueOf(year) + "/" + String.valueOf(month+1) + "/" + String.valueOf(day));
+		LinearLayout row = (LinearLayout) activity_date_selected.getParent();
+		row.getChildAt(0).setVisibility(View.INVISIBLE);
+		int c = getResources().getColor(android.R.color.black);					// an attempt to get the original color. TODO: get the right color here
+		((TextView) row.getChildAt(1)).setTextColor(c);
+		((TextView) row.getChildAt(2)).setTextColor(c);
+		
 	}
 }
