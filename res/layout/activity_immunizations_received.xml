@@ -330,6 +330,106 @@
 				    style="@style/immunizationDateButton" />
 			</LinearLayout>
 			
+			<TextView
+	            android:id="@+id/age_header5"
+				style="@style/immunizationAgeTextBox"
+		        android:text="@string/cha_vaccine_age5_text"
+		        android:visibility="gone" />  
+		    <LinearLayout
+		        android:id="@+id/vaccine_row14"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="horizontal"
+		        android:gravity="center_vertical"
+		        android:visibility="gone" >
+		        <ImageView
+			        android:id="@+id/vaccine_flag14"
+			        style="@style/immunizationFlagBox"
+			        android:src="@drawable/backbutton"
+			        android:visibility="invisible" />
+		        <TextView
+			        android:id="@+id/vaccine_short_name14"
+			        style="@style/immunizationShortNameTextBox" />
+			    <TextView
+			        android:id="@+id/vaccine_long_name14"
+			        style="@style/immunizationLongNameTextBox" />
+			    <Button
+		            android:id="@+id/vaccine_date_select14"
+				    style="@style/immunizationDateButton" />
+			</LinearLayout>
+			<LinearLayout
+		        android:id="@+id/vaccine_row15"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="horizontal"
+		        android:gravity="center_vertical"
+		        android:visibility="gone" >
+		        <ImageView
+			        android:id="@+id/vaccine_flag15"
+			        style="@style/immunizationFlagBox"
+			        android:src="@drawable/backbutton"
+			        android:visibility="invisible" />
+		        <TextView
+			        android:id="@+id/vaccine_short_name15"
+			        style="@style/immunizationShortNameTextBox" />
+			    <TextView
+			        android:id="@+id/vaccine_long_name15"
+			        style="@style/immunizationLongNameTextBox" />
+			    <Button
+		            android:id="@+id/vaccine_date_select15"
+				    style="@style/immunizationDateButton" />
+			</LinearLayout>		
+
+			<TextView
+	            android:id="@+id/age_header6"
+				style="@style/immunizationAgeTextBox"
+		        android:text="@string/cha_vaccine_age6_text"
+		        android:visibility="gone" />  
+		    <LinearLayout
+		        android:id="@+id/vaccine_row16"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="horizontal"
+		        android:gravity="center_vertical"
+		        android:visibility="gone" >
+		        <ImageView
+			        android:id="@+id/vaccine_flag16"
+			        style="@style/immunizationFlagBox"
+			        android:src="@drawable/backbutton"
+			        android:visibility="invisible" />
+		        <TextView
+			        android:id="@+id/vaccine_short_name16"
+			        style="@style/immunizationShortNameTextBox" />
+			    <TextView
+			        android:id="@+id/vaccine_long_name16"
+			        style="@style/immunizationLongNameTextBox" />
+			    <Button
+		            android:id="@+id/vaccine_date_select16"
+				    style="@style/immunizationDateButton" />
+			</LinearLayout>
+			<LinearLayout
+		        android:id="@+id/vaccine_row17"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="horizontal"
+		        android:gravity="center_vertical"
+		        android:visibility="gone" >
+		        <ImageView
+			        android:id="@+id/vaccine_flag17"
+			        style="@style/immunizationFlagBox"
+			        android:src="@drawable/backbutton"
+			        android:visibility="invisible" />
+		        <TextView
+			        android:id="@+id/vaccine_short_name17"
+			        style="@style/immunizationShortNameTextBox" />
+			    <TextView
+			        android:id="@+id/vaccine_long_name17"
+			        style="@style/immunizationLongNameTextBox" />
+			    <Button
+		            android:id="@+id/vaccine_date_select17"
+				    style="@style/immunizationDateButton" />
+			</LinearLayout>	
+			
 		</LinearLayout>
 	</ScrollView>
    	
