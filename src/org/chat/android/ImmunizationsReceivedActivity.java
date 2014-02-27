@@ -70,49 +70,53 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
 
     	vList = ModelHelper.getVaccinesForAge(context, client.getAge());
     	
-    	for (int i = 0; i < vList.size(); i++) {
-    		Vaccine v = vList.get(i);
-    		// make the headers visible - TODO, finish these, find a cleaner way to do this
-    		// 14 months
-    		if (v.getAge() >= 0.2692) {
-    			TextView tv = (TextView) findViewById(R.id.age_header4);
-    			tv.setVisibility(View.VISIBLE);
-    		}
-    		// 10 months
-    		else if (v.getAge() >= 0.1923) {
-    			TextView tv = (TextView) findViewById(R.id.age_header3);
-    			tv.setVisibility(View.VISIBLE);
-    		}
-    		// 6 months
-    		else if (v.getAge() >= 0.1154) {
-    			TextView tv = (TextView) findViewById(R.id.age_header2);
-    			tv.setVisibility(View.VISIBLE);
-    		}
-    		
-    		// make the rows visible, and populate.
-
-			//LinearLayout row = (LinearLayout) shortNames.get(i).getParent();
-			LinearLayout row = rows.get(i);
-			row.setVisibility(View.VISIBLE);
-			ImageView flag = (ImageView)row.getChildAt(0);
-			TextView shortName = (TextView)row.getChildAt(1);
-			TextView longName = (TextView)row.getChildAt(2);
-			Button dateBtn = (Button)row.getChildAt(3);
-			
-			shortName.setText(v.getShortName());
-			longName.setText(v.getLongName());
-			dateBtn.setTag(v.getId());
-			
-			VaccineRecorded vr = ModelHelper.getVaccineRecordedForClientIdAndVaccineId(context, client.getId(), v.getId());
-			// if there is a vaccineRecorded object for this vaccine and this client - think about if there are multiple vaccineRecordeds. This seems to work, tho just by default - takes the most recent VR as the correct one, which is the behaviour that we want
-			if (vr != null) {
-				Date date = vr.getDate();
-				dateBtn.setText(date.getYear() + "/" + date.getMonth() + "/" + date.getDay());
-			} else {
-				flag.setVisibility(View.VISIBLE);
-				shortName.setTextColor(Color.parseColor("#EB2695"));
-				longName.setTextColor(Color.parseColor("#EB2695"));
-			}
+    	// UI is locked to # of DB elements (yuck), so need to be sure we're not going to randomly get an outofbounds exception from dirty data
+    	if (rows.size() >= vList.size()) {
+	    	for (int i = 0; i < vList.size(); i++) {
+	    		Vaccine v = vList.get(i);
+	    		// make the headers visible - TODO, finish these, find a cleaner way to do this
+	    		// 14 weeks
+	    		if (v.getAge() >= 0.2692) {
+	    			TextView tv = (TextView) findViewById(R.id.age_header4);
+	    			tv.setVisibility(View.VISIBLE);
+	    		}
+	    		// 10 weeks
+	    		else if (v.getAge() >= 0.1923) {
+	    			TextView tv = (TextView) findViewById(R.id.age_header3);
+	    			tv.setVisibility(View.VISIBLE);
+	    		}
+	    		// 6 weeks
+	    		else if (v.getAge() >= 0.1154) {
+	    			TextView tv = (TextView) findViewById(R.id.age_header2);
+	    			tv.setVisibility(View.VISIBLE);
+	    		}
+	    		
+	    		// make the rows visible, and populate.
+				//LinearLayout row = (LinearLayout) shortNames.get(i).getParent();
+				LinearLayout row = rows.get(i);
+				row.setVisibility(View.VISIBLE);
+				ImageView flag = (ImageView)row.getChildAt(0);
+				TextView shortName = (TextView)row.getChildAt(1);
+				TextView longName = (TextView)row.getChildAt(2);
+				Button dateBtn = (Button)row.getChildAt(3);
+				
+				shortName.setText(v.getShortName());
+				longName.setText(v.getLongName());
+				dateBtn.setTag(v.getId());
+				
+				VaccineRecorded vr = ModelHelper.getVaccineRecordedForClientIdAndVaccineId(context, client.getId(), v.getId());
+				// if there is a vaccineRecorded object for this vaccine and this client - think about if there are multiple vaccineRecordeds. This seems to work, tho just by default - takes the most recent VR as the correct one, which is the behaviour that we want
+				if (vr != null) {
+					Date date = vr.getDate();
+					dateBtn.setText(date.getYear() + "/" + date.getMonth() + "/" + date.getDay());
+				} else {
+					flag.setVisibility(View.VISIBLE);
+					shortName.setTextColor(Color.parseColor("#EB2695"));
+					longName.setTextColor(Color.parseColor("#EB2695"));
+				}
+	    	}
+    	} else {
+    		Toast.makeText(getApplicationContext(),"More vaccines than UI elements - get technical support",Toast.LENGTH_LONG).show();
     	}
     	
     }
