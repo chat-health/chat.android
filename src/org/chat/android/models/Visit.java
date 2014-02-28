@@ -136,7 +136,7 @@ public class Visit {
 		this.type = type;
 	}
 	
-	public Date setStartTime() {
+	public Date getStartTime() {
 		return start_time;
 	}
 
@@ -144,7 +144,7 @@ public class Visit {
 		this.start_time = start_time;
 	}
 	
-	public Date setEndTime() {
+	public Date getEndTime() {
 		return end_time;
 	}
 
