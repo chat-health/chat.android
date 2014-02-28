@@ -21,7 +21,7 @@ public class Client {
 	private int hh_id;	
 	@DatabaseField
 	private String gender;
-	@DatabaseField(dataType = DataType.DATE_STRING)
+	@DatabaseField
 	private Date date_of_birth;
 
 	/**
