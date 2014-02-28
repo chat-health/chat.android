@@ -38,48 +38,48 @@ public class SetupDB extends Activity {
         Context context = getApplicationContext();
         
         // CLIENTS
-		int hhId = 1;			// for John Doe household
-		//Date date1 = new Date(1980, 12, 29);		// TODO: switch Date objects out in all cases - it's a goddamned mess
-		//Calendar date1 = new GregorianCalendar(1980,12,29);
-		Date date1 = new Date(93, 11, 11);
-		Client c1 = new Client(1, "John", "Doe", hhId, "male", date1);
-		Client c2 = new Client(2, "Jane", "Jacobs", hhId, "female", date1);
-		Date date2 = new Date(113, 11, 5);
-		Client c3 = new Client(3, "Davey", "Jones", hhId, "male", date2);
-		
-//		GregorianCalendar dob = new GregorianCalendar(1980, 12, 29);
-//		Client c1 = new Client(1, "John", "Doe", hhId, "male", dob);
-//		Client c2 = new Client(2, "Jane", "Jacobs", hhId, "female", dob);
-//		Client c3 = new Client(3, "Davey", "Jones", hhId, "male", dob);
-		
-	    Dao<Client, Integer> clientDao1;
-	    Dao<Client, Integer> clientDao2;
-	    Dao<Client, Integer> clientDao3;
-	    DatabaseHelper clientDbHelper = new DatabaseHelper(context);
-	    try {
-	        clientDao1 = clientDbHelper.getClientsDao();
-	        clientDao1.create(c1);
-	        clientDao2 = clientDbHelper.getClientsDao();
-	        clientDao2.create(c2);
-	        clientDao3 = clientDbHelper.getClientsDao();
-	        clientDao3.create(c3);
-	    } catch (SQLException e1) {
-	        // TODO Auto-generated catch block
-	        e1.printStackTrace();
-	    }
-	    
-	    
-	    // HOUSEHOLDS
-	    Household h1 = new Household(1, "John Doe", "snathing", 1000);
-	    Dao<Household, Integer> hDao1;
-	    DatabaseHelper householdDbHelper = new DatabaseHelper(context);
-	    try {
-	        hDao1 = householdDbHelper.getHouseholdsDao();
-	        hDao1.create(h1);
-	    } catch (SQLException e1) {
-	        // TODO Auto-generated catch block
-	        e1.printStackTrace();
-	    }
+//		int hhId = 1;			// for John Doe household
+//		//Date date1 = new Date(1980, 12, 29);		// TODO: switch Date objects out in all cases - it's a goddamned mess
+//		//Calendar date1 = new GregorianCalendar(1980,12,29);
+//		Date date1 = new Date(93, 11, 11);
+//		Client c1 = new Client(1, "John", "Doe", hhId, "male", date1);
+//		Client c2 = new Client(2, "Jane", "Jacobs", hhId, "female", date1);
+//		Date date2 = new Date(113, 11, 5);
+//		Client c3 = new Client(3, "Davey", "Jones", hhId, "male", date2);
+//		
+////		GregorianCalendar dob = new GregorianCalendar(1980, 12, 29);
+////		Client c1 = new Client(1, "John", "Doe", hhId, "male", dob);
+////		Client c2 = new Client(2, "Jane", "Jacobs", hhId, "female", dob);
+////		Client c3 = new Client(3, "Davey", "Jones", hhId, "male", dob);
+//		
+//	    Dao<Client, Integer> clientDao1;
+//	    Dao<Client, Integer> clientDao2;
+//	    Dao<Client, Integer> clientDao3;
+//	    DatabaseHelper clientDbHelper = new DatabaseHelper(context);
+//	    try {
+//	        clientDao1 = clientDbHelper.getClientsDao();
+//	        clientDao1.create(c1);
+//	        clientDao2 = clientDbHelper.getClientsDao();
+//	        clientDao2.create(c2);
+//	        clientDao3 = clientDbHelper.getClientsDao();
+//	        clientDao3.create(c3);
+//	    } catch (SQLException e1) {
+//	        // TODO Auto-generated catch block
+//	        e1.printStackTrace();
+//	    }
+//	    
+//	    
+//	    // HOUSEHOLDS
+//	    Household h1 = new Household(1, "John Doe", "snathing", 1000);
+//	    Dao<Household, Integer> hDao1;
+//	    DatabaseHelper householdDbHelper = new DatabaseHelper(context);
+//	    try {
+//	        hDao1 = householdDbHelper.getHouseholdsDao();
+//	        hDao1.create(h1);
+//	    } catch (SQLException e1) {
+//	        // TODO Auto-generated catch block
+//	        e1.printStackTrace();
+//	    }
 	    
 	    
 	    // ROLES
@@ -100,141 +100,141 @@ public class SetupDB extends Activity {
 	    
 	    
 	    // SERVICES
-	    String type = "Material Well Being";
-	    String role = "Home Care Volunteer";
-	    Service s1 = new Service(1, "B1 Household (Re)Assessment - Checklist (Staff Only)", type, role, null);
-	    Service s2 = new Service(2, "B2 Emergency Food parcel/voucher provision", type, role, null);
-	    Service s3 = new Service(3, "B3 Household Equipment provision", type, role, null);
-	    Service s4 = new Service(4, "B4 Clothing distribution", type, role, null);
-	    Service s5 = new Service(5, "B5 Blanket / Bedding Distribution", type, role, null);
-	    Service s6 = new Service(6, "B6 Household Maintenance", type, role, null);
-	    Service s7 = new Service(7, "B7 Monitoring - Grant Usage", type, role, null);
-	    type = "Cognitive Well Being";
-	    Service s8 = new Service(8, "C1 Advise/Assistance in applying for a School Fee Exemption", type, role, null);
-	    Service s9 = new Service(9, "C2 School Uniform Provision", type, role, null);
-	    Service s10 = new Service(10, "C3 School Stationary Provision", type, role, null);
-	    Service s11 = new Service(11, "C4 Monitoring - School Attendance and Performance (School Visits Only)", type, role, null);
-
-	    Dao<Service, Integer> sDao1;
-	    Dao<Service, Integer> sDao2;
-	    Dao<Service, Integer> sDao3;
-	    Dao<Service, Integer> sDao4;
-	    Dao<Service, Integer> sDao5;
-	    Dao<Service, Integer> sDao6;
-	    Dao<Service, Integer> sDao7;
-	    Dao<Service, Integer> sDao8;
-	    Dao<Service, Integer> sDao9;
-	    Dao<Service, Integer> sDao10;
-	    Dao<Service, Integer> sDao11;
-
-	    DatabaseHelper serviceDbHelper = new DatabaseHelper(context);
-	    try {
-	        sDao1 = serviceDbHelper.getServicesDao();
-	        sDao1.create(s1);
-	        sDao2 = serviceDbHelper.getServicesDao();
-	        sDao2.create(s2);
-	        sDao3 = serviceDbHelper.getServicesDao();
-	        sDao3.create(s3);
-	        sDao4 = serviceDbHelper.getServicesDao();
-	        sDao4.create(s4);
-	        sDao5 = serviceDbHelper.getServicesDao();
-	        sDao5.create(s5);
-	        sDao6 = serviceDbHelper.getServicesDao();
-	        sDao6.create(s6);
-	        sDao7 = serviceDbHelper.getServicesDao();
-	        sDao7.create(s7);
-	        sDao8 = serviceDbHelper.getServicesDao();
-	        sDao8.create(s8);
-	        sDao9 = serviceDbHelper.getServicesDao();
-	        sDao9.create(s9);
-	        sDao10 = serviceDbHelper.getServicesDao();
-	        sDao10.create(s10);
-	        sDao11 = serviceDbHelper.getServicesDao();
-	        sDao11.create(s11);
-	    } catch (SQLException e1) {
-	        // TODO Auto-generated catch block
-	        e1.printStackTrace();
-	    }
+//	    String type = "Material Well Being";
+//	    String role = "Home Care Volunteer";
+//	    Service s1 = new Service(1, "B1 Household (Re)Assessment - Checklist (Staff Only)", type, role, null);
+//	    Service s2 = new Service(2, "B2 Emergency Food parcel/voucher provision", type, role, null);
+//	    Service s3 = new Service(3, "B3 Household Equipment provision", type, role, null);
+//	    Service s4 = new Service(4, "B4 Clothing distribution", type, role, null);
+//	    Service s5 = new Service(5, "B5 Blanket / Bedding Distribution", type, role, null);
+//	    Service s6 = new Service(6, "B6 Household Maintenance", type, role, null);
+//	    Service s7 = new Service(7, "B7 Monitoring - Grant Usage", type, role, null);
+//	    type = "Cognitive Well Being";
+//	    Service s8 = new Service(8, "C1 Advise/Assistance in applying for a School Fee Exemption", type, role, null);
+//	    Service s9 = new Service(9, "C2 School Uniform Provision", type, role, null);
+//	    Service s10 = new Service(10, "C3 School Stationary Provision", type, role, null);
+//	    Service s11 = new Service(11, "C4 Monitoring - School Attendance and Performance (School Visits Only)", type, role, null);
+//
+//	    Dao<Service, Integer> sDao1;
+//	    Dao<Service, Integer> sDao2;
+//	    Dao<Service, Integer> sDao3;
+//	    Dao<Service, Integer> sDao4;
+//	    Dao<Service, Integer> sDao5;
+//	    Dao<Service, Integer> sDao6;
+//	    Dao<Service, Integer> sDao7;
+//	    Dao<Service, Integer> sDao8;
+//	    Dao<Service, Integer> sDao9;
+//	    Dao<Service, Integer> sDao10;
+//	    Dao<Service, Integer> sDao11;
+//
+//	    DatabaseHelper serviceDbHelper = new DatabaseHelper(context);
+//	    try {
+//	        sDao1 = serviceDbHelper.getServicesDao();
+//	        sDao1.create(s1);
+//	        sDao2 = serviceDbHelper.getServicesDao();
+//	        sDao2.create(s2);
+//	        sDao3 = serviceDbHelper.getServicesDao();
+//	        sDao3.create(s3);
+//	        sDao4 = serviceDbHelper.getServicesDao();
+//	        sDao4.create(s4);
+//	        sDao5 = serviceDbHelper.getServicesDao();
+//	        sDao5.create(s5);
+//	        sDao6 = serviceDbHelper.getServicesDao();
+//	        sDao6.create(s6);
+//	        sDao7 = serviceDbHelper.getServicesDao();
+//	        sDao7.create(s7);
+//	        sDao8 = serviceDbHelper.getServicesDao();
+//	        sDao8.create(s8);
+//	        sDao9 = serviceDbHelper.getServicesDao();
+//	        sDao9.create(s9);
+//	        sDao10 = serviceDbHelper.getServicesDao();
+//	        sDao10.create(s10);
+//	        sDao11 = serviceDbHelper.getServicesDao();
+//	        sDao11.create(s11);
+//	    } catch (SQLException e1) {
+//	        // TODO Auto-generated catch block
+//	        e1.printStackTrace();
+//	    }
 	    
 	    
-	    // WORKERS
-	    Worker w1 = new Worker(1, "colin", "mccann", "chat", "volunteer", "snathing");
-	    Dao<Worker, Integer> wDao1;
-	    DatabaseHelper workerDbHelper = new DatabaseHelper(context);
-	    try {
-	        wDao1 = workerDbHelper.getWorkersDao();
-	        wDao1.create(w1);
-	    } catch (SQLException e1) {
-	        // TODO Auto-generated catch block
-	        e1.printStackTrace();
-	    }
+//	    // WORKERS
+//	    Worker w1 = new Worker(1, "colin", "mccann", "chat", "volunteer", "snathing");
+//	    Dao<Worker, Integer> wDao1;
+//	    DatabaseHelper workerDbHelper = new DatabaseHelper(context);
+//	    try {
+//	        wDao1 = workerDbHelper.getWorkersDao();
+//	        wDao1.create(w1);
+//	    } catch (SQLException e1) {
+//	        // TODO Auto-generated catch block
+//	        e1.printStackTrace();
+//	    }
 	    
 	    
-	    // VIDEOS
-	    Video vid1 = new Video("Psychosocial Support", "pss_animatic.mp4", "two_years_up_screenshot");
-	    Video vid2 = new Video("Nutrition", "nutrition_animatic.mp4", "two_years_up_screenshot");
-	    Video vid3 = new Video("Nutrition (0-9 months)", "nutrition_0-9_months.mp4", "one_to_nine_months_screenshot");
-	    Video vid4 = new Video("Nutrition (2+ years)", "nutrition_2_years_up.mp4", "one_to_nine_months_screenshot");
-	    Dao<Video, Integer> vidDao1;
-	    Dao<Video, Integer> vidDao2;
-	    Dao<Video, Integer> vidDao3;
-	    Dao<Video, Integer> vidDao4;
-	    DatabaseHelper videoDbHelper = new DatabaseHelper(context);
-	    try {
-	        vidDao1 = videoDbHelper.getVideosDao();
-	        vidDao1.create(vid1);
-	        vidDao2 = videoDbHelper.getVideosDao();
-	        vidDao2.create(vid2);
-	        vidDao3 = videoDbHelper.getVideosDao();
-	        vidDao3.create(vid3);
-	        vidDao4 = videoDbHelper.getVideosDao();
-	        vidDao4.create(vid4);
-	    } catch (SQLException e1) {
-	        // TODO Auto-generated catch block
-	        e1.printStackTrace();
-	    } 
-
-	    
-	    // RESOURCES
-	    Resource res1 = new Resource("Infant feeding for newborns and infants up to 6 months", "0-6mos.pdf");
-	    Resource res2 = new Resource("Feeding for infants 6 months and older", "6-12mos.pdf");
-	    Dao<Resource, Integer> resDao1;
-	    Dao<Resource, Integer> resDao2;
-	    DatabaseHelper resDbHelper = new DatabaseHelper(context);
-	    try {
-	        resDao1 = resDbHelper.getResourcesDao();
-	        resDao1.create(res1);
-	        resDao2 = resDbHelper.getResourcesDao();
-	        resDao2.create(res2);
-	    } catch (SQLException e1) {
-	        // TODO Auto-generated catch block
-	        e1.printStackTrace();
-	    }
-	    
-	    
-	    // HEALTH THEMES
-	    HealthTheme theme1 = new HealthTheme(1, "HIV", "Some HIV related observe content", "Some HIV related record content", "Zulu stuff", "Zulu stuff", "#a01718");
-	    HealthTheme theme2 = new HealthTheme(2, "Severe Childhood Illnesses", "Some Severe Childhood Illnesses related observe content", "Some Severe Childhood Illnesses related record content", "Zulu stuff", "Zulu stuff", "#ebbb28");
-	    HealthTheme theme3 = new HealthTheme(3, "Nutrition", "Some Nutrition related observe content", "Some Nutrition related record content", "Zulu stuff", "Zulu stuff", "#5b943d");
-	    HealthTheme theme4 = new HealthTheme(4, "Psychosocial Support", "Look for signs that the parent/carer spends time focusing on the child and its interests.", "Does the child seem happy and active and willing to talk with home visitor?", "Zulu stuff", "Zulu stuff", "#4ec5c7");
-	    Dao<HealthTheme, Integer> themeDao1;
-	    Dao<HealthTheme, Integer> themeDao2;
-	    Dao<HealthTheme, Integer> themeDao3;
-	    Dao<HealthTheme, Integer> themeDao4;
-	    DatabaseHelper themeDbHelper = new DatabaseHelper(context);
-	    try {
-	    	themeDao1 = themeDbHelper.getHealthThemeDao();
-	        themeDao1.create(theme1);
-	        themeDao2 = themeDbHelper.getHealthThemeDao();
-	        themeDao2.create(theme2);
-	        themeDao3 = themeDbHelper.getHealthThemeDao();
-	        themeDao3.create(theme3);
-	        themeDao4 = themeDbHelper.getHealthThemeDao();
-	        themeDao4.create(theme4);
-	    } catch (SQLException e1) {
-	        // TODO Auto-generated catch block
-	        e1.printStackTrace();
-	    }
+//	    // VIDEOS
+//	    Video vid1 = new Video("Psychosocial Support", "pss_animatic.mp4", "two_years_up_screenshot");
+//	    Video vid2 = new Video("Nutrition", "nutrition_animatic.mp4", "two_years_up_screenshot");
+//	    Video vid3 = new Video("Nutrition (0-9 months)", "nutrition_0-9_months.mp4", "one_to_nine_months_screenshot");
+//	    Video vid4 = new Video("Nutrition (2+ years)", "nutrition_2_years_up.mp4", "one_to_nine_months_screenshot");
+//	    Dao<Video, Integer> vidDao1;
+//	    Dao<Video, Integer> vidDao2;
+//	    Dao<Video, Integer> vidDao3;
+//	    Dao<Video, Integer> vidDao4;
+//	    DatabaseHelper videoDbHelper = new DatabaseHelper(context);
+//	    try {
+//	        vidDao1 = videoDbHelper.getVideosDao();
+//	        vidDao1.create(vid1);
+//	        vidDao2 = videoDbHelper.getVideosDao();
+//	        vidDao2.create(vid2);
+//	        vidDao3 = videoDbHelper.getVideosDao();
+//	        vidDao3.create(vid3);
+//	        vidDao4 = videoDbHelper.getVideosDao();
+//	        vidDao4.create(vid4);
+//	    } catch (SQLException e1) {
+//	        // TODO Auto-generated catch block
+//	        e1.printStackTrace();
+//	    } 
+//
+//	    
+//	    // RESOURCES
+//	    Resource res1 = new Resource("Infant feeding for newborns and infants up to 6 months", "0-6mos.pdf");
+//	    Resource res2 = new Resource("Feeding for infants 6 months and older", "6-12mos.pdf");
+//	    Dao<Resource, Integer> resDao1;
+//	    Dao<Resource, Integer> resDao2;
+//	    DatabaseHelper resDbHelper = new DatabaseHelper(context);
+//	    try {
+//	        resDao1 = resDbHelper.getResourcesDao();
+//	        resDao1.create(res1);
+//	        resDao2 = resDbHelper.getResourcesDao();
+//	        resDao2.create(res2);
+//	    } catch (SQLException e1) {
+//	        // TODO Auto-generated catch block
+//	        e1.printStackTrace();
+//	    }
+//	    
+//	    
+//	    // HEALTH THEMES
+//	    HealthTheme theme1 = new HealthTheme(1, "HIV", "Some HIV related observe content", "Some HIV related record content", "Zulu stuff", "Zulu stuff", "#a01718");
+//	    HealthTheme theme2 = new HealthTheme(2, "Severe Childhood Illnesses", "Some Severe Childhood Illnesses related observe content", "Some Severe Childhood Illnesses related record content", "Zulu stuff", "Zulu stuff", "#ebbb28");
+//	    HealthTheme theme3 = new HealthTheme(3, "Nutrition", "Some Nutrition related observe content", "Some Nutrition related record content", "Zulu stuff", "Zulu stuff", "#5b943d");
+//	    HealthTheme theme4 = new HealthTheme(4, "Psychosocial Support", "Look for signs that the parent/carer spends time focusing on the child and its interests", "Does the child seem happy and active and willing to talk with home visitor?", "Zulu stuff", "Zulu stuff", "#4ec5c7");
+//	    Dao<HealthTheme, Integer> themeDao1;
+//	    Dao<HealthTheme, Integer> themeDao2;
+//	    Dao<HealthTheme, Integer> themeDao3;
+//	    Dao<HealthTheme, Integer> themeDao4;
+//	    DatabaseHelper themeDbHelper = new DatabaseHelper(context);
+//	    try {
+//	    	themeDao1 = themeDbHelper.getHealthThemeDao();
+//	        themeDao1.create(theme1);
+//	        themeDao2 = themeDbHelper.getHealthThemeDao();
+//	        themeDao2.create(theme2);
+//	        themeDao3 = themeDbHelper.getHealthThemeDao();
+//	        themeDao3.create(theme3);
+//	        themeDao4 = themeDbHelper.getHealthThemeDao();
+//	        themeDao4.create(theme4);
+//	    } catch (SQLException e1) {
+//	        // TODO Auto-generated catch block
+//	        e1.printStackTrace();
+//	    }
 	    
 	    
 	    // HEALTH SELECTS

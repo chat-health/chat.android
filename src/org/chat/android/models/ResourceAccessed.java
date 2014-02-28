@@ -19,7 +19,7 @@ public class ResourceAccessed {
     @DatabaseField
     private int worker_id;
     @DatabaseField
-    private Date time;
+    private Date date;
 
 
     /**
@@ -36,11 +36,11 @@ public class ResourceAccessed {
      * @param time
      * 
      */
-    public ResourceAccessed(int resource_id, int visit_id, int worker_id, Date time) {
+    public ResourceAccessed(int resource_id, int visit_id, int worker_id, Date date) {
     	this.resource_id = resource_id;
     	this.worker_id = worker_id;
     	this.visit_id = visit_id;
-    	this.time = time;
+    	this.date = date;
     }
     
     /**
@@ -51,7 +51,7 @@ public class ResourceAccessed {
         this.resource_id = existingResourcesAccessedModel.resource_id;
         this.visit_id = existingResourcesAccessedModel.visit_id;
         this.worker_id = existingResourcesAccessedModel.worker_id;
-        this.time = existingResourcesAccessedModel.time;
+        this.date = existingResourcesAccessedModel.date;
     }
     
     public int getId() {
@@ -82,11 +82,11 @@ public class ResourceAccessed {
 		this.worker_id = worker_id;
 	}
 	
-	public Date getTime() {
-		return time;
+	public Date getDate() {
+		return date;
 	}
 	
-	public void setTime(Date time) {
-		this.time = time;
+	public void setDate(Date date) {
+		this.date = date;
 	}
 }

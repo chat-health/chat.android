@@ -100,7 +100,7 @@ public class ResourcesActivity extends ListActivity {
 	public void markResourceAccessed(Resource res) {
 		int workerId = 0;
 		int visitId = 0;
-		Date time = new Date();
+		Date date = new Date();
 		if (bundle.getInt("workerId") != 0) {
 			workerId = bundle.getInt("workerId");
 		}
@@ -108,7 +108,7 @@ public class ResourcesActivity extends ListActivity {
 			visitId = bundle.getInt("visitId");
 		}
 		
-		ResourceAccessed ra = new ResourceAccessed(res.getId(), visitId, workerId, time);
+		ResourceAccessed ra = new ResourceAccessed(res.getId(), visitId, workerId, date);
 	    Dao<ResourceAccessed, Integer> raDao;
 	    DatabaseHelper raDbHelper = new DatabaseHelper(context);
 	    try {

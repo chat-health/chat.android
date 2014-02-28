@@ -45,12 +45,6 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
 		populateVaccineList();
     }
     
-    // TODO: we need someway to update the UI when the fragment is complete
-//    @Override
-//    public void onResume() {
-//    	super.onResume();
-//    	Toast.makeText(getApplicationContext(),"onResume triggered",Toast.LENGTH_SHORT).show();
-//    }
     
     private void populateVaccineList() {
     	List<LinearLayout> rows = new ArrayList<LinearLayout>();
@@ -78,7 +72,7 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
     	if (rows.size() >= vList.size()) {
 	    	for (int i = 0; i < vList.size(); i++) {
 	    		Vaccine v = vList.get(i);
-	    		// make the headers visible - TODO, finish these, find a cleaner way to do this
+	    		// make the headers visible
 	    		// 18 months
 	    		if (v.getAge() >= 1.5) {
 	    			TextView tv = (TextView) findViewById(R.id.age_header6);
@@ -106,7 +100,6 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
 	    		}
 	    		
 	    		// make the rows visible, and populate.
-				//LinearLayout row = (LinearLayout) shortNames.get(i).getParent();
 				LinearLayout row = rows.get(i);
 				row.setVisibility(View.VISIBLE);
 				ImageView flag = (ImageView)row.getChildAt(0);
