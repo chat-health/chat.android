@@ -3,6 +3,7 @@ package org.chat.android;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import org.chat.android.models.VaccineRecorded;
 import org.chat.android.models.Visit;
@@ -49,7 +50,10 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
 	public void onDateSet(DatePicker view, int year, int month, int day) {
 		int vaccineId = (Integer) activity_date_selected.getTag();
-		Date d = new Date(year, month, day);
+		
+		GregorianCalendar gc = new GregorianCalendar(year, month, day);
+		Date d = gc.getTime();
+//		Date d = new Date(year, month, day);
 		VaccineRecorded vr = new VaccineRecorded(vaccineId, clientId, visitId, d);
     	
     	Dao<VaccineRecorded, Integer> vrDao;

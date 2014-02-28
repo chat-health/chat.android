@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -34,6 +35,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.stmt.DeleteBuilder;
 
 import android.accounts.Account;
@@ -171,8 +173,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject c = jsonArray.getJSONObject(i);
 	                	// Clients
-	                	Client client = new Client(c.getInt("_id"), c.getString("first_name"), c.getString("last_name"), c.getInt("hh_id"), c.getString("gender"), parseDateString(c.getString("date_of_birth")));
-	            	    clientDao.create(client);
+	                	Client client = new Client(c.getInt("_id"), c.getString("first_name"), c.getString("last_name"), c.getInt("hh_id"), c.getString("gender"), parseBirthDateString(c.getString("date_of_birth")));
+	            	    int numCreated = clientDao.create(client);
+	            	    
+	            	    if (numCreated != 1) {
+	            	    	Log.i("SyncAdapter", "create seem to have failed trying update ");
+	            	    	clientDao.update(client);
+	            	    }
 	                }
                 } else if ("households" == modelName) {
 	                Dao<Household, Integer> householdsDao;
@@ -246,7 +253,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 					Visit temp = iterator.next();
 					Log.i("SyncAdapter", temp.getType()+", "+temp.getId());
 					JSONObject json = new JSONObject();
-					json.put("id", temp.getId());
+					json.put("_id", temp.getId());
+					json.put("worker_id", temp.getWorkerId());
+					json.put("role", temp.getRole());
+					json.put("hh_id", temp.getHhId());
+					json.put("lat", temp.getLat());
+					json.put("lon", temp.getLon());
+					json.put("start_time", temp.getLat());
+					json.put("end_time", temp.getLat());
 					json.put("type", temp.getType());
 					// put object into array
 					jsonArray.put(json);
@@ -258,20 +272,21 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 				Dao<Attendance, Integer> aDao;
 				aDao = dbHelper.getAttendanceDao();
 				
-				List<Attendance> attendanceList = aDao.queryBuilder().where().eq("visit_id", 2).query();
+//				List<Attendance> attendanceList = aDao.queryBuilder().where().eq("visit_id", 2).query();
+				List<Attendance> attendanceList = aDao.queryBuilder().where().eq("dirty", true).query();
 				Iterator<Attendance> iterator = attendanceList.iterator();
 				
 				while (iterator.hasNext()) {
 					Attendance a = iterator.next();
 					Log.i("SyncAdapter", a.getId()+", "+a.getVisitId()+", "+a.getClientId());
 					JSONObject json = new JSONObject();
-					json.put("id", a.getId());
+					json.put("_id", a.getId());
 					json.put("visit_id", a.getVisitId());
 					json.put("client_id", a.getClientId());
 					// put object into array
 					jsonArray.put(json);
 				}
-				Log.i("SyncAdapter", jsonArray.toString());
+				Log.i("SyncAdapter", "Created attendance jsonArray: "+jsonArray.toString());
 			}
 			
 		} catch (SQLException e1) {
@@ -298,39 +313,56 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         	//url with the post data
             HttpPost httpost = new HttpPost(url);
             
-            //passes the results to a string builder/entity
-            StringEntity se = new StringEntity(jsonArray.toString());
-
-            //sets the post request as the resulting string
-            httpost.setEntity(se);
-            //sets a request header so the page receiving the request
-            //will know what to do with it
-            httpost.setHeader("Accept", "application/json");
-            httpost.setHeader("Content-type", "application/json");
-
-            //Handles what is returned from the page 
-            ResponseHandler responseHandler = new BasicResponseHandler();
-//            return httpclient.execute(httpost, responseHandler);
-        	
-            response = httpclient.execute(httpost);
-            // checking response to see if it worked ok
-            StatusLine statusLine = response.getStatusLine();
-            if (statusLine.getStatusCode() == HttpStatus.SC_OK){
-            	// all that obvious receiving business
-                ByteArrayOutputStream out = new ByteArrayOutputStream();
-                response.getEntity().writeTo(out);
-                out.close();
-                responseString = out.toString();
-                Log.i("SyncAdapter", "Response text: \n"+responseString);
-            } else{
-                //Closes the connection.
-                response.getEntity().getContent().close();
-                throw new IOException(statusLine.getReasonPhrase());
-            }
+            // Go over all objects in jsonArray and POST them individually
+            
+            for (int i=0;i<jsonArray.length();i++) {
+            	// Retrieve object
+            	JSONObject jsonObj = jsonArray.getJSONObject(i);
+            	
+	            //passes the results to a string builder/entity
+	            StringEntity se = new StringEntity(jsonObj.toString());
+	
+	            //sets the post request as the resulting string
+	            httpost.setEntity(se);
+	            //sets a request header so the page receiving the request
+	            //will know what to do with it
+	            httpost.setHeader("Accept", "application/json");
+	            httpost.setHeader("Content-type", "application/json");
+	
+	            //Handles what is returned from the page 
+	            ResponseHandler responseHandler = new BasicResponseHandler();
+	//            return httpclient.execute(httpost, responseHandler);
+	        	
+	            response = httpclient.execute(httpost);
+	            
+	            // checking response to see if it worked ok
+	            StatusLine statusLine = response.getStatusLine();
+	            
+	//            String statusCode = Integer.toString(statusLine.getStatusCode());
+	            String statusCode = String.valueOf(statusLine.getStatusCode());
+	            
+	            Log.i("SyncAdapter","Status code of post to url "+url+": "+statusCode);
+	            
+	            if (statusLine.getStatusCode() == HttpStatus.SC_OK){
+	            	//TODO set dirty flag to false in internal DB
+	            	// all that obvious receiving business
+	                ByteArrayOutputStream out = new ByteArrayOutputStream();
+	                response.getEntity().writeTo(out);
+	                out.close();
+	                responseString = out.toString();
+	                Log.i("SyncAdapter", "Response text: \n"+responseString);
+	            } else{
+	                //Closes the connection.
+	                response.getEntity().getContent().close();
+	                throw new IOException(statusLine.getReasonPhrase());
+	            }
+        	}
         } catch (ClientProtocolException e) {
             //TODO Handle problems..
         } catch (IOException e) {
             //TODO Handle problems..
+        } catch (JSONException e) {
+        	//TODO Handle problems..
         }
 	}
 	
@@ -339,18 +371,23 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		//JSON: 2014-02-18T18:04:39.546Z
 		//ORM Date: 2014-02-18 18:04:39.555
 		Log.i("SyncAdapter", "dateStr: "+input);
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:SS");
-		if ( input.endsWith( "Z" ) ) {
-            input = input.substring( 0, input.length() - 1) + "GMT-00:00";
-        } else {
-            int inset = 6;
-            String s0 = input.substring( 0, input.length() - inset );
-            String s1 = input.substring( input.length() - inset, input.length() );
-            input = s0 + "GMT" + s1;
-        }
-		//Log.i("SyncAdapter", "formatter: "+formatter);
-        Date convertedDate = (Date) formatter.parse(input);
-        //Log.i("SyncAdapter", "date obj: "+convertedDate);
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");	
+		formatter.setTimeZone(TimeZone.getTimeZone("GMT-00:00"));
+		Log.i("SyncAdapter", "formatter: "+formatter);
+        Date convertedDate =  formatter.parse(input);
+        Log.i("SyncAdapter", "date obj: "+convertedDate.toString());
+		return convertedDate;
+	}
+	
+	private Date parseBirthDateString(String input) throws ParseException {
+		//JSON: 2014-02-18T18:04:39.546Z
+		//ORM Date: 2014-02-18 18:04:39.555
+		Log.i("SyncAdapter", "dateStr: "+input);
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");	
+		formatter.setTimeZone(TimeZone.getDefault());
+		Log.i("SyncAdapter", "formatter: "+formatter);
+        Date convertedDate =  formatter.parse(input);
+        Log.i("SyncAdapter", "date obj: "+convertedDate.toString());
 		return convertedDate;
 	}
 	
