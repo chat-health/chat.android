@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">CHAT</string>
     
-    <string name="base_url">http://backend.lmbutler-ssa.net/</string>
+    <string name="base_url">https://backend.lmbutler-ssa.net/</string>
 	<!-- <string name="base_url">http://10.0.1.112:8000/</string> -->
 	<!-- <string name="base_url">http://142.150.100.171:8000/</string> --> 
     
