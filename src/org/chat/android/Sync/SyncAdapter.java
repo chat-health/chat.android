@@ -102,6 +102,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	}
 	
 	private void retrieveDataFromServer() {
+		Log.i("SyncAdapter", "=================== DATA PULL ==================");
 		retrieveModel("workers");
 		retrieveModel("clients");
 		retrieveModel("households");
@@ -109,11 +110,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	}
 	
 	private void pushDataToServer() {
-//		JSONArray visitsJson = createJsonArrayOf("visits");
-//		pushModel("visits", visitsJson);
+		Log.i("SyncAdapter", "=================== DATA PUSH ==================");
+		JSONArray visitsJson = createJsonArrayOf("visits");
+		pushModel("visits", visitsJson);
 		
-		JSONArray attendanceJson = createJsonArrayOf("attendance");
-		pushModel("attendance", attendanceJson);
+//		JSONArray attendanceJson = createJsonArrayOf("attendance");
+//		pushModel("attendance", attendanceJson);
 	}
 	
 	private void retrieveModel(String modelName) {
@@ -259,9 +261,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 					json.put("hh_id", temp.getHhId());
 					json.put("lat", temp.getLat());
 					json.put("lon", temp.getLon());
-					json.put("start_time", temp.getLat());
-					json.put("end_time", temp.getLat());
+					json.put("start_time", formatDateToJsonDate(temp.getStartTime()));
+					json.put("end_time", formatDateToJsonDate(temp.getEndTime()));
 					json.put("type", temp.getType());
+					
 					// put object into array
 					jsonArray.put(json);
 				}
@@ -392,28 +395,37 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	}
 	
 	// TODO: needed later?
-//	private static String toString( Date date ) {
-//        
-//        SimpleDateFormat df = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ssz" );
-//        
-//        TimeZone tz = TimeZone.getTimeZone( "UTC" );
-//        
-//        df.setTimeZone( tz );
-//
-//        String output = df.format( date );
-//
-//        int inset0 = 9;
-//        int inset1 = 6;
-//        
-//        String s0 = output.substring( 0, output.length() - inset0 );
-//        String s1 = output.substring( output.length() - inset1, output.length() );
-//
-//        String result = s0 + s1;
-//
-//        result = result.replaceAll( "UTC", "+00:00" );
-//        
-//        return result;
-//        
-//    }
+	private static String formatDateToJsonDate(Date date) {
+		String output = "";
+		if (date != null) {
+			Log.i("SyncAdapter", "date to convert to string is: "+date.toString());
+			
+	        SimpleDateFormat df = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSSZ" );
+	        
+	        TimeZone tz = TimeZone.getTimeZone( "UTC" );
+	        
+	        df.setTimeZone( tz );
+	
+	        output = df.format( date );
+	        
+	        Log.i("SyncAdapter", "date String is: "+output);
+	
+	//        int inset0 = 9;
+	//        int inset1 = 6;
+	//        
+	//        String s0 = output.substring( 0, output.length() - inset0 );
+	//        String s1 = output.substring( output.length() - inset1, output.length() );
+	//
+	//        String result = s0 + s1;
+	//
+	//        result = result.replaceAll( "UTC", "+00:00" );
+	//        
+	        return output;
+		} else {
+			Log.i("SyncAdapter", "Date is empty so return empty string");
+			return output;
+		}
+        
+    }
 
 }
