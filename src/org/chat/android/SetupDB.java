@@ -417,7 +417,6 @@ public class SetupDB extends Activity {
 	        pageDao7.create(page7);
 	        pageDao8 = pageDbHelper.getHealthPagesDao();
 	        pageDao8.create(page8);
-	        
 	        pageDao9 = pageDbHelper.getHealthPagesDao();
 	        pageDao9.create(page9);
 	        pageDao10 = pageDbHelper.getHealthPagesDao();

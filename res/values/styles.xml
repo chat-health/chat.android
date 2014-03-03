@@ -106,12 +106,6 @@
 	</style>
 		
 	<!-- styles used in the health/pages layouts -->
-<!-- 	<style name="smallTextContainer">
-	    <item name="android:layout_width">300dp</item>
-	    <item name="android:layout_height">170dp</item>
-	    <item name="android:textSize">28sp</item>	    
-	</style> -->
-	
 	<style name="titleContainer">
 	    <item name="android:layout_width">fill_parent</item>
 	    <item name="android:layout_height">wrap_content</item>
@@ -123,7 +117,6 @@
 	    <item name="android:layout_width">fill_parent</item>
 	    <item name="android:layout_height">wrap_content</item>
 	    <item name="android:textSize">28sp</item>
-	      
 	</style>
 	<!-- <item name="android:lineSpacingMultiplier">1.4</item>   -->
 	<style name="healthRadioGroup">
@@ -186,6 +179,14 @@
 	    <item name="android:layout_height">wrap_content</item>
 	    <item name="android:text">Date received</item>
 	    <item name="android:onClick">showDatePickerDialog</item>
+	</style>
+	
+	<style name="vaccineSummaryContainer">
+	    <item name="android:layout_width">fill_parent</item>
+	    <item name="android:layout_height">wrap_content</item>
+	    <item name="android:textSize">28sp</item>
+	    <item name="android:layout_marginTop">30dp</item>
+	    <item name="android:layout_marginLeft">40dp</item>
 	</style>
 	
 </resources>

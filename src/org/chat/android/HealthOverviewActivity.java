@@ -40,34 +40,36 @@ public class HealthOverviewActivity extends BaseActivity {
 		checkThemeComplete();
 	}
    
-	public void openHealthOverviewRecord(View v) {
-		String healthTheme = null;
-		healthTheme = (String) v.getTag();
-		Boolean previouslyAccessedFlag = false;
+	public void openHealthDetails(View v) {
+//		String healthTheme = null;
+//		
+//		Boolean previouslyAccessedFlag = false;
+//		
+//		Dao<HealthSelectRecorded, Integer> hsrDao;		
+//		DatabaseHelper hsrDbHelper = new DatabaseHelper(getApplicationContext());
+//		try {
+//			hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
+//			List<HealthSelectRecorded> hsrList = hsrDao.queryBuilder().where().eq("visit_id",visitId).and().eq("theme", healthTheme).query();			
+//			Iterator<HealthSelectRecorded> iter = hsrList.iterator();
+//			while (iter.hasNext()) {
+//				HealthSelectRecorded hsr = iter.next();
+//				previouslyAccessedFlag = true;
+//			}
+//		} catch (SQLException e2) {
+//			// TODO Auto-generated catch block
+//			e2.printStackTrace();
+//		}
+//		
+//		
+//		Intent i;
+//		if (previouslyAccessedFlag == true) {
+//			i = new Intent(HealthOverviewActivity.this, HealthDetailsActivity.class);
+//		} else {
+//			i = new Intent(HealthOverviewActivity.this, HealthOverviewRecordActivity.class);
+//		}
 		
-		Dao<HealthSelectRecorded, Integer> hsrDao;		
-		DatabaseHelper hsrDbHelper = new DatabaseHelper(getApplicationContext());
-		try {
-			hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
-			List<HealthSelectRecorded> hsrList = hsrDao.queryBuilder().where().eq("visit_id",visitId).and().eq("theme", healthTheme).query();			
-			Iterator<HealthSelectRecorded> iter = hsrList.iterator();
-			while (iter.hasNext()) {
-				HealthSelectRecorded hsr = iter.next();
-				previouslyAccessedFlag = true;
-			}
-		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-		
-		
-		Intent i;
-		if (previouslyAccessedFlag == true) {
-			i = new Intent(HealthOverviewActivity.this, HealthDetailsActivity.class);
-		} else {
-			i = new Intent(HealthOverviewActivity.this, HealthOverviewRecordActivity.class);
-		}
-		
+		String healthTheme = (String) v.getTag();
+		Intent i = new Intent(HealthOverviewActivity.this, HealthDetailsActivity.class);
 		Bundle b = new Bundle();
 		b.putString("healthTheme",healthTheme);
 		b.putInt("visitId",visitId);

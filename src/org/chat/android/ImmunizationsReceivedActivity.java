@@ -149,6 +149,7 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
         	b.putInt("clientId",clientId);
         	i.putExtras(b);
         	startActivity(i); 
+        	finish();
     	} else {
     		// else put user back on the CHA Overview screen
     		finish();

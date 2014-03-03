@@ -265,7 +265,6 @@ public class HomeActivity extends Activity {
     
     public void updateUIElements() {
     	Attendance attendance = null;
-    	//Boolean attSubmitted = false;
     	
     	// check if there is an attendance object for this visitId
     	attendance = ModelHelper.getAttendanceForVisitId(context, visitId);

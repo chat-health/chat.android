@@ -2,7 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:layout_marginLeft="100dp"
+    android:layout_marginRight="140dp"
+    android:layout_marginTop="50dp">
     
+    <TextView
+        style="@style/titleContainer"
+        android:layout_marginBottom="20dp"
+        android:text="Immunization Summary" />
+    <!-- ADD COLOR -->        
+
+    <TextView
+	    android:id="@+id/missing_vaccines_box"
+	    style="@style/vaccineSummaryContainer" />
+    
+    <TextView
+        style="@style/vaccineSummaryContainer"
+	    android:text="Refer the child for the required immunizations" />
+    
+    <TextView
+        style="@style/vaccineSummaryContainer"
+	    android:text="Discuss the importance of immunizations for children's health" />
+    
+	<Button 
+	    android:layout_width="120dp" 
+	    android:layout_height="wrap_content"
+	    android:layout_centerHorizontal="true"
+	    android:layout_alignParentBottom="true"
+	    android:layout_marginBottom="20dp"
+	    android:text="Done" 
+	    android:onClick="completeImmunizationSummary" />
 
 </LinearLayout>
