@@ -1,7 +1,10 @@
 package org.chat.android;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import org.chat.android.models.Visit;
 
@@ -141,6 +144,31 @@ public class BaseActivity extends Activity {
 	    intent.putExtra("EXIT", true);
 	    startActivity(intent);
 	}
+    
+    
+    /////// Helper functions
+    public Calendar dateToCal(Date d) {
+    	Calendar cal = new GregorianCalendar();
+        cal.setTime(d);
+        
+        return cal;
+    }
+    
+    public Date calToDate(Calendar c) {
+    	GregorianCalendar gc = new GregorianCalendar(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+		Date d = gc.getTime();
+		
+		return d;
+    }
+    
+    public String getMonthForInt(Calendar cal) {
+    	SimpleDateFormat sdf = new SimpleDateFormat("MMM");
+    	String monthName = sdf.format(cal.getTime());
+    	
+    	return monthName;
+    }    
+    
+    
     
 	/////// Sync Adapter stuff (hello boiler plate)
 	  /**

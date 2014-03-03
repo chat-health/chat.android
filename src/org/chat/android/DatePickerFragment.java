@@ -1,6 +1,7 @@
 package org.chat.android;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -53,7 +54,6 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 		
 		GregorianCalendar gc = new GregorianCalendar(year, month, day);
 		Date d = gc.getTime();
-//		Date d = new Date(year, month, day);
 		VaccineRecorded vr = new VaccineRecorded(vaccineId, clientId, visitId, d);
     	
     	Dao<VaccineRecorded, Integer> vrDao;
@@ -67,12 +67,18 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     	} 
     	
     	// wish we had a backbone style MVC thing going. So UI gets updated separately from the save. They'll be unsynced until next 
-		activity_date_selected.setText(String.valueOf(year) + "/" + String.valueOf(month+1) + "/" + String.valueOf(day));
+    	activity_date_selected.setText(getMonthForInt(gc) + " " + String.valueOf(day) + ", " + String.valueOf(year));
 		LinearLayout row = (LinearLayout) activity_date_selected.getParent();
 		row.getChildAt(0).setVisibility(View.INVISIBLE);
 		int c = getResources().getColor(android.R.color.black);					// an attempt to get the original color. TODO: get the right color here
 		((TextView) row.getChildAt(1)).setTextColor(c);
 		((TextView) row.getChildAt(2)).setTextColor(c);
-		
 	}
+	
+	private String getMonthForInt(Calendar cal) {
+    	SimpleDateFormat sdf = new SimpleDateFormat("MMM");
+    	String monthName = sdf.format(cal.getTime());
+    	
+    	return monthName;
+    }   
 }

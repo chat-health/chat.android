@@ -1,6 +1,7 @@
 package org.chat.android;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -38,9 +39,6 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
 		clientId = b.getInt("clientId");
 		
 		client = ModelHelper.getClientForId(context, clientId);
-	
-//		TextView tv = (TextView) findViewById(R.id.immunization_title_field);
-//		tv.setText("Which vaccines has " + client.getFirstName() +  " " + client.getLastName() + " received?");
 		
 		populateVaccineList();
     }
@@ -114,8 +112,9 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
 				VaccineRecorded vr = ModelHelper.getVaccineRecordedForClientIdAndVaccineId(context, client.getId(), v.getId());
 				// if there is a vaccineRecorded object for this vaccine and this client - think about if there are multiple vaccineRecordeds. This seems to work, tho just by default - takes the most recent VR as the correct one, which is the behaviour that we want
 				if (vr != null) {
-					Date date = vr.getDate();
-					dateBtn.setText(date.getYear() + "/" + date.getMonth() + "/" + date.getDay());
+					Date d = vr.getDate();
+					Calendar cal = dateToCal(d);
+					dateBtn.setText(getMonthForInt(cal) + " " + cal.get(Calendar.DAY_OF_MONTH) + ", " + cal.get(Calendar.YEAR));
 				} else {
 					flag.setVisibility(View.VISIBLE);
 					shortName.setTextColor(Color.parseColor("#EB2695"));
@@ -125,10 +124,8 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
     	} else {
     		Toast.makeText(getApplicationContext(),"More vaccines than UI elements - get technical support",Toast.LENGTH_LONG).show();
     	}
-    	
     }
 
-    
     public void completeImmunizationReceived(View v) {
     	// check if there are missing immunizations
     	Boolean missingVaccineFlag = false;
