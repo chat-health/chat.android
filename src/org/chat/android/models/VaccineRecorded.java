@@ -9,7 +9,7 @@ import com.j256.ormlite.table.DatabaseTable;
 /**
  * Created by colin
  */
-@DatabaseTable(tableName = "vaccine_recorded")
+@DatabaseTable(tableName = "vaccines_recorded")
 public class VaccineRecorded {
 	@DatabaseField
 	private int vaccine_id;

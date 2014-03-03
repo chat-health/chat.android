@@ -99,7 +99,7 @@ public class BaseActivity extends Activity {
 	    	       .setCancelable(false)
 	    	       .setPositiveButton("Yes, mark this visit as complete and log me out", new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
-	    	        	   markVisitComplete();
+	    	        	   checkVisitCompleteStatus();
 	    	        	   //triggerSyncAdapter();
 	    	           }
 	    	       })
@@ -119,6 +119,17 @@ public class BaseActivity extends Activity {
     private void prepopulateDB() {
 		Intent i = new Intent(this, SetupDB.class);
 		startActivity(i);
+    }
+    
+    private void checkVisitCompleteStatus() {
+    	/*  if:
+    			for each present child under 5, no flags - mark as complete
+    		else if
+    			there are flags but vaccine section has been accessed for each kid with flags - mark as complete
+    		else
+    			Toast.makeText(getApplicationContext(),"Visit not marked as complete - x still needs to be completed",Toast.LENGTH_LONG).show();
+    	*/ 
+    	markVisitComplete();
     }
     
     public void markVisitComplete() {
