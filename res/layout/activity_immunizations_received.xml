@@ -2,12 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
-    
-<!--     <TextView
-        android:id="@+id/immunization_title_field"
-        style="@style/titleText"
-        android:gravity="center"
-        android:layout_marginBottom="20dp" /> -->
 
     <ScrollView
        	android:layout_width="match_parent"
@@ -31,7 +25,7 @@
 		        <ImageView
 			        android:id="@+id/vaccine_flag1"
 			        style="@style/immunizationFlagBox"
-			        android:src="@drawable/backbutton"
+			        android:src="@drawable/flag"
 			        android:visibility="invisible" />
 		        <TextView
 			        android:id="@+id/vaccine_short_name1"
@@ -53,7 +47,7 @@
 		        <ImageView
 			        android:id="@+id/vaccine_flag2"
 			        style="@style/immunizationFlagBox"
-			        android:src="@drawable/backbutton"
+			        android:src="@drawable/flag"
 			        android:visibility="invisible" />
 		        <TextView
 			        android:id="@+id/vaccine_short_name2"
@@ -82,7 +76,7 @@
 		        <ImageView
 			        android:id="@+id/vaccine_flag3"
 			        style="@style/immunizationFlagBox"
-			        android:src="@drawable/backbutton"
+			        android:src="@drawable/flag"
 			        android:visibility="invisible" />
 		        <TextView
 			        android:id="@+id/vaccine_short_name3"
@@ -104,7 +98,7 @@
 		        <ImageView
 			        android:id="@+id/vaccine_flag4"
 			        style="@style/immunizationFlagBox"
-			        android:src="@drawable/backbutton"
+			        android:src="@drawable/flag"
 			        android:visibility="invisible" />
 		        <TextView
 			        android:id="@+id/vaccine_short_name4"
@@ -127,7 +121,7 @@
 		        <ImageView
 			        android:id="@+id/vaccine_flag5"
 			        style="@style/immunizationFlagBox"
-			        android:src="@drawable/backbutton"
+			        android:src="@drawable/flag"
 			        android:visibility="invisible" />
 		        <TextView
 			        android:id="@+id/vaccine_short_name5"
@@ -149,7 +143,7 @@
 		        <ImageView
 			        android:id="@+id/vaccine_flag6"
 			        style="@style/immunizationFlagBox"
-			        android:src="@drawable/backbutton"
+			        android:src="@drawable/flag"
 			        android:visibility="invisible" />
 		        <TextView
 			        android:id="@+id/vaccine_short_name6"
@@ -172,7 +166,7 @@
 		        <ImageView
 			        android:id="@+id/vaccine_flag7"
 			        style="@style/immunizationFlagBox"
-			        android:src="@drawable/backbutton"
+			        android:src="@drawable/flag"
 			        android:visibility="invisible" />
 		        <TextView
 			        android:id="@+id/vaccine_short_name7"
@@ -201,7 +195,7 @@
 		        <ImageView
 			        android:id="@+id/vaccine_flag8"
 			        style="@style/immunizationFlagBox"
-			        android:src="@drawable/backbutton"
+			        android:src="@drawable/flag"
 			        android:visibility="invisible" />
 		        <TextView
 			        android:id="@+id/vaccine_short_name8"
@@ -223,7 +217,7 @@
 		        <ImageView
 			        android:id="@+id/vaccine_flag9"
 			        style="@style/immunizationFlagBox"
-			        android:src="@drawable/backbutton"
+			        android:src="@drawable/flag"
 			        android:visibility="invisible" />
 		        <TextView
 			        android:id="@+id/vaccine_short_name9"
@@ -251,7 +245,7 @@
 		        <ImageView
 			        android:id="@+id/vaccine_flag10"
 			        style="@style/immunizationFlagBox"
-			        android:src="@drawable/backbutton"
+			        android:src="@drawable/flag"
 			        android:visibility="invisible" />
 		        <TextView
 			        android:id="@+id/vaccine_short_name10"
@@ -273,7 +267,7 @@
 		        <ImageView
 			        android:id="@+id/vaccine_flag11"
 			        style="@style/immunizationFlagBox"
-			        android:src="@drawable/backbutton"
+			        android:src="@drawable/flag"
 			        android:visibility="invisible" />
 		        <TextView
 			        android:id="@+id/vaccine_short_name11"
@@ -295,7 +289,7 @@
 		        <ImageView
 			        android:id="@+id/vaccine_flag12"
 			        style="@style/immunizationFlagBox"
-			        android:src="@drawable/backbutton"
+			        android:src="@drawable/flag"
 			        android:visibility="invisible" />
 		        <TextView
 			        android:id="@+id/vaccine_short_name12"
@@ -317,7 +311,7 @@
 		        <ImageView
 			        android:id="@+id/vaccine_flag13"
 			        style="@style/immunizationFlagBox"
-			        android:src="@drawable/backbutton"
+			        android:src="@drawable/flag"
 			        android:visibility="invisible" />
 		        <TextView
 			        android:id="@+id/vaccine_short_name13"
@@ -345,7 +339,7 @@
 		        <ImageView
 			        android:id="@+id/vaccine_flag14"
 			        style="@style/immunizationFlagBox"
-			        android:src="@drawable/backbutton"
+			        android:src="@drawable/flag"
 			        android:visibility="invisible" />
 		        <TextView
 			        android:id="@+id/vaccine_short_name14"
@@ -367,7 +361,7 @@
 		        <ImageView
 			        android:id="@+id/vaccine_flag15"
 			        style="@style/immunizationFlagBox"
-			        android:src="@drawable/backbutton"
+			        android:src="@drawable/flag"
 			        android:visibility="invisible" />
 		        <TextView
 			        android:id="@+id/vaccine_short_name15"
@@ -395,7 +389,7 @@
 		        <ImageView
 			        android:id="@+id/vaccine_flag16"
 			        style="@style/immunizationFlagBox"
-			        android:src="@drawable/backbutton"
+			        android:src="@drawable/flag"
 			        android:visibility="invisible" />
 		        <TextView
 			        android:id="@+id/vaccine_short_name16"
@@ -417,7 +411,7 @@
 		        <ImageView
 			        android:id="@+id/vaccine_flag17"
 			        style="@style/immunizationFlagBox"
-			        android:src="@drawable/backbutton"
+			        android:src="@drawable/flag"
 			        android:visibility="invisible" />
 		        <TextView
 			        android:id="@+id/vaccine_short_name17"
@@ -432,14 +426,34 @@
 			
 		</LinearLayout>
 	</ScrollView>
+	
+    <LinearLayout
+        android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="20dp">
+        <ImageView
+	        android:layout_width="20dp"
+	        android:layout_height="20dp"
+	        android:src="@drawable/flag" />
+        <TextView
+	        android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_marginLeft="10dp"
+		    android:textColor="#d4145a"
+	        android:text="@string/immunization_legend_text" />
+	</LinearLayout>
    	
-   	<Button 
-	    android:layout_width="120dp" 
-	    android:layout_height="wrap_content"
-	    android:layout_centerHorizontal="true"
-	    android:layout_alignParentBottom="true"
-	    android:layout_marginBottom="20dp"
-	    android:text="Done" 
-	    android:onClick="completeImmunizationReceived" />
+   	<ImageButton
+        android:layout_width="219dp"
+        android:layout_height="69dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/immunizationdonebutton"
+        android:onClick="completeImmunizationReceived" /> 
     
 </RelativeLayout>

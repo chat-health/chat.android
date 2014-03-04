@@ -7,7 +7,7 @@
 		style="@style/branchContainer"
         android:layout_centerInParent="true"
 		android:layout_alignParentLeft="true"
-		android:layout_marginLeft="250dp"
+		android:layout_marginLeft="280dp"
 		android:background="#EAEAEA" >
         <TextView
             android:id="@+id/health_assessment_title_field"
@@ -24,7 +24,7 @@
        	    style="@style/branchImage"
        	    android:layout_below="@+id/health_assessment_title_field"
        	    android:layout_marginTop="40dp"
-			android:src="@drawable/healthedimagedisabled"
+			android:src="@drawable/fpo"
        	    android:onClick="openCHADeliveryAsk" />
        	<ImageButton
        	    android:id="@+id/health_assessment_button"
@@ -41,7 +41,7 @@
 		style="@style/branchContainer"
         android:layout_centerInParent="true"
 		android:layout_alignParentRight="true"
-		android:layout_marginRight="250dp"
+		android:layout_marginRight="280dp"
 		android:background="#EAEAEA" >
         <TextView
             android:id="@+id/immunization_title_field"
@@ -58,8 +58,8 @@
 	        style="@style/branchImage"
 	        android:layout_below="@id/immunization_title_field"
 	        android:layout_marginTop="40dp"
-	        android:src="@drawable/thandananilogodisabled"
-	        android:onClick="openCHA" />
+	        android:src="@drawable/fpo"
+	        android:onClick="openImmunizationsReceived" />
        	<ImageButton
        	    android:id="@+id/immunization_button"
        	    style="@style/themeImageButton"

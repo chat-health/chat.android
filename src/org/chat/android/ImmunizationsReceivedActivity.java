@@ -117,8 +117,8 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
 					dateBtn.setText(getMonthForInt(cal) + " " + cal.get(Calendar.DAY_OF_MONTH) + ", " + cal.get(Calendar.YEAR));
 				} else {
 					flag.setVisibility(View.VISIBLE);
-					shortName.setTextColor(Color.parseColor("#EB2695"));
-					longName.setTextColor(Color.parseColor("#EB2695"));
+					shortName.setTextColor(Color.parseColor("#d4145a"));
+					longName.setTextColor(Color.parseColor("#d4145a"));
 				}
 	    	}
     	} else {

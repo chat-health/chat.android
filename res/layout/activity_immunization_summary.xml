@@ -1,37 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_marginLeft="100dp"
-    android:layout_marginRight="140dp"
-    android:layout_marginTop="50dp">
+    android:layout_height="match_parent">
     
-    <TextView
-        style="@style/titleContainer"
+    <LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="vertical"
+	    android:layout_marginLeft="100dp"
+	    android:layout_marginRight="140dp"
+	    android:layout_marginTop="50dp">
+	    <TextView
+	        style="@style/titleContainer"
+	        android:textColor="#84aeb2"
+	        android:text="@string/immunization_summary_title_text" />     
+	
+	    <TextView
+		    android:id="@+id/missing_vaccines_box"
+		    style="@style/vaccineSummaryContainer" />
+	    
+	    <TextView
+	        style="@style/vaccineSummaryContainer"
+		    android:text="@string/immunization_summary_refer_text" />
+	    
+	    <TextView
+	        style="@style/vaccineSummaryContainer"
+		    android:text="@string/immunization_summary_discuss_text" />
+	    
+	</LinearLayout>
+	
+	<ImageButton
+        android:layout_width="219dp"
+        android:layout_height="69dp"
+        android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
-        android:text="Immunization Summary" />
-    <!-- ADD COLOR -->        
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/immunizationdonebutton"
+        android:onClick="completeImmunizationSummary" /> 
 
-    <TextView
-	    android:id="@+id/missing_vaccines_box"
-	    style="@style/vaccineSummaryContainer" />
-    
-    <TextView
-        style="@style/vaccineSummaryContainer"
-	    android:text="Refer the child for the required immunizations" />
-    
-    <TextView
-        style="@style/vaccineSummaryContainer"
-	    android:text="Discuss the importance of immunizations for children's health" />
-    
-	<Button 
-	    android:layout_width="120dp" 
-	    android:layout_height="wrap_content"
-	    android:layout_centerHorizontal="true"
-	    android:layout_alignParentBottom="true"
-	    android:layout_marginBottom="20dp"
-	    android:text="Done" 
-	    android:onClick="completeImmunizationSummary" />
-
-</LinearLayout>
+</RelativeLayout>
