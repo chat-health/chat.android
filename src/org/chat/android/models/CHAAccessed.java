@@ -15,6 +15,8 @@ public class CHAAccessed {
     @DatabaseField
     private int visit_id;
     @DatabaseField
+    private String type;							// will be either health or immunization
+    @DatabaseField
     private Date start_time;
     @DatabaseField
     private Date end_time;
@@ -29,12 +31,15 @@ public class CHAAccessed {
      * Constructor that instantiates the private member variable(s)
      * @param client_id
      * @param visit_id
+     * @param type
      * @param start_time
      * 
      */
-    public CHAAccessed(int client_id, int visit_id, Date start_time) {
+    public CHAAccessed(int client_id, int visit_id, String type, Date start_time) {
     	this.client_id = client_id;
     	this.visit_id = visit_id;
+    	this.visit_id = visit_id;
+    	this.type = type;
     	this.start_time = start_time;
     }
     
@@ -45,6 +50,7 @@ public class CHAAccessed {
     public CHAAccessed(CHAAccessed existingServicesAccessedModel) {
         this.client_id = existingServicesAccessedModel.client_id;
         this.visit_id = existingServicesAccessedModel.visit_id;
+        this.type = existingServicesAccessedModel.type;
         this.start_time = existingServicesAccessedModel.start_time;
         this.end_time = existingServicesAccessedModel.end_time;
     }
@@ -64,6 +70,15 @@ public class CHAAccessed {
 	public void setVisitId(int visit_id) {
 		this.visit_id = visit_id;
 	}
+	
+	public String getType() {
+		return type;
+	}
+	
+	public void setType(String type) {
+		this.type = type;
+	}
+	
 	
 	public Date setStartTime() {
 		return start_time;
