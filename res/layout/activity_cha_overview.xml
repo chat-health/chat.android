@@ -3,7 +3,75 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
     
-	 	<RelativeLayout
+   	<RelativeLayout
+		style="@style/branchContainer"
+        android:layout_centerInParent="true"
+		android:layout_alignParentLeft="true"
+		android:layout_marginLeft="250dp"
+		android:background="#EAEAEA" >
+        <TextView
+            android:id="@+id/health_assessment_title_field"
+            style="@style/titleText"
+            android:textColor="@color/health_assessment"
+            android:text="@string/health_assessment_title_text" />
+        <View
+            android:id="@+id/health_assessment_divider"
+            style="@style/titleDivider"
+            android:background="@color/health_assessment"
+            android:layout_below="@id/health_assessment_title_field" />
+       	<ImageView
+       	    android:id="@+id/health_assessment_button_img"
+       	    style="@style/branchImage"
+       	    android:layout_below="@+id/health_assessment_title_field"
+       	    android:layout_marginTop="40dp"
+			android:src="@drawable/healthedimagedisabled"
+       	    android:onClick="openCHADeliveryAsk" />
+       	<ImageButton
+       	    android:id="@+id/health_assessment_button"
+       	    style="@style/themeImageButton"
+       	    android:layout_alignTop="@+id/health_assessment_button_img"
+       	    android:layout_toRightOf="@+id/health_assessment_button_img"
+       	    android:layout_marginLeft="20dp"
+       	    android:layout_marginTop="40dp"
+       	    android:src="@drawable/healthgobutton"
+       	    android:onClick="openCHADeliveryAsk" />
+	</RelativeLayout>
+	
+    <RelativeLayout
+		style="@style/branchContainer"
+        android:layout_centerInParent="true"
+		android:layout_alignParentRight="true"
+		android:layout_marginRight="250dp"
+		android:background="#EAEAEA" >
+        <TextView
+            android:id="@+id/immunization_title_field"
+            style="@style/titleText"
+            android:textColor="@color/immunization"
+            android:text="@string/immunization_title_text" />
+        <View
+            android:id="@+id/immunization_divider"
+            style="@style/titleDivider"
+            android:background="@color/immunization"
+            android:layout_below="@id/immunization_title_field" />
+        <ImageView
+	        android:id="@+id/immunization_button_img"
+	        style="@style/branchImage"
+	        android:layout_below="@id/immunization_title_field"
+	        android:layout_marginTop="40dp"
+	        android:src="@drawable/thandananilogodisabled"
+	        android:onClick="openCHA" />
+       	<ImageButton
+       	    android:id="@+id/immunization_button"
+       	    style="@style/themeImageButton"
+       	    android:layout_alignTop="@+id/immunization_button_img"
+       	    android:layout_toRightOf="@+id/immunization_button_img"
+       	    android:layout_marginLeft="20dp"
+       	    android:layout_marginTop="40dp"
+       	    android:src="@drawable/immunizationgobutton"
+       	    android:onClick="openImmunizationsReceived" />      
+	</RelativeLayout>
+	
+<!-- 	 	<RelativeLayout
 	 	    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 		    android:layout_centerVertical="true"
@@ -15,7 +83,7 @@
 			    android:layout_height="wrap_content"
 			    android:paddingLeft="32dp"
 			    android:paddingRight="32dp"
-			    android:text="CHA"
+			    android:text="Health"
 			    android:onClick="openCHADeliveryAsk" /> 
 		 	<Button
 			    android:id="@+id/immunizations_button"
@@ -26,6 +94,8 @@
 			    android:paddingRight="32dp"
 			    android:text="Vaccines"
 			    android:onClick="openImmunizationsReceived" /> 
-	 	</RelativeLayout>
+	 	</RelativeLayout> -->
 	 	
 </RelativeLayout>
+
+

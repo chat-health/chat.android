@@ -44,6 +44,8 @@
     <string name="home_health_education_title_text">Health Education</string>
     <string name="home_child_health_assessment_title_text">Ch Health Assessment</string>
     <string name="home_resources_title_text">Resources</string>
+    <string name="health_assessment_title_text">Health</string>
+    <string name="immunization_title_text">Immunization</string>
     
     <string name="service_delivery_title_text">Who were these services delivered to?</string>
     
