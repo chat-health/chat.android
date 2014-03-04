@@ -12,6 +12,7 @@ import com.j256.ormlite.table.TableUtils;
 import java.sql.SQLException;
 
 import org.chat.android.models.Attendance;
+import org.chat.android.models.CHAAccessed;
 import org.chat.android.models.Client;
 import org.chat.android.models.HealthPage;
 import org.chat.android.models.HealthSelect;
@@ -42,7 +43,7 @@ import org.chat.android.models.Worker;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "chat.db";
-    private static final int DATABASE_VERSION = 107;
+    private static final int DATABASE_VERSION = 109;
     private Dao<Visit, Integer> visitsDao = null;
     private Dao<Client, Integer> clientsDao = null;
     private Dao<Household, Integer> householdsDao = null;
@@ -68,6 +69,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<PageVideo1, Integer> pageVideo1Dao = null;
     private Dao<TopicVideo, Integer> topicVideoDao = null;
     
+    private Dao<CHAAccessed, Integer> chaAccessedDao = null;
     private Dao<Vaccine, Integer> vaccineDao = null;
     private Dao<VaccineRecorded, Integer> vaccineRecordedDao = null;
     
@@ -105,6 +107,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, PageSelect1.class);
             TableUtils.createTable(connectionSource, PageVideo1.class);
             TableUtils.createTable(connectionSource, TopicVideo.class);
+            TableUtils.createTable(connectionSource, CHAAccessed.class);
             TableUtils.createTable(connectionSource, Vaccine.class);
             TableUtils.createTable(connectionSource, VaccineRecorded.class);
         } catch (SQLException e) {
@@ -137,6 +140,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, PageSelect1.class, true);
             TableUtils.dropTable(connectionSource, PageVideo1.class, true);
             TableUtils.dropTable(connectionSource, TopicVideo.class, true);
+            TableUtils.dropTable(connectionSource, CHAAccessed.class, true);
             TableUtils.dropTable(connectionSource, Vaccine.class, true);
             TableUtils.dropTable(connectionSource, VaccineRecorded.class, true);
             onCreate(sqLiteDatabase, connectionSource);
@@ -280,6 +284,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
         return topicVideoDao;
     }
+    public Dao<CHAAccessed, Integer> getCHAAccessedDao() throws SQLException {
+        if (chaAccessedDao == null) {
+        	chaAccessedDao = getDao(CHAAccessed.class);
+        }
+        return chaAccessedDao;
+    }
     public Dao<Vaccine, Integer> getVaccineDao() throws SQLException {
         if (vaccineDao == null) {
         	vaccineDao = getDao(Vaccine.class);
@@ -318,6 +328,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         pageSelect1Dao = null;
         pageVideo1Dao = null;
         topicVideoDao = null;
+        chaAccessedDao = null;
         vaccineDao = null;
         vaccineRecordedDao = null;
     }

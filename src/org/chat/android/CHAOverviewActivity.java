@@ -1,6 +1,13 @@
 package org.chat.android;
 
+import java.sql.SQLException;
+import java.util.Date;
+
+import org.chat.android.models.CHAAccessed;
 import org.chat.android.models.Client;
+import org.chat.android.models.Visit;
+
+import com.j256.ormlite.dao.Dao;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -28,6 +35,8 @@ public class CHAOverviewActivity extends BaseActivity {
     }
     
     public void openCHADeliveryAsk(View v) {
+    	setupCHAAccessedObject("health");
+    	
     	Intent i = new Intent(CHAOverviewActivity.this, CHADeliveryAsk.class);
     	Bundle b = new Bundle();
     	b.putInt("visitId",visitId);
@@ -50,7 +59,9 @@ public class CHAOverviewActivity extends BaseActivity {
 //        })
 //        .setPositiveButton(R.string.action_yes, new OnClickListener() {
 //            public void onClick(DialogInterface arg0, int arg1) {
-            	Intent i = new Intent(CHAOverviewActivity.this, ImmunizationsReceivedActivity.class);
+    			setupCHAAccessedObject("health");
+            	
+    			Intent i = new Intent(CHAOverviewActivity.this, ImmunizationsReceivedActivity.class);
             	Bundle b = new Bundle();
             	b.putInt("visitId",visitId);
             	b.putInt("hhId",hhId);
@@ -59,5 +70,23 @@ public class CHAOverviewActivity extends BaseActivity {
             	startActivity(i); 
 //            }
 //        }).create().show();
+    }
+    
+    private void setupCHAAccessedObject(String type) {
+		Date startTime = new Date();
+
+		// create a new Visit object to be used for this visit - TODO: make sure that onCreate is only called once (ie not every time we return from the ServiceDeliveryActivity)
+    	CHAAccessed chaAccessed = new CHAAccessed(clientId, visitId, type, startTime);
+    	
+    	Dao<CHAAccessed, Integer> chaaDao;
+    	DatabaseHelper chaaDbHelper = new DatabaseHelper(context);
+    	try {
+    		chaaDao = chaaDbHelper.getCHAAccessedDao();
+    		chaaDao.create(chaAccessed);
+    		visitId = visit.getId();
+    	} catch (SQLException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    	} 
     }
 }

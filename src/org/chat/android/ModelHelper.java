@@ -2,10 +2,12 @@ package org.chat.android;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import org.chat.android.models.Attendance;
+import org.chat.android.models.CHAAccessed;
 import org.chat.android.models.Client;
 import org.chat.android.models.HealthSelect;
 import org.chat.android.models.HealthSelectRecorded;
@@ -326,6 +328,37 @@ public class ModelHelper {
 		}
 		
 		return hsr;
+	}
+	
+	public static CHAAccessed getCHAAccessedForVisitIdAndClientId(Context context, int visitId, int clientId) {
+		Dao<CHAAccessed, Integer> chaaDao;		
+		DatabaseHelper chaaDbHelper = new DatabaseHelper(context);
+		CHAAccessed chaa = null;
+		try {
+			chaaDao = chaaDbHelper.getCHAAccessedDao();
+			List<CHAAccessed> chaaList = chaaDao.queryBuilder().where().eq("visit_id",visitId).and().eq("client_id",clientId).query();
+			Iterator<CHAAccessed> iter = chaaList.iterator();
+			while (iter.hasNext()) {
+				chaa = iter.next();
+			}
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		return chaa;
+	}
+	
+	public static void setCHAAccessed(Context context, CHAAccessed chaa) {
+	    Dao<CHAAccessed, Integer> chaaDao;
+	    DatabaseHelper chaaDbHelper = new DatabaseHelper(context);
+	    try {
+	    	chaaDao = chaaDbHelper.getCHAAccessedDao();
+	    	chaaDao.update(chaa);
+	    } catch (SQLException e1) {
+	        // TODO Auto-generated catch block
+	        e1.printStackTrace();
+	    }
 	}
 	
 	public static List<Vaccine> getVaccinesForAge(Context context, double age) {

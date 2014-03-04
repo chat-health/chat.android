@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.chat.android.models.CHAAccessed;
 import org.chat.android.models.Client;
 import org.chat.android.models.Vaccine;
 import org.chat.android.models.VaccineRecorded;
@@ -127,11 +128,16 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
     }
 
     public void completeImmunizationReceived(View v) {
+    	CHAAccessed chaa = ModelHelper.getCHAAccessedForVisitIdAndClientId(context, visitId, clientId);
+    	Date d = new Date();
+    	chaa.setEndTime(d);
+    	ModelHelper.setCHAAccessed(context, chaa);
+    	
     	// check if there are missing immunizations
     	Boolean missingVaccineFlag = false;
     	for (Vaccine vaccine : vList) {
     		// will return null if it doesn't exist
-    		VaccineRecorded vr = ModelHelper.getVaccineRecordedForClientIdAndVaccineId(context, client.getId(), vaccine.getId());
+    		VaccineRecorded vr = ModelHelper.getVaccineRecordedForClientIdAndVaccineId(context, clientId, vaccine.getId());
     		if (vr == null) {
     			missingVaccineFlag = true;
     		}

@@ -10,6 +10,8 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "cha_accessed")
 public class CHAAccessed {
+	@DatabaseField(generatedId = true)
+	private int id;
     @DatabaseField
     private int client_id;
     @DatabaseField
@@ -54,6 +56,10 @@ public class CHAAccessed {
         this.start_time = existingServicesAccessedModel.start_time;
         this.end_time = existingServicesAccessedModel.end_time;
     }
+    
+    public int getId() {
+		return id;
+	}
 
 	public int getClientId() {
 		return client_id;
