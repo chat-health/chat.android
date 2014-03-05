@@ -13,9 +13,11 @@ import org.chat.android.models.PageAssessment1;
 
 import com.j256.ormlite.dao.Dao;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -178,7 +180,7 @@ public class CHADelivery extends BaseActivity {
 	        e1.printStackTrace();
 	    }
 	
-	    finish();				// TODO check me!
+	    finish();
 	}
 
 
@@ -196,6 +198,25 @@ public class CHADelivery extends BaseActivity {
     	    // TODO Auto-generated catch block
     	    e.printStackTrace();
     	}
+	}
+	
+	public void onBackPressed() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage("Exit health assessment delivery?")
+		       .setCancelable(false)
+		       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		        	   finish();
+		           }
+		       })
+		       .setNegativeButton("No", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		                dialog.cancel();
+		           }
+		       });
+		AlertDialog alert = builder.create();
+		alert.show();
+	}
 		
 		
 		
@@ -227,7 +248,6 @@ public class CHADelivery extends BaseActivity {
 //		        e1.printStackTrace();
 //		    }
 //		}
-	}
 
 
 
@@ -236,81 +256,3 @@ public class CHADelivery extends BaseActivity {
 }
 
 
-
-
-
-
-
-
-
-
-
-//
-//
-//
-//public class HealthDeliveryActivity extends BaseActivity {
-//	Context context = null;
-//	
-
-//	
-//	public void createHTAObject() {
-//		// update the HealthTopicAccessed object and save to DB
-//		Date startTime = new Date();
-//		healthTopicAccessed = new HealthTopicAccessed(topicId, visitId, hhId, topicName, startTime);
-//	    Dao<HealthTopicAccessed, Integer> htaDao;
-//	    DatabaseHelper htaDbHelper = new DatabaseHelper(context);
-//	    try {
-//	    	htaDao = htaDbHelper.getHealthTopicsAccessed();
-//	    	htaDao.create(healthTopicAccessed);
-//	    } catch (SQLException e1) {
-//	        // TODO Auto-generated catch block
-//	        e1.printStackTrace();
-//	    }		
-//	}
-//	
-//	public void markTopicComplete() {
-//		Toast.makeText(getApplicationContext(),"Health topic marked as delivered to client",Toast.LENGTH_LONG).show();
-//		
-//		// update the HealthTopicAccessed object and save to DB
-//		Date endTime = new Date();
-//		healthTopicAccessed.setEndTime(endTime);
-//		
-//	    Dao<HealthTopicAccessed, Integer> htaDao;
-//	    DatabaseHelper htaDbHelper = new DatabaseHelper(context);
-//	    try {
-//	    	htaDao = htaDbHelper.getHealthTopicsAccessed();
-//	    	htaDao.update(healthTopicAccessed);
-//	    } catch (SQLException e1) {
-//	        // TODO Auto-generated catch block
-//	        e1.printStackTrace();
-//	    }
-//
-//		finishHealthDelivery();
-//	}
-//	
-//	public void finishHealthDelivery() {
-//		// finish this activity (will bump the last activity to the front - HealthDetails - which is what we want)
-//		finish();
-//	}
-//
-//	public void onBackPressed() {
-//		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//    	builder.setMessage("Exit health education delivery?")
-//    	       .setCancelable(false)
-//    	       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//    	           public void onClick(DialogInterface dialog, int id) {
-//    	        	   finishHealthDelivery();
-//    	           }
-//    	       })
-//    	       .setNegativeButton("No", new DialogInterface.OnClickListener() {
-//    	           public void onClick(DialogInterface dialog, int id) {
-//    	                dialog.cancel();
-//    	           }
-//    	       });
-//    	AlertDialog alert = builder.create();
-//    	alert.show();
-//	}
-//	
-//	
-//	
-//}
