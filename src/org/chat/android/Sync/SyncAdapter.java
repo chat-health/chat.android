@@ -132,8 +132,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         	Log.i("SyncAdapter", "Get to URL: "+url);
         	
             response = httpclient.execute(new HttpGet(url));
+            StatusLine statusLine = response.getStatusLine();            
+            Log.i("SyncAdapter","Status code: "+statusLine.getStatusCode()+" and status line: "+statusLine.getReasonPhrase());
+            
             // checking response to see if it worked ok
-            StatusLine statusLine = response.getStatusLine();
             if (statusLine.getStatusCode() == HttpStatus.SC_OK){
             	// all that obvious receiving business
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -238,15 +240,19 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 }
             } else{
                 //Closes the connection.
+            	Log.e("SyncAdapter", statusLine.getReasonPhrase());
                 response.getEntity().getContent().close();
                 throw new IOException(statusLine.getReasonPhrase());
             }
         } catch (ClientProtocolException e) {
             //TODO Handle problems..
+        	e.printStackTrace();
         } catch (IOException e) {
             //TODO Handle problems..
+        	e.printStackTrace();
         } catch (JSONException e) {
         	//TODO Handle problems..
+        	e.printStackTrace();
         } catch (SQLException e1) {
 	        // TODO Auto-generated catch block
 	        e1.printStackTrace();
