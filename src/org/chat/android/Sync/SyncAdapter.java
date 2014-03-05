@@ -27,6 +27,7 @@ import org.chat.android.R;
 import org.chat.android.models.Attendance;
 import org.chat.android.models.Client;
 import org.chat.android.models.Household;
+import org.chat.android.models.PageAssessment1;
 import org.chat.android.models.Visit;
 import org.chat.android.models.Worker;
 import org.chat.android.models.Service;
@@ -107,6 +108,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		retrieveModel("clients");
 		retrieveModel("households");
 		retrieveModel("services");
+		
+		retrieveModel("page_assessment1");
 	}
 	
 	private void pushDataToServer() {
@@ -214,6 +217,23 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	JSONObject h = jsonArray.getJSONObject(i);
 	                	Service service = new Service (h.getInt("_id"), h.getString("name"), h.getString("type"), h.getString("role"), h.getString("instructions"));
 	                	servicesDao.create(service);
+	                }
+                } else if ("page_assessment1" == modelName) {
+                	Log.i("SyncAdapter", "Into pageAssessment1 if");
+	                Dao<PageAssessment1, Integer> paDao;
+	                paDao = dbHelper.getPageAssessment1Dao();
+	                
+	                // delete all entries
+	                if (jsonArray.length() > 0) {
+		                DeleteBuilder<PageAssessment1, Integer> deletePA1 = paDao.deleteBuilder();
+		                deletePA1.delete();
+	                }
+	                
+	                // add new entries received via REST call
+	                for (int i=0; i < jsonArray.length(); i++) {
+	                	JSONObject h = jsonArray.getJSONObject(i);
+	                	PageAssessment1 pa1 = new PageAssessment1 (h.getInt("_id"), h.getString("type"), h.getString("en_content1"), h.getString("zu_content1"), h.getString("en_content2"), h.getString("zu_content2"), h.getString("en_content3"), h.getString("zu_content3"));
+	                	paDao.create(pa1);
 	                }
                 }
             } else{

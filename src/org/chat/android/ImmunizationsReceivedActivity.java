@@ -128,7 +128,7 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
     }
 
     public void completeImmunizationReceived(View v) {
-    	CHAAccessed chaa = ModelHelper.getCHAAccessedForVisitIdAndClientId(context, visitId, clientId);
+    	CHAAccessed chaa = ModelHelper.getCHAAccessedForVisitIdAndClientIdAndType(context, visitId, clientId, "immunization");
     	Date d = new Date();
     	chaa.setEndTime(d);
     	ModelHelper.setCHAAccessed(context, chaa);

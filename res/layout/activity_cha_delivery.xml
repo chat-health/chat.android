@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+     <RelativeLayout
+        android:id="@+id/cha_delivery_screen"
+        style="@style/healthContainer"
+        android:layout_centerHorizontal="true" >
+        
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="70dp"
+            android:layout_alignParentBottom="true"
+	        android:background="#eeeeee" >
+		 	<ImageButton
+		        android:id="@+id/cha_back_button"
+		        android:layout_width="238dp"
+		        android:layout_height="71dp"
+		        android:src="@drawable/backbutton"
+		        android:onClick="moveBack" /> 	
+		 	<TextView
+		        android:id="@+id/cha_pagination_text_field"
+		        android:layout_width="wrap_content"
+		        android:layout_height="fill_parent"
+		        android:layout_centerHorizontal="true"
+		        android:textSize="26sp"
+		        android:gravity="center" />
+		 	<ImageButton
+		        android:id="@+id/cha_next_button"
+		        android:layout_width="238dp"
+		        android:layout_height="71dp"
+		        android:layout_alignParentRight="true"
+		        android:onClick="moveNext" />
+		</RelativeLayout>
+
+	    <FrameLayout
+	        android:id="@+id/placeholder"
+	        android:layout_width="match_parent"
+	        android:layout_height="fill_parent"
+	        android:padding="50dp"
+	        android:layout_marginBottom="50dp">
+	    </FrameLayout>
+
+    </RelativeLayout>   
+</RelativeLayout>

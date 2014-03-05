@@ -37,7 +37,7 @@ public class CHAOverviewActivity extends BaseActivity {
     public void openCHADeliveryAsk(View v) {
     	setupCHAAccessedObject("health");
     	
-    	Intent i = new Intent(CHAOverviewActivity.this, CHADeliveryAsk.class);
+    	Intent i = new Intent(CHAOverviewActivity.this, CHADelivery.class);
     	Bundle b = new Bundle();
     	b.putInt("visitId",visitId);
     	b.putInt("hhId",hhId);
@@ -59,7 +59,7 @@ public class CHAOverviewActivity extends BaseActivity {
 //        })
 //        .setPositiveButton(R.string.action_yes, new OnClickListener() {
 //            public void onClick(DialogInterface arg0, int arg1) {
-    			setupCHAAccessedObject("health");
+    			setupCHAAccessedObject("immunization");
             	
     			Intent i = new Intent(CHAOverviewActivity.this, ImmunizationsReceivedActivity.class);
             	Bundle b = new Bundle();
@@ -75,7 +75,6 @@ public class CHAOverviewActivity extends BaseActivity {
     private void setupCHAAccessedObject(String type) {
 		Date startTime = new Date();
 
-		// create a new Visit object to be used for this visit - TODO: make sure that onCreate is only called once (ie not every time we return from the ServiceDeliveryActivity)
     	CHAAccessed chaAccessed = new CHAAccessed(clientId, visitId, type, startTime);
     	
     	Dao<CHAAccessed, Integer> chaaDao;

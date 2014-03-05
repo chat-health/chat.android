@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+    
+    <TextView
+        android:id="@+id/a1title"
+        style="@style/titleContainer"
+        android:textColor="#2d94b3" />
+
+    <TextView
+        android:id="@+id/a1content1"
+        style="@style/shortTextContainer"
+        android:layout_below="@id/a1title"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp" />
+    
+    <RadioGroup
+        android:id="@+id/a1rg1"
+        style="@style/healthRadioGroup"
+        android:layout_below="@id/a1content1"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="15dp">
+ 
+        <RadioButton
+            android:id="@+id/a1rb1_1"
+            style="@style/healthRadioButton"
+            android:visibility="gone"
+            android:onClick="recordSelect" />
+        <RadioButton
+            android:id="@+id/a1rb1_2"
+            style="@style/healthRadioButton"
+            android:visibility="gone"
+            android:onClick="recordSelect" />
+        
+    </RadioGroup>
+    
+    <TextView
+        android:id="@+id/a1content2"
+        style="@style/shortTextContainer"
+        android:layout_below="@id/a1rg1"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp"
+        android:visibility="gone" />
+    
+    <RadioGroup
+        android:id="@+id/a1rg2"
+        style="@style/healthRadioGroup"
+        android:layout_below="@id/a1content2"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="15dp">
+ 
+        <RadioButton
+            android:id="@+id/a1rb2_1"
+            style="@style/healthRadioButton"
+            android:visibility="gone"
+            android:onClick="recordSelect" />
+        <RadioButton
+            android:id="@+id/a1rb2_2"
+            style="@style/healthRadioButton"
+            android:visibility="gone"
+            android:onClick="recordSelect" />
+        
+    </RadioGroup>    
+    
+</RelativeLayout>

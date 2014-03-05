@@ -11,7 +11,6 @@ import org.chat.android.models.HealthSelectRecorded;
 import org.chat.android.models.HealthTopicAccessed;
 import org.chat.android.models.Video;
 import org.chat.android.models.VideoAccessed;
-import org.chat.android.models.Visit;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -98,9 +97,6 @@ public class HealthDeliveryActivity extends BaseActivity {
 		// bundle in the unique page parameters to the correct fragment
 		Bundle bundle = new Bundle();
 		bundle.putInt("visitId",visitId);
-		bundle.putString("themeName",healthTheme);
-		bundle.putString("topicName",topicName);
-		bundle.putString("type",p.getType());
 		bundle.putInt("id",p.getPageContentId());
 		newFrag.setArguments(bundle);
 		
@@ -206,7 +202,7 @@ public class HealthDeliveryActivity extends BaseActivity {
 	    Dao<HealthTopicAccessed, Integer> htaDao;
 	    DatabaseHelper htaDbHelper = new DatabaseHelper(context);
 	    try {
-	    	htaDao = htaDbHelper.getHealthTopicsAccessed();
+	    	htaDao = htaDbHelper.getHealthTopicsAccessedDao();
 	    	htaDao.create(healthTopicAccessed);
 	    } catch (SQLException e1) {
 	        // TODO Auto-generated catch block
@@ -224,7 +220,7 @@ public class HealthDeliveryActivity extends BaseActivity {
 	    Dao<HealthTopicAccessed, Integer> htaDao;
 	    DatabaseHelper htaDbHelper = new DatabaseHelper(context);
 	    try {
-	    	htaDao = htaDbHelper.getHealthTopicsAccessed();
+	    	htaDao = htaDbHelper.getHealthTopicsAccessedDao();
 	    	htaDao.update(healthTopicAccessed);
 	    } catch (SQLException e1) {
 	        // TODO Auto-generated catch block
@@ -288,8 +284,6 @@ public class HealthDeliveryActivity extends BaseActivity {
 		        e1.printStackTrace();
 		    }
 		}
-
-		
 	}
 	
 	public void playVideo (View v) {

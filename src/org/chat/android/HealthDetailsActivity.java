@@ -183,7 +183,7 @@ public class HealthDetailsActivity extends BaseActivity {
 		Dao<HealthTopicAccessed, Integer> htaDao;		
 		DatabaseHelper htaDbHelper = new DatabaseHelper(context);
 		try {
-			htaDao = htaDbHelper.getHealthTopicsAccessed();
+			htaDao = htaDbHelper.getHealthTopicsAccessedDao();
 			topicsAccessed = htaDao.queryBuilder().where().eq("hh_id",hhId).and().isNotNull("end_time").query();
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block

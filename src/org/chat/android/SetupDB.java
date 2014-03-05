@@ -9,6 +9,7 @@ import org.chat.android.models.Client;
 import org.chat.android.models.HealthSelect;
 import org.chat.android.models.HealthTheme;
 import org.chat.android.models.Household;
+import org.chat.android.models.PageAssessment1;
 import org.chat.android.models.PageSelect1;
 import org.chat.android.models.PageText1;
 import org.chat.android.models.PageVideo1;
@@ -238,14 +239,14 @@ public class SetupDB extends Activity {
 	    
 	    
 	    // HEALTH SELECTS
-	    //HealthSelect(int id, int subject_id, String en_content, String zu_content)
+	    //HealthSelect(int id (auto-gen), int subject_id, String en_content, String zu_content)
 	    // THEME
 	    HealthSelect select4 = new HealthSelect(4, "GOOD  Child seems happy, hopeful, and content.", "Zulu stuff");
 	    HealthSelect select3 = new HealthSelect(4, "FAIR  Child is mostly happy but occasionally he/she is anxious, or withdrawn.", "Zulu stuff");
 	    HealthSelect select2 = new HealthSelect(4, "BAD  Child is often withdrawn, irritable, anxious, unhappy, or sad.", "Zulu stuff");
 	    HealthSelect select1 = new HealthSelect(4, "VERY BAD  Child seems hopeless, sad, withdrawn, wishes could die, or wants to be left alone.", "Zulu stuff");
 	    
-	    // HEALTH DELIVERY
+	    // HEALTH EDUCATION DELIVERY
 	    // generic HIV
 	    HealthSelect select5 = new HealthSelect(101, "VERY BAD  Child seems hopeless, sad, withdrawn, wishes could die, or wants to be left alone.", "Zulu stuff");
 	    HealthSelect select6 = new HealthSelect(101, "BAD  Child is often withdrawn, irritable, anxious, unhappy, or sad.", "Zulu stuff");
@@ -256,6 +257,18 @@ public class SetupDB extends Activity {
 	    HealthSelect select10 = new HealthSelect(102, "FAIR Child has minor problems getting along with others and argues or gets into fights sometimes.", "Zulu stuff");
 	    HealthSelect select11 = new HealthSelect(102, "BAD  Child is disobedient to adults and frequently does not interact well with peers, guardian, or others.", "Zulu stuff");
 	    HealthSelect select12 = new HealthSelect(102, "VERY BAD  Child has behavioural problems, including stealing, and/or other risky or disruptive behaviour.", "Zulu stuff");
+	    
+	    // CHA HEALTH DELIVERY
+	    HealthSelect select13 = new HealthSelect(1001, "Yes", "Zulu yes");
+	    HealthSelect select14 = new HealthSelect(1001, "No", "Zulu no");
+	    HealthSelect select15 = new HealthSelect(1001, "Greater than 21 days", "Zulu");
+	    HealthSelect select16 = new HealthSelect(1001, "Less than 21 days", "Zulu");
+	    HealthSelect select17 = new HealthSelect(1002, "Yes", "Zulu yes");
+	    HealthSelect select18 = new HealthSelect(1002, "No", "Zulu no");
+	    HealthSelect select19 = new HealthSelect(1002, "Greater than 14 days", "Zulu");
+	    HealthSelect select20 = new HealthSelect(1002, "Less than 14 days", "Zulu");
+	    HealthSelect select21 = new HealthSelect(1003, "Yes", "Zulu yes");
+	    HealthSelect select22 = new HealthSelect(1003, "No", "Zulu no");
 	    
 	    Dao<HealthSelect, Integer> selectDao1;
 	    Dao<HealthSelect, Integer> selectDao2;
@@ -269,6 +282,16 @@ public class SetupDB extends Activity {
 	    Dao<HealthSelect, Integer> selectDao10;
 	    Dao<HealthSelect, Integer> selectDao11;
 	    Dao<HealthSelect, Integer> selectDao12;
+	    Dao<HealthSelect, Integer> selectDao13;
+	    Dao<HealthSelect, Integer> selectDao14;
+	    Dao<HealthSelect, Integer> selectDao15;
+	    Dao<HealthSelect, Integer> selectDao16;
+	    Dao<HealthSelect, Integer> selectDao17;
+	    Dao<HealthSelect, Integer> selectDao18;
+	    Dao<HealthSelect, Integer> selectDao19;
+	    Dao<HealthSelect, Integer> selectDao20;
+	    Dao<HealthSelect, Integer> selectDao21;
+	    Dao<HealthSelect, Integer> selectDao22;
 	    DatabaseHelper selectDbHelper = new DatabaseHelper(context);
 	    try {
 	    	selectDao1 = selectDbHelper.getHealthSelectDao();
@@ -295,6 +318,26 @@ public class SetupDB extends Activity {
 	    	selectDao11.create(select11);
 	    	selectDao12 = selectDbHelper.getHealthSelectDao();
 	    	selectDao12.create(select12);
+	    	selectDao13 = selectDbHelper.getHealthSelectDao();
+	    	selectDao13.create(select13);
+	    	selectDao14 = selectDbHelper.getHealthSelectDao();
+	    	selectDao14.create(select14);
+	    	selectDao15 = selectDbHelper.getHealthSelectDao();
+	    	selectDao15.create(select15);
+	    	selectDao16 = selectDbHelper.getHealthSelectDao();
+	    	selectDao16.create(select16);
+	    	selectDao17 = selectDbHelper.getHealthSelectDao();
+	    	selectDao17.create(select17);
+	    	selectDao18 = selectDbHelper.getHealthSelectDao();
+	    	selectDao18.create(select18);
+	    	selectDao19 = selectDbHelper.getHealthSelectDao();
+	    	selectDao19.create(select19);
+	    	selectDao20 = selectDbHelper.getHealthSelectDao();
+	    	selectDao20.create(select20);
+	    	selectDao21 = selectDbHelper.getHealthSelectDao();
+	    	selectDao21.create(select21);
+	    	selectDao22 = selectDbHelper.getHealthSelectDao();
+	    	selectDao22.create(select22);
 	    } catch (SQLException e1) {
 	        // TODO Auto-generated catch block
 	        e1.printStackTrace();
@@ -514,8 +557,22 @@ public class SetupDB extends Activity {
 	    }
 	    
 	    
-	    
 	    // CHILD HEALTH ASSESSMENT BRANCH
+//	    PageAssessment1 pa1 = new PageAssessment1(1001, "Ask", "Does the child have a cough?", "Zulu stuff", "How long has the child been coughing?", "Zulu stuff", null,  null);
+//	    PageAssessment1 pa2 = new PageAssessment1(1003, "Ask", "Has the child had convulsions?", "Zulu stuff", null, null, null,  null);
+//	    Dao<PageAssessment1, Integer> pa1Dao;
+//	    Dao<PageAssessment1, Integer> pa2Dao;
+//	    DatabaseHelper pa1DbHelper = new DatabaseHelper(context);
+//	    try {
+//	    	pa1Dao = pa1DbHelper.getPageAssessment1Dao();
+//	    	pa1Dao.create(pa1);
+//	    	pa2Dao = pa1DbHelper.getPageAssessment1Dao();
+//	    	pa2Dao.create(pa2);
+//	    } catch (SQLException e1) {
+//	        // TODO Auto-generated catch block
+//	        e1.printStackTrace();
+//	    }	    
+
 	    
 	    //public Vaccine(int id, int age, String display_age, String vaccine_short, String vaccine_long) 
 	    Vaccine v1 = new Vaccine(1, 0, "Birth", "BCG", "Bacilli Calmete-Guerin (Anti-tuberculosis vaccine)");

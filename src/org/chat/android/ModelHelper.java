@@ -14,6 +14,7 @@ import org.chat.android.models.HealthSelectRecorded;
 import org.chat.android.models.HealthTheme;
 import org.chat.android.models.HealthTopic;
 import org.chat.android.models.Household;
+import org.chat.android.models.PageAssessment1;
 import org.chat.android.models.PageSelect1;
 import org.chat.android.models.PageText1;
 import org.chat.android.models.PageVideo1;
@@ -330,13 +331,13 @@ public class ModelHelper {
 		return hsr;
 	}
 	
-	public static CHAAccessed getCHAAccessedForVisitIdAndClientId(Context context, int visitId, int clientId) {
+	public static CHAAccessed getCHAAccessedForVisitIdAndClientIdAndType(Context context, int visitId, int clientId, String type) {
 		Dao<CHAAccessed, Integer> chaaDao;		
 		DatabaseHelper chaaDbHelper = new DatabaseHelper(context);
 		CHAAccessed chaa = null;
 		try {
 			chaaDao = chaaDbHelper.getCHAAccessedDao();
-			List<CHAAccessed> chaaList = chaaDao.queryBuilder().where().eq("visit_id",visitId).and().eq("client_id",clientId).query();
+			List<CHAAccessed> chaaList = chaaDao.queryBuilder().where().eq("visit_id",visitId).and().eq("client_id",clientId).and().eq("type",type).query();
 			Iterator<CHAAccessed> iter = chaaList.iterator();
 			while (iter.hasNext()) {
 				chaa = iter.next();
@@ -359,6 +360,25 @@ public class ModelHelper {
 	        // TODO Auto-generated catch block
 	        e1.printStackTrace();
 	    }
+	}
+	
+	public static PageAssessment1 getPageAssessment1ForId(Context context, int id) {
+		Dao<PageAssessment1, Integer> pa1Dao;		
+		DatabaseHelper pa1DbHelper = new DatabaseHelper(context);
+		PageAssessment1 pa1 = null;
+		try {
+			pa1Dao = pa1DbHelper.getPageAssessment1Dao();
+			List<PageAssessment1> pa1List = pa1Dao.queryBuilder().where().eq("id",id).query();
+			Iterator<PageAssessment1> iter = pa1List.iterator();
+			while (iter.hasNext()) {
+				pa1 = iter.next();
+			}
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		return pa1;
 	}
 	
 	public static List<Vaccine> getVaccinesForAge(Context context, double age) {

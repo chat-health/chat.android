@@ -154,7 +154,7 @@
             	android:value="org.chat.android.HomeActivity" />
         </activity>
         <activity
-            android:name=".CHADeliveryAsk"
+            android:name=".CHADelivery"
             android:label="@string/title_activity_cha_delivery_ask"
             android:screenOrientation="landscape" >
             <meta-data
