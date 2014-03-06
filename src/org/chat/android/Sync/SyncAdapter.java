@@ -221,7 +221,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	servicesDao.create(service);
 	                }
                 } else if ("page_assessment1" == modelName) {
-                	Log.i("SyncAdapter", "Into pageAssessment1 if");
 	                Dao<PageAssessment1, Integer> paDao;
 	                paDao = dbHelper.getPageAssessment1Dao();
 	                

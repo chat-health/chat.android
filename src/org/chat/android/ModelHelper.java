@@ -312,6 +312,20 @@ public class ModelHelper {
 		return hs;
 	}
 	
+//	public static List<HealthSelect> getRelatedHealthSelectsForHealthSelectRecordedId(Context context, int subjectId) {
+//		List<HealthSelect> hsList = null;
+//		Dao<HealthSelect, Integer> hsDao;		
+//		DatabaseHelper hsDbHelper = new DatabaseHelper(context);
+//		try {
+//			hsDao = hsDbHelper.getHealthSelectDao();
+//			hsList = hsDao.queryBuilder().where().eq("subject_id",subjectId).query();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		return hsList;
+//	}
+	
 	public static HealthSelectRecorded getHealthSelectRecordedsForVisitIdAndTopicName(Context context, int visitId, String topicName) {
 		Dao<HealthSelectRecorded, Integer> hsrDao;		
 		DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
@@ -319,6 +333,25 @@ public class ModelHelper {
 		try {
 			hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
 			List<HealthSelectRecorded> hsrList = hsrDao.queryBuilder().where().eq("visit_id",visitId).and().eq("topic",topicName).query();
+			Iterator<HealthSelectRecorded> iter = hsrList.iterator();
+			while (iter.hasNext()) {
+				hsr = iter.next();
+			}
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		return hsr;
+	}
+	
+	public static HealthSelectRecorded getHealthSelectRecordedsForVisitIdAndTopicNameAndSelectId(Context context, int visitId, String topicName, int selectId) {
+		Dao<HealthSelectRecorded, Integer> hsrDao;		
+		DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
+		HealthSelectRecorded hsr = null;
+		try {
+			hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
+			List<HealthSelectRecorded> hsrList = hsrDao.queryBuilder().where().eq("visit_id",visitId).and().eq("topic",topicName).and().eq("select_id",selectId).query();
 			Iterator<HealthSelectRecorded> iter = hsrList.iterator();
 			while (iter.hasNext()) {
 				hsr = iter.next();

@@ -1,36 +1,23 @@
 package org.chat.android.pages;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
-import org.chat.android.DatabaseHelper;
 import org.chat.android.ModelHelper;
 import org.chat.android.R;
-import org.chat.android.R.layout;
 import org.chat.android.models.HealthSelect;
 import org.chat.android.models.HealthSelectRecorded;
-import org.chat.android.models.HealthTheme;
 import org.chat.android.models.PageAssessment1;
-import org.chat.android.models.PageSelect1;
-import org.chat.android.models.PageText1;
-
-import com.j256.ormlite.dao.Dao;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class Assessment1Fragment extends Fragment {
 	Context context;
@@ -41,6 +28,7 @@ public class Assessment1Fragment extends Fragment {
     RadioButton answer1_2 = null;
     RadioButton answer2_1 = null;
     RadioButton answer2_2 = null;
+    List<HealthSelect> selects = null;
 	
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	View view = inflater.inflate(R.layout.fragment_assessment1, container, false);
@@ -49,19 +37,27 @@ public class Assessment1Fragment extends Fragment {
 		title = (TextView) view.findViewById(R.id.a1title);
 		content1 = (TextView) view.findViewById(R.id.a1content1);
 		content2 = (TextView) view.findViewById(R.id.a1content2);
+		List<RadioButton> rbList = new ArrayList<RadioButton>();
 		answer1_1 = (RadioButton) view.findViewById(R.id.a1rb1_1);
+		rbList.add(answer1_1);
 		answer1_2 = (RadioButton) view.findViewById(R.id.a1rb1_2);
+		rbList.add(answer1_2);
 		answer2_1 = (RadioButton) view.findViewById(R.id.a1rb2_1);
+		rbList.add(answer2_1);
 		answer2_2 = (RadioButton) view.findViewById(R.id.a1rb2_2);
+		rbList.add(answer2_2);
 		
 		// determine language from current tablet settings
 		String lang = Locale.getDefault().getLanguage();
 		
 		int visitId = getArguments().getInt("visitId");
 		int pageContentId = getArguments().getInt("id");
+		
+		selects = new ArrayList<HealthSelect>();
+		selects = ModelHelper.getSelectsForSubjectId(context, pageContentId);
         
 		populateDisplayedFragment(pageContentId, lang);
-	    populateClickedRadio(view, visitId);
+	    populateClickedRadio(view, visitId, rbList);
     	
     	return view;
     }
@@ -74,11 +70,6 @@ public class Assessment1Fragment extends Fragment {
     	
 		// question
 		content1.setText(pa1.getContent(lang, "content1"));
-		
-		// responses/selects
-		List<HealthSelect> selects = new ArrayList<HealthSelect>();
-		//selects = ModelHelper.getSelectsForSubjectId(context, ps.getId());
-		selects = ModelHelper.getSelectsForSubjectId(context, pageContentId);
 
 		// set up the radio buttons, tagged with ID (to be used when saving) - TODO: make me work with Zulu (in the model)
 		if (selects.size() > 0) {
@@ -109,14 +100,26 @@ public class Assessment1Fragment extends Fragment {
     }
 	
 	// if the user has navigated back/forward to this page after previously having selected a radio
-	public void populateClickedRadio(View view, int visitId) {
-//		HealthSelectRecorded hsr = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicName(context, visitId, "assessment");
-//		if (hsr != null) {
-//			int selectId = hsr.getSelectId();
-//			HealthSelect hs = ModelHelper.getHealthSelectForId(context, selectId);
-//			int radioId = hs.getId();
-//			RadioButton rb = (RadioButton)view.findViewWithTag(radioId);
-//			rb.setChecked(true);
-//		}
+	public void populateClickedRadio(View view, int visitId, List<RadioButton> rbList) {
+		// for each select element on the page
+		for (RadioButton rb : rbList) {
+			// possibly excessive checks to avoid nullpointerexceptions
+			if (rb != null && rb.getTag() != null) {
+				int selectId = (Integer) rb.getTag();
+				// get the recorded select
+				HealthSelectRecorded hsr = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicNameAndSelectId(context, visitId, "assessment", selectId);
+				// if it exists, check it
+				if (hsr != null) {
+					rb.setChecked(true);
+				}
+			}
+			
+		}
+		// if there is a second set of selects, and yes/first select is checked
+		if (selects.size() > 2 && answer1_1.isChecked()) {
+			content2.setVisibility(View.VISIBLE);
+			answer2_1.setVisibility(View.VISIBLE);
+			answer2_2.setVisibility(View.VISIBLE);
+		}
 	}
 }

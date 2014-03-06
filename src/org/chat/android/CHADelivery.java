@@ -22,6 +22,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,27 +63,6 @@ public class CHADelivery extends BaseActivity {
 	    updateNonFragmentUIElements("next");
 	    updateDisplayedFragment(pageCounter);		
     }
-        
-    
-    public void moveNext(View v) {
-    	// check if this page is within bounds (1 to lastPage)
-    	if (pageCounter == lastPage) {
-    		updateNonFragmentUIElements("done");
-    	} else {
-    		updateNonFragmentUIElements("next");
-    		updateDisplayedFragment(pageCounter);	
-    	}
-    }
-
-    public void moveBack(View v) {
-    	// check if this page is within bounds (1 to lastPage)
-    	if (pageCounter - 1 >= 1) {
-    		updateNonFragmentUIElements("back");
-    		updateDisplayedFragment(pageCounter);
-    	} else {
-    		Toast.makeText(getApplicationContext(),"First page reached",Toast.LENGTH_SHORT).show();
-    	}
-    }    
 
 	public void updateDisplayedFragment(int pageNum) {
 		PageAssessment1 pa1 = pages.get(pageNum - 1);
@@ -103,7 +84,6 @@ public class CHADelivery extends BaseActivity {
 		// bundle in the unique page parameters to the correct fragment
 		Bundle bundle = new Bundle();
 		bundle.putInt("visitId",visitId);
-		//bundle.putInt("id",p.getPageContentId());
 		bundle.putInt("id",pa1.getId());
 		newFrag.setArguments(bundle);
 		
@@ -141,6 +121,26 @@ public class CHADelivery extends BaseActivity {
 			nextBtn.setImageResource(R.drawable.healthnextbutton);
 		}	
 	}	
+	
+    public void moveNext(View v) {
+    	// check if this page is within bounds (1 to lastPage)
+    	if (pageCounter == lastPage) {
+    		updateNonFragmentUIElements("done");
+    	} else {
+    		updateNonFragmentUIElements("next");
+    		updateDisplayedFragment(pageCounter);	
+    	}
+    }
+
+    public void moveBack(View v) {
+    	// check if this page is within bounds (1 to lastPage)
+    	if (pageCounter - 1 >= 1) {
+    		updateNonFragmentUIElements("back");
+    		updateDisplayedFragment(pageCounter);
+    	} else {
+    		Toast.makeText(getApplicationContext(),"First page reached",Toast.LENGTH_SHORT).show();
+    	}
+    }
     
 	public void populatePagesArray() {
 		// populate the pages array based on the topic Id and determine number of pages
@@ -188,18 +188,42 @@ public class CHADelivery extends BaseActivity {
 		int selectResp = 0;
 		selectResp = (Integer) v.getTag();
 		
-		HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, null, "assessment");
+		// TODO: this is insanely ugly. Wow. Please fix me (also maybe export this type of stuff to ModelHelper)
+		// create a new response or update a previously created one
+		HealthSelectRecorded prevHsr = null;
+		// check if there is a previous response for this radio group (ie any of the children's tags have been recorded in HealthSelectRecorded)
+		RadioGroup rg = (RadioGroup)v.getParent();
+		int numberOfChildren = rg.getChildCount();
+		for (int i = 0; i < numberOfChildren; i++) {
+		    RadioButton child = (RadioButton) rg.getChildAt(i);
+		    int selectId = (Integer) child.getTag();
+		    prevHsr = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicNameAndSelectId(context, visitId, "assessment", selectId);
+		}
+		
+		// if there is not a previous healthSelectRecorded for this group of radio buttons (ie prevHsr == null), create a new one, otherwise update
 		Dao<HealthSelectRecorded, Integer> hsrDao;
 		DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
-		try {
-    		hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
-    		hsrDao.create(hsr);
-    	} catch (SQLException e) {
-    	    // TODO Auto-generated catch block
-    	    e.printStackTrace();
-    	}
+		if (prevHsr == null) {
+			try {
+				HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, null, "assessment");
+	    		hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
+	    		hsrDao.create(hsr);
+	    	} catch (SQLException e) {
+	    	    // TODO Auto-generated catch block
+	    	    e.printStackTrace();
+	    	}
+		} else {
+			prevHsr.setSelectId(selectResp);
+		    try {
+		    	hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
+		    	hsrDao.update(prevHsr);
+		    } catch (SQLException e1) {
+		        // TODO Auto-generated catch block
+		        e1.printStackTrace();
+		    }
+		}
 		
-		// if the user hits 'yes' (or the first of the selects) and there is a second set of selects to show, show it (pretty sloppy)
+		// if the user chooses 'yes' (or the first of the selects) and there is a second set of selects to show, show it (pretty sloppy)
 		// find out how many selects are on the page
 		PageAssessment1 pa1 = pages.get(pageCounter - 1);
 		List<HealthSelect> selects = new ArrayList<HealthSelect>();
@@ -214,7 +238,7 @@ public class CHADelivery extends BaseActivity {
 		}
 	}
 	
-	private void toggleAdditionalSelects(String visibility) {
+	public void toggleAdditionalSelects(String visibility) {
 		if (visibility.equals("show")) {
 			findViewById(R.id.a1content2).setVisibility(View.VISIBLE);
 			findViewById(R.id.a1rb2_1).setVisibility(View.VISIBLE);
@@ -248,41 +272,6 @@ public class CHADelivery extends BaseActivity {
 		AlertDialog alert = builder.create();
 		alert.show();
 	}
-		
-		
-		
-		
-		
-//		HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, null, "assessment");
-//		
-//		HealthSelectRecorded prevHsr = null;
-//		prevHsr = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicName(context, visitId, "assessment");
-//		// this nonsense is necessary because there is no 'submit' button... we can't rely on the Next in the Activity, so we just update the row each time a select is made
-//		// if this has not already been done this visit and this topic
-//		Dao<HealthSelectRecorded, Integer> hsrDao;
-//		DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
-//		if (prevHsr == null) {
-//			try {
-//	    		hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
-//	    		hsrDao.create(hsr);
-//	    	} catch (SQLException e) {
-//	    	    // TODO Auto-generated catch block
-//	    	    e.printStackTrace();
-//	    	}
-//		} else {
-//			prevHsr.setSelectId(selectResp);
-//		    try {
-//		    	hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
-//		    	hsrDao.update(prevHsr);
-//		    } catch (SQLException e1) {
-//		        // TODO Auto-generated catch block
-//		        e1.printStackTrace();
-//		    }
-//		}
-
-
-
-
 
 }
 
