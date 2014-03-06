@@ -128,6 +128,7 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
     }
 
     public void completeImmunizationReceived(View v) {
+    	Client c = ModelHelper.getClientForId(context, clientId);
     	CHAAccessed chaa = ModelHelper.getCHAAccessedForVisitIdAndClientIdAndType(context, visitId, clientId, "immunization");
     	Date d = new Date();
     	chaa.setEndTime(d);
@@ -155,6 +156,7 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
         	finish();
     	} else {
     		// else put user back on the CHA Overview screen
+    		Toast.makeText(getApplicationContext(),"Immunization assessment completed for " + c.getFirstName() + " " + c.getLastName(),Toast.LENGTH_LONG).show();
     		finish();
     	}
     }

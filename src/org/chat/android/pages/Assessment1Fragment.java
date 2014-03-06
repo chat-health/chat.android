@@ -91,12 +91,9 @@ public class Assessment1Fragment extends Fragment {
 		}
 		
 		if (selects.size() > 2) {
-			content2.setVisibility(View.VISIBLE);
 			content2.setText(pa1.getContent(lang, "content2"));
-			answer2_1.setVisibility(View.VISIBLE);
 			answer2_1.setText(selects.get(2).getEnContent());
 			answer2_1.setTag(selects.get(2).getId());
-			answer2_2.setVisibility(View.VISIBLE);
 			answer2_2.setText(selects.get(3).getEnContent());
 			answer2_2.setTag(selects.get(3).getId());
 		}

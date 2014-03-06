@@ -198,6 +198,31 @@ public class CHADelivery extends BaseActivity {
     	    // TODO Auto-generated catch block
     	    e.printStackTrace();
     	}
+		
+		// if the user hits 'yes' (or the first of the selects), we want to show the additional selects on the page (pretty sloppy)
+		if (v.getTag() == findViewById(R.id.a1rb1_1).getTag()) {
+			toggleAdditionalSelects("show");
+		} else if (v.getTag() == findViewById(R.id.a1rb1_2).getTag()) {
+			toggleAdditionalSelects("hide");
+		} else {
+    		Toast.makeText(getApplicationContext(),"ThisShouldNeverHappenException: tag out of alignment. Contact technical support",Toast.LENGTH_LONG).show();
+		}
+	}
+	
+	private void toggleAdditionalSelects(String visibility) {
+		if (visibility.equals("show")) {
+			findViewById(R.id.a1content2).setVisibility(View.VISIBLE);
+			findViewById(R.id.a1rb2_1).setVisibility(View.VISIBLE);
+			findViewById(R.id.a1rb2_2).setVisibility(View.VISIBLE);
+		} else if (visibility.equals("hide")) {
+			findViewById(R.id.a1content2).setVisibility(View.GONE);
+			findViewById(R.id.a1rb2_1).setVisibility(View.GONE);
+			findViewById(R.id.a1rb2_2).setVisibility(View.GONE);
+		} else {
+    		Toast.makeText(getApplicationContext(),"ThisShouldNeverHappenException: tag out of alignment. Contact technical support",Toast.LENGTH_LONG).show();
+		}
+		
+		// TODO: add the third set, if we're using them
 	}
 	
 	public void onBackPressed() {
