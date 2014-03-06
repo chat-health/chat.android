@@ -82,7 +82,7 @@ public class Assessment1Fragment extends Fragment {
 
 		// set up the radio buttons, tagged with ID (to be used when saving) - TODO: make me work with Zulu (in the model)
 		if (selects.size() > 0) {
-			answer1_1.setVisibility(View.VISIBLE);
+			answer1_1.setVisibility(View.VISIBLE);						// just need these until all the data is populated
 			answer1_1.setText(selects.get(0).getEnContent());
 			answer1_1.setTag(selects.get(0).getId());
 			answer1_2.setVisibility(View.VISIBLE);
