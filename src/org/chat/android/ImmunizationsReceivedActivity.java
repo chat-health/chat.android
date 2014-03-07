@@ -11,6 +11,7 @@ import org.chat.android.models.Vaccine;
 import org.chat.android.models.VaccineRecorded;
 
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -135,17 +136,10 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
     	ModelHelper.setCHAAccessed(context, chaa);
     	
     	// check if there are missing immunizations
-    	Boolean missingVaccineFlag = false;
-    	for (Vaccine vaccine : vList) {
-    		// will return null if it doesn't exist
-    		VaccineRecorded vr = ModelHelper.getVaccineRecordedForClientIdAndVaccineId(context, clientId, vaccine.getId());
-    		if (vr == null) {
-    			missingVaccineFlag = true;
-    		}
-    	}
+    	Boolean allVaccinesAdministered = ModelHelper.getVaccineRecordedCompleteForClientId(context, clientId);
     	
     	// if there are missing immunizations, direct user to ImmunizationSummary page
-    	if (missingVaccineFlag == true) {
+    	if (allVaccinesAdministered == false) {
         	Intent i = new Intent(ImmunizationsReceivedActivity.this, ImmunizationsSummaryActivity.class);
         	Bundle b = new Bundle();
         	b.putInt("visitId",visitId);

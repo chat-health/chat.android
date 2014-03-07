@@ -26,8 +26,11 @@ import org.chat.android.DatabaseHelper;
 import org.chat.android.R;
 import org.chat.android.models.Attendance;
 import org.chat.android.models.Client;
+import org.chat.android.models.HealthTheme;
 import org.chat.android.models.Household;
 import org.chat.android.models.PageAssessment1;
+import org.chat.android.models.Resource;
+import org.chat.android.models.Video;
 import org.chat.android.models.Visit;
 import org.chat.android.models.Worker;
 import org.chat.android.models.Service;
@@ -104,10 +107,15 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	
 	private void retrieveDataFromServer() {
 		Log.i("SyncAdapter", "=================== DATA PULL ==================");
-		retrieveModel("workers");
+		
 		retrieveModel("clients");
 		retrieveModel("households");
 		retrieveModel("services");
+		retrieveModel("workers");
+		retrieveModel("videos");
+		retrieveModel("resources");
+		
+		retrieveModel("health_themes");
 		
 		retrieveModel("page_assessment1");
 	}
@@ -149,24 +157,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 // Database helper for Worker table
                 DatabaseHelper dbHelper = new DatabaseHelper(appContext);
                 
-                if ("workers" == modelName) {
-	                Dao<Worker, Integer> wDao;
-	                wDao = dbHelper.getWorkersDao();
-	                
-	                // delete all entries
-	                if (jsonArray.length() > 0) {
-		                DeleteBuilder<Worker, Integer> deleteWorker = wDao.deleteBuilder();
-		                deleteWorker.delete();
-	                }
-	                
-	                // add new entries received via REST call
-	                for (int i=0; i < jsonArray.length(); i++) {
-	                	JSONObject w = jsonArray.getJSONObject(i);
-	                	// WORKERS
-	            	    Worker worker = new Worker(w.getInt("_id"), w.getString("first_name"), w.getString("last_name"), w.getString("password"), w.getString("role_name"), w.getString("assigned_community"));
-	            	    wDao.create(worker);
-	                }
-                } else if ("clients" == modelName) {
+                if ("clients" == modelName) {
 	                Dao<Client, Integer> clientDao;
 	                clientDao = dbHelper.getClientsDao();
 	                
@@ -219,6 +210,71 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	JSONObject h = jsonArray.getJSONObject(i);
 	                	Service service = new Service (h.getInt("_id"), h.getString("name"), h.getString("type"), h.getString("role"), h.getString("instructions"));
 	                	servicesDao.create(service);
+	                }
+                } if ("workers" == modelName) {
+	                Dao<Worker, Integer> wDao;
+	                wDao = dbHelper.getWorkersDao();
+	                
+	                // delete all entries
+	                if (jsonArray.length() > 0) {
+		                DeleteBuilder<Worker, Integer> deleteWorker = wDao.deleteBuilder();
+		                deleteWorker.delete();
+	                }
+	                
+	                // add new entries received via REST call
+	                for (int i=0; i < jsonArray.length(); i++) {
+	                	JSONObject w = jsonArray.getJSONObject(i);
+	                	// WORKERS
+	            	    Worker worker = new Worker(w.getInt("_id"), w.getString("first_name"), w.getString("last_name"), w.getString("password"), w.getString("role_name"), w.getString("assigned_community"));
+	            	    wDao.create(worker);
+	                }
+                } else if ("videos" == modelName) {
+	                Dao<Video, Integer> dao;
+	                dao = dbHelper.getVideosDao();
+	                
+	                // delete all entries
+	                if (jsonArray.length() > 0) {
+		                DeleteBuilder<Video, Integer> deleter = dao.deleteBuilder();
+		                deleter.delete();
+	                }
+	                
+	                // add new entries received via REST call
+	                for (int i=0; i < jsonArray.length(); i++) {
+	                	JSONObject jo = jsonArray.getJSONObject(i);
+	                	Video o = new Video(jo.getInt("_id"), jo.getString("name"), jo.getString("uri"), jo.getString("screenshot"));
+	                	dao.create(o);
+	                }
+                } else if ("resources" == modelName) {
+	                Dao<Resource, Integer> dao;
+	                dao = dbHelper.getResourcesDao();
+	                
+	                // delete all entries
+	                if (jsonArray.length() > 0) {
+		                DeleteBuilder<Resource, Integer> deleter = dao.deleteBuilder();
+		                deleter.delete();
+	                }
+	                
+	                // add new entries received via REST call
+	                for (int i=0; i < jsonArray.length(); i++) {
+	                	JSONObject jo = jsonArray.getJSONObject(i);
+	                	Resource o = new Resource(jo.getInt("_id"), jo.getString("name"), jo.getString("uri"));
+	                	dao.create(o);
+	                }
+                } else if ("health_themes" == modelName) {
+	                Dao<HealthTheme, Integer> dao;
+	                dao = dbHelper.getHealthThemeDao();
+	                
+	                // delete all entries
+	                if (jsonArray.length() > 0) {
+		                DeleteBuilder<HealthTheme, Integer> deleter = dao.deleteBuilder();
+		                deleter.delete();
+	                }
+	                
+	                // add new entries received via REST call
+	                for (int i=0; i < jsonArray.length(); i++) {
+	                	JSONObject jo = jsonArray.getJSONObject(i);
+	                	HealthTheme o = new HealthTheme(jo.getInt("_id"), jo.getString("name"), jo.getString("en_observe_content"), jo.getString("en_record_content"), jo.getString("zu_observe_content"), jo.getString("zu_record_content"), jo.getString("color"));
+	                	dao.create(o);
 	                }
                 } else if ("page_assessment1" == modelName) {
 	                Dao<PageAssessment1, Integer> paDao;

@@ -110,6 +110,48 @@ public class ModelHelper {
 		return client;
 	}
 	
+	public static List<Client> getAttendingClientsForVisitIdUnderAge(Context context, int visitId, int age) {
+		List<Client> cList = new ArrayList<Client>();
+		
+    	// create the list of attending Clients
+    	List<Integer> presentHHMembers = new ArrayList<Integer>();
+        Dao<Attendance, Integer> aDao;
+        List<Attendance> allAttendees = new ArrayList<Attendance>();
+        DatabaseHelper attDbHelper = new DatabaseHelper(context);
+        try {
+			aDao = attDbHelper.getAttendanceDao();
+			allAttendees = aDao.query(aDao.queryBuilder().prepare());
+        	for (Attendance a : allAttendees) {
+    			if (a.getVisitId() == visitId) {
+    				presentHHMembers.add(a.getClientId());
+    			}
+        	}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+        Dao<Client, Integer> cDao;
+        List<Client> allClients = new ArrayList<Client>();
+        DatabaseHelper cDbHelper = new DatabaseHelper(context);
+        try {
+			cDao = cDbHelper.getClientsDao();
+			allClients = cDao.query(cDao.queryBuilder().prepare());
+        	for (Client c : allClients) {
+        		for (Integer i : presentHHMembers) {
+        			if (i == c.getId() && c.getAge() <= 5) {
+        				cList.add(c);
+        			}        			
+        		}
+        	}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+        
+        return cList;
+	}
+	
 	public static Attendance getAttendanceForVisitId(Context context, int visitId) {
 		Attendance attendance = null;
 		Dao<Attendance, Integer> aDao;		
@@ -312,20 +354,6 @@ public class ModelHelper {
 		return hs;
 	}
 	
-//	public static List<HealthSelect> getRelatedHealthSelectsForHealthSelectRecordedId(Context context, int subjectId) {
-//		List<HealthSelect> hsList = null;
-//		Dao<HealthSelect, Integer> hsDao;		
-//		DatabaseHelper hsDbHelper = new DatabaseHelper(context);
-//		try {
-//			hsDao = hsDbHelper.getHealthSelectDao();
-//			hsList = hsDao.queryBuilder().where().eq("subject_id",subjectId).query();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		return hsList;
-//	}
-	
 	public static HealthSelectRecorded getHealthSelectRecordedsForVisitIdAndTopicName(Context context, int visitId, String topicName) {
 		Dao<HealthSelectRecorded, Integer> hsrDao;		
 		DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
@@ -381,6 +409,28 @@ public class ModelHelper {
 		}
 		
 		return chaa;
+	}
+	
+	public static Boolean getCHAAccessedCompleteForVisitIdAndClientIdAndType(Context context, int visitId, int clientId, String type) {
+		List<CHAAccessed> chaaList = null;
+		Dao<CHAAccessed, Integer> chaaDao;		
+		DatabaseHelper chaaDbHelper = new DatabaseHelper(context);
+		try {
+			chaaDao = chaaDbHelper.getCHAAccessedDao();
+			chaaList = chaaDao.queryBuilder().where().eq("visit_id",visitId).and().eq("client_id",clientId).and().eq("type",type).query();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		Boolean completeFlag = false;
+		for (CHAAccessed chaa : chaaList) {
+			if (chaa.getEndTime() != null) {
+				completeFlag = true;
+			}
+		}
+		
+		return completeFlag;
 	}
 	
 	public static void setCHAAccessed(Context context, CHAAccessed chaa) {
@@ -447,5 +497,27 @@ public class ModelHelper {
 		
 		return vr;
 	}
+	
+	public static Boolean getVaccineRecordedCompleteForClientId(Context context, int clientId) {
+		Boolean missingVaccineFlag = false;
+		
+		Client c = getClientForId(context, clientId);
+		List<Vaccine> vList = getVaccinesForAge(context, c.getAge());
+		
+		for (Vaccine vaccine : vList) {
+			// will return null if it doesn't exist
+			VaccineRecorded vr = getVaccineRecordedForClientIdAndVaccineId(context, clientId, vaccine.getId());
+			if (vr == null) {
+				missingVaccineFlag = true;
+			}
+		}
+		
+		if (missingVaccineFlag == true) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 	
 }

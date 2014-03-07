@@ -5,7 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
+import org.chat.android.models.CHAAccessed;
+import org.chat.android.models.Client;
 import org.chat.android.models.Visit;
 
 import com.j256.ormlite.dao.Dao;
@@ -122,14 +125,32 @@ public class BaseActivity extends Activity {
     }
     
     private void checkVisitCompleteStatus() {
-    	/*  if:
-    			for each present child under 5, no flags - mark as complete
-    		else if
-    			there are flags but vaccine section has been accessed for each kid with flags - mark as complete
-    		else
-    			Toast.makeText(getApplicationContext(),"Visit not marked as complete - x still needs to be completed",Toast.LENGTH_LONG).show();
-    	*/ 
-    	markVisitComplete();
+    	Boolean completeFlag = true;
+    	List<Client> clientsForHealthAssessment = ModelHelper.getAttendingClientsForVisitIdUnderAge(context, visitId, 5);
+    	
+    	for (Client c : clientsForHealthAssessment) {
+        	Boolean healthFlag = false;
+        	Boolean immunizationFlag = false;
+        	if (ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(context, visitId, c.getId(), "health") == true) {
+        		healthFlag = true;
+        	} else {
+        		Toast.makeText(getApplicationContext(),"Visit not marked as complete - Child Health Assessment section still needs to be completed for " + c.getFirstName() + " " + c.getLastName(),Toast.LENGTH_LONG).show();
+        	}
+    		Boolean allVaccinesAdministered = ModelHelper.getVaccineRecordedCompleteForClientId(context, c.getId());
+    		Boolean chaImmunizationComplete = ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(context, visitId, c.getId(), "immunization");
+    		if (allVaccinesAdministered || chaImmunizationComplete) {
+    			immunizationFlag = true;
+    		} else {
+    			Toast.makeText(getApplicationContext(),"Visit not marked as complete - Immunization section still needs to be completed for " + c.getFirstName() + " " + c.getLastName(),Toast.LENGTH_LONG).show();
+    		}
+    		if (healthFlag == false || immunizationFlag == false) {
+    			completeFlag = false;
+    		}
+    	}
+
+    	if (completeFlag == true) {
+    		markVisitComplete();
+    	}
     }
     
     public void markVisitComplete() {

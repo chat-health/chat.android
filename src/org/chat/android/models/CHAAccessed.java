@@ -85,8 +85,7 @@ public class CHAAccessed {
 		this.type = type;
 	}
 	
-	
-	public Date setStartTime() {
+	public Date getStartTime() {
 		return start_time;
 	}
 
@@ -94,7 +93,7 @@ public class CHAAccessed {
 		this.start_time = start_time;
 	}
 	
-	public Date setEndTime() {
+	public Date getEndTime() {
 		return end_time;
 	}
 

@@ -172,70 +172,70 @@ public class SetupDB extends Activity {
 	    
 	    
 	    // VIDEOS
-	    Video vid1 = new Video("Psychosocial Support", "pss_animatic.mp4", "two_years_up_screenshot");
-	    Video vid2 = new Video("Nutrition", "nutrition_animatic.mp4", "two_years_up_screenshot");
-	    Video vid3 = new Video("Nutrition (0-9 months)", "nutrition_0-9_months.mp4", "one_to_nine_months_screenshot");
-	    Video vid4 = new Video("Nutrition (2+ years)", "nutrition_2_years_up.mp4", "one_to_nine_months_screenshot");
-	    Dao<Video, Integer> vidDao1;
-	    Dao<Video, Integer> vidDao2;
-	    Dao<Video, Integer> vidDao3;
-	    Dao<Video, Integer> vidDao4;
-	    DatabaseHelper videoDbHelper = new DatabaseHelper(context);
-	    try {
-	        vidDao1 = videoDbHelper.getVideosDao();
-	        vidDao1.create(vid1);
-	        vidDao2 = videoDbHelper.getVideosDao();
-	        vidDao2.create(vid2);
-	        vidDao3 = videoDbHelper.getVideosDao();
-	        vidDao3.create(vid3);
-	        vidDao4 = videoDbHelper.getVideosDao();
-	        vidDao4.create(vid4);
-	    } catch (SQLException e1) {
-	        // TODO Auto-generated catch block
-	        e1.printStackTrace();
-	    } 
+//	    Video vid1 = new Video("Psychosocial Support", "pss_animatic.mp4", "two_years_up_screenshot");
+//	    Video vid2 = new Video("Nutrition", "nutrition_animatic.mp4", "two_years_up_screenshot");
+//	    Video vid3 = new Video("Nutrition (0-9 months)", "nutrition_0-9_months.mp4", "one_to_nine_months_screenshot");
+//	    Video vid4 = new Video("Nutrition (2+ years)", "nutrition_2_years_up.mp4", "one_to_nine_months_screenshot");
+//	    Dao<Video, Integer> vidDao1;
+//	    Dao<Video, Integer> vidDao2;
+//	    Dao<Video, Integer> vidDao3;
+//	    Dao<Video, Integer> vidDao4;
+//	    DatabaseHelper videoDbHelper = new DatabaseHelper(context);
+//	    try {
+//	        vidDao1 = videoDbHelper.getVideosDao();
+//	        vidDao1.create(vid1);
+//	        vidDao2 = videoDbHelper.getVideosDao();
+//	        vidDao2.create(vid2);
+//	        vidDao3 = videoDbHelper.getVideosDao();
+//	        vidDao3.create(vid3);
+//	        vidDao4 = videoDbHelper.getVideosDao();
+//	        vidDao4.create(vid4);
+//	    } catch (SQLException e1) {
+//	        // TODO Auto-generated catch block
+//	        e1.printStackTrace();
+//	    } 
 
 	    
 	    // RESOURCES
-	    Resource res1 = new Resource("Infant feeding for newborns and infants up to 6 months", "0-6mos.pdf");
-	    Resource res2 = new Resource("Feeding for infants 6 months and older", "6-12mos.pdf");
-	    Dao<Resource, Integer> resDao1;
-	    Dao<Resource, Integer> resDao2;
-	    DatabaseHelper resDbHelper = new DatabaseHelper(context);
-	    try {
-	        resDao1 = resDbHelper.getResourcesDao();
-	        resDao1.create(res1);
-	        resDao2 = resDbHelper.getResourcesDao();
-	        resDao2.create(res2);
-	    } catch (SQLException e1) {
-	        // TODO Auto-generated catch block
-	        e1.printStackTrace();
-	    }
+//	    Resource res1 = new Resource("Infant feeding for newborns and infants up to 6 months", "0-6mos.pdf");
+//	    Resource res2 = new Resource("Feeding for infants 6 months and older", "6-12mos.pdf");
+//	    Dao<Resource, Integer> resDao1;
+//	    Dao<Resource, Integer> resDao2;
+//	    DatabaseHelper resDbHelper = new DatabaseHelper(context);
+//	    try {
+//	        resDao1 = resDbHelper.getResourcesDao();
+//	        resDao1.create(res1);
+//	        resDao2 = resDbHelper.getResourcesDao();
+//	        resDao2.create(res2);
+//	    } catch (SQLException e1) {
+//	        // TODO Auto-generated catch block
+//	        e1.printStackTrace();
+//	    }
 	    
 	    
 	    // HEALTH THEMES
-	    HealthTheme theme1 = new HealthTheme(1, "HIV", "Some HIV related observe content", "Some HIV related record content", "Zulu stuff", "Zulu stuff", "#a01718");
-	    HealthTheme theme2 = new HealthTheme(2, "Severe Childhood Illnesses", "Some Severe Childhood Illnesses related observe content", "Some Severe Childhood Illnesses related record content", "Zulu stuff", "Zulu stuff", "#ebbb28");
-	    HealthTheme theme3 = new HealthTheme(3, "Nutrition", "Some Nutrition related observe content", "Some Nutrition related record content", "Zulu stuff", "Zulu stuff", "#5b943d");
-	    HealthTheme theme4 = new HealthTheme(4, "Psychosocial Support", "Look for signs that the parent/carer spends time focusing on the child and its interests", "Does the child seem happy and active and willing to talk with home visitor?", "Zulu stuff", "Zulu stuff", "#4ec5c7");
-	    Dao<HealthTheme, Integer> themeDao1;
-	    Dao<HealthTheme, Integer> themeDao2;
-	    Dao<HealthTheme, Integer> themeDao3;
-	    Dao<HealthTheme, Integer> themeDao4;
-	    DatabaseHelper themeDbHelper = new DatabaseHelper(context);
-	    try {
-	    	themeDao1 = themeDbHelper.getHealthThemeDao();
-	        themeDao1.create(theme1);
-	        themeDao2 = themeDbHelper.getHealthThemeDao();
-	        themeDao2.create(theme2);
-	        themeDao3 = themeDbHelper.getHealthThemeDao();
-	        themeDao3.create(theme3);
-	        themeDao4 = themeDbHelper.getHealthThemeDao();
-	        themeDao4.create(theme4);
-	    } catch (SQLException e1) {
-	        // TODO Auto-generated catch block
-	        e1.printStackTrace();
-	    }
+//	    HealthTheme theme1 = new HealthTheme(1, "HIV", "Some HIV related observe content", "Some HIV related record content", "Zulu stuff", "Zulu stuff", "#a01718");
+//	    HealthTheme theme2 = new HealthTheme(2, "Severe Childhood Illnesses", "Some Severe Childhood Illnesses related observe content", "Some Severe Childhood Illnesses related record content", "Zulu stuff", "Zulu stuff", "#ebbb28");
+//	    HealthTheme theme3 = new HealthTheme(3, "Nutrition", "Some Nutrition related observe content", "Some Nutrition related record content", "Zulu stuff", "Zulu stuff", "#5b943d");
+//	    HealthTheme theme4 = new HealthTheme(4, "Psychosocial Support", "Look for signs that the parent/carer spends time focusing on the child and its interests", "Does the child seem happy and active and willing to talk with home visitor?", "Zulu stuff", "Zulu stuff", "#4ec5c7");
+//	    Dao<HealthTheme, Integer> themeDao1;
+//	    Dao<HealthTheme, Integer> themeDao2;
+//	    Dao<HealthTheme, Integer> themeDao3;
+//	    Dao<HealthTheme, Integer> themeDao4;
+//	    DatabaseHelper themeDbHelper = new DatabaseHelper(context);
+//	    try {
+//	    	themeDao1 = themeDbHelper.getHealthThemeDao();
+//	        themeDao1.create(theme1);
+//	        themeDao2 = themeDbHelper.getHealthThemeDao();
+//	        themeDao2.create(theme2);
+//	        themeDao3 = themeDbHelper.getHealthThemeDao();
+//	        themeDao3.create(theme3);
+//	        themeDao4 = themeDbHelper.getHealthThemeDao();
+//	        themeDao4.create(theme4);
+//	    } catch (SQLException e1) {
+//	        // TODO Auto-generated catch block
+//	        e1.printStackTrace();
+//	    }
 	    
 	    
 	    // HEALTH SELECTS

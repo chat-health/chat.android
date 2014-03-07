@@ -8,7 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "videos")
 public class Video {
-    @DatabaseField(generatedId = true)
+    @DatabaseField
     private int id;
     @DatabaseField
     private String name;
@@ -26,12 +26,14 @@ public class Video {
 
     /**
      * Constructor that instantiates the private member variable(s)
+     * @param id
      * @param name
      * @param uri
      * @param screenshot
      * 
      */
-    public Video(String name, String uri, String screenshot) {
+    public Video(int id, String name, String uri, String screenshot) {
+    	this.id = id;
     	this.name = name;
     	this.uri = uri;
     	this.screenshot = screenshot;
