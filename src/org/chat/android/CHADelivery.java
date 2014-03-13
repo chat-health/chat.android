@@ -247,14 +247,14 @@ public class CHADelivery extends BaseActivity {
 		// if the tapped button (v) is equal to the first select element
 		if (selects.size() > 2) {
 			if (v.getTag() == findViewById(R.id.a1rb1_1).getTag()) {
-				toggleAdditionalSelects("show");
+				toggleAdditionalSelects("show", selects.size());
 			} else if (v.getTag() == findViewById(R.id.a1rb1_2).getTag()) {
-				toggleAdditionalSelects("hide");
+				toggleAdditionalSelects("hide", selects.size());
 			}
 		}
 	}
 	
-	public void toggleAdditionalSelects(String visibility) {
+	public void toggleAdditionalSelects(String visibility, int size) {
 		if (visibility.equals("show")) {
 			findViewById(R.id.a1content2).setVisibility(View.VISIBLE);
 			findViewById(R.id.a1rb2_1).setVisibility(View.VISIBLE);
@@ -264,11 +264,23 @@ public class CHADelivery extends BaseActivity {
 			findViewById(R.id.a1rb2_1).setVisibility(View.GONE);
 			findViewById(R.id.a1rb2_2).setVisibility(View.GONE);
 		}
+		// new corner case - one extra select set for 2nd page
+		if (size > 4) {
+			if (visibility.equals("show")) {
+				findViewById(R.id.a1content3).setVisibility(View.VISIBLE);
+				findViewById(R.id.a1rb3_1).setVisibility(View.VISIBLE);
+				findViewById(R.id.a1rb3_2).setVisibility(View.VISIBLE);
+			} else if (visibility.equals("hide")) {
+				findViewById(R.id.a1content3).setVisibility(View.GONE);
+				findViewById(R.id.a1rb3_1).setVisibility(View.GONE);
+				findViewById(R.id.a1rb3_2).setVisibility(View.GONE);
+			}
+		}
+		
 //		else {
 //    		Toast.makeText(getApplicationContext(),"ThisShouldNeverHappenException: tag out of alignment. Contact technical support",Toast.LENGTH_LONG).show();
 //		}
 		
-		// TODO: add the third set, if we're using them
 	}
 	
 	public void onBackPressed() {
