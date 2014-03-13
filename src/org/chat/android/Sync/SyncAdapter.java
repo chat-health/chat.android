@@ -26,6 +26,7 @@ import org.chat.android.DatabaseHelper;
 import org.chat.android.R;
 import org.chat.android.models.Attendance;
 import org.chat.android.models.Client;
+import org.chat.android.models.HealthSelect;
 import org.chat.android.models.HealthTheme;
 import org.chat.android.models.Household;
 import org.chat.android.models.PageAssessment1;
@@ -117,6 +118,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		
 		retrieveModel("health_themes");
 		
+		retrieveModel("health_selects");
 		retrieveModel("page_assessment1");
 	}
 	
@@ -274,6 +276,22 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
 	                	HealthTheme o = new HealthTheme(jo.getInt("_id"), jo.getString("name"), jo.getString("en_observe_content"), jo.getString("en_record_content"), jo.getString("zu_observe_content"), jo.getString("zu_record_content"), jo.getString("color"));
+	                	dao.create(o);
+	                }
+                } else if ("health_selects" == modelName) {
+	                Dao<HealthSelect, Integer> dao;
+	                dao = dbHelper.getHealthSelectDao();
+	                
+	                // delete all entries
+	                if (jsonArray.length() > 0) {
+		                DeleteBuilder<HealthSelect, Integer> deleter = dao.deleteBuilder();
+		                deleter.delete();
+	                }
+	                
+	                // add new entries received via REST call
+	                for (int i=0; i < jsonArray.length(); i++) {
+	                	JSONObject jo = jsonArray.getJSONObject(i);
+	                	HealthSelect o = new HealthSelect(jo.getInt("_id"), jo.getInt("subject_id"), jo.getString("en_content"), jo.getString("zu_content"));
 	                	dao.create(o);
 	                }
                 } else if ("page_assessment1" == modelName) {

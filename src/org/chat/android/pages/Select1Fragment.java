@@ -59,16 +59,15 @@ public class Select1Fragment extends Fragment {
 		int visitId = getArguments().getInt("visitId");
 		String themeName = getArguments().getString("themeName");
 		String topicName = getArguments().getString("topicName");
-		String type = getArguments().getString("type");
 		int id = getArguments().getInt("id");
         
-	    populateDisplayedFragment(themeName, topicName, type, id, lang);
+	    populateDisplayedFragment(themeName, topicName, id, lang);
 	    populateClickedRadio(view, visitId, topicName);
     	
     	return view;
     }
     
-	public void populateDisplayedFragment(String themeName, String topicName, String type, int pageContentId, String lang) {
+	public void populateDisplayedFragment(String themeName, String topicName, int pageContentId, String lang) {
 		// question
 		PageSelect1 ps = ModelHelper.getPageSelect1ForId(context, pageContentId);
 		content1.setText(ps.getContent(lang, "content1"));
@@ -94,9 +93,12 @@ public class Select1Fragment extends Fragment {
 		title.setTextColor(colorRef);
     }
 	
+	
+	
+	// NOTE THIS SHOULDNT WORK - WILL RETURN MULTIPLE IDS, SEE BELOW
 	// if the user has navigated back/forward to this page after previously having selected a radio
 	public void populateClickedRadio(View view, int visitId, String topicName) {
-		HealthSelectRecorded hsr = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicName(context, visitId, topicName);
+		HealthSelectRecorded hsr = ModelHelper.getHealthSelectRecordedForVisitIdAndTopicName(context, visitId, topicName);
 		if (hsr != null) {
 			int selectId = hsr.getSelectId();
 			HealthSelect hs = ModelHelper.getHealthSelectForId(context, selectId);
@@ -105,4 +107,32 @@ public class Select1Fragment extends Fragment {
 			rb.setChecked(true);
 		}
 	}
+	
+//	public void populateClickedRadio(View view, int visitId, List<RadioButton> rbList) {
+//		// for each select element on the page
+//		for (RadioButton rb : rbList) {
+//			// possibly excessive checks to avoid nullpointerexceptions
+//			if (rb != null && rb.getTag() != null) {
+//				int selectId = (Integer) rb.getTag();
+//				// get the recorded select
+//				HealthSelectRecorded hsr = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicNameAndSelectId(context, visitId, "assessment", selectId);
+//				// if it exists, check it
+//				if (hsr != null) {
+//					rb.setChecked(true);
+//				}
+//			}
+//			
+//		}
+//		// if there is a second set of selects, and yes/first select is checked
+//		if (selects.size() > 2 && answer1_1.isChecked()) {
+//			content2.setVisibility(View.VISIBLE);
+//			answer2_1.setVisibility(View.VISIBLE);
+//			answer2_2.setVisibility(View.VISIBLE);
+//		}
+//	}
+	
+	
+	
+	
+	
 }

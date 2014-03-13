@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+    
+    <TextView
+        android:id="@+id/r1title"
+        style="@style/titleContainer"
+        android:textColor="#2d94b3"
+        android:text="Take action" />
+    
+    <ScrollView
+        android:layout_width="match_parent"
+	    android:layout_height="600dp"
+	    android:layout_below="@id/r1title"
+	    android:layout_marginTop="20dp"
+	    android:layout_marginLeft="30dp">
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	    	android:layout_height="match_parent"
+	        android:orientation="vertical">
+	        <TextView
+		        android:id="@+id/r1tv1"
+		        style="@style/shortTextContainer"
+		        android:layout_marginTop="30dp"
+		        android:text="@string/referral_ors"
+		        android:visibility="gone" />
+		    <TextView
+		        android:id="@+id/r1tv2"
+		        style="@style/shortTextContainer"
+		        android:layout_marginTop="30dp"
+		        android:text="@string/referral_zinc"
+		        android:visibility="gone" />
+		    <TextView
+		        android:id="@+id/r1tv3"
+		        style="@style/shortTextContainer"
+		        android:layout_marginTop="30dp"
+		        android:text="@string/referral_antibiotics"
+		        android:visibility="gone" />
+	    </LinearLayout>
+	    
+	</ScrollView>
+
+</RelativeLayout>

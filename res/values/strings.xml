@@ -49,6 +49,12 @@
     
     
     <string name="service_delivery_title_text">Who were these services delivered to?</string>
+    
+    
+    <string name="referral_ors">* Show caregiver how to prepare ORS and give immediately</string>
+    <string name="referral_zinc">* Advise to take zinc supplement</string>
+    <!-- <string name="referral_zinc">* Advise to take zinc supplement: 1 dose daily for 10 days; age 2 months to less than 6 months, 1/2 tablet for 10 days (5 tablets); age 6 months to 5 years, 1 tablet for 10 days (10 tablets)</string> -->
+    <string name="referral_antibiotics">* Explain that the child might need antibiotics</string>
 
     <string name="cha_vaccine_age1_text">Birth</string>
     <string name="cha_vaccine_age2_text">6 weeks</string>

@@ -32,6 +32,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.QueryBuilder;
 
 public class ModelHelper {
 	public static Visit getVisitForId(Context context, int visitId) {
@@ -216,7 +217,9 @@ public class ModelHelper {
 		DatabaseHelper hsDbHelper = new DatabaseHelper(context);
 		try {
 			hsDao = hsDbHelper.getHealthSelectDao();
-			selectList = hsDao.queryBuilder().where().eq("subject_id",subjectId).query();
+			QueryBuilder<HealthSelect, Integer> qb = hsDao.queryBuilder();
+			qb.where().eq("subject_id",subjectId);
+			selectList = qb.orderBy("id", true).query();
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
@@ -354,7 +357,7 @@ public class ModelHelper {
 		return hs;
 	}
 	
-	public static HealthSelectRecorded getHealthSelectRecordedsForVisitIdAndTopicName(Context context, int visitId, String topicName) {
+	public static HealthSelectRecorded getHealthSelectRecordedForVisitIdAndTopicName(Context context, int visitId, String topicName) {
 		Dao<HealthSelectRecorded, Integer> hsrDao;		
 		DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
 		HealthSelectRecorded hsr = null;
@@ -373,13 +376,28 @@ public class ModelHelper {
 		return hsr;
 	}
 	
-	public static HealthSelectRecorded getHealthSelectRecordedsForVisitIdAndTopicNameAndSelectId(Context context, int visitId, String topicName, int selectId) {
+	public static List<HealthSelectRecorded> getHealthSelectRecordedsForVisitIdAndTopicNameAndClientId(Context context, int visitId, String topicName, int clientId) {
+		Dao<HealthSelectRecorded, Integer> hsrDao;		
+		DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
+		List<HealthSelectRecorded> hsrList = null;
+		try {
+			hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
+			hsrList = hsrDao.queryBuilder().where().eq("visit_id",visitId).and().eq("topic",topicName).and().eq("client_id",clientId).query();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		return hsrList;
+	}
+	
+	public static HealthSelectRecorded getHealthSelectRecordedsForVisitIdAndTopicNameAndSelectIdAndClientId(Context context, int visitId, String topicName, int selectId, int clientId) {
 		Dao<HealthSelectRecorded, Integer> hsrDao;		
 		DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
 		HealthSelectRecorded hsr = null;
 		try {
 			hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
-			List<HealthSelectRecorded> hsrList = hsrDao.queryBuilder().where().eq("visit_id",visitId).and().eq("topic",topicName).and().eq("select_id",selectId).query();
+			List<HealthSelectRecorded> hsrList = hsrDao.queryBuilder().where().eq("visit_id",visitId).and().eq("topic",topicName).and().eq("select_id",selectId).and().eq("client_id",clientId).query();
 			Iterator<HealthSelectRecorded> iter = hsrList.iterator();
 			while (iter.hasNext()) {
 				hsr = iter.next();

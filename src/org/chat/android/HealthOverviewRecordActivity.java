@@ -124,7 +124,8 @@ public class HealthOverviewRecordActivity extends BaseActivity {
 			selectResp = Integer.parseInt(rb.getTag().toString());
 		}
 			
-		HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, healthThemeName, null);
+		// using 0 for clientId - no specific client here
+		HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, 0, healthThemeName, null);
     	Dao<HealthSelectRecorded, Integer> hsrDao;
     	DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
     	try {

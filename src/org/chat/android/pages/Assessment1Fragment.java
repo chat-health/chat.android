@@ -21,6 +21,8 @@ import android.widget.TextView;
 
 public class Assessment1Fragment extends Fragment {
 	Context context;
+	int clientId = 0;
+	
     TextView title = null;
     TextView content1 = null;
     TextView content2 = null;
@@ -51,6 +53,7 @@ public class Assessment1Fragment extends Fragment {
 		String lang = Locale.getDefault().getLanguage();
 		
 		int visitId = getArguments().getInt("visitId");
+		clientId = getArguments().getInt("clientId");
 		int pageContentId = getArguments().getInt("id");
 		
 		selects = new ArrayList<HealthSelect>();
@@ -107,7 +110,7 @@ public class Assessment1Fragment extends Fragment {
 			if (rb != null && rb.getTag() != null) {
 				int selectId = (Integer) rb.getTag();
 				// get the recorded select
-				HealthSelectRecorded hsr = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicNameAndSelectId(context, visitId, "assessment", selectId);
+				HealthSelectRecorded hsr = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicNameAndSelectIdAndClientId(context, visitId, "assessment", selectId, clientId);
 				// if it exists, check it
 				if (hsr != null) {
 					rb.setChecked(true);

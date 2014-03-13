@@ -15,6 +15,8 @@ public class HealthSelectRecorded {
     @DatabaseField
     private int select_id;
     @DatabaseField
+    private int client_id;
+    @DatabaseField
     private String theme;
     @DatabaseField
     private String topic;
@@ -29,9 +31,10 @@ public class HealthSelectRecorded {
     /**
      * Constructor that instantiates the private member variable(s)
      */
-    public HealthSelectRecorded(int visit_id, int select_id, String theme, String topic) {
+    public HealthSelectRecorded(int visit_id, int select_id, int client_id, String theme, String topic) {
     	this.visit_id = visit_id;
         this.select_id = select_id;
+        this.client_id = client_id;
         this.theme = theme;
         this.topic = topic;
     }
@@ -44,6 +47,7 @@ public class HealthSelectRecorded {
     public HealthSelectRecorded(HealthSelectRecorded existingHealthSelectRecordedModel) {
     	this.visit_id = existingHealthSelectRecordedModel.visit_id;
         this.select_id = existingHealthSelectRecordedModel.select_id;
+        this.client_id = existingHealthSelectRecordedModel.client_id;
         this.theme = existingHealthSelectRecordedModel.theme;
         this.topic = existingHealthSelectRecordedModel.topic;
     }
@@ -67,6 +71,14 @@ public class HealthSelectRecorded {
 	
 	public int getSelectId() {
 		return select_id;
+	}
+	
+	public void setClientId(int client_id) {
+		this.client_id = client_id;
+	}
+	
+	public int getClientId() {
+		return client_id;
 	}
 	
 	public void setTheme(String theme) {
