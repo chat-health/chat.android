@@ -2,8 +2,6 @@ package org.chat.android.models;
 
 import java.util.Date;
 
-import android.text.format.Time;
-
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -23,7 +21,7 @@ public class ServiceAccessed {
     @DatabaseField
 	private String ad_info;
     @DatabaseField
-	private Date time;
+	private Date date;
 
     /**
      * Default Constructor needed by ormlite
@@ -37,15 +35,15 @@ public class ServiceAccessed {
      * @param visit_id
      * @param client_id
      * @param ad_info
-     * @param time
+     * @param date
      * 
      */
-    public ServiceAccessed(int service_id, int visit_id, int client_id, String ad_info, Date time) {
+    public ServiceAccessed(int service_id, int visit_id, int client_id, String ad_info, Date date) {
     	this.service_id = service_id;
     	this.visit_id = visit_id;
         this.client_id = client_id;
         this.ad_info = ad_info;
-        this.time = time;
+        this.date = date;
     }
     
     /**
@@ -57,7 +55,7 @@ public class ServiceAccessed {
         this.visit_id = existingServicesAccessedModel.visit_id;
         this.client_id = existingServicesAccessedModel.client_id;
         this.ad_info = existingServicesAccessedModel.ad_info;
-        this.time = existingServicesAccessedModel.time;
+        this.date = existingServicesAccessedModel.date;
     }
 
 	public int getId() {
@@ -96,11 +94,11 @@ public class ServiceAccessed {
 		this.ad_info = ad_info;
 	}
 	
-	public Date getTime() {
-		return time;
+	public Date getDate() {
+		return date;
 	}
 	
-	public void setTime(Date time) {
-		this.time = time;
+	public void setDate(Date date) {
+		this.date = date;
 	}
 }

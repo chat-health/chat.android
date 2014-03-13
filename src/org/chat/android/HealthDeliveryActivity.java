@@ -296,7 +296,8 @@ public class HealthDeliveryActivity extends BaseActivity {
     	Video chosenVideo = ModelHelper.getVideoForId(context, chosenVideoId);
     	
     	// record which video was played in videos_accessed table
-	    VideoAccessed va = new VideoAccessed(chosenVideoId, visitId);
+    	Date date = new Date();
+	    VideoAccessed va = new VideoAccessed(chosenVideoId, visitId, date);
 	    Dao<VideoAccessed, Integer> vaDao;
 	    DatabaseHelper vaDbHelper = new DatabaseHelper(context);
 	    try {
