@@ -17,6 +17,7 @@ import org.chat.android.models.Resource;
 import org.chat.android.models.Role;
 import org.chat.android.models.Service;
 import org.chat.android.models.TopicVideo;
+import org.chat.android.models.Util;
 import org.chat.android.models.Vaccine;
 import org.chat.android.models.Video;
 import org.chat.android.models.HealthTopic;
@@ -37,6 +38,19 @@ public class SetupDB extends Activity {
         super.onCreate(savedInstanceState);
         
         Context context = getApplicationContext();
+        
+        // UTIL - TODO: think about where to eventually move this, since it needs to fire on empty DB or something
+        Date d = new Date();
+        Util u1 = new Util(d, d);
+        Dao<Util, Integer> utilDao;
+        DatabaseHelper utilDbHelper = new DatabaseHelper(context);
+        try {
+        	utilDao = utilDbHelper.getUtilDao();
+        	utilDao.create(u1);
+	    } catch (SQLException e1) {
+	        // TODO Auto-generated catch block
+	        e1.printStackTrace();
+	    }
         
         // CLIENTS
 //		int hhId = 1;			// for John Doe household
@@ -84,20 +98,20 @@ public class SetupDB extends Activity {
 	    
 	    
 	    // ROLES
-	    Role r1 = new Role(1, "volunteer");
-	    Role r2 = new Role(2, "councelor");
-	    Dao<Role, Integer> rDao1;
-	    Dao<Role, Integer> rDao2;
-	    DatabaseHelper roleDbHelper = new DatabaseHelper(context);
-	    try {
-	        rDao1 = roleDbHelper.getRolesDao();
-	        rDao1.create(r1);
-	        rDao2 = roleDbHelper.getRolesDao();
-	        rDao2.create(r2);
-	    } catch (SQLException e1) {
-	        // TODO Auto-generated catch block
-	        e1.printStackTrace();
-	    }
+//	    Role r1 = new Role(1, "volunteer");
+//	    Role r2 = new Role(2, "councelor");
+//	    Dao<Role, Integer> rDao1;
+//	    Dao<Role, Integer> rDao2;
+//	    DatabaseHelper roleDbHelper = new DatabaseHelper(context);
+//	    try {
+//	        rDao1 = roleDbHelper.getRolesDao();
+//	        rDao1.create(r1);
+//	        rDao2 = roleDbHelper.getRolesDao();
+//	        rDao2.create(r2);
+//	    } catch (SQLException e1) {
+//	        // TODO Auto-generated catch block
+//	        e1.printStackTrace();
+//	    }
 	    
 	    
 	    // SERVICES

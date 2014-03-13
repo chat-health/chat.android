@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
@@ -23,6 +24,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.chat.android.DatabaseHelper;
+import org.chat.android.ModelHelper;
 import org.chat.android.R;
 import org.chat.android.models.Attendance;
 import org.chat.android.models.Client;
@@ -139,6 +141,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         	// Executing a get request
         	String baseUrl = appContext.getResources().getString(R.string.base_url);
         	String url = baseUrl.concat(modelName);
+        	
+    		GregorianCalendar gc = new GregorianCalendar(2014, 2, 8);
+    		Date d = gc.getTime();
+    		String lastSync = "?last_synced_at=" + formatDateToJsonDate(d);
+    		
+        	//String lastSync = "?last_synced_at=" + formatDateToJsonDate(ModelHelper.getLastSyncedAt(appContext, "pull"));
+        	url = url.concat(lastSync);
+        	
         	Log.i("SyncAdapter", "Get to URL: "+url);
         	
             response = httpclient.execute(new HttpGet(url));
@@ -266,17 +276,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                Dao<HealthTheme, Integer> dao;
 	                dao = dbHelper.getHealthThemeDao();
 	                
-	                // delete all entries
-	                if (jsonArray.length() > 0) {
-		                DeleteBuilder<HealthTheme, Integer> deleter = dao.deleteBuilder();
-		                deleter.delete();
-	                }
-	                
 	                // add new entries received via REST call
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
-	                	HealthTheme o = new HealthTheme(jo.getInt("_id"), jo.getString("name"), jo.getString("en_observe_content"), jo.getString("en_record_content"), jo.getString("zu_observe_content"), jo.getString("zu_record_content"), jo.getString("color"));
-	                	dao.create(o);
+	                	Log.i("SyncAdapter","JSON object: "+jo.toString());
+	                	HealthTheme o = new HealthTheme(jo.getInt("_id"), jo.getString("name"), jo.getString("en_observe_content"), jo.getString("en_record_content"), jo.getString("zu_observe_content"), jo.getString("zu_record_content"), jo.getString("color"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
+	                	// create or update data sets received from backend server
+	                	dao.createOrUpdate(o);
 	                }
                 } else if ("health_selects" == modelName) {
 	                Dao<HealthSelect, Integer> dao;
@@ -493,13 +499,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		return convertedDate;
 	}
 	
-	// TODO: needed later?
 	private static String formatDateToJsonDate(Date date) {
 		String output = "";
 		if (date != null) {
 			Log.i("SyncAdapter", "date to convert to string is: "+date.toString());
 			
-	        SimpleDateFormat df = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSSZ" );
+	        SimpleDateFormat df = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" );
 	        
 	        TimeZone tz = TimeZone.getTimeZone( "UTC" );
 	        

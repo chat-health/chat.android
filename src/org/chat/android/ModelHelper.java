@@ -20,6 +20,7 @@ import org.chat.android.models.PageText1;
 import org.chat.android.models.PageVideo1;
 import org.chat.android.models.Service;
 import org.chat.android.models.TopicVideo;
+import org.chat.android.models.Util;
 import org.chat.android.models.Vaccine;
 import org.chat.android.models.VaccineRecorded;
 import org.chat.android.models.Video;
@@ -35,6 +36,31 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 
 public class ModelHelper {
+	public static Date getLastSyncedAt(Context context, String direction) {
+		Util u = null;
+		Dao<Util, Integer> uDao;		
+		DatabaseHelper uDbHelper = new DatabaseHelper(context);
+		try {
+			uDao = uDbHelper.getUtilDao();
+			List<Util> uList = uDao.queryBuilder().query();
+			Iterator<Util> iter = uList.iterator();
+			while (iter.hasNext()) {
+				u = iter.next();
+			}
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		if (direction == "pull") {
+			return u.getLastPulledAt();
+		} else if (direction == "push") {
+			return u.getLastPushedAt();
+		} else {
+			return null;
+		}
+	}
+	
 	public static Visit getVisitForId(Context context, int visitId) {
 		Visit visit = null;
 		Dao<Visit, Integer> vDao;		

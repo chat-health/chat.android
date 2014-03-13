@@ -256,12 +256,15 @@ public class LoginActivity extends Activity {
 			
 			if (success) {
 				int vId = 0;
-				// check if there are previously uncompleted visits. NB: this assumes there is only ever one unrestored visit (TESTME)
+				// check if there are previously uncompleted visits for this worker. NB: this assumes there is only ever one unrestored visit (TESTME)
+				String workerName = mUserNameView.getText().toString();
+				int workerId = ModelHelper.getWorkerForName(getApplicationContext(), workerName).getId();
+				
 				Dao<Visit, Integer> vDao;		
 				DatabaseHelper vDbHelper = new DatabaseHelper(getApplicationContext());
 				try {
 					vDao = vDbHelper.getVisitsDao();
-					List<Visit> vList = vDao.queryBuilder().where().isNull("end_time").query();
+					List<Visit> vList = vDao.queryBuilder().where().eq("worker_id",workerId).and().isNull("end_time").query();
 					Iterator<Visit> iter = vList.iterator();
 					while (iter.hasNext()) {
 						Visit v = iter.next();
@@ -284,7 +287,7 @@ public class LoginActivity extends Activity {
 					b.putInt("visitId",vId);
 				}
 				
-				b.putString("workerName",mUserNameView.getText().toString());
+				b.putString("workerName",workerName);
 				b.putString("role",roleSpinner.getSelectedItem().toString());
 				i.putExtras(b);
 				startActivity(i);
