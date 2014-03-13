@@ -51,9 +51,9 @@
     <string name="service_delivery_title_text">Who were these services delivered to?</string>
     
     
+    <string name="referral_general">* For any sick child who can drink, advise to give fluids and continue feeding\n\n* Advise to keep the child warm if the child is NOT hot with fever\n* If the child is hot with fever advise to dress lightly to allow fever to cool\n\n* For referrals, send SMS or call Nurse at Thandanani; write referral note; help caregiver and child to get to clinic\n\n* Always advise on when to go to the health facility:\n\u0020\u0020\u0020\u0020\u0020\u0020if child cannot drink or eat\n\u0020\u0020\u0020\u0020\u0020\u0020if child becomes more sick\n\u0020\u0020\u0020\u0020\u0020\u0020if child has blood in the stool</string>
     <string name="referral_ors">* Show caregiver how to prepare ORS and give immediately</string>
-    <string name="referral_zinc">* Advise to take zinc supplement</string>
-    <!-- <string name="referral_zinc">* Advise to take zinc supplement: 1 dose daily for 10 days; age 2 months to less than 6 months, 1/2 tablet for 10 days (5 tablets); age 6 months to 5 years, 1 tablet for 10 days (10 tablets)</string> -->
+    <string name="referral_zinc">* Advise to take zinc supplement: 1 dose daily for 10 days; age 2 months to less than 6 months, half tablet for 10 days (5 tablets); age 6 months to 5 years, 1 tablet for 10 days (10 tablets)</string>
     <string name="referral_antibiotics">* Explain that the child might need antibiotics</string>
 
     <string name="cha_vaccine_age1_text">Birth</string>

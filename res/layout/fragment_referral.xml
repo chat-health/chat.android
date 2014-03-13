@@ -23,17 +23,22 @@
 	        <TextView
 		        android:id="@+id/r1tv1"
 		        style="@style/shortTextContainer"
+		        android:text="@string/referral_general"
+		        android:visibility="gone" />
+	        <TextView
+		        android:id="@+id/r1tv2"
+		        style="@style/shortTextContainer"
 		        android:layout_marginTop="30dp"
 		        android:text="@string/referral_ors"
 		        android:visibility="gone" />
 		    <TextView
-		        android:id="@+id/r1tv2"
+		        android:id="@+id/r1tv3"
 		        style="@style/shortTextContainer"
 		        android:layout_marginTop="30dp"
 		        android:text="@string/referral_zinc"
 		        android:visibility="gone" />
 		    <TextView
-		        android:id="@+id/r1tv3"
+		        android:id="@+id/r1tv4"
 		        style="@style/shortTextContainer"
 		        android:layout_marginTop="30dp"
 		        android:text="@string/referral_antibiotics"
