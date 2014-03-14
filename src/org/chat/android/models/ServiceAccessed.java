@@ -58,10 +58,6 @@ public class ServiceAccessed {
         this.date = existingServicesAccessedModel.date;
     }
 
-	public int getId() {
-		return id;
-	}
-
 	public int getServiceId() {
 		return service_id;
 	}

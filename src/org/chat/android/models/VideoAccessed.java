@@ -48,10 +48,6 @@ public class VideoAccessed {
         this.visit_id = existingVideosAccessedModel.visit_id;
         this.date = existingVideosAccessedModel.date;
     }
-    
-    public int getId() {
-		return id;
-	}
 
 	public int getVideoId() {
 		return video_id;

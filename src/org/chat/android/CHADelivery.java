@@ -221,7 +221,7 @@ public class CHADelivery extends BaseActivity {
 		DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
 		if (prevHsr == null) {
 			try {
-				HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, clientId, null, "assessment");
+				HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, clientId, null, "assessment", new Date());
 	    		hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
 	    		hsrDao.create(hsr);
 	    	} catch (SQLException e) {
@@ -230,6 +230,7 @@ public class CHADelivery extends BaseActivity {
 	    	}
 		} else {
 			prevHsr.setSelectId(selectResp);
+			prevHsr.setDate(new Date());
 		    try {
 		    	hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
 		    	hsrDao.update(prevHsr);

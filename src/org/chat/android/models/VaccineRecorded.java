@@ -11,6 +11,8 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "vaccines_recorded")
 public class VaccineRecorded {
+	@DatabaseField(generatedId = true)
+	private int id;
 	@DatabaseField
 	private int vaccine_id;
     @DatabaseField
@@ -29,6 +31,7 @@ public class VaccineRecorded {
 
     /**
      * Constructor that instantiates the private member variable(s)
+     * @param id
      * @param vaccine_id
      * @param client_id
      * @param visit_id

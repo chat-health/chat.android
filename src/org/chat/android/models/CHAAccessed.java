@@ -56,10 +56,6 @@ public class CHAAccessed {
         this.start_time = existingServicesAccessedModel.start_time;
         this.end_time = existingServicesAccessedModel.end_time;
     }
-    
-    public int getId() {
-		return id;
-	}
 
 	public int getClientId() {
 		return client_id;

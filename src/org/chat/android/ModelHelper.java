@@ -27,10 +27,8 @@ import org.chat.android.models.Video;
 import org.chat.android.models.Visit;
 import org.chat.android.models.Worker;
 
-import android.R.array;
 import android.content.Context;
 import android.util.Log;
-import android.widget.ImageView;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;

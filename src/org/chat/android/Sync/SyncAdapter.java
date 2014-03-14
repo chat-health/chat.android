@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
@@ -42,7 +41,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.stmt.DeleteBuilder;
 
 import android.accounts.Account;
@@ -64,6 +62,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     // Define a variable to contain a content resolver instance
     ContentResolver mContentResolver;
     Context appContext;
+    // if we get any error codes back in any of the pushes, set to false (very strict, but necessary)
+    Boolean pullSuccess = true;
+    Boolean pushSuccess = true;
     
     /**
      * Set up the sync adapter
@@ -109,8 +110,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	}
 	
 	private void retrieveDataFromServer() {
-		Log.i("SyncAdapter", "=================== DATA PULL ==================");
-		
+		Log.i("SyncAdapter", "=================== DATA PULL ===================");
+			
 		retrieveModel("clients");
 		retrieveModel("households");
 		retrieveModel("services");
@@ -122,15 +123,35 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		
 		retrieveModel("health_selects");
 		retrieveModel("page_assessment1");
+		
+        
+        // change last pull date to current date
+		if (pullSuccess == true) {
+			try {
+				ModelHelper.setLastSyncedAt(appContext, new Date(), "pull");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	private void pushDataToServer() {
-		Log.i("SyncAdapter", "=================== DATA PUSH ==================");
+		Log.i("SyncAdapter", "=================== DATA PUSH ===================");
 		JSONArray visitsJson = createJsonArrayOf("visits");
 		pushModel("visits", visitsJson);
 		
 		JSONArray attendanceJson = createJsonArrayOf("attendance");
 		pushModel("attendance", attendanceJson);
+		
+		if (pushSuccess == true) {
+			try {
+				ModelHelper.setLastSyncedAt(appContext, new Date(), "push");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	private void retrieveModel(String modelName) {
@@ -317,13 +338,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	paDao.create(pa1);
 	                }
                 }
-                
-                // change last pull date to current date
-                ModelHelper.setLastSyncedAt(appContext, new Date(), "pull");
-                
             } else{
                 //Closes the connection.
             	Log.e("SyncAdapter", statusLine.getReasonPhrase());
+            	// set the flag to false so we don't update the lastPulledAt date
+            	pullSuccess = false;
                 response.getEntity().getContent().close();
                 throw new IOException(statusLine.getReasonPhrase());
             }
@@ -465,6 +484,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                Log.i("SyncAdapter", "Response text: \n"+responseString);
 	            } else{
 	                //Closes the connection.
+	            	// set the flag to false so we don't update the lastPulledAt date
+	            	pullSuccess = false;
 	                response.getEntity().getContent().close();
 	                throw new IOException(statusLine.getReasonPhrase());
 	            }

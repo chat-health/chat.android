@@ -2,8 +2,6 @@ package org.chat.android.models;
 
 import java.util.Date;
 
-import android.text.format.Time;
-
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -62,10 +60,6 @@ public class HealthTopicAccessed {
         this.start_time = existingServicesAccessedModel.start_time;
         this.end_time = existingServicesAccessedModel.end_time;
     }
-
-	public int getId() {
-		return id;
-	}
 	
 	public int getTopicId() {
 		return topic_id;

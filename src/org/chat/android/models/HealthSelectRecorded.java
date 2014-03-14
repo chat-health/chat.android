@@ -1,5 +1,7 @@
 package org.chat.android.models;
 
+import java.util.Date;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -20,6 +22,8 @@ public class HealthSelectRecorded {
     private String theme;
     @DatabaseField
     private String topic;
+    @DatabaseField
+    private Date date;
     
     /**
      * Default Constructor needed by ormlite
@@ -31,12 +35,13 @@ public class HealthSelectRecorded {
     /**
      * Constructor that instantiates the private member variable(s)
      */
-    public HealthSelectRecorded(int visit_id, int select_id, int client_id, String theme, String topic) {
+    public HealthSelectRecorded(int visit_id, int select_id, int client_id, String theme, String topic, Date date) {
     	this.visit_id = visit_id;
         this.select_id = select_id;
         this.client_id = client_id;
         this.theme = theme;
         this.topic = topic;
+        this.date = date;
     }
     
     
@@ -50,12 +55,8 @@ public class HealthSelectRecorded {
         this.client_id = existingHealthSelectRecordedModel.client_id;
         this.theme = existingHealthSelectRecordedModel.theme;
         this.topic = existingHealthSelectRecordedModel.topic;
+        this.date = existingHealthSelectRecordedModel.date;
     }
-    
-
-	public int getId() {
-		return id;
-	}
 
 	public void setVisitId(int visit_id) {
 		this.visit_id = visit_id;
@@ -95,5 +96,13 @@ public class HealthSelectRecorded {
 	
 	public String getTopic() {
 		return topic;
+	}
+	
+	public Date getDate() {
+		return date;
+	}
+	
+	public void setDate(Date date) {
+		this.date = date;
 	}
 }

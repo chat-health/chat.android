@@ -2,19 +2,15 @@ package org.chat.android;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Date;
 import java.util.List;
 
-import org.chat.android.models.Attendance;
 import org.chat.android.models.HealthSelect;
 import org.chat.android.models.HealthSelectRecorded;
 import org.chat.android.models.HealthTheme;
-import org.chat.android.models.HealthTheme;
-import org.chat.android.models.VideoAccessed;
 
 import com.j256.ormlite.dao.Dao;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -125,7 +121,7 @@ public class HealthOverviewRecordActivity extends BaseActivity {
 		}
 			
 		// using 0 for clientId - no specific client here
-		HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, 0, healthThemeName, null);
+		HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, 0, healthThemeName, null, new Date());
     	Dao<HealthSelectRecorded, Integer> hsrDao;
     	DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
     	try {

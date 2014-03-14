@@ -53,10 +53,6 @@ public class ResourceAccessed {
         this.worker_id = existingResourcesAccessedModel.worker_id;
         this.date = existingResourcesAccessedModel.date;
     }
-    
-    public int getId() {
-		return id;
-	}
 
 	public int getResourceId() {
 		return resource_id;

@@ -261,7 +261,7 @@ public class HealthDeliveryActivity extends BaseActivity {
 		int selectResp = 0;
 		selectResp = (Integer) v.getTag();
 		// using 0 for clientId here - no specific client
-		HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, 0, null, topicName);
+		HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, 0, null, topicName, new Date());
 		
 		HealthSelectRecorded prevHsr = null;
 		prevHsr = ModelHelper.getHealthSelectRecordedForVisitIdAndTopicName(context, visitId, topicName);
@@ -279,6 +279,7 @@ public class HealthDeliveryActivity extends BaseActivity {
 	    	}
 		} else {
 			prevHsr.setSelectId(selectResp);
+			prevHsr.setDate(new Date());
 		    try {
 		    	hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
 		    	hsrDao.update(prevHsr);
