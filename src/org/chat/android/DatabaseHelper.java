@@ -31,6 +31,7 @@ import org.chat.android.models.Role;
 import org.chat.android.models.Service;
 import org.chat.android.models.ServiceAccessed;
 import org.chat.android.models.TopicVideo;
+import org.chat.android.models.Util;
 import org.chat.android.models.Vaccine;
 import org.chat.android.models.VaccineRecorded;
 import org.chat.android.models.Video;
@@ -44,7 +45,10 @@ import org.chat.android.models.Worker;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "chat.db";
-    private static final int DATABASE_VERSION = 120;
+    private static final int DATABASE_VERSION = 135;
+    
+    private Dao<Util, Integer> utilDao = null;
+    
     private Dao<Visit, Integer> visitsDao = null;
     private Dao<Client, Integer> clientsDao = null;
     private Dao<Household, Integer> householdsDao = null;
@@ -87,6 +91,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource) {
         try {
+        	TableUtils.createTable(connectionSource, Util.class);
             TableUtils.createTable(connectionSource, Visit.class);
             TableUtils.createTable(connectionSource, Client.class);
             TableUtils.createTable(connectionSource, Household.class);
@@ -121,6 +126,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource, int oldVer, int newVer) {
         try {
+        	TableUtils.dropTable(connectionSource, Util.class, true);
             TableUtils.dropTable(connectionSource, Visit.class, true);
             TableUtils.dropTable(connectionSource, Client.class, true);
             TableUtils.dropTable(connectionSource, Household.class, true);
@@ -156,6 +162,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     /**
      * Functions that returns the Data Access Object DAO00
      */
+    public Dao<Util, Integer> getUtilDao() throws SQLException {
+        if (utilDao == null) {
+        	utilDao = getDao(Util.class);
+        }
+        return utilDao;
+    }
     public Dao<Visit, Integer> getVisitsDao() throws SQLException {
         if (visitsDao == null) {
         	visitsDao = getDao(Visit.class);
@@ -319,6 +331,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void close() {
         super.close();
+        utilDao = null;
         clientsDao = null;
         visitsDao = null;
         householdsDao = null;

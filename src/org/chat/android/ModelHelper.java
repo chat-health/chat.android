@@ -20,6 +20,7 @@ import org.chat.android.models.PageText1;
 import org.chat.android.models.PageVideo1;
 import org.chat.android.models.Service;
 import org.chat.android.models.TopicVideo;
+import org.chat.android.models.Util;
 import org.chat.android.models.Vaccine;
 import org.chat.android.models.VaccineRecorded;
 import org.chat.android.models.Video;
@@ -32,8 +33,48 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.QueryBuilder;
 
 public class ModelHelper {
+	public static Date getLastSyncedAt(Context context, String direction) {
+		Util u = null;
+		Dao<Util, Integer> uDao;		
+		DatabaseHelper uDbHelper = new DatabaseHelper(context);
+		try {
+			uDao = uDbHelper.getUtilDao();
+			List<Util> uList = uDao.queryBuilder().query();
+			Iterator<Util> iter = uList.iterator();
+			while (iter.hasNext()) {
+				u = iter.next();
+			}
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		if (direction == "pull") {
+			return u.getLastPulledAt();
+		} else if (direction == "push") {
+			return u.getLastPushedAt();
+		} else {
+			return null;
+		}
+	}
+	
+	public static void setLastSyncedAt(Context context, Date d, String direction) throws SQLException {
+		Util u = null;
+		Dao<Util, Integer> uDao;
+		DatabaseHelper uDbHelper = new DatabaseHelper(context);
+		uDao = uDbHelper.getUtilDao();
+		
+		if (direction == "pull") {
+			u = new Util(null, d);
+		} else if (direction == "push") {
+			u = new Util(d, null);
+		}
+		uDao.createOrUpdate(u);
+	}
+	
 	public static Visit getVisitForId(Context context, int visitId) {
 		Visit visit = null;
 		Dao<Visit, Integer> vDao;		
@@ -216,7 +257,9 @@ public class ModelHelper {
 		DatabaseHelper hsDbHelper = new DatabaseHelper(context);
 		try {
 			hsDao = hsDbHelper.getHealthSelectDao();
-			selectList = hsDao.queryBuilder().where().eq("subject_id",subjectId).query();
+			QueryBuilder<HealthSelect, Integer> qb = hsDao.queryBuilder();
+			qb.where().eq("subject_id",subjectId);
+			selectList = qb.orderBy("id", true).query();
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
@@ -354,7 +397,7 @@ public class ModelHelper {
 		return hs;
 	}
 	
-	public static HealthSelectRecorded getHealthSelectRecordedsForVisitIdAndTopicName(Context context, int visitId, String topicName) {
+	public static HealthSelectRecorded getHealthSelectRecordedForVisitIdAndTopicName(Context context, int visitId, String topicName) {
 		Dao<HealthSelectRecorded, Integer> hsrDao;		
 		DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
 		HealthSelectRecorded hsr = null;
@@ -373,13 +416,28 @@ public class ModelHelper {
 		return hsr;
 	}
 	
-	public static HealthSelectRecorded getHealthSelectRecordedsForVisitIdAndTopicNameAndSelectId(Context context, int visitId, String topicName, int selectId) {
+	public static List<HealthSelectRecorded> getHealthSelectRecordedsForVisitIdAndTopicNameAndClientId(Context context, int visitId, String topicName, int clientId) {
+		Dao<HealthSelectRecorded, Integer> hsrDao;		
+		DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
+		List<HealthSelectRecorded> hsrList = null;
+		try {
+			hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
+			hsrList = hsrDao.queryBuilder().where().eq("visit_id",visitId).and().eq("topic",topicName).and().eq("client_id",clientId).query();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		return hsrList;
+	}
+	
+	public static HealthSelectRecorded getHealthSelectRecordedsForVisitIdAndTopicNameAndSelectIdAndClientId(Context context, int visitId, String topicName, int selectId, int clientId) {
 		Dao<HealthSelectRecorded, Integer> hsrDao;		
 		DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
 		HealthSelectRecorded hsr = null;
 		try {
 			hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
-			List<HealthSelectRecorded> hsrList = hsrDao.queryBuilder().where().eq("visit_id",visitId).and().eq("topic",topicName).and().eq("select_id",selectId).query();
+			List<HealthSelectRecorded> hsrList = hsrDao.queryBuilder().where().eq("visit_id",visitId).and().eq("topic",topicName).and().eq("select_id",selectId).and().eq("client_id",clientId).query();
 			Iterator<HealthSelectRecorded> iter = hsrList.iterator();
 			while (iter.hasNext()) {
 				hsr = iter.next();

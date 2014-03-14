@@ -98,6 +98,8 @@ public class HealthDeliveryActivity extends BaseActivity {
 		Bundle bundle = new Bundle();
 		bundle.putInt("visitId",visitId);
 		bundle.putInt("id",p.getPageContentId());
+		bundle.putString("topicName",topicName);
+		bundle.putString("themeName",healthTheme);
 		newFrag.setArguments(bundle);
 		
 	    FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -258,10 +260,11 @@ public class HealthDeliveryActivity extends BaseActivity {
 	public void recordSelect(View v) {
 		int selectResp = 0;
 		selectResp = (Integer) v.getTag();
-		HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, null, topicName);
+		// using 0 for clientId here - no specific client
+		HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, 0, null, topicName);
 		
 		HealthSelectRecorded prevHsr = null;
-		prevHsr = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicName(context, visitId, topicName);
+		prevHsr = ModelHelper.getHealthSelectRecordedForVisitIdAndTopicName(context, visitId, topicName);
 		// this nonsense is necessary because there is no 'submit' button... we can't rely on the Next in the Activity, so we just update the row each time a select is made
 		// if this has not already been done this visit and this topic
 		Dao<HealthSelectRecorded, Integer> hsrDao;
@@ -293,7 +296,8 @@ public class HealthDeliveryActivity extends BaseActivity {
     	Video chosenVideo = ModelHelper.getVideoForId(context, chosenVideoId);
     	
     	// record which video was played in videos_accessed table
-	    VideoAccessed va = new VideoAccessed(chosenVideoId, visitId);
+    	Date date = new Date();
+	    VideoAccessed va = new VideoAccessed(chosenVideoId, visitId, date);
 	    Dao<VideoAccessed, Integer> vaDao;
 	    DatabaseHelper vaDbHelper = new DatabaseHelper(context);
 	    try {

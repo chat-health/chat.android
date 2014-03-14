@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
@@ -23,9 +24,11 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.chat.android.DatabaseHelper;
+import org.chat.android.ModelHelper;
 import org.chat.android.R;
 import org.chat.android.models.Attendance;
 import org.chat.android.models.Client;
+import org.chat.android.models.HealthSelect;
 import org.chat.android.models.HealthTheme;
 import org.chat.android.models.Household;
 import org.chat.android.models.PageAssessment1;
@@ -117,6 +120,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		
 		retrieveModel("health_themes");
 		
+		retrieveModel("health_selects");
 		retrieveModel("page_assessment1");
 	}
 	
@@ -125,8 +129,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		JSONArray visitsJson = createJsonArrayOf("visits");
 		pushModel("visits", visitsJson);
 		
-//		JSONArray attendanceJson = createJsonArrayOf("attendance");
-//		pushModel("attendance", attendanceJson);
+		JSONArray attendanceJson = createJsonArrayOf("attendance");
+		pushModel("attendance", attendanceJson);
 	}
 	
 	private void retrieveModel(String modelName) {
@@ -137,6 +141,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         	// Executing a get request
         	String baseUrl = appContext.getResources().getString(R.string.base_url);
         	String url = baseUrl.concat(modelName);
+        	
+    		GregorianCalendar gc = new GregorianCalendar(2014, 2, 8);
+    		Date d = gc.getTime();
+    		String lastSync = "?last_synced_at=" + formatDateToJsonDate(d);
+    		
+        	//String lastSync = "?last_synced_at=" + formatDateToJsonDate(ModelHelper.getLastSyncedAt(appContext, "pull"));
+        	url = url.concat(lastSync);
+        	
         	Log.i("SyncAdapter", "Get to URL: "+url);
         	
             response = httpclient.execute(new HttpGet(url));
@@ -264,16 +276,28 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                Dao<HealthTheme, Integer> dao;
 	                dao = dbHelper.getHealthThemeDao();
 	                
+	                // add new entries received via REST call
+	                for (int i=0; i < jsonArray.length(); i++) {
+	                	JSONObject jo = jsonArray.getJSONObject(i);
+	                	Log.i("SyncAdapter","JSON object: "+jo.toString());
+	                	HealthTheme o = new HealthTheme(jo.getInt("_id"), jo.getString("name"), jo.getString("en_observe_content"), jo.getString("en_record_content"), jo.getString("zu_observe_content"), jo.getString("zu_record_content"), jo.getString("color"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
+	                	// create or update data sets received from backend server
+	                	dao.createOrUpdate(o);
+	                }
+                } else if ("health_selects" == modelName) {
+	                Dao<HealthSelect, Integer> dao;
+	                dao = dbHelper.getHealthSelectDao();
+	                
 	                // delete all entries
 	                if (jsonArray.length() > 0) {
-		                DeleteBuilder<HealthTheme, Integer> deleter = dao.deleteBuilder();
+		                DeleteBuilder<HealthSelect, Integer> deleter = dao.deleteBuilder();
 		                deleter.delete();
 	                }
 	                
 	                // add new entries received via REST call
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
-	                	HealthTheme o = new HealthTheme(jo.getInt("_id"), jo.getString("name"), jo.getString("en_observe_content"), jo.getString("en_record_content"), jo.getString("zu_observe_content"), jo.getString("zu_record_content"), jo.getString("color"));
+	                	HealthSelect o = new HealthSelect(jo.getInt("_id"), jo.getInt("subject_id"), jo.getString("en_content"), jo.getString("zu_content"));
 	                	dao.create(o);
 	                }
                 } else if ("page_assessment1" == modelName) {
@@ -293,6 +317,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	paDao.create(pa1);
 	                }
                 }
+                
+                // change last pull date to current date
+                ModelHelper.setLastSyncedAt(appContext, new Date(), "pull");
+                
             } else{
                 //Closes the connection.
             	Log.e("SyncAdapter", statusLine.getReasonPhrase());
@@ -362,9 +390,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 				
 				while (iterator.hasNext()) {
 					Attendance a = iterator.next();
-					Log.i("SyncAdapter", a.getId()+", "+a.getVisitId()+", "+a.getClientId());
+					Log.i("SyncAdapter", a.getVisitId()+", "+a.getClientId());
 					JSONObject json = new JSONObject();
-					json.put("_id", a.getId());
+					//json.put("_id", a.getId());
 					json.put("visit_id", a.getVisitId());
 					json.put("client_id", a.getClientId());
 					// put object into array
@@ -399,7 +427,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             
             // Go over all objects in jsonArray and POST them individually
             
-            for (int i=0;i<jsonArray.length();i++) {
+            for (int i=0; i<jsonArray.length(); i++) {
             	// Retrieve object
             	JSONObject jsonObj = jsonArray.getJSONObject(i);
             	
@@ -475,13 +503,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		return convertedDate;
 	}
 	
-	// TODO: needed later?
 	private static String formatDateToJsonDate(Date date) {
 		String output = "";
 		if (date != null) {
 			Log.i("SyncAdapter", "date to convert to string is: "+date.toString());
 			
-	        SimpleDateFormat df = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSSZ" );
+	        SimpleDateFormat df = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" );
 	        
 	        TimeZone tz = TimeZone.getTimeZone( "UTC" );
 	        

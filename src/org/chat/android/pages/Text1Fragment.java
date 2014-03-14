@@ -1,24 +1,16 @@
 package org.chat.android.pages;
 
-import java.sql.SQLException;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 
-import org.chat.android.DatabaseHelper;
 import org.chat.android.ModelHelper;
 import org.chat.android.R;
-import org.chat.android.R.layout;
 import org.chat.android.models.HealthTheme;
 import org.chat.android.models.PageText1;
-
-import com.j256.ormlite.dao.Dao;
 
 import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

@@ -65,28 +65,43 @@ public class CHADelivery extends BaseActivity {
     }
 
 	public void updateDisplayedFragment(int pageNum) {
-		PageAssessment1 pa1 = pages.get(pageNum - 1);
-	    
-	    Fragment newFrag = null;
-		try {
-			newFrag = (Fragment) Class.forName("org.chat.android.pages.Assessment1Fragment").newInstance();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		Fragment newFrag = null;
+		Bundle b = new Bundle();
+		b.putInt("visitId",visitId);
+		b.putInt("clientId",clientId);
+		// if it's the last page, then show referral page
+		if (pageNum == lastPage) {
+			try {
+				newFrag = (Fragment) Class.forName("org.chat.android.pages.ReferralFragment").newInstance();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		// else show assessment page
+		} else {
+			PageAssessment1 pa1 = pages.get(pageNum - 1);
+			try {
+				newFrag = (Fragment) Class.forName("org.chat.android.pages.Assessment1Fragment").newInstance();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			b.putInt("id",pa1.getId());
 		}
 		
-		// bundle in the unique page parameters to the correct fragment
-		Bundle bundle = new Bundle();
-		bundle.putInt("visitId",visitId);
-		bundle.putInt("id",pa1.getId());
-		newFrag.setArguments(bundle);
-		
+		newFrag.setArguments(b);
 	    FragmentTransaction ft = getFragmentManager().beginTransaction();
 	    ft.replace(R.id.placeholder, newFrag);
 	    ft.commit();
@@ -153,7 +168,8 @@ public class CHADelivery extends BaseActivity {
 			for (PageAssessment1 p : pList) {
 				pages.add(p);
 	    	}
-			lastPage = pages.size();
+			// the +1 is to accommodate the referral fragment (so we have all 11 or whatever assessment1 fragments, then 1 referral fragment)
+			lastPage = pages.size() + 1;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -197,7 +213,7 @@ public class CHADelivery extends BaseActivity {
 		for (int i = 0; i < numberOfChildren; i++) {
 		    RadioButton child = (RadioButton) rg.getChildAt(i);
 		    int selectId = (Integer) child.getTag();
-		    prevHsr = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicNameAndSelectId(context, visitId, "assessment", selectId);
+		    prevHsr = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicNameAndSelectIdAndClientId(context, visitId, "assessment", selectId, clientId);
 		}
 		
 		// if there is not a previous healthSelectRecorded for this group of radio buttons (ie prevHsr == null), create a new one, otherwise update
@@ -205,7 +221,7 @@ public class CHADelivery extends BaseActivity {
 		DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
 		if (prevHsr == null) {
 			try {
-				HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, null, "assessment");
+				HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, clientId, null, "assessment");
 	    		hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
 	    		hsrDao.create(hsr);
 	    	} catch (SQLException e) {
@@ -231,14 +247,14 @@ public class CHADelivery extends BaseActivity {
 		// if the tapped button (v) is equal to the first select element
 		if (selects.size() > 2) {
 			if (v.getTag() == findViewById(R.id.a1rb1_1).getTag()) {
-				toggleAdditionalSelects("show");
+				toggleAdditionalSelects("show", selects.size());
 			} else if (v.getTag() == findViewById(R.id.a1rb1_2).getTag()) {
-				toggleAdditionalSelects("hide");
+				toggleAdditionalSelects("hide", selects.size());
 			}
 		}
 	}
 	
-	public void toggleAdditionalSelects(String visibility) {
+	public void toggleAdditionalSelects(String visibility, int size) {
 		if (visibility.equals("show")) {
 			findViewById(R.id.a1content2).setVisibility(View.VISIBLE);
 			findViewById(R.id.a1rb2_1).setVisibility(View.VISIBLE);
@@ -248,11 +264,23 @@ public class CHADelivery extends BaseActivity {
 			findViewById(R.id.a1rb2_1).setVisibility(View.GONE);
 			findViewById(R.id.a1rb2_2).setVisibility(View.GONE);
 		}
+		// new corner case - one extra select set for 2nd page
+		if (size > 4) {
+			if (visibility.equals("show")) {
+				findViewById(R.id.a1content3).setVisibility(View.VISIBLE);
+				findViewById(R.id.a1rb3_1).setVisibility(View.VISIBLE);
+				findViewById(R.id.a1rb3_2).setVisibility(View.VISIBLE);
+			} else if (visibility.equals("hide")) {
+				findViewById(R.id.a1content3).setVisibility(View.GONE);
+				findViewById(R.id.a1rb3_1).setVisibility(View.GONE);
+				findViewById(R.id.a1rb3_2).setVisibility(View.GONE);
+			}
+		}
+		
 //		else {
 //    		Toast.makeText(getApplicationContext(),"ThisShouldNeverHappenException: tag out of alignment. Contact technical support",Toast.LENGTH_LONG).show();
 //		}
 		
-		// TODO: add the third set, if we're using them
 	}
 	
 	public void onBackPressed() {

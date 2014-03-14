@@ -386,6 +386,35 @@ public class HomeActivity extends Activity {
     	}
 	}
 	
+    private void checkVisitCompleteStatus() {
+    	Boolean completeFlag = true;
+    	List<Client> clientsForHealthAssessment = ModelHelper.getAttendingClientsForVisitIdUnderAge(context, visitId, 5);
+    	
+    	for (Client c : clientsForHealthAssessment) {
+        	Boolean healthFlag = false;
+        	Boolean immunizationFlag = false;
+        	if (ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(context, visitId, c.getId(), "health") == true) {
+        		healthFlag = true;
+        	} else {
+        		Toast.makeText(getApplicationContext(),"Visit not marked as complete - Child Health Assessment section still needs to be completed for " + c.getFirstName() + " " + c.getLastName(),Toast.LENGTH_LONG).show();
+        	}
+    		Boolean allVaccinesAdministered = ModelHelper.getVaccineRecordedCompleteForClientId(context, c.getId());
+    		Boolean chaImmunizationComplete = ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(context, visitId, c.getId(), "immunization");
+    		if (allVaccinesAdministered || chaImmunizationComplete) {
+    			immunizationFlag = true;
+    		} else {
+    			Toast.makeText(getApplicationContext(),"Visit not marked as complete - Immunization section still needs to be completed for " + c.getFirstName() + " " + c.getLastName(),Toast.LENGTH_LONG).show();
+    		}
+    		if (healthFlag == false || immunizationFlag == false) {
+    			completeFlag = false;
+    		}
+    	}
+
+    	if (completeFlag == true) {
+    		markVisitComplete();
+    	}
+    }	
+	
 	public void markVisitComplete() {
 		Toast.makeText(getApplicationContext(),"Visit saved and marked as complete",Toast.LENGTH_LONG).show();
 		
@@ -444,7 +473,7 @@ public class HomeActivity extends Activity {
 	    	       .setCancelable(false)
 	    	       .setPositiveButton("Yes, mark this visit as complete and log me out", new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
-	    	        	   markVisitComplete();
+	    	        	   checkVisitCompleteStatus();
 	    	        	   //triggerSyncAdapter();
 	    	           }
 	    	       })

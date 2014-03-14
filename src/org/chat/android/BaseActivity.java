@@ -124,6 +124,7 @@ public class BaseActivity extends Activity {
 		startActivity(i);
     }
     
+    // NB: duplication of some of this functionality in HomeActivity
     private void checkVisitCompleteStatus() {
     	Boolean completeFlag = true;
     	List<Client> clientsForHealthAssessment = ModelHelper.getAttendingClientsForVisitIdUnderAge(context, visitId, 5);

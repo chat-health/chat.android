@@ -17,6 +17,7 @@ import org.chat.android.models.Resource;
 import org.chat.android.models.Role;
 import org.chat.android.models.Service;
 import org.chat.android.models.TopicVideo;
+import org.chat.android.models.Util;
 import org.chat.android.models.Vaccine;
 import org.chat.android.models.Video;
 import org.chat.android.models.HealthTopic;
@@ -37,6 +38,19 @@ public class SetupDB extends Activity {
         super.onCreate(savedInstanceState);
         
         Context context = getApplicationContext();
+        
+        // UTIL - TODO: think about where to eventually move this, since it needs to fire on empty DB or something
+        Date d = new Date();
+        Util u1 = new Util(d, d);
+        Dao<Util, Integer> utilDao;
+        DatabaseHelper utilDbHelper = new DatabaseHelper(context);
+        try {
+        	utilDao = utilDbHelper.getUtilDao();
+        	utilDao.create(u1);
+	    } catch (SQLException e1) {
+	        // TODO Auto-generated catch block
+	        e1.printStackTrace();
+	    }
         
         // CLIENTS
 //		int hhId = 1;			// for John Doe household
@@ -84,20 +98,20 @@ public class SetupDB extends Activity {
 	    
 	    
 	    // ROLES
-	    Role r1 = new Role(1, "volunteer");
-	    Role r2 = new Role(2, "councelor");
-	    Dao<Role, Integer> rDao1;
-	    Dao<Role, Integer> rDao2;
-	    DatabaseHelper roleDbHelper = new DatabaseHelper(context);
-	    try {
-	        rDao1 = roleDbHelper.getRolesDao();
-	        rDao1.create(r1);
-	        rDao2 = roleDbHelper.getRolesDao();
-	        rDao2.create(r2);
-	    } catch (SQLException e1) {
-	        // TODO Auto-generated catch block
-	        e1.printStackTrace();
-	    }
+//	    Role r1 = new Role(1, "volunteer");
+//	    Role r2 = new Role(2, "councelor");
+//	    Dao<Role, Integer> rDao1;
+//	    Dao<Role, Integer> rDao2;
+//	    DatabaseHelper roleDbHelper = new DatabaseHelper(context);
+//	    try {
+//	        rDao1 = roleDbHelper.getRolesDao();
+//	        rDao1.create(r1);
+//	        rDao2 = roleDbHelper.getRolesDao();
+//	        rDao2.create(r2);
+//	    } catch (SQLException e1) {
+//	        // TODO Auto-generated catch block
+//	        e1.printStackTrace();
+//	    }
 	    
 	    
 	    // SERVICES
@@ -238,110 +252,110 @@ public class SetupDB extends Activity {
 //	    }
 	    
 	    
-	    // HEALTH SELECTS
-	    //HealthSelect(int id (auto-gen), int subject_id, String en_content, String zu_content)
-	    // THEME
-	    HealthSelect select4 = new HealthSelect(4, "GOOD  Child seems happy, hopeful, and content.", "Zulu stuff");
-	    HealthSelect select3 = new HealthSelect(4, "FAIR  Child is mostly happy but occasionally he/she is anxious, or withdrawn.", "Zulu stuff");
-	    HealthSelect select2 = new HealthSelect(4, "BAD  Child is often withdrawn, irritable, anxious, unhappy, or sad.", "Zulu stuff");
-	    HealthSelect select1 = new HealthSelect(4, "VERY BAD  Child seems hopeless, sad, withdrawn, wishes could die, or wants to be left alone.", "Zulu stuff");
-	    
-	    // HEALTH EDUCATION DELIVERY
-	    // generic HIV
-	    HealthSelect select5 = new HealthSelect(101, "VERY BAD  Child seems hopeless, sad, withdrawn, wishes could die, or wants to be left alone.", "Zulu stuff");
-	    HealthSelect select6 = new HealthSelect(101, "BAD  Child is often withdrawn, irritable, anxious, unhappy, or sad.", "Zulu stuff");
-	    HealthSelect select7 = new HealthSelect(101, "FAIR  Child is mostly happy but occasionally he/she is anxious, or withdrawn.", "Zulu stuff");
-	    HealthSelect select8 = new HealthSelect(101, "GOOD  Child seems happy, hopeful, and content.", "Zulu stuff");
-	    // Psychosocial (0-5)
-	    HealthSelect select9 = new HealthSelect(102, "GOOD  Child likes to play with peers and participates in group or family activities.", "Zulu stuff");
-	    HealthSelect select10 = new HealthSelect(102, "FAIR Child has minor problems getting along with others and argues or gets into fights sometimes.", "Zulu stuff");
-	    HealthSelect select11 = new HealthSelect(102, "BAD  Child is disobedient to adults and frequently does not interact well with peers, guardian, or others.", "Zulu stuff");
-	    HealthSelect select12 = new HealthSelect(102, "VERY BAD  Child has behavioural problems, including stealing, and/or other risky or disruptive behaviour.", "Zulu stuff");
-	    
-	    // CHA HEALTH DELIVERY
-	    HealthSelect select13 = new HealthSelect(1001, "Yes", "Zulu yes");
-	    HealthSelect select14 = new HealthSelect(1001, "No", "Zulu no");
-	    HealthSelect select15 = new HealthSelect(1001, "Greater than 21 days", "Zulu");
-	    HealthSelect select16 = new HealthSelect(1001, "Less than 21 days", "Zulu");
-	    HealthSelect select17 = new HealthSelect(1002, "Yes", "Zulu yes");
-	    HealthSelect select18 = new HealthSelect(1002, "No", "Zulu no");
-	    HealthSelect select19 = new HealthSelect(1002, "Greater than 14 days", "Zulu");
-	    HealthSelect select20 = new HealthSelect(1002, "Less than 14 days", "Zulu");
-	    HealthSelect select21 = new HealthSelect(1003, "Yes", "Zulu yes");
-	    HealthSelect select22 = new HealthSelect(1003, "No", "Zulu no");
-	    
-	    Dao<HealthSelect, Integer> selectDao1;
-	    Dao<HealthSelect, Integer> selectDao2;
-	    Dao<HealthSelect, Integer> selectDao3;
-	    Dao<HealthSelect, Integer> selectDao4;
-	    Dao<HealthSelect, Integer> selectDao5;
-	    Dao<HealthSelect, Integer> selectDao6;
-	    Dao<HealthSelect, Integer> selectDao7;
-	    Dao<HealthSelect, Integer> selectDao8;
-	    Dao<HealthSelect, Integer> selectDao9;
-	    Dao<HealthSelect, Integer> selectDao10;
-	    Dao<HealthSelect, Integer> selectDao11;
-	    Dao<HealthSelect, Integer> selectDao12;
-	    Dao<HealthSelect, Integer> selectDao13;
-	    Dao<HealthSelect, Integer> selectDao14;
-	    Dao<HealthSelect, Integer> selectDao15;
-	    Dao<HealthSelect, Integer> selectDao16;
-	    Dao<HealthSelect, Integer> selectDao17;
-	    Dao<HealthSelect, Integer> selectDao18;
-	    Dao<HealthSelect, Integer> selectDao19;
-	    Dao<HealthSelect, Integer> selectDao20;
-	    Dao<HealthSelect, Integer> selectDao21;
-	    Dao<HealthSelect, Integer> selectDao22;
-	    DatabaseHelper selectDbHelper = new DatabaseHelper(context);
-	    try {
-	    	selectDao1 = selectDbHelper.getHealthSelectDao();
-	    	selectDao1.create(select1);
-	    	selectDao2 = selectDbHelper.getHealthSelectDao();
-	    	selectDao2.create(select2);
-	    	selectDao3 = selectDbHelper.getHealthSelectDao();
-	    	selectDao3.create(select3);
-	    	selectDao4 = selectDbHelper.getHealthSelectDao();
-	    	selectDao4.create(select4);
-	    	selectDao5 = selectDbHelper.getHealthSelectDao();
-	    	selectDao5.create(select5);
-	    	selectDao6 = selectDbHelper.getHealthSelectDao();
-	    	selectDao6.create(select6);
-	    	selectDao7 = selectDbHelper.getHealthSelectDao();
-	    	selectDao7.create(select7);
-	    	selectDao8 = selectDbHelper.getHealthSelectDao();
-	    	selectDao8.create(select8);
-	    	selectDao9 = selectDbHelper.getHealthSelectDao();
-	    	selectDao9.create(select9);
-	    	selectDao10 = selectDbHelper.getHealthSelectDao();
-	    	selectDao10.create(select10);
-	    	selectDao11 = selectDbHelper.getHealthSelectDao();
-	    	selectDao11.create(select11);
-	    	selectDao12 = selectDbHelper.getHealthSelectDao();
-	    	selectDao12.create(select12);
-	    	selectDao13 = selectDbHelper.getHealthSelectDao();
-	    	selectDao13.create(select13);
-	    	selectDao14 = selectDbHelper.getHealthSelectDao();
-	    	selectDao14.create(select14);
-	    	selectDao15 = selectDbHelper.getHealthSelectDao();
-	    	selectDao15.create(select15);
-	    	selectDao16 = selectDbHelper.getHealthSelectDao();
-	    	selectDao16.create(select16);
-	    	selectDao17 = selectDbHelper.getHealthSelectDao();
-	    	selectDao17.create(select17);
-	    	selectDao18 = selectDbHelper.getHealthSelectDao();
-	    	selectDao18.create(select18);
-	    	selectDao19 = selectDbHelper.getHealthSelectDao();
-	    	selectDao19.create(select19);
-	    	selectDao20 = selectDbHelper.getHealthSelectDao();
-	    	selectDao20.create(select20);
-	    	selectDao21 = selectDbHelper.getHealthSelectDao();
-	    	selectDao21.create(select21);
-	    	selectDao22 = selectDbHelper.getHealthSelectDao();
-	    	selectDao22.create(select22);
-	    } catch (SQLException e1) {
-	        // TODO Auto-generated catch block
-	        e1.printStackTrace();
-	    }
+//	    // HEALTH SELECTS
+//	    //HealthSelect(int id (auto-gen), int subject_id, String en_content, String zu_content)
+//	    // THEME
+//	    HealthSelect select4 = new HealthSelect(4, "GOOD  Child seems happy, hopeful, and content.", "Zulu stuff");
+//	    HealthSelect select3 = new HealthSelect(4, "FAIR  Child is mostly happy but occasionally he/she is anxious, or withdrawn.", "Zulu stuff");
+//	    HealthSelect select2 = new HealthSelect(4, "BAD  Child is often withdrawn, irritable, anxious, unhappy, or sad.", "Zulu stuff");
+//	    HealthSelect select1 = new HealthSelect(4, "VERY BAD  Child seems hopeless, sad, withdrawn, wishes could die, or wants to be left alone.", "Zulu stuff");
+//	    
+//	    // HEALTH EDUCATION DELIVERY
+//	    // generic HIV
+//	    HealthSelect select5 = new HealthSelect(101, "VERY BAD  Child seems hopeless, sad, withdrawn, wishes could die, or wants to be left alone.", "Zulu stuff");
+//	    HealthSelect select6 = new HealthSelect(101, "BAD  Child is often withdrawn, irritable, anxious, unhappy, or sad.", "Zulu stuff");
+//	    HealthSelect select7 = new HealthSelect(101, "FAIR  Child is mostly happy but occasionally he/she is anxious, or withdrawn.", "Zulu stuff");
+//	    HealthSelect select8 = new HealthSelect(101, "GOOD  Child seems happy, hopeful, and content.", "Zulu stuff");
+//	    // Psychosocial (0-5)
+//	    HealthSelect select9 = new HealthSelect(102, "GOOD  Child likes to play with peers and participates in group or family activities.", "Zulu stuff");
+//	    HealthSelect select10 = new HealthSelect(102, "FAIR Child has minor problems getting along with others and argues or gets into fights sometimes.", "Zulu stuff");
+//	    HealthSelect select11 = new HealthSelect(102, "BAD  Child is disobedient to adults and frequently does not interact well with peers, guardian, or others.", "Zulu stuff");
+//	    HealthSelect select12 = new HealthSelect(102, "VERY BAD  Child has behavioural problems, including stealing, and/or other risky or disruptive behaviour.", "Zulu stuff");
+//	    
+//	    // CHA HEALTH DELIVERY
+//	    HealthSelect select13 = new HealthSelect(1001, "Yes", "Zulu yes");
+//	    HealthSelect select14 = new HealthSelect(1001, "No", "Zulu no");
+//	    HealthSelect select15 = new HealthSelect(1001, "Greater than 21 days", "Zulu");
+//	    HealthSelect select16 = new HealthSelect(1001, "Less than 21 days", "Zulu");
+//	    HealthSelect select17 = new HealthSelect(1002, "Yes", "Zulu yes");
+//	    HealthSelect select18 = new HealthSelect(1002, "No", "Zulu no");
+//	    HealthSelect select19 = new HealthSelect(1002, "Greater than 14 days", "Zulu");
+//	    HealthSelect select20 = new HealthSelect(1002, "Less than 14 days", "Zulu");
+//	    HealthSelect select21 = new HealthSelect(1003, "Yes", "Zulu yes");
+//	    HealthSelect select22 = new HealthSelect(1003, "No", "Zulu no");
+//	    
+//	    Dao<HealthSelect, Integer> selectDao1;
+//	    Dao<HealthSelect, Integer> selectDao2;
+//	    Dao<HealthSelect, Integer> selectDao3;
+//	    Dao<HealthSelect, Integer> selectDao4;
+//	    Dao<HealthSelect, Integer> selectDao5;
+//	    Dao<HealthSelect, Integer> selectDao6;
+//	    Dao<HealthSelect, Integer> selectDao7;
+//	    Dao<HealthSelect, Integer> selectDao8;
+//	    Dao<HealthSelect, Integer> selectDao9;
+//	    Dao<HealthSelect, Integer> selectDao10;
+//	    Dao<HealthSelect, Integer> selectDao11;
+//	    Dao<HealthSelect, Integer> selectDao12;
+//	    Dao<HealthSelect, Integer> selectDao13;
+//	    Dao<HealthSelect, Integer> selectDao14;
+//	    Dao<HealthSelect, Integer> selectDao15;
+//	    Dao<HealthSelect, Integer> selectDao16;
+//	    Dao<HealthSelect, Integer> selectDao17;
+//	    Dao<HealthSelect, Integer> selectDao18;
+//	    Dao<HealthSelect, Integer> selectDao19;
+//	    Dao<HealthSelect, Integer> selectDao20;
+//	    Dao<HealthSelect, Integer> selectDao21;
+//	    Dao<HealthSelect, Integer> selectDao22;
+//	    DatabaseHelper selectDbHelper = new DatabaseHelper(context);
+//	    try {
+//	    	selectDao1 = selectDbHelper.getHealthSelectDao();
+//	    	selectDao1.create(select1);
+//	    	selectDao2 = selectDbHelper.getHealthSelectDao();
+//	    	selectDao2.create(select2);
+//	    	selectDao3 = selectDbHelper.getHealthSelectDao();
+//	    	selectDao3.create(select3);
+//	    	selectDao4 = selectDbHelper.getHealthSelectDao();
+//	    	selectDao4.create(select4);
+//	    	selectDao5 = selectDbHelper.getHealthSelectDao();
+//	    	selectDao5.create(select5);
+//	    	selectDao6 = selectDbHelper.getHealthSelectDao();
+//	    	selectDao6.create(select6);
+//	    	selectDao7 = selectDbHelper.getHealthSelectDao();
+//	    	selectDao7.create(select7);
+//	    	selectDao8 = selectDbHelper.getHealthSelectDao();
+//	    	selectDao8.create(select8);
+//	    	selectDao9 = selectDbHelper.getHealthSelectDao();
+//	    	selectDao9.create(select9);
+//	    	selectDao10 = selectDbHelper.getHealthSelectDao();
+//	    	selectDao10.create(select10);
+//	    	selectDao11 = selectDbHelper.getHealthSelectDao();
+//	    	selectDao11.create(select11);
+//	    	selectDao12 = selectDbHelper.getHealthSelectDao();
+//	    	selectDao12.create(select12);
+//	    	selectDao13 = selectDbHelper.getHealthSelectDao();
+//	    	selectDao13.create(select13);
+//	    	selectDao14 = selectDbHelper.getHealthSelectDao();
+//	    	selectDao14.create(select14);
+//	    	selectDao15 = selectDbHelper.getHealthSelectDao();
+//	    	selectDao15.create(select15);
+//	    	selectDao16 = selectDbHelper.getHealthSelectDao();
+//	    	selectDao16.create(select16);
+//	    	selectDao17 = selectDbHelper.getHealthSelectDao();
+//	    	selectDao17.create(select17);
+//	    	selectDao18 = selectDbHelper.getHealthSelectDao();
+//	    	selectDao18.create(select18);
+//	    	selectDao19 = selectDbHelper.getHealthSelectDao();
+//	    	selectDao19.create(select19);
+//	    	selectDao20 = selectDbHelper.getHealthSelectDao();
+//	    	selectDao20.create(select20);
+//	    	selectDao21 = selectDbHelper.getHealthSelectDao();
+//	    	selectDao21.create(select21);
+//	    	selectDao22 = selectDbHelper.getHealthSelectDao();
+//	    	selectDao22.create(select22);
+//	    } catch (SQLException e1) {
+//	        // TODO Auto-generated catch block
+//	        e1.printStackTrace();
+//	    }
 	    
 	    
 	    // HEALTH TOPICS
@@ -421,7 +435,7 @@ public class SetupDB extends Activity {
 	    HealthPage page5 = new HealthPage(2, 1, "text1", 1);
 	    HealthPage page6 = new HealthPage(3, 1, "text1", 1);
 	    HealthPage page7 = new HealthPage(4, 1, "text1", 1);
-	    HealthPage page8 = new HealthPage(4, 2, "select1", 1);
+	    HealthPage page8 = new HealthPage(4, 2, "select1", 101);
 	    // Psychosocial (0-5)
 	    HealthPage page9 = new HealthPage(11, 1, "text1", 3);
 	    HealthPage page10 = new HealthPage(11, 2, "select1", 102);
