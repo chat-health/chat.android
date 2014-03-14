@@ -32,12 +32,14 @@ public class Visit {
     private Date end_time;
     @DatabaseField
     private String type;							// this may get moved to Service
-    
+    @DatabaseField
+	private boolean dirty;
     
     /**
      * Default Constructor needed by ormlite
      */
     public Visit() {
+    	this.dirty = true;
     }
 
     /**
@@ -60,6 +62,7 @@ public class Visit {
         this.lat = lat;
         this.lon = lon;
         this.start_time = start_time;
+        this.dirty = true;
     }
     
     /**
@@ -77,6 +80,7 @@ public class Visit {
         this.lon = existingVisitModel.lon;
         this.start_time = existingVisitModel.start_time;
         this.end_time = existingVisitModel.end_time;
+        this.dirty = true;
     }
 
 	public int getId() {
@@ -86,6 +90,7 @@ public class Visit {
 	// used for testing - should not generally be called
 	public void setId(int id) {
 		this.id = id;
+		this.setDirty();
 	}
 	
 	public int getHhId() {
@@ -94,6 +99,7 @@ public class Visit {
 
 	public void setHhId(int hh_id) {
 		this.hh_id = hh_id;
+		this.setDirty();
 	}
 	
 	public int getWorkerId() {
@@ -102,6 +108,7 @@ public class Visit {
 
 	public void setWorkerId(int worker_id) {
 		this.worker_id = worker_id;
+		this.setDirty();
 	}
 	
 	public String getRole() {
@@ -110,6 +117,7 @@ public class Visit {
 
 	public void setRole(String role) {
 		this.role = role;
+		this.setDirty();
 	}
 	
 	public double getLon() {
@@ -118,6 +126,7 @@ public class Visit {
 
 	public void setLon(double lon) {
 		this.lon = lon;
+		this.setDirty();
 	}
 	
 	public double getLat() {
@@ -126,6 +135,7 @@ public class Visit {
 
 	public void setLat(double lat) {
 		this.lat = lat;
+		this.setDirty();
 	}
 	
 	public String getType() {
@@ -134,6 +144,7 @@ public class Visit {
 
 	public void setType(String type) {
 		this.type = type;
+		this.setDirty();
 	}
 	
 	public Date getStartTime() {
@@ -142,6 +153,7 @@ public class Visit {
 
 	public void setStartTime(Date start_time) {
 		this.start_time = start_time;
+		this.setDirty();
 	}
 	
 	public Date getEndTime() {
@@ -150,5 +162,22 @@ public class Visit {
 
 	public void setEndTime(Date end_time) {
 		this.end_time = end_time;
+		this.setDirty();
+	}
+	
+	public void setDirty() {
+		this.dirty = true;
+	}
+	
+	/** 
+	 * This function reverses the dirty flag and should be used
+	 * by the SyncAdapter to avoid syncing documents that have been synced and not changed inbetween.
+	 */
+	public void makeClean() {
+		this.dirty = false;
+	}
+	
+	public boolean isDirty() {
+		return this.dirty;
 	}
 }
