@@ -41,7 +41,7 @@ public class SetupDB extends Activity {
         
         // UTIL - TODO: think about where to eventually move this, since it needs to fire on empty DB or something
         Date d = new Date();
-        Util u1 = new Util(d, d);
+        Util u1 = new Util(1, d, d);
         Dao<Util, Integer> utilDao;
         DatabaseHelper utilDbHelper = new DatabaseHelper(context);
         try {

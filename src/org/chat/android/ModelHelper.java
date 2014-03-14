@@ -68,9 +68,9 @@ public class ModelHelper {
 		uDao = uDbHelper.getUtilDao();
 		
 		if (direction == "pull") {
-			u = new Util(null, d);
+			u = new Util(1, null, d);
 		} else if (direction == "push") {
-			u = new Util(d, null);
+			u = new Util(1, d, null);
 		}
 		uDao.createOrUpdate(u);
 	}

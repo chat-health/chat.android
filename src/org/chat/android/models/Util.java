@@ -10,6 +10,8 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "util")
 public class Util {
+	@DatabaseField(id = true)
+	private int id;
 	@DatabaseField
 	private Date last_pushed_at;
     @DatabaseField
@@ -24,11 +26,13 @@ public class Util {
     
     /**
      * Constructor that instantiates the private member variable(s)
+     * @param id
      * @param last_pushed_at
      * @param last_pulled_at
      * 
      */
-    public Util(Date last_pushed_at, Date last_pulled_at) {
+    public Util(int id, Date last_pushed_at, Date last_pulled_at) {
+    	this.id = id;
     	this.last_pushed_at = last_pushed_at;
     	this.last_pulled_at = last_pulled_at;
     }
