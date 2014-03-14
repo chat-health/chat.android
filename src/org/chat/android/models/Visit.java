@@ -1,9 +1,12 @@
 package org.chat.android.models;
 
 import java.util.Date;
-import com.j256.ormlite.dao.ForeignCollection;
+import java.util.UUID;
+
+import android.content.Context;
+import android.provider.Settings.Secure;
+
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 
@@ -12,7 +15,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "visits")
 public class Visit {
-	@DatabaseField(generatedId = true)
+	@DatabaseField
 	private int id;
     @DatabaseField
     private int worker_id;
@@ -51,7 +54,21 @@ public class Visit {
      * @param lat 
      * @param start_time
      */
-    public Visit(int worker_id, String role, Date date, int hh_id, String type, double lat, double lon, Date start_time) {
+    public Visit(Context context, int worker_id, String role, Date date, int hh_id, String type, double lat, double lon, Date start_time) {
+    	String myUUID = Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
+   
+    	long seconds = System.currentTimeMillis() / 1000;
+    	
+    	//int myId = (int) (myUUID.hashCode() + seconds);
+    	
+    	String secondsString = String.valueOf(seconds);
+    	String idString = myUUID+secondsString;
+    	int hashedIdString = idString.hashCode();
+    	int myId = hashedIdString;
+    	// k, this isn't great IMO. Functional for now
+    	
+    	
+    	this.id = myId;
     	this.hh_id = hh_id;
         this.worker_id = worker_id;
         this.role = role;
@@ -83,7 +100,6 @@ public class Visit {
 		return id;
 	}
 
-	// used for testing - should not generally be called
 	public void setId(int id) {
 		this.id = id;
 	}
