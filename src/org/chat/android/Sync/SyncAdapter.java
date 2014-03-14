@@ -129,8 +129,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		JSONArray visitsJson = createJsonArrayOf("visits");
 		pushModel("visits", visitsJson);
 		
-//		JSONArray attendanceJson = createJsonArrayOf("attendance");
-//		pushModel("attendance", attendanceJson);
+		JSONArray attendanceJson = createJsonArrayOf("attendance");
+		pushModel("attendance", attendanceJson);
 	}
 	
 	private void retrieveModel(String modelName) {
@@ -317,6 +317,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	paDao.create(pa1);
 	                }
                 }
+                
+                // change last pull date to current date
+                ModelHelper.setLastSyncedAt(appContext, new Date(), "pull");
+                
             } else{
                 //Closes the connection.
             	Log.e("SyncAdapter", statusLine.getReasonPhrase());
@@ -386,9 +390,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 				
 				while (iterator.hasNext()) {
 					Attendance a = iterator.next();
-					Log.i("SyncAdapter", a.getId()+", "+a.getVisitId()+", "+a.getClientId());
+					Log.i("SyncAdapter", a.getVisitId()+", "+a.getClientId());
 					JSONObject json = new JSONObject();
-					json.put("_id", a.getId());
+					//json.put("_id", a.getId());
 					json.put("visit_id", a.getVisitId());
 					json.put("client_id", a.getClientId());
 					// put object into array
@@ -423,7 +427,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             
             // Go over all objects in jsonArray and POST them individually
             
-            for (int i=0;i<jsonArray.length();i++) {
+            for (int i=0; i<jsonArray.length(); i++) {
             	// Retrieve object
             	JSONObject jsonObj = jsonArray.getJSONObject(i);
             	

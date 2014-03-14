@@ -61,6 +61,20 @@ public class ModelHelper {
 		}
 	}
 	
+	public static void setLastSyncedAt(Context context, Date d, String direction) throws SQLException {
+		Util u = null;
+		Dao<Util, Integer> uDao;
+		DatabaseHelper uDbHelper = new DatabaseHelper(context);
+		uDao = uDbHelper.getUtilDao();
+		
+		if (direction == "pull") {
+			u = new Util(null, d);
+		} else if (direction == "push") {
+			u = new Util(d, null);
+		}
+		uDao.createOrUpdate(u);
+	}
+	
 	public static Visit getVisitForId(Context context, int visitId) {
 		Visit visit = null;
 		Dao<Visit, Integer> vDao;		

@@ -8,14 +8,14 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "attendance")
 public class Attendance {
-	@DatabaseField(generatedId = true)
-	private int id;
+//	@DatabaseField(generatedId = true)
+//	private int id;
     @DatabaseField
     private int visit_id;
     @DatabaseField
 	private int client_id;
-//    @DatabaseField
-//	private boolean dirty;
+    @DatabaseField
+	private boolean dirty;
 
     /**
      * Default Constructor needed by ormlite
@@ -31,7 +31,7 @@ public class Attendance {
     public Attendance(int visit_id, int client_id) {
     	this.visit_id = visit_id;
         this.client_id = client_id;
-        //this.dirty = true;
+        this.dirty = true;
     }
     
     /**
@@ -43,9 +43,9 @@ public class Attendance {
         this.client_id = existingAttendanceModel.client_id;
     }
 
-	public int getId() {
-		return id;
-	}
+//	public int getId() {
+//		return id;
+//	}
 
 	public int getVisitId() {
 		return visit_id;
@@ -53,6 +53,7 @@ public class Attendance {
 	
 	public void setVisitId(int visit_id) {
 		this.visit_id = visit_id;
+		this.setDirty();
 	}
 	
 	public int getClientId() {
@@ -61,9 +62,14 @@ public class Attendance {
 	
 	public void setClientId(int client_id) {
 		this.client_id = client_id;
+		this.setDirty();
 	}
 	
-//	public boolean isDrity() {
-//		return this.dirty;
-//	}
+	public void setDirty() {
+		this.dirty = true;
+	}
+	
+	public boolean isDrity() {
+		return this.dirty;
+	}
 }
