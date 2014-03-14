@@ -8,8 +8,8 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "attendance")
 public class Attendance {
-//	@DatabaseField(generatedId = true)
-//	private int id;
+	@DatabaseField(generatedId = true)
+	private int id;
     @DatabaseField
     private int visit_id;
     @DatabaseField
@@ -21,6 +21,7 @@ public class Attendance {
      * Default Constructor needed by ormlite
      */
     public Attendance() {
+    	this.dirty = true;
     }
 
     /**
@@ -41,11 +42,12 @@ public class Attendance {
     public Attendance(Attendance existingAttendanceModel) {
         this.visit_id = existingAttendanceModel.visit_id;
         this.client_id = existingAttendanceModel.client_id;
+        this.dirty = true;
     }
 
-//	public int getId() {
-//		return id;
-//	}
+	public int getId() {
+		return id;
+	}
 
 	public int getVisitId() {
 		return visit_id;
@@ -69,7 +71,15 @@ public class Attendance {
 		this.dirty = true;
 	}
 	
-	public boolean isDrity() {
+	/** 
+	 * This function reverses the dirty flag and should be used
+	 * by the SyncAdapter to avoid syncing documents that have been synced and not changed inbetween.
+	 */
+	public void makeClean() {
+		this.dirty = false;
+	}
+	
+	public boolean isDirty() {
 		return this.dirty;
 	}
 }

@@ -65,6 +65,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     // if we get any error codes back in any of the pushes, set to false (very strict, but necessary)
     Boolean pullSuccess = true;
     Boolean pushSuccess = true;
+    DatabaseHelper dbHelper;
     
     /**
      * Set up the sync adapter
@@ -77,6 +78,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
          */
         mContentResolver = context.getContentResolver();
         appContext = context;
+        dbHelper = new DatabaseHelper(appContext);
     }
 
     /**
@@ -95,6 +97,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
          */
         mContentResolver = context.getContentResolver();
         appContext = context;
+        dbHelper = new DatabaseHelper(appContext);
     }
     
 	@Override
@@ -139,10 +142,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	private void pushDataToServer() {
 		Log.i("SyncAdapter", "=================== DATA PUSH ===================");
 		JSONArray visitsJson = createJsonArrayOf("visits");
-		pushModel("visits", visitsJson);
+		if (visitsJson.length() > 0) {
+			pushModel("visits", visitsJson);
+		}
 		
 		JSONArray attendanceJson = createJsonArrayOf("attendance");
-		pushModel("attendance", attendanceJson);
+		if (attendanceJson.length() > 0) {
+			pushModel("attendance", attendanceJson);
+		}
 		
 		if (pushSuccess == true) {
 			try {
@@ -151,6 +158,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		} else {
+			Log.e("SyncAdapter", "Push is failing and we are not moving last_synced_at date.");
 		}
 	}
 	
@@ -187,8 +196,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 
                 // transform response into a JSONArray object
                 JSONArray jsonArray = new JSONArray(responseString);
-                // Database helper for Worker table
-                DatabaseHelper dbHelper = new DatabaseHelper(appContext);
                 
                 if ("clients" == modelName) {
 	                Dao<Client, Integer> clientDao;
@@ -368,15 +375,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		JSONArray jsonArray = new JSONArray();
 		
 		try {
-			DatabaseHelper dbHelper = new DatabaseHelper(appContext);
-			
 			if ("visits" == modelName) {
 				Dao<Visit, Integer> vDao;
 				vDao = dbHelper.getVisitsDao();
 				
 				// TODO: Here we select all with type home. Of course we want everything that needs to be synced.
 				// One way would be to set a 'dirty' flag whenever data is written and then query for this here. Then send only changed/ new stuff.
-				List<Visit> visitsList = vDao.queryBuilder().where().eq("type", "home").query();
+//				List<Visit> visitsList = vDao.queryBuilder().where().eq("type", "home").query();
+				List<Visit> visitsList = vDao.queryBuilder().where().eq("dirty", true).query();
 				Iterator<Visit> iterator = visitsList.iterator();
 				
 				while (iterator.hasNext()) {
@@ -403,15 +409,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 				Dao<Attendance, Integer> aDao;
 				aDao = dbHelper.getAttendanceDao();
 				
-//				List<Attendance> attendanceList = aDao.queryBuilder().where().eq("visit_id", 2).query();
-				List<Attendance> attendanceList = aDao.queryBuilder().where().eq("dirty", true).query();
+				List<Attendance> attendanceList = aDao.queryForEq("dirty", true);
 				Iterator<Attendance> iterator = attendanceList.iterator();
 				
 				while (iterator.hasNext()) {
 					Attendance a = iterator.next();
 					Log.i("SyncAdapter", a.getVisitId()+", "+a.getClientId());
 					JSONObject json = new JSONObject();
-					//json.put("_id", a.getId());
+					json.put("_id", a.getId());
 					json.put("visit_id", a.getVisitId());
 					json.put("client_id", a.getClientId());
 					// put object into array
@@ -481,6 +486,35 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                response.getEntity().writeTo(out);
 	                out.close();
 	                responseString = out.toString();
+	                
+	                if ("attendance" == modelName) {
+	                	try {
+	                		Dao<Attendance, Integer> dao;
+	        				dao = dbHelper.getAttendanceDao();
+	        				
+	        				Attendance doc = dao.queryForId(jsonObj.getInt("_id"));
+	        				doc.makeClean();
+	        				dao.update(doc);
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	                } else if ("visits" == modelName) {
+	                	try {
+	                		Dao<Visit, Integer> dao;
+	        				dao = dbHelper.getVisitsDao();
+	        				
+	        				Visit doc = dao.queryForId(jsonObj.getInt("_id"));
+	        				doc.makeClean();
+	        				dao.update(doc);
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	                } else {
+	                	Log.e("SyncAdapter", "Well we pushed "+modelName+" but forgot to write the dirty bit reset code :(");
+	                }
+	                
 	                Log.i("SyncAdapter", "Response text: \n"+responseString);
 	            } else{
 	                //Closes the connection.
