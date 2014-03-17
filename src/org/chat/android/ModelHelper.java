@@ -193,23 +193,40 @@ public class ModelHelper {
         return cList;
 	}
 	
-	public static Attendance getAttendanceForVisitId(Context context, int visitId) {
-		Attendance attendance = null;
+	// TODO: remove? This doesn't seem like it would ever be used
+//	public static Attendance getAttendanceForVisitId(Context context, int visitId) {
+//		Attendance attendance = null;
+//		Dao<Attendance, Integer> aDao;		
+//		DatabaseHelper aDbHelper = new DatabaseHelper(context);
+//		try {
+//			aDao = aDbHelper.getAttendanceDao();
+//			List<Attendance> aList = aDao.queryBuilder().where().eq("visit_id",visitId).query();
+//			Iterator<Attendance> iter = aList.iterator();
+//			while (iter.hasNext()) {
+//				attendance = iter.next();
+//			}
+//		} catch (SQLException e2) {
+//			// TODO Auto-generated catch block
+//			e2.printStackTrace();
+//		}
+//		
+//		return attendance;
+//	}
+	
+	public static List<Attendance> getAttendanceForVisitId(Context context, int visitId) {
+		List<Attendance> aList = null;
 		Dao<Attendance, Integer> aDao;		
 		DatabaseHelper aDbHelper = new DatabaseHelper(context);
 		try {
 			aDao = aDbHelper.getAttendanceDao();
-			List<Attendance> aList = aDao.queryBuilder().where().eq("visit_id",visitId).query();
+			aList = aDao.queryBuilder().where().eq("visit_id",visitId).query();
 			Iterator<Attendance> iter = aList.iterator();
-			while (iter.hasNext()) {
-				attendance = iter.next();
-			}
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
 		
-		return attendance;
+		return aList;
 	}
 
 	public static Service getServiceForName(Context context, String sName) {
@@ -575,6 +592,22 @@ public class ModelHelper {
 		} else {
 			return true;
 		}
+	}
+	
+	
+	/************************** SAVING **************************/
+	public static void setVisitToDirtyAndSave(Context context, Visit v) {
+		v.setDirty();
+	    Dao<Visit, Integer> vDao;
+	    DatabaseHelper vDbHelper = new DatabaseHelper(context);
+	    try {
+	    	vDao = vDbHelper.getVisitsDao();
+	    	vDao.update(v);
+	    } catch (SQLException e1) {
+	        // TODO Auto-generated catch block
+	        e1.printStackTrace();
+	    }
+		
 	}
 	
 	

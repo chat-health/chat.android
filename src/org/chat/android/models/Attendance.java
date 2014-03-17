@@ -1,5 +1,10 @@
 package org.chat.android.models;
 
+import org.chat.android.ModelHelper;
+import org.chat.android.MyApplication;
+
+import android.content.Context;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -33,6 +38,11 @@ public class Attendance {
     	this.visit_id = visit_id;
         this.client_id = client_id;
         this.dirty = true;
+        // this may be trouble with the sync adapter? PLEASE TEST ME
+        // https://stackoverflow.com/questions/2002288/static-way-to-get-context-on-android
+        Context myContext = MyApplication.getAppContext();
+        Visit v = ModelHelper.getVisitForId(myContext, visit_id);
+        ModelHelper.setVisitToDirtyAndSave(myContext, v);
     }
     
     /**

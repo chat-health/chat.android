@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
@@ -116,16 +117,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		Log.i("SyncAdapter", "=================== DATA PULL ===================");
 			
 		retrieveModel("clients");
-		retrieveModel("households");
-		retrieveModel("services");
-		retrieveModel("workers");
-		retrieveModel("videos");
-		retrieveModel("resources");
-		
-		retrieveModel("health_themes");
-		
-		retrieveModel("health_selects");
-		retrieveModel("page_assessment1");
+//		retrieveModel("households");
+//		retrieveModel("services");
+//		retrieveModel("workers");
+//		retrieveModel("videos");
+//		retrieveModel("resources");
+//		
+//		retrieveModel("health_themes");
+//		
+//		retrieveModel("health_selects");
+//		retrieveModel("page_assessment1");
 		
         
         // change last pull date to current date
@@ -379,15 +380,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 				Dao<Visit, Integer> vDao;
 				vDao = dbHelper.getVisitsDao();
 				
-				// TODO: Here we select all with type home. Of course we want everything that needs to be synced.
-				// One way would be to set a 'dirty' flag whenever data is written and then query for this here. Then send only changed/ new stuff.
-//				List<Visit> visitsList = vDao.queryBuilder().where().eq("type", "home").query();
 				List<Visit> visitsList = vDao.queryBuilder().where().eq("dirty", true).query();
 				Iterator<Visit> iterator = visitsList.iterator();
 				
 				while (iterator.hasNext()) {
 					Visit temp = iterator.next();
-					Log.i("SyncAdapter", temp.getType()+", "+temp.getId());
+					//Log.i("SyncAdapter", temp.getType()+", "+temp.getId());
 					JSONObject json = new JSONObject();
 					json.put("_id", temp.getId());
 					json.put("worker_id", temp.getWorkerId());
@@ -399,10 +397,18 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 					json.put("end_time", formatDateToJsonDate(temp.getEndTime()));
 					json.put("type", temp.getType());
 					
+					//addOtherTablesToVisitObject(temp);
+					List<Attendance> attList = ModelHelper.getAttendanceForVisitId(appContext, temp.getId());
+					JSONArray jsonArrayAtt = new JSONArray();
+					for (Attendance a : attList) {
+						jsonArrayAtt.put(a.getClientId());
+						Log.i("SyncAdapter", "ClientId: "+ String.valueOf(a.getClientId()));
+					}
+					json.put("attendance",jsonArrayAtt);
+					
 					// put object into array
 					jsonArray.put(json);
 				}
-				//Log.i("SyncAdapter", jsonArray.toString());
 				Log.i("SyncAdapter", "Created visits jsonArray: "+jsonArray.toString());
 			}
 			
@@ -415,7 +421,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 				
 				while (iterator.hasNext()) {
 					Attendance a = iterator.next();
-					Log.i("SyncAdapter", a.getVisitId()+", "+a.getClientId());
+					//Log.i("SyncAdapter", a.getVisitId()+", "+a.getClientId());
 					JSONObject json = new JSONObject();
 					json.put("_id", a.getId());
 					json.put("visit_id", a.getVisitId());

@@ -264,12 +264,9 @@ public class HomeActivity extends Activity {
     }
     
     public void updateUIElements() {
-    	Attendance attendance = null;
-    	
     	// check if there is an attendance object for this visitId
-    	attendance = ModelHelper.getAttendanceForVisitId(context, visitId);
-    	
-    	if (attendance != null) {
+    	List<Attendance> attendance = ModelHelper.getAttendanceForVisitId(context, visitId);
+    	if (attendance.size() > 0) {
         	// switch the Done button to the Update button
         	attendanceBtn.setTag("Update");
         	attendanceBtn.setImageResource(R.drawable.updatebutton);
