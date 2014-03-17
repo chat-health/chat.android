@@ -15,7 +15,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "visits")
 public class Visit {
-	@DatabaseField
+	@DatabaseField(id = true)
 	private int id;
     @DatabaseField
     private int worker_id;
@@ -57,18 +57,27 @@ public class Visit {
      * @param start_time
      */
     public Visit(Context context, int worker_id, String role, Date date, int hh_id, String type, double lat, double lon, Date start_time) {
-    	String myUUID = Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
-   
+    	String myUUID = Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);   
     	long seconds = System.currentTimeMillis() / 1000;
-    	
-    	//int myId = (int) (myUUID.hashCode() + seconds);
-    	
     	String secondsString = String.valueOf(seconds);
     	String idString = myUUID+secondsString;
     	int hashedIdString = idString.hashCode();
     	int myId = hashedIdString;
     	// k, this isn't great IMO. Functional for now
     	
+    	// feels odd to construct this all ourselves. An attempt to eliminating collisions while staying within int space
+//    	String myUUID = Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
+//    	int hashedUUID = myUUID.hashCode();
+//    	if (hashedUUID < 0) {
+//    		hashedUUID = hashedUUID * -1;
+//    	}
+//    	String hashedUUIDString = String.valueOf(hashedUUID);
+//   
+//    	long seconds = System.currentTimeMillis() / 1000;
+//    	String secondsString = String.valueOf(seconds);
+//    	
+//    	String idString = hashedUUIDString+secondsString;
+//    	int myId = Integer.parseInt(idString);     
     	
     	this.id = myId;
     	this.hh_id = hh_id;
@@ -80,6 +89,9 @@ public class Visit {
         this.lon = lon;
         this.start_time = start_time;
         this.dirty = true;
+        
+        
+           
     }
     
     /**

@@ -73,6 +73,8 @@ public class ModelHelper {
 		uDao.createOrUpdate(u);
 	}
 	
+	//public static void setVisitToDirty TODO
+	
 	public static Visit getVisitForId(Context context, int visitId) {
 		Visit visit = null;
 		Dao<Visit, Integer> vDao;		

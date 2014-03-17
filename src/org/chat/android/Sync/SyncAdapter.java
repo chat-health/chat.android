@@ -108,7 +108,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		// 1) retrieve data from server, add new, handle conflict
 		
 
-		retrieveDataFromServer();
+		//retrieveDataFromServer();
 		pushDataToServer();
 	}
 	
@@ -402,7 +402,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 					// put object into array
 					jsonArray.put(json);
 				}
-				Log.i("SyncAdapter", jsonArray.toString());
+				//Log.i("SyncAdapter", jsonArray.toString());
+				Log.i("SyncAdapter", "Created visits jsonArray: "+jsonArray.toString());
 			}
 			
 			else if ("attendance" == modelName) {
@@ -517,7 +518,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                
 	                Log.i("SyncAdapter", "Response text: \n"+responseString);
 	            } else{
-	                //Closes the connection.
+	                // closes the connection.
 	            	// set the flag to false so we don't update the lastPulledAt date
 	            	pullSuccess = false;
 	                response.getEntity().getContent().close();
@@ -537,31 +538,31 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	private Date parseDateString(String input) throws ParseException {
 		//JSON: 2014-02-18T18:04:39.546Z
 		//ORM Date: 2014-02-18 18:04:39.555
-		Log.i("SyncAdapter", "dateStr: "+input);
+		//Log.i("SyncAdapter", "dateStr: "+input);
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");	
 		formatter.setTimeZone(TimeZone.getTimeZone("GMT-00:00"));
-		Log.i("SyncAdapter", "formatter: "+formatter);
+		//Log.i("SyncAdapter", "formatter: "+formatter);
         Date convertedDate =  formatter.parse(input);
-        Log.i("SyncAdapter", "date obj: "+convertedDate.toString());
+        //Log.i("SyncAdapter", "date obj: "+convertedDate.toString());
 		return convertedDate;
 	}
 	
 	private Date parseBirthDateString(String input) throws ParseException {
 		//JSON: 2014-02-18T18:04:39.546Z
 		//ORM Date: 2014-02-18 18:04:39.555
-		Log.i("SyncAdapter", "dateStr: "+input);
+		//Log.i("SyncAdapter", "dateStr: "+input);
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");	
 		formatter.setTimeZone(TimeZone.getDefault());
-		Log.i("SyncAdapter", "formatter: "+formatter);
+		//Log.i("SyncAdapter", "formatter: "+formatter);
         Date convertedDate =  formatter.parse(input);
-        Log.i("SyncAdapter", "date obj: "+convertedDate.toString());
+        //Log.i("SyncAdapter", "date obj: "+convertedDate.toString());
 		return convertedDate;
 	}
 	
 	private static String formatDateToJsonDate(Date date) {
 		String output = "";
 		if (date != null) {
-			Log.i("SyncAdapter", "date to convert to string is: "+date.toString());
+			//Log.i("SyncAdapter", "date to convert to string is: "+date.toString());
 			
 	        SimpleDateFormat df = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" );
 	        
@@ -571,7 +572,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	
 	        output = df.format( date );
 	        
-	        Log.i("SyncAdapter", "date String is: "+output);
+	        //Log.i("SyncAdapter", "date String is: "+output);
 	
 	//        int inset0 = 9;
 	//        int inset1 = 6;
