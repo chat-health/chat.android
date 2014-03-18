@@ -36,12 +36,15 @@ public class Visit {
     @DatabaseField
     private String type;							// this may get moved to Service
     @DatabaseField
+    private boolean newly_created;							// can't use 'new'
+    @DatabaseField
 	private boolean dirty;
     
     /**
      * Default Constructor needed by ormlite
      */
     public Visit() {
+    	this.newly_created = true;
     	this.dirty = true;
     }
 
@@ -55,6 +58,8 @@ public class Visit {
      * @param lon 
      * @param lat 
      * @param start_time
+     * @param newly_created
+     * @param dirty
      */
     public Visit(Context context, int worker_id, String role, Date date, int hh_id, String type, double lat, double lon, Date start_time) {
     	String myUUID = Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);   
@@ -88,10 +93,8 @@ public class Visit {
         this.lat = lat;
         this.lon = lon;
         this.start_time = start_time;
+        this.newly_created = true;
         this.dirty = true;
-        
-        
-           
     }
     
     /**
@@ -109,6 +112,7 @@ public class Visit {
         this.lon = existingVisitModel.lon;
         this.start_time = existingVisitModel.start_time;
         this.end_time = existingVisitModel.end_time;
+        this.newly_created = false;
         this.dirty = true;
     }
 
@@ -193,15 +197,24 @@ public class Visit {
 		this.setDirty();
 	}
 	
+	public Boolean getNewlyCreatedStatus() {
+		return newly_created;
+	}
+	
+	public void setNewlyCreatedStatus() {
+		this.newly_created = true;
+	}
+	
 	public void setDirty() {
 		this.dirty = true;
 	}
 	
 	/** 
 	 * This function reverses the dirty flag and should be used
-	 * by the SyncAdapter to avoid syncing documents that have been synced and not changed inbetween.
+	 * by the SyncAdapter to avoid syncing documents that have been synced and not changed in between.
 	 */
 	public void makeClean() {
+		this.newly_created = false;
 		this.dirty = false;
 	}
 	

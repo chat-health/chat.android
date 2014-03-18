@@ -20,6 +20,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -105,9 +106,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	public void onPerformSync(Account arg0, Bundle arg1, String arg2,
 			ContentProviderClient arg3, SyncResult arg4) {
 		Log.i("SyncAdapter", "sync adapter running :)");
-		
-		// 1) retrieve data from server, add new, handle conflict
-		
 
 		//retrieveDataFromServer();
 		pushDataToServer();
@@ -117,16 +115,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		Log.i("SyncAdapter", "=================== DATA PULL ===================");
 			
 		retrieveModel("clients");
-//		retrieveModel("households");
-//		retrieveModel("services");
-//		retrieveModel("workers");
-//		retrieveModel("videos");
-//		retrieveModel("resources");
-//		
-//		retrieveModel("health_themes");
-//		
-//		retrieveModel("health_selects");
-//		retrieveModel("page_assessment1");
+		retrieveModel("households");
+		retrieveModel("services");
+		retrieveModel("workers");
+		retrieveModel("videos");
+		retrieveModel("resources");
+		
+		retrieveModel("health_themes");
+		
+		retrieveModel("health_selects");
+		retrieveModel("page_assessment1");
 		
         
         // change last pull date to current date
@@ -173,12 +171,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         	String baseUrl = appContext.getResources().getString(R.string.base_url);
         	String url = baseUrl.concat(modelName);
         	
-    		GregorianCalendar gc = new GregorianCalendar(2014, 2, 8);
+        	// concat so that only changed documents are getted from the collection
+    		GregorianCalendar gc = new GregorianCalendar(2001, 2, 8);
     		Date d = gc.getTime();
     		String lastSync = "?last_synced_at=" + formatDateToJsonDate(d);
     		
-        	//String lastSync = "?last_synced_at=" + formatDateToJsonDate(ModelHelper.getLastSyncedAt(appContext, "pull"));
-        	url = url.concat(lastSync);
+    		//TODO: FIXME for PROD - this is for testing only, pulls everything instead of changed things
+        	//url = url.concat(lastSync);
         	
         	Log.i("SyncAdapter", "Get to URL: "+url);
         	
@@ -396,13 +395,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 					json.put("start_time", formatDateToJsonDate(temp.getStartTime()));
 					json.put("end_time", formatDateToJsonDate(temp.getEndTime()));
 					json.put("type", temp.getType());
+					json.put("newly_created", temp.getNewlyCreatedStatus());
 					
 					//addOtherTablesToVisitObject(temp);
 					List<Attendance> attList = ModelHelper.getAttendanceForVisitId(appContext, temp.getId());
 					JSONArray jsonArrayAtt = new JSONArray();
 					for (Attendance a : attList) {
 						jsonArrayAtt.put(a.getClientId());
-						Log.i("SyncAdapter", "ClientId: "+ String.valueOf(a.getClientId()));
+						//Log.i("SyncAdapter", "ClientId: "+ String.valueOf(a.getClientId()));
 					}
 					json.put("attendance",jsonArrayAtt);
 					
@@ -445,49 +445,67 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	
 	private void pushModel(String modelName, JSONArray jsonArray) {
 		HttpClient httpclient = new DefaultHttpClient();
-        HttpResponse response;
+        HttpResponse response = null;
         String responseString = null;
         try {
-        	// Executing a get request
+        	// executing a get request
         	String baseUrl = appContext.getResources().getString(R.string.base_url);
         	String url = baseUrl.concat(modelName);
         	Log.i("SyncAdapter", "Push to URL: "+url);
         	
-        	//url with the post data
-            HttpPost httpost = new HttpPost(url);
+        	// url with the post data
+            HttpPost httpPost = new HttpPost(url);
+            HttpPut httpPut = new HttpPut(url);
             
             // Go over all objects in jsonArray and POST them individually
-            
             for (int i=0; i<jsonArray.length(); i++) {
-            	// Retrieve object
+            	// retrieve object
             	JSONObject jsonObj = jsonArray.getJSONObject(i);
             	
-	            //passes the results to a string builder/entity
+            	// pass the results to a string builder/entity
 	            StringEntity se = new StringEntity(jsonObj.toString());
-	
-	            //sets the post request as the resulting string
-	            httpost.setEntity(se);
-	            //sets a request header so the page receiving the request
-	            //will know what to do with it
-	            httpost.setHeader("Accept", "application/json");
-	            httpost.setHeader("Content-type", "application/json");
-	
-	            //Handles what is returned from the page 
+	            
+	            // handles what is returned from the page 
 	            ResponseHandler responseHandler = new BasicResponseHandler();
-	//            return httpclient.execute(httpost, responseHandler);
-	        	
-	            response = httpclient.execute(httpost);
+	            
+	            Log.i("SyncAdapter", "1: "+jsonObj.toString());
+	            
+	            if (jsonObj.getBoolean("newly_created") == true) {
+	            	Log.i("SyncAdapter", "Boolean is true");
+	            } else if (jsonObj.getBoolean("newly_created") == false) {
+	            	Log.i("SyncAdapter", "Boolean is false");
+	            } else {
+	            	Log.i("SyncAdapter", "Boolean is unknown");
+	            }
+            	
+            	if (jsonObj.getBoolean("newly_created") == true) {
+    	            Log.i("SyncAdapter", "2");
+            		// sets the post request as the resulting string
+    	            httpPost.setEntity(se);
+    	            // sets a request header so the page receiving the request will know what to do with it
+    	            httpPost.setHeader("Accept", "application/json");
+    	            httpPost.setHeader("Content-type", "application/json");
+    	            response = httpclient.execute(httpPost);
+            	} else if (jsonObj.getBoolean("newly_created") == false) {
+            		Log.i("SyncAdapter", "2");
+            		// sets the post request as the resulting string
+    	            httpPut.setEntity(se);
+    	            // sets a request header so the page receiving the request will know what to do with it
+    	            httpPut.setHeader("Accept", "application/json");
+    	            httpPut.setHeader("Content-type", "application/json");
+    	            response = httpclient.execute(httpPut);
+            	} else {
+            		Log.e("SyncAdapter","jsonObj does not contain a valid posted/unposted attribute");
+            	}
 	            
 	            // checking response to see if it worked ok
 	            StatusLine statusLine = response.getStatusLine();
-	            
-	//            String statusCode = Integer.toString(statusLine.getStatusCode());
 	            String statusCode = String.valueOf(statusLine.getStatusCode());
 	            
 	            Log.i("SyncAdapter","Status code of post to url "+url+": "+statusCode);
 	            
 	            if (statusLine.getStatusCode() == HttpStatus.SC_OK){
-	            	//TODO set dirty flag to false in internal DB
+	            	Log.i("SyncAdapter", "3");
 	            	// all that obvious receiving business
 	                ByteArrayOutputStream out = new ByteArrayOutputStream();
 	                response.getEntity().writeTo(out);
@@ -526,7 +544,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	            } else{
 	                // closes the connection.
 	            	// set the flag to false so we don't update the lastPulledAt date
-	            	pullSuccess = false;
+	            	pushSuccess = false;
 	                response.getEntity().getContent().close();
 	                throw new IOException(statusLine.getReasonPhrase());
 	            }
