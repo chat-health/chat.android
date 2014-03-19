@@ -4,8 +4,6 @@
     android:layout_height="match_parent"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
-    android:paddingTop="40dp"
-    android:paddingBottom="40dp"
     android:layout_gravity="center_horizontal">
       
    	<TableRow
@@ -16,14 +14,13 @@
    	        android:layout_width="wrap_content"
        		android:layout_height="wrap_content"
        		android:layout_weight="1"
-       		android:layout_marginTop="30dp"
-       		android:layout_marginBottom="30dp"
+       		android:layout_marginTop="5dp"
        		android:layout_marginLeft="10dp"
        		android:layout_marginRight="10dp">
    	        
     	    <TextView
 	            android:id="@+id/health_topic1_title_field"
-	            style="@style/titleText"
+	            style="@style/titleTextLarge"
 	            android:textColor="@color/attendance"
 	            android:text="@string/health_topic_title_text" />
 	        <View
@@ -59,14 +56,13 @@
    	        android:layout_width="wrap_content"
        		android:layout_height="wrap_content"
        		android:layout_weight="1"
-       		android:layout_marginTop="30dp"
-       		android:layout_marginBottom="30dp"
+       		android:layout_marginTop="5dp"
        		android:layout_marginLeft="10dp"
        		android:layout_marginRight="10dp">
 	       		       	
       	    <TextView
 	            android:id="@+id/health_topic2_title_field"
-	            style="@style/titleText"
+	            style="@style/titleTextLarge"
 	            android:textColor="@color/attendance"
 	            android:text="@string/health_topic_title_text" />
 	        <View
@@ -102,14 +98,13 @@
    	        android:layout_width="wrap_content"
        		android:layout_height="wrap_content"
        		android:layout_weight="1"
-       		android:layout_marginTop="30dp"
-       		android:layout_marginBottom="30dp"
+       		android:layout_marginTop="5dp"
        		android:layout_marginLeft="10dp"
        		android:layout_marginRight="10dp">
 	       		       	
       	    <TextView
 	            android:id="@+id/health_topic3_title_field"
-	            style="@style/titleText"
+	            style="@style/titleTextLarge"
 	            android:textColor="@color/attendance"
 	            android:text="@string/health_topic_title_text" />
 	        <View
@@ -150,14 +145,13 @@
    	        android:layout_width="300dp"
        		android:layout_height="wrap_content"
        		android:layout_weight="1"
-       		android:layout_marginTop="30dp"
-       		android:layout_marginBottom="30dp"
+       		android:layout_marginTop="5dp"
        		android:layout_marginLeft="10dp"
        		android:layout_marginRight="10dp">
    	        
     	    <TextView
 	            android:id="@+id/health_topic4_title_field"
-	            style="@style/titleText"
+	            style="@style/titleTextLarge"
 	            android:textColor="@color/attendance"
 	            android:text="@string/health_topic_title_text" />
 	        <View
@@ -193,14 +187,13 @@
    	        android:layout_width="match_parent"
        		android:layout_height="wrap_content"
        		android:layout_weight="1"
-       		android:layout_marginTop="30dp"
-       		android:layout_marginBottom="30dp"
+       		android:layout_marginTop="5dp"
        		android:layout_marginLeft="10dp"
        		android:layout_marginRight="10dp">
 	       		       	
       	    <TextView
 	            android:id="@+id/health_topic5_title_field"
-	            style="@style/titleText"
+	            style="@style/titleTextLarge"
 	            android:textColor="@color/attendance"
 	            android:text="@string/health_topic_title_text" />
 	        <View
@@ -235,14 +228,13 @@
    	        android:layout_width="match_parent"
        		android:layout_height="wrap_content"
        		android:layout_weight="1"
-       		android:layout_marginTop="30dp"
-       		android:layout_marginBottom="30dp"
+       		android:layout_marginTop="5dp"
        		android:layout_marginLeft="10dp"
        		android:layout_marginRight="10dp">
 	       		       	
       	    <TextView
 	            android:id="@+id/health_topic6_title_field"
-	            style="@style/titleText"
+	            style="@style/titleTextLarge"
 	            android:textColor="@color/attendance"
 	            android:text="@string/health_topic_title_text" />
 	        <View
@@ -306,7 +298,7 @@ For ease of access
            
              <TextView
          android:id="@+id/health_topic1_title_field"
-         style="@style/titleText"
+         style="@style/titleTextLarge"
          android:textColor="@color/attendance"
          android:text="@string/health_topic_title_text" />
          <View
@@ -340,7 +332,7 @@ For ease of access
                                   
                <TextView
          android:id="@+id/health_topic2_title_field"
-         style="@style/titleText"
+         style="@style/titleTextLarge"
          android:textColor="@color/attendance"
          android:text="@string/health_topic_title_text" />
          <View
@@ -379,7 +371,7 @@ For ease of access
            
              <TextView
          android:id="@+id/health_topic3_title_field"
-         style="@style/titleText"
+         style="@style/titleTextLarge"
          android:textColor="@color/attendance"
          android:text="@string/health_topic_title_text" />
          <View
@@ -413,7 +405,7 @@ For ease of access
                                   
                <TextView
          android:id="@+id/health_topic4_title_field"
-         style="@style/titleText"
+         style="@style/titleTextLarge"
          android:textColor="@color/attendance"
          android:text="@string/health_topic_title_text" />
          <View

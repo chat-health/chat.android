@@ -26,7 +26,7 @@ public class HealthDetailsActivity extends BaseActivity {
 	Context context;
 	int hhId = 0;
 	int visitId = 0;
-	String healthThemeName = null;
+	String healthTheme = null;
 	Boolean largeTopicScreen = false;
 	String[] themesArray;
 	
@@ -40,11 +40,11 @@ public class HealthDetailsActivity extends BaseActivity {
 		Bundle b = getIntent().getExtras();
 		hhId = b.getInt("hhId");
 		visitId = b.getInt("visitId");
-		healthThemeName = b.getString("healthTheme");
+		healthTheme = b.getString("healthTheme");
 		themesArray = getResources().getStringArray(R.array.themes_array);
 		
 		// sloppy/hacky way of choosing whether the view is going to have 4 or 6 topics (disease and nutrition have 6, so largeTopicScreen == true)
-		if (healthThemeName.equals(themesArray[1]) || healthThemeName.equals(themesArray[2])) {
+		if (healthTheme.equals(themesArray[1]) || healthTheme.equals(themesArray[2])) {
 			largeTopicScreen = true;
 			setContentView(R.layout.activity_health_details_large);
 		} else {
@@ -52,7 +52,7 @@ public class HealthDetailsActivity extends BaseActivity {
 		}
 		
 		// create UI elements
-		setupTopicButtons(healthThemeName);
+		setupTopicButtons(healthTheme);
 		// grey out elements based on topic completion
 		updateUIElements();
     }
@@ -72,7 +72,7 @@ public class HealthDetailsActivity extends BaseActivity {
     	Bundle b = new Bundle();
     	b.putInt("hhId",hhId);
     	b.putInt("visitId",visitId);
-    	b.putString("healthTheme",healthThemeName);
+    	b.putString("healthTheme",healthTheme);
     	b.putString("topic",topic);
     	i.putExtras(b);
     	startActivity(i);	

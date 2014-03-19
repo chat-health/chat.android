@@ -43,6 +43,15 @@
         <item name="android:textSize">30sp</item>
 	</style>
 	
+	<style name="titleTextLarge">
+	    <item name="android:layout_width">match_parent</item>
+	    <item name="android:layout_height">130dp</item>
+	    <item name="android:padding">6dp</item>
+	    <item name="android:gravity">bottom</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">30sp</item>
+	</style>
+	
 	<style name="titleDivider">
 	    <item name="android:layout_width">fill_parent</item>
 	    <item name="android:layout_height">2dp</item>

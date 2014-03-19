@@ -4,8 +4,6 @@
     android:layout_height="match_parent"
     android:paddingLeft="80dp"
     android:paddingRight="80dp"
-    android:paddingTop="40dp"
-    android:paddingBottom="40dp"
     android:layout_gravity="center_horizontal">
       
         <TableRow
@@ -16,14 +14,16 @@
             	android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:layout_margin="30dp">
+                android:layout_marginTop="5dp"
+       			android:layout_marginLeft="30dp"
+       			android:layout_marginRight="30dp">
            
 	            <TextView
 			         android:id="@+id/health_topic1_title_field"
-			         style="@style/titleText"
+			         style="@style/titleTextLarge"
 			         android:textColor="@color/attendance"
 			         android:text="@string/health_topic_title_text" />
-			         <View
+			    <View
 			         android:id="@+id/health_topic1_divider"
 			         style="@style/titleDivider"
 			         android:background="@color/attendance"
@@ -56,14 +56,16 @@
 	            android:layout_width="match_parent"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="0.5"
-	            android:layout_margin="30dp">
+	            android:layout_marginTop="5dp"
+       			android:layout_marginLeft="30dp"
+       			android:layout_marginRight="30dp">
 	                                  
 	            <TextView
 					android:id="@+id/health_topic2_title_field"
-					style="@style/titleText"
+					style="@style/titleTextLarge"
 					android:textColor="@color/attendance"
 					android:text="@string/health_topic_title_text" />
-					<View
+				<View
 					android:id="@+id/health_topic2_divider"
 					style="@style/titleDivider"
 					android:background="@color/attendance"
@@ -90,7 +92,6 @@
 	                 android:layout_marginTop="40dp"
 	                 android:src="@drawable/children_play_btn_zulu"
 	                 android:onClick="openHealthDelivery" />
-	            
 			</RelativeLayout>                         
         
         </TableRow>
@@ -102,14 +103,16 @@
             	android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:layout_margin="30dp">
+                android:layout_marginTop="5dp"
+       			android:layout_marginLeft="30dp"
+       			android:layout_marginRight="30dp">
            
 	            <TextView
 			         android:id="@+id/health_topic3_title_field"
-			         style="@style/titleText"
+			         style="@style/titleTextLarge"
 			         android:textColor="@color/attendance"
 			         android:text="@string/health_topic_title_text" />
-			         <View
+			    <View
 			         android:id="@+id/health_topic3_divider"
 			         style="@style/titleDivider"
 			         android:background="@color/attendance"
@@ -142,14 +145,16 @@
             		android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:layout_margin="30dp">
+                    android:layout_marginTop="5dp"
+       				android:layout_marginLeft="30dp"
+       				android:layout_marginRight="30dp">
                                   
                		<TextView
 						android:id="@+id/health_topic4_title_field"
-						style="@style/titleText"
+						style="@style/titleTextLarge"
 						android:textColor="@color/attendance"
 						android:text="@string/health_topic_title_text" />
-						<View
+					<View
 						android:id="@+id/health_topic4_divider"
 						style="@style/titleDivider"
 						android:background="@color/attendance"
@@ -177,6 +182,5 @@
 						android:src="@drawable/children_play_btn_zulu"
 						android:onClick="openHealthDelivery" />
 			</RelativeLayout>
-        
         </TableRow>
 </TableLayout>
