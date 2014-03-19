@@ -74,7 +74,7 @@
 		        android:layout_below="@id/health_disease_title_field"
 		        android:layout_marginTop="20dp"
 		        android:src="@drawable/children_play_screenshot"
-		        android:tag="Severe Childhood Illnesses"
+		        android:tag="Childhood Illness"
 		        android:onClick="openHealthDetails" />
 	        <ImageView
                 android:id="@+id/health_disease_checkmark"
@@ -90,7 +90,7 @@
 	       	    android:layout_marginLeft="60dp"
 	       	    android:layout_marginTop="40dp"
 	       	    android:src="@drawable/childhooddiseasesgobutton"
-	       	    android:tag="Severe Childhood Illnesses"
+	       	    android:tag="Childhood Illness"
 	       	    android:onClick="openHealthDetails" />   
 		</RelativeLayout>		       	     
 	    

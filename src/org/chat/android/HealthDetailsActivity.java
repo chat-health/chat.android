@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.chat.android.models.HealthTopic;
 import org.chat.android.models.HealthTopicAccessed;
 
 import com.j256.ormlite.dao.Dao;
@@ -12,6 +13,7 @@ import com.j256.ormlite.dao.Dao;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -123,56 +125,31 @@ public class HealthDetailsActivity extends BaseActivity {
         	imgBtn.add((ImageButton) findViewById(R.id.health_topic6_button));
     	}
     	
-    	String[] topicArray = null;
-    	int colorRef = 0;
+    	List<HealthTopic> topicList = ModelHelper.getTopicsForThemeName(context, healthTheme);
+		String color = ModelHelper.getThemeForName(context, healthTheme).getColor();
+		int colorRef = Color.parseColor(color);
+		int imageRef = 0;
     	
-    	// setup up the titles for each of the topics (UI), from strings_health arrays
+    	// setup up the drawable depending on the theme - TODO: maybe move the resource reference to the DB
 		if (healthTheme.equals(themesArray[0])) {
-			topicArray = getResources().getStringArray(R.array.theme1_array);					// TODO update to pull from DB instead of values file
-			colorRef = getResources().getColor(getResources().getIdentifier("theme1", "color", getPackageName()));							// yes, this is seriously how you have to reference it :/   I heart you Android
-			for (int i = 0; i < topicArray.length; i++) {
-				topicTitle.get(i).setTextColor(colorRef);
-				divider.get(i).setBackgroundColor(colorRef);				
-				topicTitle.get(i).setText(topicArray[i]);
-				imgView.get(i).setTag(topicArray[i]);
-				imgBtn.get(i).setTag(topicArray[i]);
-				imgBtn.get(i).setImageResource(R.drawable.hivgobutton);
-			}
+			imageRef = R.drawable.hivgobutton;
 		} else if (healthTheme.equals(themesArray[1])) {
-			topicArray = getResources().getStringArray(R.array.theme2_array);
-			colorRef = getResources().getColor(getResources().getIdentifier("theme2", "color", getPackageName()));
-			for (int i = 0; i < topicArray.length; i++) {
-				topicTitle.get(i).setTextColor(colorRef);
-				divider.get(i).setBackgroundColor(colorRef);
-				topicTitle.get(i).setText(topicArray[i]);
-				imgView.get(i).setTag(topicArray[i]);
-				imgBtn.get(i).setTag(topicArray[i]);
-				imgBtn.get(i).setImageResource(R.drawable.childhooddiseasesgobutton);
-			}
+			imageRef = R.drawable.childhooddiseasesgobutton;
 		} else if (healthTheme.equals(themesArray[2])) {
-			topicArray = getResources().getStringArray(R.array.theme3_array);
-			colorRef = getResources().getColor(getResources().getIdentifier("theme3", "color", getPackageName()));			
-			for (int i = 0; i < topicArray.length; i++) {
-				topicTitle.get(i).setTextColor(colorRef);
-				divider.get(i).setBackgroundColor(colorRef);				
-				topicTitle.get(i).setText(topicArray[i]);
-				imgView.get(i).setTag(topicArray[i]);
-				imgBtn.get(i).setTag(topicArray[i]);
-				imgBtn.get(i).setImageResource(R.drawable.nutritiongobutton);
-			}
+			imageRef = R.drawable.nutritiongobutton;
 		} else if (healthTheme.equals(themesArray[3])) {
-			topicArray = getResources().getStringArray(R.array.theme4_array);
-			colorRef = getResources().getColor(getResources().getIdentifier("theme4", "color", getPackageName()));
-			for (int i = 0; i < topicArray.length; i++) {
-				topicTitle.get(i).setTextColor(colorRef);
-				divider.get(i).setBackgroundColor(colorRef);				
-				topicTitle.get(i).setText(topicArray[i]);
-				imgView.get(i).setTag(topicArray[i]);
-				imgBtn.get(i).setTag(topicArray[i]);
-				imgBtn.get(i).setImageResource(R.drawable.developmentgobutton);
-			}
+			imageRef = R.drawable.developmentgobutton;
 		} else {
-			Log.e("Error, healthTopic is set to: ",healthTheme);
+			Log.e("Error, can't find drawable for theme: ",healthTheme);
+		}
+		
+		for (int i = 0; i < topicList.size(); i++) {
+			topicTitle.get(i).setTextColor(colorRef);
+			divider.get(i).setBackgroundColor(colorRef);				
+			topicTitle.get(i).setText(topicList.get(i).getName());
+			imgView.get(i).setTag(topicList.get(i).getName());
+			imgBtn.get(i).setTag(topicList.get(i).getName());
+			imgBtn.get(i).setImageResource(imageRef);
 		}
     }
 

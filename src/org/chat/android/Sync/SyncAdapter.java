@@ -31,6 +31,7 @@ import org.chat.android.models.Attendance;
 import org.chat.android.models.Client;
 import org.chat.android.models.HealthSelect;
 import org.chat.android.models.HealthTheme;
+import org.chat.android.models.HealthTopic;
 import org.chat.android.models.Household;
 import org.chat.android.models.PageAssessment1;
 import org.chat.android.models.Resource;
@@ -107,7 +108,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 			ContentProviderClient arg3, SyncResult arg4) {
 		Log.i("SyncAdapter", "sync adapter running :)");
 
-		//retrieveDataFromServer();
+		retrieveDataFromServer();
 		pushDataToServer();
 	}
 	
@@ -122,6 +123,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		retrieveModel("resources");
 		
 		retrieveModel("health_themes");
+		retrieveModel("health_topics");
 		
 		retrieveModel("health_selects");
 		retrieveModel("page_assessment1");
@@ -312,6 +314,18 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	// create or update data sets received from backend server
 	                	dao.createOrUpdate(o);
 	                }
+                } else if ("health_topics" == modelName) {
+	                Dao<HealthTopic, Integer> dao;
+	                dao = dbHelper.getHealthTopicsDao();
+	                
+	                // add new entries received via REST call
+	                for (int i=0; i < jsonArray.length(); i++) {
+	                	JSONObject jo = jsonArray.getJSONObject(i);
+	                	Log.i("SyncAdapter","JSON object: "+jo.toString());
+	                	HealthTopic o = new HealthTopic(jo.getInt("_id"), jo.getString("name"), jo.getString("theme"));
+	                	// create or update data sets received from backend server
+	                	dao.createOrUpdate(o);
+	                }
                 } else if ("health_selects" == modelName) {
 	                Dao<HealthSelect, Integer> dao;
 	                dao = dbHelper.getHealthSelectDao();
@@ -468,8 +482,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	            // handles what is returned from the page 
 	            ResponseHandler responseHandler = new BasicResponseHandler();
 	            
-	            Log.i("SyncAdapter", "1: "+jsonObj.toString());
-	            
 	            if (jsonObj.getBoolean("newly_created") == true) {
 	            	Log.i("SyncAdapter", "Boolean is true");
 	            } else if (jsonObj.getBoolean("newly_created") == false) {
@@ -479,7 +491,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	            }
             	
             	if (jsonObj.getBoolean("newly_created") == true) {
-    	            Log.i("SyncAdapter", "2");
             		// sets the post request as the resulting string
     	            httpPost.setEntity(se);
     	            // sets a request header so the page receiving the request will know what to do with it
@@ -487,7 +498,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     	            httpPost.setHeader("Content-type", "application/json");
     	            response = httpclient.execute(httpPost);
             	} else if (jsonObj.getBoolean("newly_created") == false) {
-            		Log.i("SyncAdapter", "2");
             		// sets the post request as the resulting string
     	            httpPut.setEntity(se);
     	            // sets a request header so the page receiving the request will know what to do with it
@@ -505,7 +515,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	            Log.i("SyncAdapter","Status code of post to url "+url+": "+statusCode);
 	            
 	            if (statusLine.getStatusCode() == HttpStatus.SC_OK){
-	            	Log.i("SyncAdapter", "3");
 	            	// all that obvious receiving business
 	                ByteArrayOutputStream out = new ByteArrayOutputStream();
 	                response.getEntity().writeTo(out);

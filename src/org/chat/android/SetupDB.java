@@ -360,69 +360,69 @@ public class SetupDB extends Activity {
 	    
 	    // HEALTH TOPICS
 	    //HealthTopic(int id, String name, String theme)
-	    HealthTopic sub1 = new HealthTopic(1, "What is HIV?", "HIV");
-	    HealthTopic sub2 = new HealthTopic(2, "CD4, Viral load", "HIV");
-	    HealthTopic sub3 = new HealthTopic(3, "ARVs", "HIV");
-	    HealthTopic sub4 = new HealthTopic(4, "Helping children to take their ARVs", "HIV");
-	    HealthTopic sub5 = new HealthTopic(5, "General signs and illnesses", "disease");
-	    HealthTopic sub6 = new HealthTopic(6, "Illness: new-born", "disease");
-	    HealthTopic sub7 = new HealthTopic(7, "Respiratory: 0 to 6 months", "disease");
-	    HealthTopic sub8 = new HealthTopic(8, "Respiratory 6+ months", "disease");
-	    HealthTopic sub9 = new HealthTopic(9, "Diarrhoea", "disease");
-	    HealthTopic sub10 = new HealthTopic(10, "Malnutrition", "disease");
-	    HealthTopic sub11 = new HealthTopic(11, "General (0 to 5 years)", "development");
-	    HealthTopic sub12 = new HealthTopic(12, "0 to 9 months", "development");
-	    HealthTopic sub13 = new HealthTopic(13, "9 months to 2 years", "development");
-	    HealthTopic sub14 = new HealthTopic(14, "2 to 5 years", "development");
-	    Dao<HealthTopic, Integer> subDao1;
-	    Dao<HealthTopic, Integer> subDao2;
-	    Dao<HealthTopic, Integer> subDao3;
-	    Dao<HealthTopic, Integer> subDao4;
-	    Dao<HealthTopic, Integer> subDao5;
-	    Dao<HealthTopic, Integer> subDao6;
-	    Dao<HealthTopic, Integer> subDao7;
-	    Dao<HealthTopic, Integer> subDao8;
-	    Dao<HealthTopic, Integer> subDao9;
-	    Dao<HealthTopic, Integer> subDao10;
-	    Dao<HealthTopic, Integer> subDao11;
-	    Dao<HealthTopic, Integer> subDao12;
-	    Dao<HealthTopic, Integer> subDao13;
-	    Dao<HealthTopic, Integer> subDao14;
-	    
-	    DatabaseHelper subDbHelper = new DatabaseHelper(context);
-	    try {
-	        subDao1 = subDbHelper.getHealthTopicsDao();
-	        subDao1.create(sub1);
-	        subDao2 = subDbHelper.getHealthTopicsDao();
-	        subDao2.create(sub2);
-	        subDao3 = subDbHelper.getHealthTopicsDao();
-	        subDao3.create(sub3);
-	        subDao4 = subDbHelper.getHealthTopicsDao();
-	        subDao4.create(sub4);
-	        subDao5 = subDbHelper.getHealthTopicsDao();
-	        subDao5.create(sub5);
-	        subDao6 = subDbHelper.getHealthTopicsDao();
-	        subDao6.create(sub6);
-	        subDao7 = subDbHelper.getHealthTopicsDao();
-	        subDao7.create(sub7);
-	        subDao8 = subDbHelper.getHealthTopicsDao();
-	        subDao8.create(sub8);
-	        subDao9 = subDbHelper.getHealthTopicsDao();
-	        subDao9.create(sub9);
-	        subDao10 = subDbHelper.getHealthTopicsDao();
-	        subDao10.create(sub10);
-	        subDao11 = subDbHelper.getHealthTopicsDao();
-	        subDao11.create(sub11);
-	        subDao12 = subDbHelper.getHealthTopicsDao();
-	        subDao12.create(sub12);
-	        subDao13 = subDbHelper.getHealthTopicsDao();
-	        subDao13.create(sub13);
-	        subDao14 = subDbHelper.getHealthTopicsDao();
-	        subDao14.create(sub14);
-	    } catch (SQLException e1) {
-	        // TODO Auto-generated catch block
-	        e1.printStackTrace();
-	    }	    
+//	    HealthTopic sub1 = new HealthTopic(1, "What is HIV?", "HIV");
+//	    HealthTopic sub2 = new HealthTopic(2, "CD4, Viral load", "HIV");
+//	    HealthTopic sub3 = new HealthTopic(3, "ARVs", "HIV");
+//	    HealthTopic sub4 = new HealthTopic(4, "Helping children to take their ARVs", "HIV");
+//	    HealthTopic sub5 = new HealthTopic(5, "General signs and illnesses", "disease");
+//	    HealthTopic sub6 = new HealthTopic(6, "Illness: new-born", "disease");
+//	    HealthTopic sub7 = new HealthTopic(7, "Respiratory: 0 to 6 months", "disease");
+//	    HealthTopic sub8 = new HealthTopic(8, "Respiratory 6+ months", "disease");
+//	    HealthTopic sub9 = new HealthTopic(9, "Diarrhoea", "disease");
+//	    HealthTopic sub10 = new HealthTopic(10, "Malnutrition", "disease");
+//	    HealthTopic sub11 = new HealthTopic(11, "General (0 to 5 years)", "development");
+//	    HealthTopic sub12 = new HealthTopic(12, "0 to 9 months", "development");
+//	    HealthTopic sub13 = new HealthTopic(13, "9 months to 2 years", "development");
+//	    HealthTopic sub14 = new HealthTopic(14, "2 to 5 years", "development");
+//	    Dao<HealthTopic, Integer> subDao1;
+//	    Dao<HealthTopic, Integer> subDao2;
+//	    Dao<HealthTopic, Integer> subDao3;
+//	    Dao<HealthTopic, Integer> subDao4;
+//	    Dao<HealthTopic, Integer> subDao5;
+//	    Dao<HealthTopic, Integer> subDao6;
+//	    Dao<HealthTopic, Integer> subDao7;
+//	    Dao<HealthTopic, Integer> subDao8;
+//	    Dao<HealthTopic, Integer> subDao9;
+//	    Dao<HealthTopic, Integer> subDao10;
+//	    Dao<HealthTopic, Integer> subDao11;
+//	    Dao<HealthTopic, Integer> subDao12;
+//	    Dao<HealthTopic, Integer> subDao13;
+//	    Dao<HealthTopic, Integer> subDao14;
+//	    
+//	    DatabaseHelper subDbHelper = new DatabaseHelper(context);
+//	    try {
+//	        subDao1 = subDbHelper.getHealthTopicsDao();
+//	        subDao1.create(sub1);
+//	        subDao2 = subDbHelper.getHealthTopicsDao();
+//	        subDao2.create(sub2);
+//	        subDao3 = subDbHelper.getHealthTopicsDao();
+//	        subDao3.create(sub3);
+//	        subDao4 = subDbHelper.getHealthTopicsDao();
+//	        subDao4.create(sub4);
+//	        subDao5 = subDbHelper.getHealthTopicsDao();
+//	        subDao5.create(sub5);
+//	        subDao6 = subDbHelper.getHealthTopicsDao();
+//	        subDao6.create(sub6);
+//	        subDao7 = subDbHelper.getHealthTopicsDao();
+//	        subDao7.create(sub7);
+//	        subDao8 = subDbHelper.getHealthTopicsDao();
+//	        subDao8.create(sub8);
+//	        subDao9 = subDbHelper.getHealthTopicsDao();
+//	        subDao9.create(sub9);
+//	        subDao10 = subDbHelper.getHealthTopicsDao();
+//	        subDao10.create(sub10);
+//	        subDao11 = subDbHelper.getHealthTopicsDao();
+//	        subDao11.create(sub11);
+//	        subDao12 = subDbHelper.getHealthTopicsDao();
+//	        subDao12.create(sub12);
+//	        subDao13 = subDbHelper.getHealthTopicsDao();
+//	        subDao13.create(sub13);
+//	        subDao14 = subDbHelper.getHealthTopicsDao();
+//	        subDao14.create(sub14);
+//	    } catch (SQLException e1) {
+//	        // TODO Auto-generated catch block
+//	        e1.printStackTrace();
+//	    }	    
 	    
 	    
 	    // HEALTH PAGES
@@ -589,64 +589,64 @@ public class SetupDB extends Activity {
 
 	    
 	    //public Vaccine(int id, int age, String display_age, String vaccine_short, String vaccine_long) 
-	    Vaccine v1 = new Vaccine(1, 0, "Birth", "BCG", "Bacilli Calmete-Guerin (Anti-tuberculosis vaccine)");
-	    Vaccine v2 = new Vaccine(2, 0, "Birth", "TOPV", "Trivalent oral polio vacine");
-	    Vaccine v3 = new Vaccine(3, 0.1154, "6 weeks", "TOPV", "Trivalent oral polio vacine");
-	    Vaccine v4 = new Vaccine(4, 0.1154, "6 weeks", "RV", "Rotavirus vaccine");
-	    Vaccine v5 = new Vaccine(5, 0.1154, "6 weeks", "DTP-IPV/Hib", "Diptheria, tetanus, pertussis vaccine, inactivated polio vaccine, Haemophilus influenza type b vaccine");
-	    Vaccine v6 = new Vaccine(6, 0.1154, "6 weeks", "Hepatitis B", "Hepatitis B");
-	    Vaccine v7 = new Vaccine(7, 0.1154, "6 weeks", "PCV7", "7-valent pneumococcal vaccine");
-	    Vaccine v8 = new Vaccine(8, 0.1923, "10 weeks", "DTP-IPV/Hib", "Diptheria, tetanus, pertussis vaccine, inactivated polio vaccine, Haemophilus influenza type b vaccine");
-	    Vaccine v9 = new Vaccine(9, 0.1923, "10 weeks", "Hepatitis B", "Hepatitis B");
-	    Vaccine v10 = new Vaccine(11, 0.2692, "14 weeks", "RV", "Rotavirus vaccine");
-	    Vaccine v11 = new Vaccine(10, 0.2692, "14 weeks", "DTP-IPV/Hib", "Diptheria, tetanus, pertussis vaccine, inactivated polio vaccine, Haemophilus influenza type b vaccine");
-	    Vaccine v12 = new Vaccine(12, 0.2692, "14 weeks", "Hepatitis B", "Hepatitis B");
-	    Vaccine v13 = new Vaccine(13, 0.2692, "14 weeks", "PCV7", "7-valent pneumococcal vaccine");
-	    Dao<Vaccine, Integer> vDao1;
-	    Dao<Vaccine, Integer> vDao2;
-	    Dao<Vaccine, Integer> vDao3;
-	    Dao<Vaccine, Integer> vDao4;
-	    Dao<Vaccine, Integer> vDao5;
-	    Dao<Vaccine, Integer> vDao6;
-	    Dao<Vaccine, Integer> vDao7;
-	    Dao<Vaccine, Integer> vDao8;
-	    Dao<Vaccine, Integer> vDao9;
-	    Dao<Vaccine, Integer> vDao10;
-	    Dao<Vaccine, Integer> vDao11;
-	    Dao<Vaccine, Integer> vDao12;
-	    Dao<Vaccine, Integer> vDao13;
-	    DatabaseHelper vDbHelper = new DatabaseHelper(context);
-	    try {
-	        vDao1 = vDbHelper.getVaccineDao();
-	        vDao1.create(v1);
-	        vDao2 = vDbHelper.getVaccineDao();
-	        vDao2.create(v2);
-	        vDao3 = vDbHelper.getVaccineDao();
-	        vDao3.create(v3);
-	        vDao4 = vDbHelper.getVaccineDao();
-	        vDao4.create(v4);
-	        vDao5 = vDbHelper.getVaccineDao();
-	        vDao5.create(v5);
-	        vDao6 = vDbHelper.getVaccineDao();
-	        vDao6.create(v6);
-	        vDao7 = vDbHelper.getVaccineDao();
-	        vDao7.create(v7);
-	        vDao8 = vDbHelper.getVaccineDao();
-	        vDao8.create(v8);
-	        vDao9 = vDbHelper.getVaccineDao();
-	        vDao9.create(v9);
-	        vDao10 = vDbHelper.getVaccineDao();
-	        vDao10.create(v10);
-	        vDao11 = vDbHelper.getVaccineDao();
-	        vDao11.create(v11);
-	        vDao12 = vDbHelper.getVaccineDao();
-	        vDao12.create(v12);
-	        vDao13 = vDbHelper.getVaccineDao();
-	        vDao13.create(v13);
-	    } catch (SQLException e1) {
-	        // TODO Auto-generated catch block
-	        e1.printStackTrace();
-	    }
+//	    Vaccine v1 = new Vaccine(1, 0, "Birth", "BCG", "Bacilli Calmete-Guerin (Anti-tuberculosis vaccine)");
+//	    Vaccine v2 = new Vaccine(2, 0, "Birth", "TOPV", "Trivalent oral polio vacine");
+//	    Vaccine v3 = new Vaccine(3, 0.1154, "6 weeks", "TOPV", "Trivalent oral polio vacine");
+//	    Vaccine v4 = new Vaccine(4, 0.1154, "6 weeks", "RV", "Rotavirus vaccine");
+//	    Vaccine v5 = new Vaccine(5, 0.1154, "6 weeks", "DTP-IPV/Hib", "Diptheria, tetanus, pertussis vaccine, inactivated polio vaccine, Haemophilus influenza type b vaccine");
+//	    Vaccine v6 = new Vaccine(6, 0.1154, "6 weeks", "Hepatitis B", "Hepatitis B");
+//	    Vaccine v7 = new Vaccine(7, 0.1154, "6 weeks", "PCV7", "7-valent pneumococcal vaccine");
+//	    Vaccine v8 = new Vaccine(8, 0.1923, "10 weeks", "DTP-IPV/Hib", "Diptheria, tetanus, pertussis vaccine, inactivated polio vaccine, Haemophilus influenza type b vaccine");
+//	    Vaccine v9 = new Vaccine(9, 0.1923, "10 weeks", "Hepatitis B", "Hepatitis B");
+//	    Vaccine v10 = new Vaccine(11, 0.2692, "14 weeks", "RV", "Rotavirus vaccine");
+//	    Vaccine v11 = new Vaccine(10, 0.2692, "14 weeks", "DTP-IPV/Hib", "Diptheria, tetanus, pertussis vaccine, inactivated polio vaccine, Haemophilus influenza type b vaccine");
+//	    Vaccine v12 = new Vaccine(12, 0.2692, "14 weeks", "Hepatitis B", "Hepatitis B");
+//	    Vaccine v13 = new Vaccine(13, 0.2692, "14 weeks", "PCV7", "7-valent pneumococcal vaccine");
+//	    Dao<Vaccine, Integer> vDao1;
+//	    Dao<Vaccine, Integer> vDao2;
+//	    Dao<Vaccine, Integer> vDao3;
+//	    Dao<Vaccine, Integer> vDao4;
+//	    Dao<Vaccine, Integer> vDao5;
+//	    Dao<Vaccine, Integer> vDao6;
+//	    Dao<Vaccine, Integer> vDao7;
+//	    Dao<Vaccine, Integer> vDao8;
+//	    Dao<Vaccine, Integer> vDao9;
+//	    Dao<Vaccine, Integer> vDao10;
+//	    Dao<Vaccine, Integer> vDao11;
+//	    Dao<Vaccine, Integer> vDao12;
+//	    Dao<Vaccine, Integer> vDao13;
+//	    DatabaseHelper vDbHelper = new DatabaseHelper(context);
+//	    try {
+//	        vDao1 = vDbHelper.getVaccineDao();
+//	        vDao1.create(v1);
+//	        vDao2 = vDbHelper.getVaccineDao();
+//	        vDao2.create(v2);
+//	        vDao3 = vDbHelper.getVaccineDao();
+//	        vDao3.create(v3);
+//	        vDao4 = vDbHelper.getVaccineDao();
+//	        vDao4.create(v4);
+//	        vDao5 = vDbHelper.getVaccineDao();
+//	        vDao5.create(v5);
+//	        vDao6 = vDbHelper.getVaccineDao();
+//	        vDao6.create(v6);
+//	        vDao7 = vDbHelper.getVaccineDao();
+//	        vDao7.create(v7);
+//	        vDao8 = vDbHelper.getVaccineDao();
+//	        vDao8.create(v8);
+//	        vDao9 = vDbHelper.getVaccineDao();
+//	        vDao9.create(v9);
+//	        vDao10 = vDbHelper.getVaccineDao();
+//	        vDao10.create(v10);
+//	        vDao11 = vDbHelper.getVaccineDao();
+//	        vDao11.create(v11);
+//	        vDao12 = vDbHelper.getVaccineDao();
+//	        vDao12.create(v12);
+//	        vDao13 = vDbHelper.getVaccineDao();
+//	        vDao13.create(v13);
+//	    } catch (SQLException e1) {
+//	        // TODO Auto-generated catch block
+//	        e1.printStackTrace();
+//	    }
 	    
 	    Toast.makeText(getApplicationContext(), "DB populated!", Toast.LENGTH_SHORT).show();
 	    finish();

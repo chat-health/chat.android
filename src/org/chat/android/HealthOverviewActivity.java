@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.chat.android.models.HealthSelectRecorded;
+import org.chat.android.models.HealthTheme;
 import org.chat.android.models.HealthTopic;
 import org.chat.android.models.HealthTopicAccessed;
 
@@ -17,6 +18,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class HealthOverviewActivity extends BaseActivity {
 	Context context = null;
@@ -31,6 +33,8 @@ public class HealthOverviewActivity extends BaseActivity {
 		Bundle b = getIntent().getExtras();
 		hhId = b.getInt("hhId");
 		visitId = b.getInt("visitId");
+		
+		//setupUIElements();
 		
 		checkThemeComplete();
     }
@@ -77,6 +81,17 @@ public class HealthOverviewActivity extends BaseActivity {
 		i.putExtras(b);
 		startActivity(i);
 	}
+	
+	// TODO: remove from XML, finish me
+//	public void setupUIElements() {
+//		List <HealthTheme> themes = ModelHelper.getHealthThemes(context);
+//		for (HealthTheme ht : themes) {
+//			
+//		}
+//		((TextView)findViewById(R.id.health_HIV_title_field)).setText("HIV");
+//		((ImageView)findViewById(R.id.health_HIV_button_img)).setTag("HIV");
+//		((ImageView)findViewById(R.id.health_HIV_button)).setTag("HIV");
+//	}
 	
 	public void checkThemeComplete() {
     	List<ImageView> imgViewList = new ArrayList<ImageView>();
@@ -138,6 +153,4 @@ public class HealthOverviewActivity extends BaseActivity {
 		}
 	}	
 }
-
-// TODO: clean this class up so that it uses themes pulled from the health_themes table as opposed to hardcoded
 

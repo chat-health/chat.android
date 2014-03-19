@@ -249,6 +249,21 @@ public class ModelHelper {
         return service;
 	}
 	
+	public static List<HealthTheme> getHealthThemes(Context context) {
+		List<HealthTheme> themeList = null;
+		Dao<HealthTheme, Integer> tDao;		
+		DatabaseHelper tDbHelper = new DatabaseHelper(context);
+		try {
+			tDao = tDbHelper.getHealthThemeDao();
+			themeList = tDao.queryBuilder().query();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		return themeList;
+	}
+	
 	public static HealthTheme getThemeForName(Context context, String themeName) {
 		HealthTheme theme = null;
 		Dao<HealthTheme, Integer> tDao;		
@@ -283,6 +298,21 @@ public class ModelHelper {
 		}
 		
 		return selectList;
+	}
+	
+	public static List<HealthTopic> getTopicsForThemeName(Context context, String themeName) {
+		List<HealthTopic> topicList = null;
+		Dao<HealthTopic, Integer> tDao;		
+		DatabaseHelper tDbHelper = new DatabaseHelper(context);
+		try {
+			tDao = tDbHelper.getHealthTopicsDao();
+			topicList = tDao.queryBuilder().where().eq("theme",themeName).query();
+		} catch (SQLException e2) {
+			Log.e("Topic does not exist in the DB: ", themeName);
+			e2.printStackTrace();
+		}
+		
+		return topicList;
 	}
 	
 	public static HealthTopic getTopicForName(Context context, String topicName) {
