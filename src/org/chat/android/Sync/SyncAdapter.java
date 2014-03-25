@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 import org.apache.http.HttpResponse;
@@ -28,14 +29,22 @@ import org.chat.android.DatabaseHelper;
 import org.chat.android.ModelHelper;
 import org.chat.android.R;
 import org.chat.android.models.Attendance;
+import org.chat.android.models.CHAAccessed;
 import org.chat.android.models.Client;
 import org.chat.android.models.HealthSelect;
+import org.chat.android.models.HealthSelectRecorded;
 import org.chat.android.models.HealthTheme;
 import org.chat.android.models.HealthTopic;
+import org.chat.android.models.HealthTopicAccessed;
 import org.chat.android.models.Household;
 import org.chat.android.models.PageAssessment1;
 import org.chat.android.models.Resource;
+import org.chat.android.models.ResourceAccessed;
+import org.chat.android.models.ServiceAccessed;
+import org.chat.android.models.Vaccine;
+import org.chat.android.models.VaccineRecorded;
 import org.chat.android.models.Video;
+import org.chat.android.models.VideoAccessed;
 import org.chat.android.models.Visit;
 import org.chat.android.models.Worker;
 import org.chat.android.models.Service;
@@ -104,8 +113,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
     
 	@Override
-	public void onPerformSync(Account arg0, Bundle arg1, String arg2,
-			ContentProviderClient arg3, SyncResult arg4) {
+	public void onPerformSync(Account arg0, Bundle arg1, String arg2, ContentProviderClient arg3, SyncResult arg4) {
 		Log.i("SyncAdapter", "sync adapter running :)");
 
 		retrieveDataFromServer();
@@ -128,6 +136,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		retrieveModel("health_selects");
 		retrieveModel("page_assessment1");
 		
+		retrieveModel("vaccines");
+		
         
         // change last pull date to current date
 		if (pullSuccess == true) {
@@ -147,10 +157,20 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 			pushModel("visits", visitsJson);
 		}
 		
-		JSONArray attendanceJson = createJsonArrayOf("attendance");
-		if (attendanceJson.length() > 0) {
-			pushModel("attendance", attendanceJson);
+		JSONArray saJson = createJsonArrayOf("services_accessed");
+		if (saJson.length() > 0) {
+			pushModel("services_accessed", saJson);
 		}
+		
+		JSONArray raJson = createJsonArrayOf("resources_accessed");
+		if (raJson.length() > 0) {
+			pushModel("resources_accessed", raJson);
+		}
+		
+//		JSONArray attendanceJson = createJsonArrayOf("attendance");
+//		if (attendanceJson.length() > 0) {
+//			pushModel("attendance", attendanceJson);
+//		}
 		
 		if (pushSuccess == true) {
 			try {
@@ -358,6 +378,22 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	PageAssessment1 pa1 = new PageAssessment1 (h.getInt("_id"), h.getString("type"), h.getString("en_content1"), h.getString("zu_content1"), h.getString("en_content2"), h.getString("zu_content2"), h.getString("en_content3"), h.getString("zu_content3"));
 	                	paDao.create(pa1);
 	                }
+                } else if ("vaccines" == modelName) {
+	                Dao<Vaccine, Integer> vacDao;
+	                vacDao = dbHelper.getVaccineDao();
+	                
+	                // delete all entries
+	                if (jsonArray.length() > 0) {
+		                DeleteBuilder<Vaccine, Integer> deleteVac = vacDao.deleteBuilder();
+		                deleteVac.delete();
+	                }
+	                
+	                // add new entries received via REST call
+	                for (int i=0; i < jsonArray.length(); i++) {
+	                	JSONObject h = jsonArray.getJSONObject(i);
+	                	Vaccine vac = new Vaccine (h.getInt("_id"), h.getDouble("age"), h.getString("display_age"), h.getString("short_name"), h.getString("long_name"));
+	                	vacDao.create(vac);
+	                }
                 }
             } else{
                 //Closes the connection.
@@ -411,40 +447,76 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 					json.put("type", temp.getType());
 					json.put("newly_created", temp.getNewlyCreatedStatus());
 					
-					//addOtherTablesToVisitObject(temp);
-					List<Attendance> attList = ModelHelper.getAttendanceForVisitId(appContext, temp.getId());
-					JSONArray jsonArrayAtt = new JSONArray();
-					for (Attendance a : attList) {
-						jsonArrayAtt.put(a.getClientId());
-						//Log.i("SyncAdapter", "ClientId: "+ String.valueOf(a.getClientId()));
-					}
-					json.put("attendance",jsonArrayAtt);
+					updateVisitforOtherModels(json, temp);
 					
 					// put object into array
 					jsonArray.put(json);
 				}
 				Log.i("SyncAdapter", "Created visits jsonArray: "+jsonArray.toString());
-			}
-			
-			else if ("attendance" == modelName) {
-				Dao<Attendance, Integer> aDao;
-				aDao = dbHelper.getAttendanceDao();
+			} else if ("services_accessed" == modelName) {
+				Dao<ServiceAccessed, Integer> saDao;
+				saDao = dbHelper.getServiceAccessedDao();
 				
-				List<Attendance> attendanceList = aDao.queryForEq("dirty", true);
-				Iterator<Attendance> iterator = attendanceList.iterator();
+				List<ServiceAccessed> saList = saDao.queryBuilder().where().eq("newly_created", true).query();
+				Iterator<ServiceAccessed> iterator = saList.iterator();
 				
 				while (iterator.hasNext()) {
-					Attendance a = iterator.next();
-					//Log.i("SyncAdapter", a.getVisitId()+", "+a.getClientId());
+					ServiceAccessed temp = iterator.next();
 					JSONObject json = new JSONObject();
-					json.put("_id", a.getId());
-					json.put("visit_id", a.getVisitId());
-					json.put("client_id", a.getClientId());
+					json.put("_id", temp.getId());
+					json.put("service_id", temp.getServiceId());
+					json.put("visit_id", temp.getVisitId());
+					json.put("client_id", temp.getClientId());
+					json.put("ad_info", temp.getAdInfo());
+					json.put("date", formatDateToJsonDate(temp.getDate()));
+					json.put("newly_created", temp.getNewlyCreatedStatus());
+					
 					// put object into array
 					jsonArray.put(json);
 				}
-				Log.i("SyncAdapter", "Created attendance jsonArray: "+jsonArray.toString());
+				Log.i("SyncAdapter", "Created servicesAccessed jsonArray: "+jsonArray.toString());
+			} else if ("resources_accessed" == modelName) {
+				Dao<ResourceAccessed, Integer> raDao;
+				raDao = dbHelper.getResourceAccessedDao();
+				
+				List<ResourceAccessed> raList = raDao.queryBuilder().where().eq("newly_created", true).query();
+				Iterator<ResourceAccessed> iterator = raList.iterator();
+				
+				while (iterator.hasNext()) {
+					ResourceAccessed temp = iterator.next();
+					JSONObject json = new JSONObject();
+					json.put("_id", temp.getId());
+					json.put("resource_id", temp.getResourceId());
+					json.put("visit_id", temp.getVisitId());
+					json.put("worker_id", temp.getWorkerId());
+					json.put("date", formatDateToJsonDate(temp.getDate()));
+					json.put("newly_created", temp.getNewlyCreatedStatus());
+					
+					// put object into array
+					jsonArray.put(json);
+				}
+				Log.i("SyncAdapter", "Created resourcesAccessed jsonArray: "+jsonArray.toString());
 			}
+			
+//			else if ("attendance" == modelName) {
+//				Dao<Attendance, Integer> aDao;
+//				aDao = dbHelper.getAttendanceDao();
+//				
+//				List<Attendance> attendanceList = aDao.queryForEq("dirty", true);
+//				Iterator<Attendance> iterator = attendanceList.iterator();
+//				
+//				while (iterator.hasNext()) {
+//					Attendance a = iterator.next();
+//					//Log.i("SyncAdapter", a.getVisitId()+", "+a.getClientId());
+//					JSONObject json = new JSONObject();
+//					json.put("_id", a.getId());
+//					json.put("visit_id", a.getVisitId());
+//					json.put("client_id", a.getClientId());
+//					// put object into array
+//					jsonArray.put(json);
+//				}
+//				Log.i("SyncAdapter", "Created attendance jsonArray: "+jsonArray.toString());
+//			}
 			
 		} catch (SQLException e1) {
 	        // TODO Auto-generated catch block
@@ -481,15 +553,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	            
 	            // handles what is returned from the page 
 	            ResponseHandler responseHandler = new BasicResponseHandler();
-	            
-	            if (jsonObj.getBoolean("newly_created") == true) {
-	            	Log.i("SyncAdapter", "Boolean is true");
-	            } else if (jsonObj.getBoolean("newly_created") == false) {
-	            	Log.i("SyncAdapter", "Boolean is false");
-	            } else {
-	            	Log.i("SyncAdapter", "Boolean is unknown");
-	            }
             	
+	            // decide on POST or PUT
             	if (jsonObj.getBoolean("newly_created") == true) {
             		// sets the post request as the resulting string
     	            httpPost.setEntity(se);
@@ -521,19 +586,20 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                out.close();
 	                responseString = out.toString();
 	                
-	                if ("attendance" == modelName) {
-	                	try {
-	                		Dao<Attendance, Integer> dao;
-	        				dao = dbHelper.getAttendanceDao();
-	        				
-	        				Attendance doc = dao.queryForId(jsonObj.getInt("_id"));
-	        				doc.makeClean();
-	        				dao.update(doc);
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-	                } else if ("visits" == modelName) {
+//	                if ("attendance" == modelName) {
+//	                	try {
+//	                		Dao<Attendance, Integer> dao;
+//	        				dao = dbHelper.getAttendanceDao();
+//	        				
+//	        				Attendance doc = dao.queryForId(jsonObj.getInt("_id"));
+//	        				doc.makeClean();
+//	        				dao.update(doc);
+//						} catch (SQLException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+//	                } else
+	                if ("visits" == modelName) {
 	                	try {
 	                		Dao<Visit, Integer> dao;
 	        				dao = dbHelper.getVisitsDao();
@@ -541,6 +607,30 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	        				Visit doc = dao.queryForId(jsonObj.getInt("_id"));
 	        				doc.makeClean();
 	        				dao.update(doc);
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	                } else if ("services_accessed" == modelName) {
+	                	try {
+	                		Dao<ServiceAccessed, Integer> saDao;
+	        				saDao = dbHelper.getServiceAccessedDao();
+	        				
+	        				ServiceAccessed doc = saDao.queryForId(jsonObj.getInt("_id"));
+	        				doc.makeClean();
+	        				saDao.update(doc);
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	                } else if ("resources_accessed" == modelName) {
+	                	try {
+	                		Dao<ResourceAccessed, Integer> raDao;
+	        				raDao = dbHelper.getResourceAccessedDao();
+	        				
+	        				ResourceAccessed doc = raDao.queryForId(jsonObj.getInt("_id"));
+	        				doc.makeClean();
+	        				raDao.update(doc);
 						} catch (SQLException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -567,6 +657,84 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         }
 	}
 	
+	private void updateVisitforOtherModels(JSONObject json, Visit v) throws JSONException, SQLException {
+		List<Attendance> attList = ModelHelper.getAttendanceForVisitId(appContext, v.getId());
+		JSONArray jsonArrAtt = new JSONArray();
+		for (Attendance a : attList) {
+			jsonArrAtt.put(a.getClientId());
+			//Log.i("SyncAdapter", "ClientId: "+ String.valueOf(a.getClientId()));
+		}
+		json.put("attendance",jsonArrAtt);
+		
+//		Dao<HealthTopicAccessed, Integer> htaDao;
+//		htaDao = dbHelper.getHealthTopicsAccessedDao();
+//		List<HealthTopicAccessed> htaList = htaDao.queryForEq("visit_id", v.getId());
+//		JSONArray jsonArrHTA = new JSONArray();
+//		for (HealthTopicAccessed hta : htaList) {
+//			JSONObject jsonObj = new JSONObject();
+//			jsonObj.put("topic_id", hta.getTopicId());
+//			jsonObj.put("topic_name", hta.getTopicName());
+//			jsonObj.put("start_time", formatDateToJsonDate(hta.getStartTime()));
+//			jsonObj.put("end_time", formatDateToJsonDate(hta.getEndTime()));
+//			jsonArrHTA.put(jsonObj);
+//		}
+//		json.put("health_topics_accessed",jsonArrHTA);
+		
+		Dao<VideoAccessed, Integer> vaDao;
+		vaDao = dbHelper.getVideosAccessedDao();
+		List<VideoAccessed> vaList = vaDao.queryForEq("visit_id", v.getId());
+		JSONArray jsonArrVA = new JSONArray();
+		for (VideoAccessed va : vaList) {
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("video_id", va.getVideoId());
+			jsonObj.put("date", formatDateToJsonDate(va.getDate()));
+			jsonArrVA.put(jsonObj);
+		}
+		json.put("videos_accessed",jsonArrVA);
+		
+		Dao<HealthSelectRecorded, Integer> hsrDao;
+		hsrDao = dbHelper.getHealthSelectRecordedDao();
+		List<HealthSelectRecorded> hsrList = hsrDao.queryForEq("visit_id", v.getId());
+		JSONArray jsonArrHsr = new JSONArray();
+		for (HealthSelectRecorded hsr : hsrList) {
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("select_id", hsr.getSelectId());
+			jsonObj.put("client_id", hsr.getClientId());
+			jsonObj.put("theme", hsr.getTheme());
+			jsonObj.put("topic", hsr.getTopic());
+			jsonObj.put("date", formatDateToJsonDate(hsr.getDate()));
+			jsonArrHsr.put(jsonObj);
+		}
+		json.put("health_selects_recorded",jsonArrHsr);
+		
+		Dao<CHAAccessed, Integer> chaaDao;
+		chaaDao = dbHelper.getCHAAccessedDao();
+		List<CHAAccessed> chaaList = chaaDao.queryForEq("visit_id", v.getId());
+		JSONArray jsonArrCHAA = new JSONArray();
+		for (CHAAccessed chaa : chaaList) {
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("client_id", chaa.getClientId());
+			jsonObj.put("type", chaa.getType());
+			jsonObj.put("start_time", formatDateToJsonDate(chaa.getStartTime()));
+			jsonObj.put("end_time", formatDateToJsonDate(chaa.getEndTime()));			
+			jsonArrCHAA.put(jsonObj);
+		}
+		json.put("cha_accessed",jsonArrCHAA);
+		
+//		Dao<VaccineRecorded, Integer> vrDao;
+//		vrDao = dbHelper.getVaccineRecordedDao();
+//		List<VaccineRecorded> vrList = vrDao.queryForEq("visit_id", v.getId());
+//		JSONArray jsonArrVR = new JSONArray();
+//		for (VaccineRecorded vr : vrList) {
+//			JSONObject jsonObj = new JSONObject();
+//			jsonObj.put("vaccine_id", vr.getVaccineId());
+//			jsonObj.put("client_id", vr.getClientId());
+//			jsonObj.put("date", formatDateToJsonDate(vr.getDate()));
+//			jsonArrCHAA.put(jsonObj);
+//		}
+//		json.put("vaccines_recorded",jsonArrVR);
+
+	}
 	
 	private Date parseDateString(String input) throws ParseException {
 		//JSON: 2014-02-18T18:04:39.546Z

@@ -7,7 +7,7 @@ import com.j256.ormlite.table.DatabaseTable;
 /**
  * Created by colin
  */
-@DatabaseTable(tableName = "vaccine")
+@DatabaseTable(tableName = "vaccines")
 public class Vaccine {
 	@DatabaseField(index = true)
 	private int id;

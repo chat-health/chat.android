@@ -2,6 +2,11 @@ package org.chat.android.models;
 
 import java.util.Date;
 
+import org.chat.android.ModelHelper;
+import org.chat.android.MyApplication;
+
+import android.content.Context;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -10,8 +15,6 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "health_selects_recorded")
 public class HealthSelectRecorded {
-	@DatabaseField(generatedId = true)
-	private int id;
     @DatabaseField
     private int visit_id;
     @DatabaseField
@@ -42,6 +45,9 @@ public class HealthSelectRecorded {
         this.theme = theme;
         this.topic = topic;
         this.date = date;
+        Context myContext = MyApplication.getAppContext();
+        Visit v = ModelHelper.getVisitForId(myContext, visit_id);
+        ModelHelper.setVisitToDirtyAndSave(myContext, v);
     }
     
     

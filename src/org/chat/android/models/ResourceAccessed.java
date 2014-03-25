@@ -2,6 +2,11 @@ package org.chat.android.models;
 
 import java.util.Date;
 
+import org.chat.android.ModelHelper;
+import org.chat.android.MyApplication;
+
+import android.content.Context;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -10,7 +15,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "resources_accessed")
 public class ResourceAccessed {
-	@DatabaseField(generatedId = true)
+	@DatabaseField(id = true)
 	private int id;
     @DatabaseField
     private int resource_id;
@@ -20,6 +25,8 @@ public class ResourceAccessed {
     private int worker_id;
     @DatabaseField
     private Date date;
+    @DatabaseField
+    private Boolean newly_created;
 
 
     /**
@@ -37,10 +44,13 @@ public class ResourceAccessed {
      * 
      */
     public ResourceAccessed(int resource_id, int visit_id, int worker_id, Date date) {
+    	Context myContext = MyApplication.getAppContext();
+    	this.id = ModelHelper.generateId(myContext);    	
     	this.resource_id = resource_id;
     	this.worker_id = worker_id;
     	this.visit_id = visit_id;
     	this.date = date;
+    	this.newly_created = true;
     }
     
     /**
@@ -48,10 +58,17 @@ public class ResourceAccessed {
      * @param existingListModel - List model instance that is copied to new instance
      */
     public ResourceAccessed(ResourceAccessed existingResourcesAccessedModel) {
+    	Context myContext = MyApplication.getAppContext();
+    	this.id = ModelHelper.generateId(myContext);  
         this.resource_id = existingResourcesAccessedModel.resource_id;
         this.visit_id = existingResourcesAccessedModel.visit_id;
         this.worker_id = existingResourcesAccessedModel.worker_id;
         this.date = existingResourcesAccessedModel.date;
+        this.newly_created = true;
+    }
+    
+    public int getId() {
+    	return id;
     }
 
 	public int getResourceId() {
@@ -84,5 +101,17 @@ public class ResourceAccessed {
 	
 	public void setDate(Date date) {
 		this.date = date;
+	}
+	
+	public Boolean getNewlyCreatedStatus() {
+		return newly_created;
+	}
+	
+	public void setNewlyCreatedStatus() {
+		this.newly_created = true;
+	}
+	
+	public void makeClean() {
+		this.newly_created = false;
 	}
 }

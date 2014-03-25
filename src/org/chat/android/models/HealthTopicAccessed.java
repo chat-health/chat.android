@@ -2,6 +2,11 @@ package org.chat.android.models;
 
 import java.util.Date;
 
+import org.chat.android.ModelHelper;
+import org.chat.android.MyApplication;
+
+import android.content.Context;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -46,6 +51,9 @@ public class HealthTopicAccessed {
     	this.hh_id = hh_id;
     	this.topic_name = topic_name;
     	this.start_time = start_time;
+    	Context myContext = MyApplication.getAppContext();
+        Visit v = ModelHelper.getVisitForId(myContext, visit_id);
+        ModelHelper.setVisitToDirtyAndSave(myContext, v);
     }
     
     /**
@@ -93,7 +101,7 @@ public class HealthTopicAccessed {
 		this.topic_name = topic_name;
 	}
 	
-	public Date setStartTime() {
+	public Date getStartTime() {
 		return start_time;
 	}
 
@@ -101,12 +109,15 @@ public class HealthTopicAccessed {
 		this.start_time = start_time;
 	}
 	
-	public Date setEndTime() {
+	public Date getEndTime() {
 		return end_time;
 	}
 
 	public void setEndTime(Date end_time) {
 		this.end_time = end_time;
+		Context myContext = MyApplication.getAppContext();
+        Visit v = ModelHelper.getVisitForId(myContext, this.visit_id);
+        ModelHelper.setVisitToDirtyAndSave(myContext, v);
 	}
 	
 }

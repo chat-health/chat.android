@@ -2,6 +2,11 @@ package org.chat.android.models;
 
 import java.util.Date;
 
+import org.chat.android.ModelHelper;
+import org.chat.android.MyApplication;
+
+import android.content.Context;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -37,6 +42,9 @@ public class VideoAccessed {
     	this.video_id = video_id;
     	this.visit_id = visit_id;
     	this.date = date;
+    	Context myContext = MyApplication.getAppContext();
+        Visit v = ModelHelper.getVisitForId(myContext, visit_id);
+        ModelHelper.setVisitToDirtyAndSave(myContext, v);
     }
     
     /**

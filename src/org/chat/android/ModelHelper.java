@@ -2,9 +2,12 @@ package org.chat.android;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import org.chat.android.models.Attendance;
 import org.chat.android.models.CHAAccessed;
@@ -28,6 +31,7 @@ import org.chat.android.models.Visit;
 import org.chat.android.models.Worker;
 
 import android.content.Context;
+import android.provider.Settings.Secure;
 import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
@@ -193,38 +197,26 @@ public class ModelHelper {
         return cList;
 	}
 	
-	// TODO: remove? This doesn't seem like it would ever be used
-//	public static Attendance getAttendanceForVisitId(Context context, int visitId) {
-//		Attendance attendance = null;
-//		Dao<Attendance, Integer> aDao;		
-//		DatabaseHelper aDbHelper = new DatabaseHelper(context);
-//		try {
-//			aDao = aDbHelper.getAttendanceDao();
-//			List<Attendance> aList = aDao.queryBuilder().where().eq("visit_id",visitId).query();
-//			Iterator<Attendance> iter = aList.iterator();
-//			while (iter.hasNext()) {
-//				attendance = iter.next();
-//			}
-//		} catch (SQLException e2) {
-//			// TODO Auto-generated catch block
-//			e2.printStackTrace();
-//		}
-//		
-//		return attendance;
-//	}
-	
-	public static List<Attendance> getAttendanceForVisitId(Context context, int visitId) {
+	public static List<Attendance> getAttendanceForVisitId(final Context context, int visitId) {
 		List<Attendance> aList = null;
 		Dao<Attendance, Integer> aDao;		
 		DatabaseHelper aDbHelper = new DatabaseHelper(context);
 		try {
 			aDao = aDbHelper.getAttendanceDao();
 			aList = aDao.queryBuilder().where().eq("visit_id",visitId).query();
-			Iterator<Attendance> iter = aList.iterator();
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
+		
+		// sort the list by age TODO: FINISH ME
+//		Collections.sort(aList, new Comparator<Attendance>() {
+//			public double compare(Attendance a1, Attendance a2) {
+//				double age1 = ModelHelper.getClientForId(context, a1.getClientId()).getAge();
+//				double age2 = ModelHelper.getClientForId(context, a2.getClientId()).getAge();
+//				return Double.compare(age1, age2);
+//			}
+//		});
 		
 		return aList;
 	}
@@ -638,6 +630,36 @@ public class ModelHelper {
 	        e1.printStackTrace();
 	    }
 		
+	}
+	
+	
+	/*************************** OTHER ***************************/
+	public static int generateId(Context context) {
+    	String myUUID = Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);   
+    	long seconds = System.currentTimeMillis() / 1000;
+    	String secondsString = String.valueOf(seconds);
+    	String idString = myUUID+secondsString;
+    	int hashedIdString = idString.hashCode();
+    	Random randomNum = new Random();
+    	int randomInt = randomNum.nextInt(99999);
+    	int myId = hashedIdString + randomInt;
+    	return myId;
+    	// k, this isn't great IMO. Functional for now
+    	
+    	// feels odd to construct this all ourselves. An attempt to eliminating collisions while staying within int space
+//    	String myUUID = Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
+//    	int hashedUUID = myUUID.hashCode();
+//    	if (hashedUUID < 0) {
+//    		hashedUUID = hashedUUID * -1;
+//    	}
+//    	String hashedUUIDString = String.valueOf(hashedUUID);
+//   
+//    	long seconds = System.currentTimeMillis() / 1000;
+//    	String secondsString = String.valueOf(seconds);
+//    	
+//    	String idString = hashedUUIDString+secondsString;
+//    	int myId = Integer.parseInt(idString);     
+    	
 	}
 	
 	
