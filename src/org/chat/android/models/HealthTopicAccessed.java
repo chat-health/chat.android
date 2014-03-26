@@ -15,7 +15,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "health_topics_accessed")
 public class HealthTopicAccessed {
-	@DatabaseField(generatedId = true)
+	@DatabaseField(id = true)
 	private int id;
     @DatabaseField
     private int topic_id;
@@ -29,6 +29,8 @@ public class HealthTopicAccessed {
     private Date start_time;
     @DatabaseField
     private Date end_time;
+    @DatabaseField
+	private Boolean newly_created;
 
     /**
      * Default Constructor needed by ormlite
@@ -43,17 +45,18 @@ public class HealthTopicAccessed {
      * @param hh_id
      * @param topic_name
      * @param start_time
+     * @param newly_created
      * 
      */
     public HealthTopicAccessed(int topic_id, int visit_id, int hh_id, String topic_name, Date start_time) {
+    	Context myContext = MyApplication.getAppContext();
+    	this.id = ModelHelper.generateId(myContext);
     	this.topic_id = topic_id;
     	this.visit_id = visit_id;
     	this.hh_id = hh_id;
     	this.topic_name = topic_name;
     	this.start_time = start_time;
-    	Context myContext = MyApplication.getAppContext();
-        Visit v = ModelHelper.getVisitForId(myContext, visit_id);
-        ModelHelper.setVisitToDirtyAndSave(myContext, v);
+    	this.newly_created = true;
     }
     
     /**
@@ -61,12 +64,19 @@ public class HealthTopicAccessed {
      * @param existingListModel - List model instance that is copied to new instance
      */
     public HealthTopicAccessed(HealthTopicAccessed existingServicesAccessedModel) {
+    	Context myContext = MyApplication.getAppContext();
+    	this.id = ModelHelper.generateId(myContext);
         this.topic_id = existingServicesAccessedModel.topic_id;
         this.visit_id = existingServicesAccessedModel.visit_id;
         this.hh_id = existingServicesAccessedModel.hh_id;
         this.topic_name = existingServicesAccessedModel.topic_name;
         this.start_time = existingServicesAccessedModel.start_time;
         this.end_time = existingServicesAccessedModel.end_time;
+        this.newly_created = true;
+    }
+    
+    public int getId() {
+    	return id;
     }
 	
 	public int getTopicId() {
@@ -115,9 +125,18 @@ public class HealthTopicAccessed {
 
 	public void setEndTime(Date end_time) {
 		this.end_time = end_time;
-		Context myContext = MyApplication.getAppContext();
-        Visit v = ModelHelper.getVisitForId(myContext, this.visit_id);
-        ModelHelper.setVisitToDirtyAndSave(myContext, v);
+	}
+	
+	public Boolean getNewlyCreatedStatus() {
+		return newly_created;
+	}
+	
+	public void setNewlyCreatedStatus() {
+		this.newly_created = true;
+	}
+	
+	public void makeClean() {
+		this.newly_created = false;
 	}
 	
 }

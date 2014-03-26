@@ -16,7 +16,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "vaccines_recorded")
 public class VaccineRecorded {
-	@DatabaseField(generatedId = true)
+	@DatabaseField(id = true)
 	private int id;
 	@DatabaseField
 	private int vaccine_id;
@@ -26,6 +26,8 @@ public class VaccineRecorded {
     private int visit_id;
     @DatabaseField
 	private Date date;
+    @DatabaseField
+	private Boolean newly_created;
 
 
     /**
@@ -41,16 +43,17 @@ public class VaccineRecorded {
      * @param client_id
      * @param visit_id
      * @param date
+     * @param newly_created
      * 
      */
     public VaccineRecorded(int vaccine_id, int client_id, int visit_id, Date date) {
+    	Context myContext = MyApplication.getAppContext();
+    	this.id = ModelHelper.generateId(myContext);
     	this.vaccine_id = vaccine_id;
     	this.client_id = client_id;
     	this.visit_id = visit_id;
         this.date = date;
-        Context myContext = MyApplication.getAppContext();
-        Visit v = ModelHelper.getVisitForId(myContext, visit_id);
-        ModelHelper.setVisitToDirtyAndSave(myContext, v);
+        this.newly_created = true;
     }
     
     /**
@@ -58,12 +61,19 @@ public class VaccineRecorded {
      * @param existingListModel - List model instance that is copied to new instance
      */
     public VaccineRecorded(VaccineRecorded existingServicesAccessedModel) {
+    	Context myContext = MyApplication.getAppContext();
+    	this.id = ModelHelper.generateId(myContext);
     	this.vaccine_id = existingServicesAccessedModel.vaccine_id;
         this.client_id = existingServicesAccessedModel.client_id;
         this.visit_id = existingServicesAccessedModel.visit_id;
         this.date = existingServicesAccessedModel.date;
+        this.newly_created = true;
     }
 
+    public int getId() {
+    	return id;
+    }
+    
 	public int getVaccineId() {
 		return vaccine_id;
 	}
@@ -94,5 +104,17 @@ public class VaccineRecorded {
 	
 	public void setDate(Date date) {
 		this.date = date;
+	}
+	
+	public Boolean getNewlyCreatedStatus() {
+		return newly_created;
+	}
+	
+	public void setNewlyCreatedStatus() {
+		this.newly_created = true;
+	}
+	
+	public void makeClean() {
+		this.newly_created = false;
 	}
 }

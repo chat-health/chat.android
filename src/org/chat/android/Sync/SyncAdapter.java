@@ -116,8 +116,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	public void onPerformSync(Account arg0, Bundle arg1, String arg2, ContentProviderClient arg3, SyncResult arg4) {
 		Log.i("SyncAdapter", "sync adapter running :)");
 
-		retrieveDataFromServer();
-		//pushDataToServer();
+		//retrieveDataFromServer();
+		pushDataToServer();
 	}
 	
 	private void retrieveDataFromServer() {
@@ -157,6 +157,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 			pushModel("visits", visitsJson);
 		}
 		
+		JSONArray htaJson = createJsonArrayOf("health_topics_accessed");
+		if (htaJson.length() > 0) {
+			pushModel("health_topics_accessed", htaJson);
+		}
+		
 		JSONArray saJson = createJsonArrayOf("services_accessed");
 		if (saJson.length() > 0) {
 			pushModel("services_accessed", saJson);
@@ -167,20 +172,21 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 			pushModel("resources_accessed", raJson);
 		}
 		
-//		JSONArray attendanceJson = createJsonArrayOf("attendance");
-//		if (attendanceJson.length() > 0) {
-//			pushModel("attendance", attendanceJson);
-//		}
+		JSONArray vrJson = createJsonArrayOf("vaccines_recorded");
+		if (vrJson.length() > 0) {
+			pushModel("vaccines_recorded", vrJson);
+		}
 		
 		if (pushSuccess == true) {
 			try {
 				ModelHelper.setLastSyncedAt(appContext, new Date(), "push");
+				Log.i("SyncAdapter", "Push succeeded. Moving last_synced_at date");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else {
-			Log.e("SyncAdapter", "Push is failing and we are not moving last_synced_at date.");
+			Log.e("SyncAdapter", "Push failed. Not moving last_synced_at date");
 		}
 	}
 	
@@ -454,6 +460,29 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 					jsonArray.put(json);
 				}
 				Log.i("SyncAdapter", "Created visits jsonArray: "+jsonArray.toString());
+			} else if ("health_topics_accessed" == modelName) {
+				Dao<HealthTopicAccessed, Integer> htaDao;
+				htaDao = dbHelper.getHealthTopicsAccessedDao();
+				
+				List<HealthTopicAccessed> htaList = htaDao.queryBuilder().where().eq("newly_created", true).query();
+				Iterator<HealthTopicAccessed> iterator = htaList.iterator();
+				
+				while (iterator.hasNext()) {
+					HealthTopicAccessed temp = iterator.next();
+					JSONObject json = new JSONObject();
+					json.put("_id", temp.getId());
+					json.put("topic_id", temp.getTopicId());
+					json.put("visit_id", temp.getVisitId());
+					json.put("hh_id", temp.getHouseholdId());
+					json.put("topic_name", temp.getTopicName());
+					json.put("start_time", formatDateToJsonDate(temp.getStartTime()));
+					json.put("end_time", formatDateToJsonDate(temp.getEndTime()));
+					json.put("newly_created", temp.getNewlyCreatedStatus());
+					
+					// put object into array
+					jsonArray.put(json);
+				}
+				Log.i("SyncAdapter", "Created servicesAccessed jsonArray: "+jsonArray.toString());
 			} else if ("services_accessed" == modelName) {
 				Dao<ServiceAccessed, Integer> saDao;
 				saDao = dbHelper.getServiceAccessedDao();
@@ -497,27 +526,28 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 					jsonArray.put(json);
 				}
 				Log.i("SyncAdapter", "Created resourcesAccessed jsonArray: "+jsonArray.toString());
+			} else if ("vaccines_recorded" == modelName) {
+				Dao<VaccineRecorded, Integer> vrDao;
+				vrDao = dbHelper.getVaccineRecordedDao();
+				
+				List<VaccineRecorded> raList = vrDao.queryBuilder().where().eq("newly_created", true).query();
+				Iterator<VaccineRecorded> iterator = raList.iterator();
+				
+				while (iterator.hasNext()) {
+					VaccineRecorded temp = iterator.next();
+					JSONObject json = new JSONObject();
+					json.put("_id", temp.getId());
+					json.put("vaccine_id", temp.getVaccineId());
+					json.put("client_id", temp.getClientId());
+					json.put("visit_id", temp.getVisitId());
+					json.put("date", formatDateToJsonDate(temp.getDate()));
+					json.put("newly_created", temp.getNewlyCreatedStatus());
+					
+					// put object into array
+					jsonArray.put(json);
+				}
+				Log.i("SyncAdapter", "Created vaccineRecorded jsonArray: "+jsonArray.toString());
 			}
-			
-//			else if ("attendance" == modelName) {
-//				Dao<Attendance, Integer> aDao;
-//				aDao = dbHelper.getAttendanceDao();
-//				
-//				List<Attendance> attendanceList = aDao.queryForEq("dirty", true);
-//				Iterator<Attendance> iterator = attendanceList.iterator();
-//				
-//				while (iterator.hasNext()) {
-//					Attendance a = iterator.next();
-//					//Log.i("SyncAdapter", a.getVisitId()+", "+a.getClientId());
-//					JSONObject json = new JSONObject();
-//					json.put("_id", a.getId());
-//					json.put("visit_id", a.getVisitId());
-//					json.put("client_id", a.getClientId());
-//					// put object into array
-//					jsonArray.put(json);
-//				}
-//				Log.i("SyncAdapter", "Created attendance jsonArray: "+jsonArray.toString());
-//			}
 			
 		} catch (SQLException e1) {
 	        // TODO Auto-generated catch block
@@ -587,19 +617,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                out.close();
 	                responseString = out.toString();
 	                
-//	                if ("attendance" == modelName) {
-//	                	try {
-//	                		Dao<Attendance, Integer> dao;
-//	        				dao = dbHelper.getAttendanceDao();
-//	        				
-//	        				Attendance doc = dao.queryForId(jsonObj.getInt("_id"));
-//	        				doc.makeClean();
-//	        				dao.update(doc);
-//						} catch (SQLException e) {
-//							// TODO Auto-generated catch block
-//							e.printStackTrace();
-//						}
-//	                } else
 	                if ("visits" == modelName) {
 	                	try {
 	                		Dao<Visit, Integer> dao;
@@ -608,6 +625,18 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	        				Visit doc = dao.queryForId(jsonObj.getInt("_id"));
 	        				doc.makeClean();
 	        				dao.update(doc);
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	                } else if ("health_topics_accessed" == modelName) {
+	                	try {
+	                		Dao<HealthTopicAccessed, Integer> htaDao;
+	        				htaDao = dbHelper.getHealthTopicsAccessedDao();
+	        				
+	        				HealthTopicAccessed doc = htaDao.queryForId(jsonObj.getInt("_id"));
+	        				doc.makeClean();
+	        				htaDao.update(doc);
 						} catch (SQLException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -636,14 +665,27 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+	                } else if ("vaccines_recorded" == modelName) {
+	                	try {
+	                		Dao<VaccineRecorded, Integer> vrDao;
+	        				vrDao = dbHelper.getVaccineRecordedDao();
+	        				
+	        				VaccineRecorded doc = vrDao.queryForId(jsonObj.getInt("_id"));
+	        				doc.makeClean();
+	        				vrDao.update(doc);
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 	                } else {
 	                	Log.e("SyncAdapter", "Well we pushed "+modelName+" but forgot to write the dirty bit reset code :(");
 	                }
 	                
 	                Log.i("SyncAdapter", "Response text: \n"+responseString);
-	            } else{
+	            } else {
 	                // closes the connection.
 	            	// set the flag to false so we don't update the lastPulledAt date
+	            	Log.e("SyncAdapter", "pushSuccess set to false");
 	            	pushSuccess = false;
 	                response.getEntity().getContent().close();
 	                throw new IOException(statusLine.getReasonPhrase());

@@ -28,7 +28,7 @@ public class ServiceAccessed {
     @DatabaseField
 	private Date date;
     @DatabaseField
-	private boolean newly_created;					// don't think we need a dirty flag, since there's no update on these
+	private Boolean newly_created;					// don't think we need a dirty flag, since there's no update on these
 
     /**
      * Default Constructor needed by ormlite
