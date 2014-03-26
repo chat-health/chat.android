@@ -30,18 +30,6 @@
 		    android:src="@drawable/submitbutton"
 		    android:onClick="selectServiceTargets" />
 		
-<!-- 	       	<ImageButton
-	       	    android:id="@+id/health_HIV_button"
-	       	    style="@style/themeImageButton"
-	       	    android:layout_alignTop="@+id/health_HIV_button_img"
-	       	    android:layout_toRightOf="@+id/health_HIV_button_img"
-	       	    android:layout_marginLeft="60dp"
-	       	    android:layout_marginTop="40dp"
-	       	    android:src="@drawable/hivgobutton"
-	       	    android:tag="HIV"
-	       	    android:onClick="openHealthOverviewRecord" /> -->
-	       	
-		
     </RelativeLayout>
  	
 </RelativeLayout>
