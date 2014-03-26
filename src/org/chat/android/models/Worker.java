@@ -1,5 +1,7 @@
 package org.chat.android.models;
 
+import java.util.Date;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -22,6 +24,10 @@ public class Worker {
     private String assigned_community;
 //    @DatabaseField
 //    private String username;
+    @DatabaseField
+	private Date created_at;
+	@DatabaseField
+	private Date modified_at;
     
     
     /**
@@ -33,15 +39,24 @@ public class Worker {
     
     /**
      * Constructor that instantiates the private member variable(s)
+     * @param id
      * @param first_name
+     * @param last_name
+     * @param password
+     * @param role_name
+     * @param assigned_community
+     * @param created_at
+     * @param modified_at
      */
-    public Worker(int id, String first_name, String last_name, String password, String role_name, String assigned_community) {
+    public Worker(int id, String first_name, String last_name, String password, String role_name, String assigned_community, Date created_at, Date modified_at) {
     	this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
         this.password = password;
         this.role_name = role_name;
         this.assigned_community = assigned_community;
+        this.created_at = created_at;
+    	this.modified_at = modified_at;
     }
     
     
@@ -49,13 +64,13 @@ public class Worker {
      * Copy constructor
      * @param existingListModel - List model instance that is copied to new instance
      */
-    public Worker(Worker existingWorkerModel) {
-        this.first_name = existingWorkerModel.first_name;
-        this.last_name = existingWorkerModel.last_name;
-        this.password = existingWorkerModel.password;
-        this.role_name = existingWorkerModel.role_name;
-        this.assigned_community = existingWorkerModel.assigned_community;
-    }
+//    public Worker(Worker existingWorkerModel) {
+//        this.first_name = existingWorkerModel.first_name;
+//        this.last_name = existingWorkerModel.last_name;
+//        this.password = existingWorkerModel.password;
+//        this.role_name = existingWorkerModel.role_name;
+//        this.assigned_community = existingWorkerModel.assigned_community;
+//    }
     
 
 	public int getId() {

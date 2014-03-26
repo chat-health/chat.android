@@ -1,5 +1,7 @@
 package org.chat.android.models;
 
+import java.util.Date;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -8,7 +10,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "health_pages")
 public class HealthPage {
-	@DatabaseField(generatedId = true)
+	@DatabaseField(id = true)
 	private int id;
     @DatabaseField
     private int topic_id;
@@ -18,6 +20,10 @@ public class HealthPage {
     private String type;
     @DatabaseField
     private int	page_content_id;
+    @DatabaseField
+	private Date created_at;
+	@DatabaseField
+	private Date modified_at;
 
     
     /**
@@ -29,13 +35,22 @@ public class HealthPage {
     
     /**
      * Constructor that instantiates the private member variable(s)
+     * @param id
      * @param topic_id
+     * @param page_number
+     * @param type
+     * @param page_content_id
+     * @param created_at
+     * @param modified_at
      */
-    public HealthPage(int topic_id, int page_number, String type, int page_content_id) {
+    public HealthPage(int id, int topic_id, int page_number, String type, int page_content_id, Date created_at, Date modified_at) {
+    	this.id = id;
         this.topic_id = topic_id;
         this.page_number = page_number;
         this.type = type;
         this.page_content_id = page_content_id;
+        this.created_at = created_at;
+    	this.modified_at = modified_at;
     }
     
     
@@ -43,12 +58,12 @@ public class HealthPage {
      * Copy constructor
      * @param existingListModel - List model instance that is copied to new instance
      */
-    public HealthPage(HealthPage existingHealthPageModel) {
-        this.topic_id = existingHealthPageModel.topic_id;
-        this.page_number = existingHealthPageModel.page_number;
-        this.type = existingHealthPageModel.type;
-        this.page_content_id = existingHealthPageModel.page_content_id;
-    }
+//    public HealthPage(HealthPage existingHealthPageModel) {
+//        this.topic_id = existingHealthPageModel.topic_id;
+//        this.page_number = existingHealthPageModel.page_number;
+//        this.type = existingHealthPageModel.type;
+//        this.page_content_id = existingHealthPageModel.page_content_id;
+//    }
     
 
 	public int getId() {

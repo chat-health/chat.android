@@ -28,6 +28,10 @@ public class Client {
 	private String gender;
 	@DatabaseField
 	private Date date_of_birth;
+	@DatabaseField
+	private Date created_at;
+	@DatabaseField
+	private Date modified_at;
 
 	/**
 	 * Default Constructor needed by ormlite
@@ -44,14 +48,18 @@ public class Client {
 	 * @param hh_id
 	 * @param gender
 	 * @param date_of_birth
+	 * @param created_at
+     * @param modified_at
 	 */
-	public Client(int id, String first_name, String last_name, int hh_id, String gender, Date date_of_birth) {
+	public Client(int id, String first_name, String last_name, int hh_id, String gender, Date date_of_birth, Date created_at, Date modified_at) {
 		this.id = id;
 		this.first_name = first_name;
 		this.last_name = last_name;
 		this.hh_id = hh_id;
 		this.gender = gender;
 		this.date_of_birth = date_of_birth;
+		this.created_at = created_at;
+    	this.modified_at = modified_at;
 	}
 
 	/**
@@ -60,14 +68,14 @@ public class Client {
 	 * @param existingListModel
 	 *            - List model instance that is copied to new instance
 	 */
-	public Client(Client existingClientModel) {
-		this.id = existingClientModel.id;
-		this.last_name = existingClientModel.last_name;
-		this.first_name = existingClientModel.first_name;
-		this.hh_id = existingClientModel.hh_id;
-		this.gender = existingClientModel.gender;
-		this.date_of_birth = existingClientModel.date_of_birth;
-	}
+//	public Client(Client existingClientModel) {
+//		this.id = existingClientModel.id;
+//		this.last_name = existingClientModel.last_name;
+//		this.first_name = existingClientModel.first_name;
+//		this.hh_id = existingClientModel.hh_id;
+//		this.gender = existingClientModel.gender;
+//		this.date_of_birth = existingClientModel.date_of_birth;
+//	}
 
 	public int getId() {
 		return id;

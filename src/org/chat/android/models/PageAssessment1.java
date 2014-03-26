@@ -1,5 +1,7 @@
 package org.chat.android.models;
 
+import java.util.Date;
+
 import android.util.Log;
 
 import com.j256.ormlite.field.DatabaseField;
@@ -26,6 +28,10 @@ public class PageAssessment1 {
     private String en_content3;
     @DatabaseField
     private String zu_content3;
+    @DatabaseField
+	private Date created_at;
+	@DatabaseField
+	private Date modified_at;
 
     
     /**
@@ -37,9 +43,19 @@ public class PageAssessment1 {
     
     /**
      * Constructor that instantiates the private member variable(s)
-     * @param health_page_id
+     * @param id
+     * @param type
+     * @param en_content1
+     * @param zu_content1
+     * @param en_content2
+     * @param zu_content2
+     * @param en_content3
+     * @param zu_content3
+     * @param created_at
+     * @param modified_at
+     * 
      */
-    public PageAssessment1(int id, String type, String en_content1, String zu_content1, String en_content2, String zu_content2, String en_content3, String zu_content3) {
+    public PageAssessment1(int id, String type, String en_content1, String zu_content1, String en_content2, String zu_content2, String en_content3, String zu_content3, Date created_at, Date modified_at) {
     	this.id = id;
     	this.type = type;
         this.en_content1 = en_content1;
@@ -48,6 +64,8 @@ public class PageAssessment1 {
         this.zu_content2 = zu_content2;
         this.en_content3 = en_content3;
         this.zu_content3 = zu_content3;
+        this.created_at = created_at;
+    	this.modified_at = modified_at;
     }
     
     
@@ -55,15 +73,15 @@ public class PageAssessment1 {
      * Copy constructor
      * @param existingListModel - List model instance that is copied to new instance
      */
-    public PageAssessment1(PageAssessment1 existingPageAssessment1Model) {
-    	this.type = existingPageAssessment1Model.type;
-        this.en_content1 = existingPageAssessment1Model.en_content1;
-        this.zu_content1 = existingPageAssessment1Model.zu_content1;
-        this.en_content2 = existingPageAssessment1Model.en_content2;
-        this.zu_content2 = existingPageAssessment1Model.zu_content2;
-        this.en_content3 = existingPageAssessment1Model.en_content3;
-        this.zu_content3 = existingPageAssessment1Model.zu_content3;
-    }
+//    public PageAssessment1(PageAssessment1 existingPageAssessment1Model) {
+//    	this.type = existingPageAssessment1Model.type;
+//        this.en_content1 = existingPageAssessment1Model.en_content1;
+//        this.zu_content1 = existingPageAssessment1Model.zu_content1;
+//        this.en_content2 = existingPageAssessment1Model.en_content2;
+//        this.zu_content2 = existingPageAssessment1Model.zu_content2;
+//        this.en_content3 = existingPageAssessment1Model.en_content3;
+//        this.zu_content3 = existingPageAssessment1Model.zu_content3;
+//    }
     
 
 	public int getId() {

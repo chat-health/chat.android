@@ -428,19 +428,20 @@ public class SetupDB extends Activity {
 	    // HEALTH PAGES
 	    //HealthPage(int id, int topic_id, int page_number, String type, int page_content_id)
 	    // all page_content_ids should be in the 100s, most likely
-	    HealthPage page1 = new HealthPage(1, 1, "text1", 1);
-	    HealthPage page2 = new HealthPage(1, 2, "select1", 101);
-	    HealthPage page3 = new HealthPage(1, 3, "text1", 2);
-	    HealthPage page4 = new HealthPage(1, 4, "text1", 2);
-	    HealthPage page5 = new HealthPage(2, 1, "text1", 1);
-	    HealthPage page6 = new HealthPage(3, 1, "text1", 1);
-	    HealthPage page7 = new HealthPage(4, 1, "text1", 1);
-	    HealthPage page8 = new HealthPage(4, 2, "select1", 101);
+        Date now = new Date();
+	    HealthPage page1 = new HealthPage(1, 1, 1, "text1", 1, now, now);
+	    HealthPage page2 = new HealthPage(2, 1, 2, "select1", 101, now, now);
+	    HealthPage page3 = new HealthPage(3, 1, 3, "text1", 2, now, now);
+	    HealthPage page4 = new HealthPage(4, 1, 4, "text1", 2, now, now);
+	    HealthPage page5 = new HealthPage(5, 2, 1, "text1", 1, now, now);
+	    HealthPage page6 = new HealthPage(6, 3, 1, "text1", 1, now, now);
+	    HealthPage page7 = new HealthPage(7, 4, 1, "text1", 1, now, now);
+	    HealthPage page8 = new HealthPage(8, 4, 2, "select1", 101, now, now);
 	    // Psychosocial (0-5)
-	    HealthPage page9 = new HealthPage(11, 1, "text1", 3);
-	    HealthPage page10 = new HealthPage(11, 2, "select1", 102);
-	    HealthPage page11 = new HealthPage(11, 3, "video1", 1);
-	    HealthPage page12 = new HealthPage(11, 4, "text1", 4);
+	    HealthPage page9 = new HealthPage(9, 11, 1, "text1", 3, now, now);
+	    HealthPage page10 = new HealthPage(10, 11, 2, "select1", 102, now, now);
+	    HealthPage page11 = new HealthPage(11, 11, 3, "video1", 1, now, now);
+	    HealthPage page12 = new HealthPage(12, 11, 4, "text1", 4, now, now);
 	    
 	    Dao<HealthPage, Integer> pageDao1;
 	    Dao<HealthPage, Integer> pageDao2;
@@ -534,7 +535,7 @@ public class SetupDB extends Activity {
 	    
 	    //PageVideo1(int id, String en_content1, String zu_content1)
 	    // Psychosocial (0-5)
-	    PageVideo1 pv1 = new PageVideo1(1, "* Responsiveness\n* Affirmation\n* Positive discipline\n* Short and long term effect of carer-child relationship", "some zulu stuff");
+	    PageVideo1 pv1 = new PageVideo1(1, "* Responsiveness\n* Affirmation\n* Positive discipline\n* Short and long term effect of carer-child relationship", "some zulu stuff", now, now);
 	    Dao<PageVideo1, Integer> pvDao1;
 	    DatabaseHelper pvDbHelper = new DatabaseHelper(context);
 	    try {
@@ -545,12 +546,12 @@ public class SetupDB extends Activity {
 	        e1.printStackTrace();
 	    }
 	    
-	    //TopicVideo(int page_video1_id, int video_id) 
+	    //TopicVideo(int id, int page_video1_id, int video_id) 
 	    // Psychosocial (0-5)
-	    TopicVideo tv1 = new TopicVideo(1, 1);
-	    TopicVideo tv2 = new TopicVideo(1, 2);
-	    TopicVideo tv3 = new TopicVideo(1, 3);
-	    TopicVideo tv4 = new TopicVideo(1, 4);
+	    TopicVideo tv1 = new TopicVideo(1, 1, 1, now, now);
+	    TopicVideo tv2 = new TopicVideo(2, 1, 2, now, now);
+	    TopicVideo tv3 = new TopicVideo(3, 1, 3, now, now);
+	    TopicVideo tv4 = new TopicVideo(4, 1, 4, now, now);
 	    Dao<TopicVideo, Integer> tvDao1;
 	    Dao<TopicVideo, Integer> tvDao2;
 	    Dao<TopicVideo, Integer> tvDao3;

@@ -1,12 +1,14 @@
 package org.chat.android.models;
 
+import java.util.Date;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 
 @DatabaseTable(tableName = "services")
 public class Service {
-	@DatabaseField(index = true, uniqueCombo = true)
+	@DatabaseField(id = true, index = true, uniqueCombo = true)
 	private int id;
     @DatabaseField(index = true, uniqueCombo = true)
     private String name;
@@ -16,6 +18,10 @@ public class Service {
     private String role;						// who has access to this service
     @DatabaseField()
     private String instructions;						// additional info - usually becomes the hint in the Other list, and will often be null
+    @DatabaseField
+	private Date created_at;
+	@DatabaseField
+	private Date modified_at;
 
     /**
      * Default Constructor needed by ormlite
@@ -27,21 +33,23 @@ public class Service {
      * Constructor that instantiates the private member variable(s)
      * @param service_name
      */
-    public Service(int id, String name, String type, String role, String instructions) {
+    public Service(int id, String name, String type, String role, String instructions, Date created_at, Date modified_at) {
         this.id = id;
     	this.name = name;
     	this.type = type;
     	this.role = role;
     	this.instructions = instructions;
+    	this.created_at = created_at;
+    	this.modified_at = modified_at;
     }
 
     /**
      * Copy constructor
      * @param existingListModel - List model instance that is copied to new instance
      */
-    public Service(Service existingServiceModel) {
-        this.name = existingServiceModel.name;
-    }
+//    public Service(Service existingServiceModel) {
+//        this.name = existingServiceModel.name;
+//    }
 
 	public int getId() {
 		return id;

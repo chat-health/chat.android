@@ -19,14 +19,11 @@ public class Attendance {
     private int visit_id;
     @DatabaseField
 	private int client_id;
-    @DatabaseField
-	private boolean dirty;
 
     /**
      * Default Constructor needed by ormlite
      */
     public Attendance() {
-    	this.dirty = true;
     }
 
     /**
@@ -37,7 +34,6 @@ public class Attendance {
     public Attendance(int visit_id, int client_id) {
     	this.visit_id = visit_id;
         this.client_id = client_id;
-        this.dirty = true;
         // this may be trouble with the sync adapter? PLEASE TEST ME
         // https://stackoverflow.com/questions/2002288/static-way-to-get-context-on-android
         Context myContext = MyApplication.getAppContext();
@@ -52,7 +48,6 @@ public class Attendance {
     public Attendance(Attendance existingAttendanceModel) {
         this.visit_id = existingAttendanceModel.visit_id;
         this.client_id = existingAttendanceModel.client_id;
-        this.dirty = true;
     }
 
 	public int getId() {
@@ -65,7 +60,6 @@ public class Attendance {
 	
 	public void setVisitId(int visit_id) {
 		this.visit_id = visit_id;
-		this.setDirty();
 	}
 	
 	public int getClientId() {
@@ -74,22 +68,5 @@ public class Attendance {
 	
 	public void setClientId(int client_id) {
 		this.client_id = client_id;
-		this.setDirty();
-	}
-	
-	public void setDirty() {
-		this.dirty = true;
-	}
-	
-	/** 
-	 * This function reverses the dirty flag and should be used
-	 * by the SyncAdapter to avoid syncing documents that have been synced and not changed inbetween.
-	 */
-	public void makeClean() {
-		this.dirty = false;
-	}
-	
-	public boolean isDirty() {
-		return this.dirty;
 	}
 }

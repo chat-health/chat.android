@@ -117,7 +117,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		Log.i("SyncAdapter", "sync adapter running :)");
 
 		retrieveDataFromServer();
-		pushDataToServer();
+		//pushDataToServer();
 	}
 	
 	private void retrieveDataFromServer() {
@@ -194,12 +194,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         	String url = baseUrl.concat(modelName);
         	
         	// concat so that only changed documents are getted from the collection
-    		GregorianCalendar gc = new GregorianCalendar(2001, 2, 8);
-    		Date d = gc.getTime();
+        	Date d = ModelHelper.getLastSyncedAt(appContext, "pull");
+//    		GregorianCalendar gc = new GregorianCalendar(2001, 2, 8);
+//    		Date d = gc.getTime();
     		String lastSync = "?last_synced_at=" + formatDateToJsonDate(d);
     		
-    		//TODO: FIXME for PROD - this is for testing only, pulls everything instead of changed things
-        	//url = url.concat(lastSync);
+    		//TODO: CHANGE for PROD - this is for testing only, pulls everything instead of changed things
+        	url = url.concat(lastSync);
         	
         	Log.i("SyncAdapter", "Get to URL: "+url);
         	
@@ -233,7 +234,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject c = jsonArray.getJSONObject(i);
 	                	// Clients
-	                	Client client = new Client(c.getInt("_id"), c.getString("first_name"), c.getString("last_name"), c.getInt("hh_id"), c.getString("gender"), parseBirthDateString(c.getString("date_of_birth")));
+	                	Client client = new Client(c.getInt("_id"), c.getString("first_name"), c.getString("last_name"), c.getInt("hh_id"), c.getString("gender"), parseBirthDateString(c.getString("date_of_birth")), parseDateString(c.getString("created_at")), parseDateString(c.getString("modified_at")));
 	            	    int numCreated = clientDao.create(client);
 	            	    
 	            	    if (numCreated != 1) {
@@ -253,8 +254,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                
 	                // add new entries received via REST call
 	                for (int i=0; i < jsonArray.length(); i++) {
-	                	JSONObject h = jsonArray.getJSONObject(i);
-	                	Household household = new Household(h.getInt("_id"), h.getString("hh_name"), h.getString("community"), h.getInt("worker_id"));
+	                	JSONObject jo = jsonArray.getJSONObject(i);
+	                	Household household = new Household(jo.getInt("_id"), jo.getString("hh_name"), jo.getString("community"), jo.getInt("worker_id"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
 	                	householdsDao.create(household);
 	                }
                 } else if ("services" == modelName) {
@@ -269,8 +270,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                
 	                // add new entries received via REST call
 	                for (int i=0; i < jsonArray.length(); i++) {
-	                	JSONObject h = jsonArray.getJSONObject(i);
-	                	Service service = new Service (h.getInt("_id"), h.getString("name"), h.getString("type"), h.getString("role"), h.getString("instructions"));
+	                	JSONObject jo = jsonArray.getJSONObject(i);
+	                	Service service = new Service (jo.getInt("_id"), jo.getString("name"), jo.getString("type"), jo.getString("role"), jo.getString("instructions"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
 	                	servicesDao.create(service);
 	                }
                 } if ("workers" == modelName) {
@@ -287,7 +288,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject w = jsonArray.getJSONObject(i);
 	                	// WORKERS
-	            	    Worker worker = new Worker(w.getInt("_id"), w.getString("first_name"), w.getString("last_name"), w.getString("password"), w.getString("role_name"), w.getString("assigned_community"));
+	            	    Worker worker = new Worker(w.getInt("_id"), w.getString("first_name"), w.getString("last_name"), w.getString("password"), w.getString("role_name"), w.getString("assigned_community"), parseDateString(w.getString("created_at")), parseDateString(w.getString("modified_at")));
 	            	    wDao.create(worker);
 	                }
                 } else if ("videos" == modelName) {
@@ -303,7 +304,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                // add new entries received via REST call
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
-	                	Video o = new Video(jo.getInt("_id"), jo.getString("name"), jo.getString("uri"), jo.getString("screenshot"));
+	                	Video o = new Video(jo.getInt("_id"), jo.getString("name"), jo.getString("uri"), jo.getString("screenshot"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
 	                	dao.create(o);
 	                }
                 } else if ("resources" == modelName) {
@@ -319,7 +320,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                // add new entries received via REST call
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
-	                	Resource o = new Resource(jo.getInt("_id"), jo.getString("name"), jo.getString("uri"));
+	                	Resource o = new Resource(jo.getInt("_id"), jo.getString("name"), jo.getString("uri"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
 	                	dao.create(o);
 	                }
                 } else if ("health_themes" == modelName) {
@@ -342,7 +343,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
 	                	Log.i("SyncAdapter","JSON object: "+jo.toString());
-	                	HealthTopic o = new HealthTopic(jo.getInt("_id"), jo.getString("name"), jo.getString("theme"));
+	                	HealthTopic o = new HealthTopic(jo.getInt("_id"), jo.getString("name"), jo.getString("theme"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
 	                	// create or update data sets received from backend server
 	                	dao.createOrUpdate(o);
 	                }
@@ -359,7 +360,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                // add new entries received via REST call
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
-	                	HealthSelect o = new HealthSelect(jo.getInt("_id"), jo.getInt("subject_id"), jo.getString("en_content"), jo.getString("zu_content"));
+	                	HealthSelect o = new HealthSelect(jo.getInt("_id"), jo.getInt("subject_id"), jo.getString("en_content"), jo.getString("zu_content"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
 	                	dao.create(o);
 	                }
                 } else if ("page_assessment1" == modelName) {
@@ -374,8 +375,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                
 	                // add new entries received via REST call
 	                for (int i=0; i < jsonArray.length(); i++) {
-	                	JSONObject h = jsonArray.getJSONObject(i);
-	                	PageAssessment1 pa1 = new PageAssessment1 (h.getInt("_id"), h.getString("type"), h.getString("en_content1"), h.getString("zu_content1"), h.getString("en_content2"), h.getString("zu_content2"), h.getString("en_content3"), h.getString("zu_content3"));
+	                	JSONObject jo = jsonArray.getJSONObject(i);
+	                	PageAssessment1 pa1 = new PageAssessment1 (jo.getInt("_id"), jo.getString("type"), jo.getString("en_content1"), jo.getString("zu_content1"), jo.getString("en_content2"), jo.getString("zu_content2"), jo.getString("en_content3"), jo.getString("zu_content3"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
 	                	paDao.create(pa1);
 	                }
                 } else if ("vaccines" == modelName) {
@@ -390,8 +391,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                
 	                // add new entries received via REST call
 	                for (int i=0; i < jsonArray.length(); i++) {
-	                	JSONObject h = jsonArray.getJSONObject(i);
-	                	Vaccine vac = new Vaccine (h.getInt("_id"), h.getDouble("age"), h.getString("display_age"), h.getString("short_name"), h.getString("long_name"));
+	                	JSONObject jo = jsonArray.getJSONObject(i);
+	                	Vaccine vac = new Vaccine (jo.getInt("_id"), jo.getDouble("age"), jo.getString("display_age"), jo.getString("short_name"), jo.getString("long_name"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
 	                	vacDao.create(vac);
 	                }
                 }

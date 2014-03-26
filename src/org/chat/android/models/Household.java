@@ -1,5 +1,7 @@
 package org.chat.android.models;
 
+import java.util.Date;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -16,6 +18,10 @@ public class Household {
     private String community;
     @DatabaseField
     private int worker_id;
+    @DatabaseField
+	private Date created_at;
+	@DatabaseField
+	private Date modified_at;
 
     /**
      * Default Constructor needed by ormlite
@@ -29,24 +35,29 @@ public class Household {
      * @param hh_name
      * @param community
      * @param worker_id
+     * @param created_at
+     * @param modified_at
+     * 
      */
-    public Household(int id, String hh_name, String community, int worker_id) {
+    public Household(int id, String hh_name, String community, int worker_id, Date created_at, Date modified_at) {
     	this.id = id;
     	this.hh_name = hh_name;
     	this.community = community;
         this.worker_id = worker_id;
+        this.created_at = created_at;
+    	this.modified_at = modified_at;
     }
 
     /**
      * Copy constructor
      * @param existingListModel - List model instance that is copied to new instance
      */
-    public Household(Household existingHouseholdModel) {
-        this.id = existingHouseholdModel.id;
-        this.hh_name = existingHouseholdModel.hh_name;
-        this.community = existingHouseholdModel.community; 
-        this.worker_id = existingHouseholdModel.worker_id;
-    }
+//    public Household(Household existingHouseholdModel) {
+//        this.id = existingHouseholdModel.id;
+//        this.hh_name = existingHouseholdModel.hh_name;
+//        this.community = existingHouseholdModel.community; 
+//        this.worker_id = existingHouseholdModel.worker_id;
+//    }
 
 	public int getId() {
 		return id;

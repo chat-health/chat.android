@@ -1,5 +1,7 @@
 package org.chat.android.models;
 
+import java.util.Date;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -8,7 +10,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "videos")
 public class Video {
-    @DatabaseField
+    @DatabaseField(id = true)
     private int id;
     @DatabaseField
     private String name;
@@ -16,6 +18,10 @@ public class Video {
     private String uri;
     @DatabaseField
     private String screenshot;
+    @DatabaseField
+	private Date created_at;
+	@DatabaseField
+	private Date modified_at;
 
 
     /**
@@ -32,23 +38,25 @@ public class Video {
      * @param screenshot
      * 
      */
-    public Video(int id, String name, String uri, String screenshot) {
+    public Video(int id, String name, String uri, String screenshot, Date created_at, Date modified_at) {
     	this.id = id;
     	this.name = name;
     	this.uri = uri;
     	this.screenshot = screenshot;
+    	this.created_at = created_at;
+    	this.modified_at = modified_at;
     }
     
     /**
      * Copy constructor
      * @param existingListModel - List model instance that is copied to new instance
      */
-    public Video(Video existingVideosAccessedModel) {
-        this.id = existingVideosAccessedModel.id;
-        this.name = existingVideosAccessedModel.name;
-        this.uri = existingVideosAccessedModel.uri;
-        this.screenshot = existingVideosAccessedModel.screenshot;
-    }
+//    public Video(Video existingVideosAccessedModel) {
+//        this.id = existingVideosAccessedModel.id;
+//        this.name = existingVideosAccessedModel.name;
+//        this.uri = existingVideosAccessedModel.uri;
+//        this.screenshot = existingVideosAccessedModel.screenshot;
+//    }
 
 	public int getId() {
 		return id;
