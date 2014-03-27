@@ -115,28 +115,46 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	@Override
 	public void onPerformSync(Account arg0, Bundle arg1, String arg2, ContentProviderClient arg3, SyncResult arg4) {
 		Log.i("SyncAdapter", "sync adapter running :)");
-
-		//retrieveDataFromServer();
-		pushDataToServer();
+		
+		// if syncType is pullAll we want to trigger a 'pull all of everything ever' sync
+		// TODO: clean me up
+		String syncType = "standard";
+		Bundle b = arg1;
+		syncType = b.getString("syncType");
+		if (syncType == null) {
+			syncType = "standard";
+		}
+		Log.i("SyncAdapter", "syncType: "+syncType);
+		
+		if (syncType.equals("pullAll")) {
+			Log.i("SyncAdapter", "We are going nuclear - pulling everything");
+			pullAllData();
+		} else if (syncType.equals("standard")) {
+			Log.i("SyncAdapter", "Just a regular pull");
+			//pullNewData();
+			//pushNewData();
+		} else {
+			Log.e("SyncAdapter", "Impossible error. syncType str is unknown");
+		}
 	}
 	
-	private void retrieveDataFromServer() {
+	private void pullNewData() {
 		Log.i("SyncAdapter", "=================== DATA PULL ===================");
 			
-		retrieveModel("clients");
-		retrieveModel("households");
-		retrieveModel("services");
-		retrieveModel("workers");
-		retrieveModel("videos");
-		retrieveModel("resources");
+		retrieveModel("clients", false);
+		retrieveModel("households", false);
+		retrieveModel("services", false);
+		retrieveModel("workers", false);
+		retrieveModel("videos", false);
+		retrieveModel("resources", false);
 		
-		retrieveModel("health_themes");
-		retrieveModel("health_topics");
+		retrieveModel("health_themes", false);
+		retrieveModel("health_topics", false);
 		
-		retrieveModel("health_selects");
-		retrieveModel("page_assessment1");
+		retrieveModel("health_selects", false);
+		retrieveModel("page_assessment1", false);
 		
-		retrieveModel("vaccines");
+		retrieveModel("vaccines", false);
 		
         
         // change last pull date to current date
@@ -150,7 +168,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		}
 	}
 	
-	private void pushDataToServer() {
+	private void pushNewData() {
 		Log.i("SyncAdapter", "=================== DATA PUSH ===================");
 		JSONArray visitsJson = createJsonArrayOf("visits");
 		if (visitsJson.length() > 0) {
@@ -190,7 +208,40 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		}
 	}
 	
-	private void retrieveModel(String modelName) {
+	private void pullAllData() {
+		Log.i("SyncAdapter", "=================== SYNC ALL ===================");
+		
+		// TODO: finish me - I need every model
+		
+		
+		retrieveModel("clients", true);
+		retrieveModel("households", true);
+		retrieveModel("services", true);
+		retrieveModel("workers", true);
+		retrieveModel("videos", true);
+		retrieveModel("resources", true);
+		
+		retrieveModel("health_themes", true);
+		retrieveModel("health_topics", true);
+		
+		retrieveModel("health_selects", true);
+		retrieveModel("page_assessment1", true);
+		
+		retrieveModel("vaccines", true);
+		
+        
+        // change last pull date to current date
+		if (pullSuccess == true) {
+			try {
+				ModelHelper.setLastSyncedAt(appContext, new Date(), "pull");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private void retrieveModel(String modelName, Boolean pullAll) {
 		HttpClient httpclient = new DefaultHttpClient();
         HttpResponse response;
         String responseString = null;
@@ -199,14 +250,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         	String baseUrl = appContext.getResources().getString(R.string.base_url);
         	String url = baseUrl.concat(modelName);
         	
-        	// concat so that only changed documents are getted from the collection
-        	Date d = ModelHelper.getLastSyncedAt(appContext, "pull");
-//    		GregorianCalendar gc = new GregorianCalendar(2001, 2, 8);
-//    		Date d = gc.getTime();
-    		String lastSync = "?last_synced_at=" + formatDateToJsonDate(d);
-    		
-    		//TODO: CHANGE for PROD - this is for testing only, pulls everything instead of changed things
-        	url = url.concat(lastSync);
+        	if (pullAll == false) {
+        		// concat so that only changed documents are getted from the collection
+            	Date d = ModelHelper.getLastSyncedAt(appContext, "pull");
+        		//GregorianCalendar gc = new GregorianCalendar(2001, 2, 8);
+        		//Date d = gc.getTime();
+        		String lastSync = "?last_synced_at=" + formatDateToJsonDate(d);
+        		
+        		//TODO: CHANGE for PROD - this is for testing only, pulls everything instead of changed things
+            	url = url.concat(lastSync);
+        	}
         	
         	Log.i("SyncAdapter", "Get to URL: "+url);
         	

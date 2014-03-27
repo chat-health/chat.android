@@ -332,8 +332,21 @@ public class LoginActivity extends Activity {
 	        prepopulateDB();
 	        return true;
 	    case R.id.menu_sync:
-	        Toast.makeText(getApplicationContext(), "Triggering sync adapter to sync with server...", Toast.LENGTH_LONG).show();
-	        triggerSyncAdaper();
+	        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	    	builder.setMessage("WARNING: Are you sure you want to pull all data to this tablet?")
+	    	       .setCancelable(false)
+	    	       .setPositiveButton("Yes, I know what I am doing", new DialogInterface.OnClickListener() {
+	    	           public void onClick(DialogInterface dialog, int id) {
+	    	        	   triggerSyncAdaper();
+	    	           }
+	    	       })
+	    	       .setNegativeButton("No, I am not sure this is a good idea", new DialogInterface.OnClickListener() {
+	    	           public void onClick(DialogInterface dialog, int id) {
+	    	                dialog.cancel();
+	    	           }
+	    	       });
+	    	AlertDialog alert = builder.create();
+	    	alert.show();
 	        return true;
 	    default:
 	        return super.onOptionsItemSelected(item);
@@ -346,11 +359,13 @@ public class LoginActivity extends Activity {
     }
     
     public void triggerSyncAdaper() {
+    	Toast.makeText(getApplicationContext(), "Triggering sync adapter to sync with server...", Toast.LENGTH_LONG).show();
     	Account mAccount = CreateSyncAccount(this);
         // Pass the settings flags by inserting them in a bundle
         Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        settingsBundle.putString("syncType", "pullAll");
         /*
          * Request the sync for the default account, authority, and
          * manual sync settings
