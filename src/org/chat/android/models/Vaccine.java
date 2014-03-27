@@ -11,7 +11,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "vaccines")
 public class Vaccine {
-	@DatabaseField(index = true)
+	@DatabaseField(id = true)
 	private int id;
     @DatabaseField
     private double age;							// age that vaccine should have been administered, in years

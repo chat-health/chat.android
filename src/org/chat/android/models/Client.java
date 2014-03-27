@@ -16,7 +16,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "clients")
 public class Client {
-	@DatabaseField(index = true, uniqueCombo = true)
+	@DatabaseField(id = true, index = true, uniqueCombo = true)
 	private int id;
 	@DatabaseField(index = true, uniqueCombo = true)
 	private String last_name;

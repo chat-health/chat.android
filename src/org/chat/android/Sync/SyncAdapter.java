@@ -151,7 +151,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		retrieveModel("health_themes", false);
 		retrieveModel("health_topics", false);
 		
+		retrieveModel("health_pages", false);
 		retrieveModel("health_selects", false);
+		retrieveModel("topic_videos", false);
+		retrieveModel("page_text1", false);
+		retrieveModel("page_select1", false);
+		retrieveModel("page_video1", false);
 		retrieveModel("page_assessment1", false);
 		
 		retrieveModel("vaccines", false);
@@ -213,7 +218,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		
 		// TODO: finish me - I need every model
 		
-		
+		// true value for pullAll
 		retrieveModel("clients", true);
 		retrieveModel("households", true);
 		retrieveModel("services", true);
@@ -224,7 +229,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		retrieveModel("health_themes", true);
 		retrieveModel("health_topics", true);
 		
+		retrieveModel("health_pages", true);
 		retrieveModel("health_selects", true);
+		retrieveModel("topic_videos", true);
+		retrieveModel("page_text1", true);
+		retrieveModel("page_select1", true);
+		retrieveModel("page_video1", true);
 		retrieveModel("page_assessment1", true);
 		
 		retrieveModel("vaccines", true);
@@ -358,6 +368,15 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	HealthTopic o = new HealthTopic(jo.getInt("_id"), jo.getString("name"), jo.getString("theme"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
 	                	dao.createOrUpdate(o);
 	                }
+                } else if ("health_page" == modelName) {
+//	                Dao<HealthSelect, Integer> dao;
+//	                dao = dbHelper.getHealthSelectDao();
+//
+//	                for (int i=0; i < jsonArray.length(); i++) {
+//	                	JSONObject jo = jsonArray.getJSONObject(i);
+//	                	HealthSelect o = new HealthSelect(jo.getInt("_id"), jo.getInt("subject_id"), jo.getString("en_content"), jo.getString("zu_content"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
+//	                	dao.createOrUpdate(o);
+//	                }
                 } else if ("health_selects" == modelName) {
 	                Dao<HealthSelect, Integer> dao;
 	                dao = dbHelper.getHealthSelectDao();
@@ -367,6 +386,42 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	HealthSelect o = new HealthSelect(jo.getInt("_id"), jo.getInt("subject_id"), jo.getString("en_content"), jo.getString("zu_content"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
 	                	dao.createOrUpdate(o);
 	                }
+                } else if ("topic_videos" == modelName) {
+//	                Dao<HealthSelect, Integer> dao;
+//	                dao = dbHelper.getHealthSelectDao();
+//
+//	                for (int i=0; i < jsonArray.length(); i++) {
+//	                	JSONObject jo = jsonArray.getJSONObject(i);
+//	                	HealthSelect o = new HealthSelect(jo.getInt("_id"), jo.getInt("subject_id"), jo.getString("en_content"), jo.getString("zu_content"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
+//	                	dao.createOrUpdate(o);
+//	                }
+                } else if ("page_text1" == modelName) {
+//	                Dao<PageAssessment1, Integer> dao;
+//	                dao = dbHelper.getPageAssessment1Dao();
+//
+//	                for (int i=0; i < jsonArray.length(); i++) {
+//	                	JSONObject jo = jsonArray.getJSONObject(i);
+//	                	PageAssessment1 pa1 = new PageAssessment1 (jo.getInt("_id"), jo.getString("type"), jo.getString("en_content1"), jo.getString("zu_content1"), jo.getString("en_content2"), jo.getString("zu_content2"), jo.getString("en_content3"), jo.getString("zu_content3"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
+//	                	dao.createOrUpdate(pa1);
+//	                }  
+                } else if ("page_select1" == modelName) {
+//	                Dao<PageAssessment1, Integer> dao;
+//	                dao = dbHelper.getPageAssessment1Dao();
+//
+//	                for (int i=0; i < jsonArray.length(); i++) {
+//	                	JSONObject jo = jsonArray.getJSONObject(i);
+//	                	PageAssessment1 pa1 = new PageAssessment1 (jo.getInt("_id"), jo.getString("type"), jo.getString("en_content1"), jo.getString("zu_content1"), jo.getString("en_content2"), jo.getString("zu_content2"), jo.getString("en_content3"), jo.getString("zu_content3"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
+//	                	dao.createOrUpdate(pa1);
+//	                }  
+                } else if ("page_video1" == modelName) {
+//	                Dao<PageAssessment1, Integer> dao;
+//	                dao = dbHelper.getPageAssessment1Dao();
+//
+//	                for (int i=0; i < jsonArray.length(); i++) {
+//	                	JSONObject jo = jsonArray.getJSONObject(i);
+//	                	PageAssessment1 pa1 = new PageAssessment1 (jo.getInt("_id"), jo.getString("type"), jo.getString("en_content1"), jo.getString("zu_content1"), jo.getString("en_content2"), jo.getString("zu_content2"), jo.getString("en_content3"), jo.getString("zu_content3"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
+//	                	dao.createOrUpdate(pa1);
+//	                }  
                 } else if ("page_assessment1" == modelName) {
 	                Dao<PageAssessment1, Integer> dao;
 	                dao = dbHelper.getPageAssessment1Dao();
@@ -375,7 +430,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
 	                	PageAssessment1 pa1 = new PageAssessment1 (jo.getInt("_id"), jo.getString("type"), jo.getString("en_content1"), jo.getString("zu_content1"), jo.getString("en_content2"), jo.getString("zu_content2"), jo.getString("en_content3"), jo.getString("zu_content3"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
 	                	dao.createOrUpdate(pa1);
-	                }
+	                }  
                 } else if ("vaccines" == modelName) {
 	                Dao<Vaccine, Integer> dao;
 	                dao = dbHelper.getVaccineDao();

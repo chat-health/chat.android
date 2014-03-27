@@ -1,5 +1,7 @@
 package org.chat.android.models;
 
+import java.util.Date;
+
 import android.util.Log;
 
 import com.j256.ormlite.field.DatabaseField;
@@ -15,12 +17,15 @@ public class PageText1 {
     @DatabaseField
     private String en_content1;
     @DatabaseField
-    private String en_content2;
-    @DatabaseField
     private String zu_content1;
     @DatabaseField
+    private String en_content2;
+    @DatabaseField
     private String zu_content2;    
-
+    @DatabaseField
+    private Date created_at;
+    @DatabaseField
+    private Date modified_at;
     
     /**
      * Default Constructor needed by ormlite
@@ -31,14 +36,22 @@ public class PageText1 {
     
     /**
      * Constructor that instantiates the private member variable(s)
-     * @param health_page_id
+     * @param id
+     * @param en_content1;
+     * @param zu_content1;
+     * @param en_content2;
+     * @param zu_content2;
+     * @param created_at
+     * @param modified_at
      */
-    public PageText1(int id, String en_content1, String en_content2, String zu_content1, String zu_content2) {
+    public PageText1(int id, String en_content1, String zu_content1, String en_content2, String zu_content2, Date created_at, Date modified_at) {
     	this.id = id;
         this.en_content1 = en_content1;
-        this.en_content2 = en_content2;
         this.zu_content1 = zu_content1;
+        this.en_content2 = en_content2;
         this.zu_content2 = zu_content2;
+        this.created_at = created_at;
+    	this.modified_at = modified_at;        
     }
     
     
@@ -46,12 +59,12 @@ public class PageText1 {
      * Copy constructor
      * @param existingListModel - List model instance that is copied to new instance
      */
-    public PageText1(PageText1 existingPageText1Model) {
-        this.en_content1 = existingPageText1Model.en_content1;
-        this.en_content2 = existingPageText1Model.en_content2;
-        this.zu_content1 = existingPageText1Model.zu_content1;
-        this.zu_content2 = existingPageText1Model.zu_content2;
-    }
+//    public PageText1(PageText1 existingPageText1Model) {
+//        this.en_content1 = existingPageText1Model.en_content1;
+//        this.en_content2 = existingPageText1Model.en_content2;
+//        this.zu_content1 = existingPageText1Model.zu_content1;
+//        this.zu_content2 = existingPageText1Model.zu_content2;
+//    }
     
 
 	public int getId() {

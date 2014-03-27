@@ -423,156 +423,156 @@ public class SetupDB extends Activity {
 //	        // TODO Auto-generated catch block
 //	        e1.printStackTrace();
 //	    }	    
-	    
-	    
-	    // HEALTH PAGES
-	    //HealthPage(int id, int topic_id, int page_number, String type, int page_content_id)
-	    // all page_content_ids should be in the 100s, most likely
-        Date now = new Date();
-	    HealthPage page1 = new HealthPage(1, 1, 1, "text1", 1, now, now);
-	    HealthPage page2 = new HealthPage(2, 1, 2, "select1", 101, now, now);
-	    HealthPage page3 = new HealthPage(3, 1, 3, "text1", 2, now, now);
-	    HealthPage page4 = new HealthPage(4, 1, 4, "text1", 2, now, now);
-	    HealthPage page5 = new HealthPage(5, 2, 1, "text1", 1, now, now);
-	    HealthPage page6 = new HealthPage(6, 3, 1, "text1", 1, now, now);
-	    HealthPage page7 = new HealthPage(7, 4, 1, "text1", 1, now, now);
-	    HealthPage page8 = new HealthPage(8, 4, 2, "select1", 101, now, now);
-	    // Psychosocial (0-5)
-	    HealthPage page9 = new HealthPage(9, 11, 1, "text1", 3, now, now);
-	    HealthPage page10 = new HealthPage(10, 11, 2, "select1", 102, now, now);
-	    HealthPage page11 = new HealthPage(11, 11, 3, "video1", 1, now, now);
-	    HealthPage page12 = new HealthPage(12, 11, 4, "text1", 4, now, now);
-	    
-	    Dao<HealthPage, Integer> pageDao1;
-	    Dao<HealthPage, Integer> pageDao2;
-	    Dao<HealthPage, Integer> pageDao3;
-	    Dao<HealthPage, Integer> pageDao4;
-	    Dao<HealthPage, Integer> pageDao5;
-	    Dao<HealthPage, Integer> pageDao6;
-	    Dao<HealthPage, Integer> pageDao7;
-	    Dao<HealthPage, Integer> pageDao8;
-	    
-	    Dao<HealthPage, Integer> pageDao9;
-	    Dao<HealthPage, Integer> pageDao10;
-	    Dao<HealthPage, Integer> pageDao11;
-	    Dao<HealthPage, Integer> pageDao12;
-	    
-	    DatabaseHelper pageDbHelper = new DatabaseHelper(context);
-	    try {
-	        pageDao1 = pageDbHelper.getHealthPagesDao();
-	        pageDao1.create(page1);
-	        pageDao2 = pageDbHelper.getHealthPagesDao();
-	        pageDao2.create(page2);
-	        pageDao3 = pageDbHelper.getHealthPagesDao();
-	        pageDao3.create(page3);
-	        pageDao4 = pageDbHelper.getHealthPagesDao();
-	        pageDao4.create(page4);
-	        pageDao5 = pageDbHelper.getHealthPagesDao();
-	        pageDao5.create(page5);
-	        pageDao6 = pageDbHelper.getHealthPagesDao();
-	        pageDao6.create(page6);
-	        pageDao7 = pageDbHelper.getHealthPagesDao();
-	        pageDao7.create(page7);
-	        pageDao8 = pageDbHelper.getHealthPagesDao();
-	        pageDao8.create(page8);
-	        pageDao9 = pageDbHelper.getHealthPagesDao();
-	        pageDao9.create(page9);
-	        pageDao10 = pageDbHelper.getHealthPagesDao();
-	        pageDao10.create(page10);
-	        pageDao11 = pageDbHelper.getHealthPagesDao();
-	        pageDao11.create(page11);
-	        pageDao12 = pageDbHelper.getHealthPagesDao();
-	        pageDao12.create(page12);
-	    } catch (SQLException e1) {
-	        // TODO Auto-generated catch block
-	        e1.printStackTrace();
-	    }
-	    
-	    
-	    // HEALTH CONTENT PAGES
-	    PageText1 pt1 = new PageText1(1, "¥ bla bla a bit of stuff\n¥ a second line\n¥ a third line", "some more stuff for the second paragraph", "now some zulu content", "para 2 zulu content");
-	    PageText1 pt2 = new PageText1(2, "another page of text stuff, check it", "some more stuff for the second paragraph", "now some zulu content for the second text1 page", "para 2 zulu content");
-	    // Psychosocial (0-5)
-	    // Ask
-	    PageText1 pt3 = new PageText1(3, "Ask", "Do you spend time with your child?\nWhat do you do with your child?\nHow does your child respond?\nDo you feel that this child needs to be punished often?\nIf age appropriate - Does the child play with other children or have close friends?\nDoes he/she enjoy being with other children?\nDoes he/she fight with other children?", "Ask", "now some zulu content");
-	    // Discussion
-	    PageText1 pt4 = new PageText1(4, "Discussion", "What important information have you learned?\nDo you agree with this?\nHave you ever experienced this?\nWhat does this mean for you in your life?\nWhat do you think you can do about it?\nAre there barriers that will make this difficult? What can help you to overcome them?", "Discussion", "some zulu content");
-
-	    Dao<PageText1, Integer> ptDao1;
-	    Dao<PageText1, Integer> ptDao2;
-	    Dao<PageText1, Integer> ptDao3;
-	    Dao<PageText1, Integer> ptDao4;
-	    DatabaseHelper ptDbHelper = new DatabaseHelper(context);
-	    try {
-	        ptDao1 = ptDbHelper.getPageText1Dao();
-	        ptDao1.create(pt1);
-	        ptDao2 = ptDbHelper.getPageText1Dao();
-	        ptDao2.create(pt2);
-	        ptDao3 = ptDbHelper.getPageText1Dao();
-	        ptDao3.create(pt3);
-	        ptDao4 = ptDbHelper.getPageText1Dao();
-	        ptDao4.create(pt4);
-	    } catch (SQLException e1) {
-	        // TODO Auto-generated catch block
-	        e1.printStackTrace();
-	    }
-	    
-	    PageSelect1 ps1 = new PageSelect1(101, "bla bla a bit of stuff", "this is a question in zulu!");
-	    // Psychosocial (0-5)
-	    PageSelect1 ps2 = new PageSelect1(102, "", "");
-	    Dao<PageSelect1, Integer> psDao1;
-	    Dao<PageSelect1, Integer> psDao2;
-	    DatabaseHelper psDbHelper = new DatabaseHelper(context);
-	    try {
-	        psDao1 = psDbHelper.getPageSelect1Dao();
-	        psDao1.create(ps1);
-	        psDao2 = psDbHelper.getPageSelect1Dao();
-	        psDao2.create(ps2);
-	    } catch (SQLException e1) {
-	        // TODO Auto-generated catch block
-	        e1.printStackTrace();
-	    }
-	    
-	    //PageVideo1(int id, String en_content1, String zu_content1)
-	    // Psychosocial (0-5)
-	    PageVideo1 pv1 = new PageVideo1(1, "* Responsiveness\n* Affirmation\n* Positive discipline\n* Short and long term effect of carer-child relationship", "some zulu stuff", now, now);
-	    Dao<PageVideo1, Integer> pvDao1;
-	    DatabaseHelper pvDbHelper = new DatabaseHelper(context);
-	    try {
-	        pvDao1 = pvDbHelper.getPageVideo1Dao();
-	        pvDao1.create(pv1);
-	    } catch (SQLException e1) {
-	        // TODO Auto-generated catch block
-	        e1.printStackTrace();
-	    }
-	    
-	    //TopicVideo(int id, int page_video1_id, int video_id) 
-	    // Psychosocial (0-5)
-	    TopicVideo tv1 = new TopicVideo(1, 1, 1, now, now);
-	    TopicVideo tv2 = new TopicVideo(2, 1, 2, now, now);
-	    TopicVideo tv3 = new TopicVideo(3, 1, 3, now, now);
-	    TopicVideo tv4 = new TopicVideo(4, 1, 4, now, now);
-	    Dao<TopicVideo, Integer> tvDao1;
-	    Dao<TopicVideo, Integer> tvDao2;
-	    Dao<TopicVideo, Integer> tvDao3;
-	    Dao<TopicVideo, Integer> tvDao4;
-	    DatabaseHelper tvDbHelper = new DatabaseHelper(context);
-	    try {
-	        tvDao1 = tvDbHelper.getTopicVideosDao();
-	        tvDao1.create(tv1);
-	        tvDao2 = tvDbHelper.getTopicVideosDao();
-	        tvDao2.create(tv2);
-	        tvDao3 = tvDbHelper.getTopicVideosDao();
-	        tvDao3.create(tv3);
-	        tvDao4 = tvDbHelper.getTopicVideosDao();
-	        tvDao4.create(tv4);
-	    } catch (SQLException e1) {
-	        // TODO Auto-generated catch block
-	        e1.printStackTrace();
-	    }
-	    
-	    
-	    // CHILD HEALTH ASSESSMENT BRANCH
+//	    
+//	    
+//	    // HEALTH PAGES
+//	    //HealthPage(int id, int topic_id, int page_number, String type, int page_content_id)
+//	    // all page_content_ids should be in the 100s, most likely
+//        Date now = new Date();
+//	    HealthPage page1 = new HealthPage(1, 1, 1, "text1", 1, now, now);
+//	    HealthPage page2 = new HealthPage(2, 1, 2, "select1", 101, now, now);
+//	    HealthPage page3 = new HealthPage(3, 1, 3, "text1", 2, now, now);
+//	    HealthPage page4 = new HealthPage(4, 1, 4, "text1", 2, now, now);
+//	    HealthPage page5 = new HealthPage(5, 2, 1, "text1", 1, now, now);
+//	    HealthPage page6 = new HealthPage(6, 3, 1, "text1", 1, now, now);
+//	    HealthPage page7 = new HealthPage(7, 4, 1, "text1", 1, now, now);
+//	    HealthPage page8 = new HealthPage(8, 4, 2, "select1", 101, now, now);
+//	    // Psychosocial (0-5)
+//	    HealthPage page9 = new HealthPage(9, 11, 1, "text1", 3, now, now);
+//	    HealthPage page10 = new HealthPage(10, 11, 2, "select1", 102, now, now);
+//	    HealthPage page11 = new HealthPage(11, 11, 3, "video1", 1, now, now);
+//	    HealthPage page12 = new HealthPage(12, 11, 4, "text1", 4, now, now);
+//	    
+//	    Dao<HealthPage, Integer> pageDao1;
+//	    Dao<HealthPage, Integer> pageDao2;
+//	    Dao<HealthPage, Integer> pageDao3;
+//	    Dao<HealthPage, Integer> pageDao4;
+//	    Dao<HealthPage, Integer> pageDao5;
+//	    Dao<HealthPage, Integer> pageDao6;
+//	    Dao<HealthPage, Integer> pageDao7;
+//	    Dao<HealthPage, Integer> pageDao8;
+//	    
+//	    Dao<HealthPage, Integer> pageDao9;
+//	    Dao<HealthPage, Integer> pageDao10;
+//	    Dao<HealthPage, Integer> pageDao11;
+//	    Dao<HealthPage, Integer> pageDao12;
+//	    
+//	    DatabaseHelper pageDbHelper = new DatabaseHelper(context);
+//	    try {
+//	        pageDao1 = pageDbHelper.getHealthPagesDao();
+//	        pageDao1.create(page1);
+//	        pageDao2 = pageDbHelper.getHealthPagesDao();
+//	        pageDao2.create(page2);
+//	        pageDao3 = pageDbHelper.getHealthPagesDao();
+//	        pageDao3.create(page3);
+//	        pageDao4 = pageDbHelper.getHealthPagesDao();
+//	        pageDao4.create(page4);
+//	        pageDao5 = pageDbHelper.getHealthPagesDao();
+//	        pageDao5.create(page5);
+//	        pageDao6 = pageDbHelper.getHealthPagesDao();
+//	        pageDao6.create(page6);
+//	        pageDao7 = pageDbHelper.getHealthPagesDao();
+//	        pageDao7.create(page7);
+//	        pageDao8 = pageDbHelper.getHealthPagesDao();
+//	        pageDao8.create(page8);
+//	        pageDao9 = pageDbHelper.getHealthPagesDao();
+//	        pageDao9.create(page9);
+//	        pageDao10 = pageDbHelper.getHealthPagesDao();
+//	        pageDao10.create(page10);
+//	        pageDao11 = pageDbHelper.getHealthPagesDao();
+//	        pageDao11.create(page11);
+//	        pageDao12 = pageDbHelper.getHealthPagesDao();
+//	        pageDao12.create(page12);
+//	    } catch (SQLException e1) {
+//	        // TODO Auto-generated catch block
+//	        e1.printStackTrace();
+//	    }
+//	    
+//	    
+//	    // HEALTH CONTENT PAGES
+//	    PageText1 pt1 = new PageText1(1, "¥ bla bla a bit of stuff\n¥ a second line\n¥ a third line", "some more stuff for the second paragraph", "now some zulu content", "para 2 zulu content");
+//	    PageText1 pt2 = new PageText1(2, "another page of text stuff, check it", "some more stuff for the second paragraph", "now some zulu content for the second text1 page", "para 2 zulu content");
+//	    // Psychosocial (0-5)
+//	    // Ask
+//	    PageText1 pt3 = new PageText1(3, "Ask", "Do you spend time with your child?\nWhat do you do with your child?\nHow does your child respond?\nDo you feel that this child needs to be punished often?\nIf age appropriate - Does the child play with other children or have close friends?\nDoes he/she enjoy being with other children?\nDoes he/she fight with other children?", "Ask", "now some zulu content");
+//	    // Discussion
+//	    PageText1 pt4 = new PageText1(4, "Discussion", "What important information have you learned?\nDo you agree with this?\nHave you ever experienced this?\nWhat does this mean for you in your life?\nWhat do you think you can do about it?\nAre there barriers that will make this difficult? What can help you to overcome them?", "Discussion", "some zulu content");
+//
+//	    Dao<PageText1, Integer> ptDao1;
+//	    Dao<PageText1, Integer> ptDao2;
+//	    Dao<PageText1, Integer> ptDao3;
+//	    Dao<PageText1, Integer> ptDao4;
+//	    DatabaseHelper ptDbHelper = new DatabaseHelper(context);
+//	    try {
+//	        ptDao1 = ptDbHelper.getPageText1Dao();
+//	        ptDao1.create(pt1);
+//	        ptDao2 = ptDbHelper.getPageText1Dao();
+//	        ptDao2.create(pt2);
+//	        ptDao3 = ptDbHelper.getPageText1Dao();
+//	        ptDao3.create(pt3);
+//	        ptDao4 = ptDbHelper.getPageText1Dao();
+//	        ptDao4.create(pt4);
+//	    } catch (SQLException e1) {
+//	        // TODO Auto-generated catch block
+//	        e1.printStackTrace();
+//	    }
+//	    
+//	    PageSelect1 ps1 = new PageSelect1(101, "bla bla a bit of stuff", "this is a question in zulu!");
+//	    // Psychosocial (0-5)
+//	    PageSelect1 ps2 = new PageSelect1(102, "", "");
+//	    Dao<PageSelect1, Integer> psDao1;
+//	    Dao<PageSelect1, Integer> psDao2;
+//	    DatabaseHelper psDbHelper = new DatabaseHelper(context);
+//	    try {
+//	        psDao1 = psDbHelper.getPageSelect1Dao();
+//	        psDao1.create(ps1);
+//	        psDao2 = psDbHelper.getPageSelect1Dao();
+//	        psDao2.create(ps2);
+//	    } catch (SQLException e1) {
+//	        // TODO Auto-generated catch block
+//	        e1.printStackTrace();
+//	    }
+//	    
+//	    //PageVideo1(int id, String en_content1, String zu_content1)
+//	    // Psychosocial (0-5)
+//	    PageVideo1 pv1 = new PageVideo1(1, "* Responsiveness\n* Affirmation\n* Positive discipline\n* Short and long term effect of carer-child relationship", "some zulu stuff", now, now);
+//	    Dao<PageVideo1, Integer> pvDao1;
+//	    DatabaseHelper pvDbHelper = new DatabaseHelper(context);
+//	    try {
+//	        pvDao1 = pvDbHelper.getPageVideo1Dao();
+//	        pvDao1.create(pv1);
+//	    } catch (SQLException e1) {
+//	        // TODO Auto-generated catch block
+//	        e1.printStackTrace();
+//	    }
+//	    
+//	    //TopicVideo(int id, int page_video1_id, int video_id) 
+//	    // Psychosocial (0-5)
+//	    TopicVideo tv1 = new TopicVideo(1, 1, 1, now, now);
+//	    TopicVideo tv2 = new TopicVideo(2, 1, 2, now, now);
+//	    TopicVideo tv3 = new TopicVideo(3, 1, 3, now, now);
+//	    TopicVideo tv4 = new TopicVideo(4, 1, 4, now, now);
+//	    Dao<TopicVideo, Integer> tvDao1;
+//	    Dao<TopicVideo, Integer> tvDao2;
+//	    Dao<TopicVideo, Integer> tvDao3;
+//	    Dao<TopicVideo, Integer> tvDao4;
+//	    DatabaseHelper tvDbHelper = new DatabaseHelper(context);
+//	    try {
+//	        tvDao1 = tvDbHelper.getTopicVideosDao();
+//	        tvDao1.create(tv1);
+//	        tvDao2 = tvDbHelper.getTopicVideosDao();
+//	        tvDao2.create(tv2);
+//	        tvDao3 = tvDbHelper.getTopicVideosDao();
+//	        tvDao3.create(tv3);
+//	        tvDao4 = tvDbHelper.getTopicVideosDao();
+//	        tvDao4.create(tv4);
+//	    } catch (SQLException e1) {
+//	        // TODO Auto-generated catch block
+//	        e1.printStackTrace();
+//	    }
+//	    
+//	    
+//	    // CHILD HEALTH ASSESSMENT BRANCH
 //	    PageAssessment1 pa1 = new PageAssessment1(1001, "Ask", "Does the child have a cough?", "Zulu stuff", "How long has the child been coughing?", "Zulu stuff", null,  null);
 //	    PageAssessment1 pa2 = new PageAssessment1(1003, "Ask", "Has the child had convulsions?", "Zulu stuff", null, null, null,  null);
 //	    Dao<PageAssessment1, Integer> pa1Dao;
