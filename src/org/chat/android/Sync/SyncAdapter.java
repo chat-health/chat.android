@@ -131,7 +131,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 			pullAllData();
 		} else if (syncType.equals("standard")) {
 			Log.i("SyncAdapter", "Just a regular pull");
-			//pullNewData();
+			pullNewData();
 			//pushNewData();
 		} else {
 			Log.e("SyncAdapter", "Impossible error. syncType str is unknown");
@@ -250,6 +250,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         	String baseUrl = appContext.getResources().getString(R.string.base_url);
         	String url = baseUrl.concat(modelName);
         	
+        	// append the last_synced_at in the event that we don't want to pull all (the most common use case)
         	if (pullAll == false) {
         		// concat so that only changed documents are getted from the collection
             	Date d = ModelHelper.getLastSyncedAt(appContext, "pull");
@@ -283,176 +284,106 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                Dao<Client, Integer> clientDao;
 	                clientDao = dbHelper.getClientsDao();
 	                
-	                // delete all entries
-	                if (jsonArray.length() > 0) {
-		                DeleteBuilder<Client, Integer> deleteWorker = clientDao.deleteBuilder();
-		                deleteWorker.delete();
-	                }
-	                
 	                // add new entries received via REST call
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject c = jsonArray.getJSONObject(i);
-	                	// Clients
+	                	//Log.i("SyncAdapter","JSON object: "+c.toString());
 	                	Client client = new Client(c.getInt("_id"), c.getString("first_name"), c.getString("last_name"), c.getInt("hh_id"), c.getString("gender"), parseBirthDateString(c.getString("date_of_birth")), parseDateString(c.getString("created_at")), parseDateString(c.getString("modified_at")));
-	            	    int numCreated = clientDao.create(client);
-	            	    
-	            	    if (numCreated != 1) {
-	            	    	Log.i("SyncAdapter", "create seem to have failed trying update ");
-	            	    	clientDao.update(client);
-	            	    }
+	                	clientDao.createOrUpdate(client);
 	                }
                 } else if ("households" == modelName) {
 	                Dao<Household, Integer> householdsDao;
 	                householdsDao = dbHelper.getHouseholdsDao();
 	                
-	                // delete all entries
-	                if (jsonArray.length() > 0) {
-		                DeleteBuilder<Household, Integer> deleteHousehold = householdsDao.deleteBuilder();
-		                deleteHousehold.delete();
-	                }
-	                
-	                // add new entries received via REST call
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
+	                	//Log.i("SyncAdapter","JSON object: "+jo.toString());
 	                	Household household = new Household(jo.getInt("_id"), jo.getString("hh_name"), jo.getString("community"), jo.getInt("worker_id"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
-	                	householdsDao.create(household);
+	                	householdsDao.createOrUpdate(household);
 	                }
                 } else if ("services" == modelName) {
 	                Dao<Service, Integer> servicesDao;
 	                servicesDao = dbHelper.getServicesDao();
-	                
-	                // delete all entries
-	                if (jsonArray.length() > 0) {
-		                DeleteBuilder<Service, Integer> deleteHousehold = servicesDao.deleteBuilder();
-		                deleteHousehold.delete();
-	                }
-	                
-	                // add new entries received via REST call
+
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
+	                	//Log.i("SyncAdapter","JSON object: "+jo.toString());
 	                	Service service = new Service (jo.getInt("_id"), jo.getString("name"), jo.getString("type"), jo.getString("role"), jo.getString("instructions"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
-	                	servicesDao.create(service);
+	                	servicesDao.createOrUpdate(service);
 	                }
-                } if ("workers" == modelName) {
+                } else if ("workers" == modelName) {
 	                Dao<Worker, Integer> wDao;
 	                wDao = dbHelper.getWorkersDao();
-	                
-	                // delete all entries
-	                if (jsonArray.length() > 0) {
-		                DeleteBuilder<Worker, Integer> deleteWorker = wDao.deleteBuilder();
-		                deleteWorker.delete();
-	                }
-	                
-	                // add new entries received via REST call
+
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject w = jsonArray.getJSONObject(i);
-	                	// WORKERS
+	                	//Log.i("SyncAdapter","JSON object: "+w.toString());
 	            	    Worker worker = new Worker(w.getInt("_id"), w.getString("first_name"), w.getString("last_name"), w.getString("password"), w.getString("role_name"), w.getString("assigned_community"), parseDateString(w.getString("created_at")), parseDateString(w.getString("modified_at")));
-	            	    wDao.create(worker);
+	            	    wDao.createOrUpdate(worker);
 	                }
                 } else if ("videos" == modelName) {
 	                Dao<Video, Integer> dao;
 	                dao = dbHelper.getVideosDao();
-	                
-	                // delete all entries
-	                if (jsonArray.length() > 0) {
-		                DeleteBuilder<Video, Integer> deleter = dao.deleteBuilder();
-		                deleter.delete();
-	                }
-	                
-	                // add new entries received via REST call
+
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
 	                	Video o = new Video(jo.getInt("_id"), jo.getString("name"), jo.getString("uri"), jo.getString("screenshot"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
-	                	dao.create(o);
+	                	dao.createOrUpdate(o);
 	                }
                 } else if ("resources" == modelName) {
 	                Dao<Resource, Integer> dao;
 	                dao = dbHelper.getResourcesDao();
-	                
-	                // delete all entries
-	                if (jsonArray.length() > 0) {
-		                DeleteBuilder<Resource, Integer> deleter = dao.deleteBuilder();
-		                deleter.delete();
-	                }
-	                
-	                // add new entries received via REST call
+
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
 	                	Resource o = new Resource(jo.getInt("_id"), jo.getString("name"), jo.getString("uri"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
-	                	dao.create(o);
+	                	dao.createOrUpdate(o);
 	                }
                 } else if ("health_themes" == modelName) {
 	                Dao<HealthTheme, Integer> dao;
 	                dao = dbHelper.getHealthThemeDao();
 	                
-	                // add new entries received via REST call
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
-	                	Log.i("SyncAdapter","JSON object: "+jo.toString());
 	                	HealthTheme o = new HealthTheme(jo.getInt("_id"), jo.getString("name"), jo.getString("en_observe_content"), jo.getString("en_record_content"), jo.getString("zu_observe_content"), jo.getString("zu_record_content"), jo.getString("color"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
-	                	// create or update data sets received from backend server
 	                	dao.createOrUpdate(o);
 	                }
                 } else if ("health_topics" == modelName) {
 	                Dao<HealthTopic, Integer> dao;
 	                dao = dbHelper.getHealthTopicsDao();
 	                
-	                // add new entries received via REST call
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
-	                	Log.i("SyncAdapter","JSON object: "+jo.toString());
+	                	//Log.i("SyncAdapter","JSON object: "+jo.toString());
 	                	HealthTopic o = new HealthTopic(jo.getInt("_id"), jo.getString("name"), jo.getString("theme"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
-	                	// create or update data sets received from backend server
 	                	dao.createOrUpdate(o);
 	                }
                 } else if ("health_selects" == modelName) {
 	                Dao<HealthSelect, Integer> dao;
 	                dao = dbHelper.getHealthSelectDao();
-	                
-	                // delete all entries
-	                if (jsonArray.length() > 0) {
-		                DeleteBuilder<HealthSelect, Integer> deleter = dao.deleteBuilder();
-		                deleter.delete();
-	                }
-	                
-	                // add new entries received via REST call
+
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
 	                	HealthSelect o = new HealthSelect(jo.getInt("_id"), jo.getInt("subject_id"), jo.getString("en_content"), jo.getString("zu_content"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
-	                	dao.create(o);
+	                	dao.createOrUpdate(o);
 	                }
                 } else if ("page_assessment1" == modelName) {
-	                Dao<PageAssessment1, Integer> paDao;
-	                paDao = dbHelper.getPageAssessment1Dao();
-	                
-	                // delete all entries
-	                if (jsonArray.length() > 0) {
-		                DeleteBuilder<PageAssessment1, Integer> deletePA1 = paDao.deleteBuilder();
-		                deletePA1.delete();
-	                }
-	                
-	                // add new entries received via REST call
+	                Dao<PageAssessment1, Integer> dao;
+	                dao = dbHelper.getPageAssessment1Dao();
+
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
 	                	PageAssessment1 pa1 = new PageAssessment1 (jo.getInt("_id"), jo.getString("type"), jo.getString("en_content1"), jo.getString("zu_content1"), jo.getString("en_content2"), jo.getString("zu_content2"), jo.getString("en_content3"), jo.getString("zu_content3"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
-	                	paDao.create(pa1);
+	                	dao.createOrUpdate(pa1);
 	                }
                 } else if ("vaccines" == modelName) {
-	                Dao<Vaccine, Integer> vacDao;
-	                vacDao = dbHelper.getVaccineDao();
-	                
-	                // delete all entries
-	                if (jsonArray.length() > 0) {
-		                DeleteBuilder<Vaccine, Integer> deleteVac = vacDao.deleteBuilder();
-		                deleteVac.delete();
-	                }
-	                
-	                // add new entries received via REST call
+	                Dao<Vaccine, Integer> dao;
+	                dao = dbHelper.getVaccineDao();
+
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
 	                	Vaccine vac = new Vaccine (jo.getInt("_id"), jo.getDouble("age"), jo.getString("display_age"), jo.getString("short_name"), jo.getString("long_name"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
-	                	vacDao.create(vac);
+	                	dao.createOrUpdate(vac);
 	                }
                 }
             } else{
