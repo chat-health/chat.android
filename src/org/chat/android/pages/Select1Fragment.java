@@ -51,7 +51,6 @@ public class Select1Fragment extends Fragment {
 		answer2 = (RadioButton) view.findViewById(R.id.s1rb2);
 		answer3 = (RadioButton) view.findViewById(R.id.s1rb3);
 		answer4 = (RadioButton) view.findViewById(R.id.s1rb4);
-		//image1 = (ImageView) view.findViewById(R.id.s1i1);
 		
 		// determine language from current tablet settings
 		String lang = Locale.getDefault().getLanguage();

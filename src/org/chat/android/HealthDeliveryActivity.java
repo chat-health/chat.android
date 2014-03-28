@@ -204,7 +204,7 @@ public class HealthDeliveryActivity extends BaseActivity {
 	    Dao<HealthTopicAccessed, Integer> htaDao;
 	    DatabaseHelper htaDbHelper = new DatabaseHelper(context);
 	    try {
-	    	htaDao = htaDbHelper.getHealthTopicsAccessedDao();
+	    	htaDao = htaDbHelper.getHealthTopicAccessedDao();
 	    	htaDao.create(healthTopicAccessed);
 	    } catch (SQLException e1) {
 	        // TODO Auto-generated catch block
@@ -222,7 +222,7 @@ public class HealthDeliveryActivity extends BaseActivity {
 	    Dao<HealthTopicAccessed, Integer> htaDao;
 	    DatabaseHelper htaDbHelper = new DatabaseHelper(context);
 	    try {
-	    	htaDao = htaDbHelper.getHealthTopicsAccessedDao();
+	    	htaDao = htaDbHelper.getHealthTopicAccessedDao();
 	    	htaDao.update(healthTopicAccessed);
 	    } catch (SQLException e1) {
 	        // TODO Auto-generated catch block

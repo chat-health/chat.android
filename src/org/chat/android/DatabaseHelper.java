@@ -45,7 +45,7 @@ import org.chat.android.models.Worker;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "chat.db";
-    private static final int DATABASE_VERSION = 161;
+    private static final int DATABASE_VERSION = 167;
     
     private Dao<Util, Integer> utilDao = null;
     
@@ -62,8 +62,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<Resource, Integer> resourcesDao = null;
     private Dao<ResourceAccessed, Integer> resourceAccessedDao = null;
     
-    private Dao<HealthTheme, Integer> healthThemeDao = null;
-    private Dao<HealthSelect, Integer> healthSelectDao = null;
+    private Dao<HealthTheme, Integer> healthThemesDao = null;
+    private Dao<HealthSelect, Integer> healthSelectsDao = null;
     private Dao<HealthSelectRecorded, Integer> healthSelectRecordedDao = null;
     
     private Dao<HealthTopic, Integer> healthTopicsDao = null;
@@ -72,11 +72,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<PageText1, Integer> pageText1Dao = null;
     private Dao<PageSelect1, Integer> pageSelect1Dao = null;
     private Dao<PageVideo1, Integer> pageVideo1Dao = null;
-    private Dao<TopicVideo, Integer> topicVideoDao = null;
+    private Dao<TopicVideo, Integer> topicVideosDao = null;
     
     private Dao<CHAAccessed, Integer> chaAccessedDao = null;
     private Dao<PageAssessment1, Integer> pageAssessment1Dao = null;
-    private Dao<Vaccine, Integer> vaccineDao = null;
+    private Dao<Vaccine, Integer> vaccinesDao = null;
     private Dao<VaccineRecorded, Integer> vaccineRecordedDao = null;
     
 
@@ -240,17 +240,17 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
         return resourceAccessedDao;
     }
-    public Dao<HealthTheme, Integer> getHealthThemeDao() throws SQLException {
-        if (healthThemeDao == null) {
-        	healthThemeDao = getDao(HealthTheme.class);
+    public Dao<HealthTheme, Integer> getHealthThemesDao() throws SQLException {
+        if (healthThemesDao == null) {
+        	healthThemesDao = getDao(HealthTheme.class);
         }
-        return healthThemeDao;
+        return healthThemesDao;
     }
-    public Dao<HealthSelect, Integer> getHealthSelectDao() throws SQLException {
-        if (healthSelectDao == null) {
-        	healthSelectDao = getDao(HealthSelect.class);
+    public Dao<HealthSelect, Integer> getHealthSelectsDao() throws SQLException {
+        if (healthSelectsDao == null) {
+        	healthSelectsDao = getDao(HealthSelect.class);
         }
-        return healthSelectDao;
+        return healthSelectsDao;
     }
     public Dao<HealthSelectRecorded, Integer> getHealthSelectRecordedDao() throws SQLException {
         if (healthSelectRecordedDao == null) {
@@ -264,7 +264,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
         return healthTopicsDao;
     }
-    public Dao<HealthTopicAccessed, Integer> getHealthTopicsAccessedDao() throws SQLException {
+    public Dao<HealthTopicAccessed, Integer> getHealthTopicAccessedDao() throws SQLException {
         if (healthTopicAccessedDao == null) {
         	healthTopicAccessedDao = getDao(HealthTopicAccessed.class);
         }
@@ -295,10 +295,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return pageVideo1Dao;
     }
     public Dao<TopicVideo, Integer> getTopicVideosDao() throws SQLException {
-        if (topicVideoDao == null) {
-        	topicVideoDao = getDao(TopicVideo.class);
+        if (topicVideosDao == null) {
+        	topicVideosDao = getDao(TopicVideo.class);
         }
-        return topicVideoDao;
+        return topicVideosDao;
     }
     public Dao<CHAAccessed, Integer> getCHAAccessedDao() throws SQLException {
         if (chaAccessedDao == null) {
@@ -312,11 +312,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
         return pageAssessment1Dao;
     }
-    public Dao<Vaccine, Integer> getVaccineDao() throws SQLException {
-        if (vaccineDao == null) {
-        	vaccineDao = getDao(Vaccine.class);
+    public Dao<Vaccine, Integer> getVaccinesDao() throws SQLException {
+        if (vaccinesDao == null) {
+        	vaccinesDao = getDao(Vaccine.class);
         }
-        return vaccineDao;
+        return vaccinesDao;
     }
     public Dao<VaccineRecorded, Integer> getVaccineRecordedDao() throws SQLException {
         if (vaccineRecordedDao == null) {
@@ -350,10 +350,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         pageText1Dao = null;
         pageSelect1Dao = null;
         pageVideo1Dao = null;
-        topicVideoDao = null;
+        topicVideosDao = null;
         chaAccessedDao = null;
         pageAssessment1Dao = null;
-        vaccineDao = null;
+        vaccinesDao = null;
         vaccineRecordedDao = null;
     }
 }

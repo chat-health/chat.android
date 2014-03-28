@@ -8,7 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
 /**
  * Created by colin
  */
-@DatabaseTable(tableName = "topic_video")				// bridge table to relate videos to their video pages
+@DatabaseTable(tableName = "topic_videos")				// bridge table to relate videos to their video pages
 public class TopicVideo {
 	@DatabaseField(id = true)
 	private int id;
@@ -37,6 +37,7 @@ public class TopicVideo {
      * @param modified_at
      */
     public TopicVideo(int id, int page_video1_id, int video_id, Date created_at, Date modified_at) {
+    	this.id = id;
     	this.page_video1_id = page_video1_id;
         this.video_id = video_id;
         this.created_at = created_at;

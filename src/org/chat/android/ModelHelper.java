@@ -246,7 +246,7 @@ public class ModelHelper {
 		Dao<HealthTheme, Integer> tDao;		
 		DatabaseHelper tDbHelper = new DatabaseHelper(context);
 		try {
-			tDao = tDbHelper.getHealthThemeDao();
+			tDao = tDbHelper.getHealthThemesDao();
 			themeList = tDao.queryBuilder().query();
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
@@ -261,7 +261,7 @@ public class ModelHelper {
 		Dao<HealthTheme, Integer> tDao;		
 		DatabaseHelper tDbHelper = new DatabaseHelper(context);
 		try {
-			tDao = tDbHelper.getHealthThemeDao();
+			tDao = tDbHelper.getHealthThemesDao();
 			List<HealthTheme> tList = tDao.queryBuilder().where().eq("name",themeName).query();
 			Iterator<HealthTheme> iter = tList.iterator();
 			while (iter.hasNext()) {
@@ -280,7 +280,7 @@ public class ModelHelper {
 		Dao<HealthSelect, Integer> hsDao;		
 		DatabaseHelper hsDbHelper = new DatabaseHelper(context);
 		try {
-			hsDao = hsDbHelper.getHealthSelectDao();
+			hsDao = hsDbHelper.getHealthSelectsDao();
 			QueryBuilder<HealthSelect, Integer> qb = hsDao.queryBuilder();
 			qb.where().eq("subject_id",subjectId);
 			selectList = qb.orderBy("id", true).query();
@@ -422,7 +422,7 @@ public class ModelHelper {
 		Dao<HealthSelect, Integer> hsDao;		
 		DatabaseHelper hsDbHelper = new DatabaseHelper(context);
 		try {
-			hsDao = hsDbHelper.getHealthSelectDao();
+			hsDao = hsDbHelper.getHealthSelectsDao();
 			List<HealthSelect> selectList = hsDao.queryBuilder().where().eq("id",id).query();
 			Iterator<HealthSelect> iter = selectList.iterator();
 			while (iter.hasNext()) {
@@ -566,7 +566,7 @@ public class ModelHelper {
 		Dao<Vaccine, Integer> vDao;		
 		DatabaseHelper vDbHelper = new DatabaseHelper(context);
 		try {
-			vDao = vDbHelper.getVaccineDao();
+			vDao = vDbHelper.getVaccinesDao();
 			vList = vDao.queryBuilder().where().le("age",age).query();
 		} catch (SQLException e2) {
 			Log.e("Video does not exist in the DB: ", "");

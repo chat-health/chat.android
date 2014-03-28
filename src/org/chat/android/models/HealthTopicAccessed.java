@@ -49,15 +49,20 @@ public class HealthTopicAccessed {
      * 
      */
     public HealthTopicAccessed(int topic_id, int visit_id, int hh_id, String topic_name, Date start_time) {
-    	Context myContext = MyApplication.getAppContext();
-    	this.id = ModelHelper.generateId(myContext);
+    	this(ModelHelper.generateId(MyApplication.getAppContext()), topic_id, visit_id, hh_id, topic_name, start_time, null, true);
+    }
+    
+    public HealthTopicAccessed(int id, int topic_id, int visit_id, int hh_id, String topic_name, Date start_time, Date end_time, Boolean newly_created) {
+    	this.id = id;
     	this.topic_id = topic_id;
     	this.visit_id = visit_id;
     	this.hh_id = hh_id;
     	this.topic_name = topic_name;
     	this.start_time = start_time;
-    	this.newly_created = true;
+    	this.end_time = end_time;
+    	this.newly_created = newly_created;					// set to true if there are 5 params (ie default)
     }
+   
     
     /**
      * Copy constructor
