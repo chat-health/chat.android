@@ -47,13 +47,16 @@ public class VaccineRecorded {
      * 
      */
     public VaccineRecorded(int vaccine_id, int client_id, int visit_id, Date date) {
-    	Context myContext = MyApplication.getAppContext();
-    	this.id = ModelHelper.generateId(myContext);
+    	this(ModelHelper.generateId(MyApplication.getAppContext()), vaccine_id, client_id, visit_id, date, true);
+    }
+
+    public VaccineRecorded(int id, int vaccine_id, int client_id, int visit_id, Date date, Boolean newly_created) {
+    	this.id = id;
     	this.vaccine_id = vaccine_id;
     	this.client_id = client_id;
     	this.visit_id = visit_id;
         this.date = date;
-        this.newly_created = true;
+        this.newly_created = newly_created;
     }
     
     /**

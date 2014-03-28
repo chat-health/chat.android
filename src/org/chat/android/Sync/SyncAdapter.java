@@ -455,24 +455,24 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                }
                 // the push tables
                 } else if ("health_topics_accessed" == modelName) {
-//	                Dao<HealthTopicAccessed, Integer> dao;
-//	                dao = dbHelper.getHealthTopicAccessedDao();
+	                Dao<HealthTopicAccessed, Integer> dao;
+	                dao = dbHelper.getHealthTopicAccessedDao();
+
+	                for (int i=0; i < jsonArray.length(); i++) {
+	                	JSONObject jo = jsonArray.getJSONObject(i);
+	                	HealthTopicAccessed hta = new HealthTopicAccessed (jo.getInt("_id"), jo.getInt("topic_id"), jo.getInt("visit_id"), jo.getInt("hh_id"), jo.getString("topic_name"), parseDateString(jo.getString("start_time")), parseDateString(jo.getString("end_time")), false);
+	                	dao.createOrUpdate(hta);
+	                }
+//                } else if ("services_accessed" == modelName) {
+//	                Dao<ServiceAccessed, Integer> dao;
+//	                dao = dbHelper.getServiceAccessedDao();
 //
 //	                for (int i=0; i < jsonArray.length(); i++) {
 //	                	JSONObject jo = jsonArray.getJSONObject(i);
-//	                	HealthTopicAccessed hta = new HealthTopicAccessed (jo.getInt("_id"), jo.getInt("topic_id"), jo.getInt("visit_id"), jo.getInt("hh_id"), jo.getString("topic_name"), parseDateString(jo.getString("start_time")), parseDateString(jo.getString("end_time")), false);
-//	                	dao.createOrUpdate(hta);
-//	                }
-                } else if ("services_accessed" == modelName) {
-//	                Dao<Vaccine, Integer> dao;
-//	                dao = dbHelper.getVaccinesDao();
-//
-//	                for (int i=0; i < jsonArray.length(); i++) {
-//	                	JSONObject jo = jsonArray.getJSONObject(i);
-//	                	Vaccine vac = new Vaccine (jo.getInt("_id"), jo.getDouble("age"), jo.getString("display_age"), jo.getString("short_name"), jo.getString("long_name"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
+//	                	ServiceAccessed vac = new Vaccine (jo.getInt("_id"), jo.getInt("service_id"), jo.getInt("visit_id"), jo.getString("client_id"), jo.getString("ad_info"), parseDateString(jo.getString("date")), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
 //	                	dao.createOrUpdate(vac);
 //	                }
-                } else if ("resources_accessed" == modelName) {
+//                } else if ("resources_accessed" == modelName) {
 //	                Dao<Vaccine, Integer> dao;
 //	                dao = dbHelper.getVaccinesDao();
 //
@@ -482,23 +482,29 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 //	                	dao.createOrUpdate(vac);
 //	                }
                 } else if ("vaccines_recorded" == modelName) {
-//	                Dao<Vaccine, Integer> dao;
-//	                dao = dbHelper.getVaccinesDao();
-//
-//	                for (int i=0; i < jsonArray.length(); i++) {
-//	                	JSONObject jo = jsonArray.getJSONObject(i);
-//	                	Vaccine vac = new Vaccine (jo.getInt("_id"), jo.getDouble("age"), jo.getString("display_age"), jo.getString("short_name"), jo.getString("long_name"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
-//	                	dao.createOrUpdate(vac);
-//	                }
+	                Dao<VaccineRecorded, Integer> dao;
+	                dao = dbHelper.getVaccineRecordedDao();
+
+	                for (int i=0; i < jsonArray.length(); i++) {
+	                	JSONObject jo = jsonArray.getJSONObject(i);
+	                	VaccineRecorded vr = new VaccineRecorded (jo.getInt("_id"), jo.getInt("vaccine_id"), jo.getInt("client_id"), jo.getInt("visit_id"), parseDateString(jo.getString("date")), false);
+	                	dao.createOrUpdate(vr);
+	                }
                 } else if ("visits" == modelName) {
-//	                Dao<Vaccine, Integer> dao;
-//	                dao = dbHelper.getVaccinesDao();
-//
-//	                for (int i=0; i < jsonArray.length(); i++) {
-//	                	JSONObject jo = jsonArray.getJSONObject(i);
-//	                	Vaccine vac = new Vaccine (jo.getInt("_id"), jo.getDouble("age"), jo.getString("display_age"), jo.getString("short_name"), jo.getString("long_name"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
-//	                	dao.createOrUpdate(vac);
-//	                }
+	                Dao<Visit, Integer> dao;
+	                dao = dbHelper.getVisitsDao();
+
+	                for (int i=0; i < jsonArray.length(); i++) {
+	                	JSONObject jo = jsonArray.getJSONObject(i);
+	                	//(int id, int hh_id, int worker_id, String role, String type, double lat, double lon, Date start_time, Date end_time, Boolean newly_created, Boolean dirty)
+	                	Date endTime = null;
+	                	if (jo.getString("end_time") != null) {
+	                		endTime = parseDateString(jo.getString("end_time"));
+	                	}
+	                	Visit v = new Visit (jo.getInt("_id"), jo.getInt("hh_id"), jo.getInt("worker_id"), jo.getString("role"), jo.getString("type"), jo.getDouble("lat"), jo.getDouble("lon"), parseDateString(jo.getString("start_time")), endTime, false, false);
+	                	populateTablesFromVisitObject(jo);
+	                	dao.createOrUpdate(v);
+	                }
                 }
             } else{
                 //Closes the connection.
@@ -847,19 +853,30 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 			jsonArrCHAA.put(jsonObj);
 		}
 		json.put("cha_accessed",jsonArrCHAA);
-
+	}
+	
+	private void populateTablesFromVisitObject(JSONObject jo) {
+		// maybe we don't need this?
+//		Attendance
+//		Videos_accessed
+//		health_selects_recorded
+//		cha_accessed
 	}
 	
 	private Date parseDateString(String input) throws ParseException {
-		//JSON: 2014-02-18T18:04:39.546Z
-		//ORM Date: 2014-02-18 18:04:39.555
-		//Log.i("SyncAdapter", "dateStr: "+input);
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");	
-		formatter.setTimeZone(TimeZone.getTimeZone("GMT-00:00"));
-		//Log.i("SyncAdapter", "formatter: "+formatter);
-        Date convertedDate =  formatter.parse(input);
-        //Log.i("SyncAdapter", "date obj: "+convertedDate.toString());
-		return convertedDate;
+		if (input == null) {
+			return null;
+		} else {
+			//JSON: 2014-02-18T18:04:39.546Z
+			//ORM Date: 2014-02-18 18:04:39.555
+			//Log.i("SyncAdapter", "dateStr: "+input);
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");	
+			formatter.setTimeZone(TimeZone.getTimeZone("GMT-00:00"));
+			//Log.i("SyncAdapter", "formatter: "+formatter);
+	        Date convertedDate =  formatter.parse(input);
+	        //Log.i("SyncAdapter", "date obj: "+convertedDate.toString());
+			return convertedDate;
+		}
 	}
 	
 	private Date parseBirthDateString(String input) throws ParseException {

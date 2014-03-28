@@ -53,10 +53,10 @@ public class Visit {
 
     /**
      * Constructor that instantiates the private member variable(s)
+     * @param id
      * @param hh_id
      * @param worker_id
-     * @param role      
-     * @param date 
+     * @param role 
      * @param type
      * @param lon 
      * @param lat 
@@ -64,19 +64,22 @@ public class Visit {
      * @param newly_created
      * @param dirty
      */
-    public Visit(int worker_id, String role, Date date, int hh_id, String type, double lat, double lon, Date start_time) {
-    	Context myContext = MyApplication.getAppContext();
-    	this.id = ModelHelper.generateId(myContext);
+    public Visit(int hh_id, int worker_id, String role, String type, double lat, double lon, Date start_time) {
+    	this(ModelHelper.generateId(MyApplication.getAppContext()), hh_id, worker_id, role, type, lat, lon, start_time, null, true, true);
+
+    }
+    
+    public Visit(int id, int hh_id, int worker_id, String role, String type, double lat, double lon, Date start_time, Date end_time, Boolean newly_created, Boolean dirty) {
+    	this.id = id;
     	this.hh_id = hh_id;
         this.worker_id = worker_id;
         this.role = role;
-        this.date = date;
         this.type = type;
         this.lat = lat;
         this.lon = lon;
         this.start_time = start_time;
-        this.newly_created = true;
-        this.dirty = true;
+        this.newly_created = newly_created;
+        this.dirty = dirty;
     }
     
     /**

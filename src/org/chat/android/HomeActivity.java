@@ -333,8 +333,8 @@ public class HomeActivity extends Activity {
 		Date date  = new Date();
 		Date startTime = new Date();
 
-		// create a new Visit object to be used for this visit - TODO: make sure that onCreate is only called once (ie not every time we return from the ServiceDeliveryActivity)
-    	visit = new Visit(workerId, role, date, hhId, type, lat, lon, startTime);
+		// create a new Visit object to be used for this visit
+    	visit = new Visit(hhId, workerId, role, type, lat, lon, startTime);
     	
     	Dao<Visit, Integer> vDao;
     	DatabaseHelper dbHelper = new DatabaseHelper(context);
