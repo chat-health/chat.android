@@ -77,8 +77,6 @@ public class ModelHelper {
 		uDao.createOrUpdate(u);
 	}
 	
-	//public static void setVisitToDirty TODO
-	
 	public static Visit getVisitForId(Context context, int visitId) {
 		Visit visit = null;
 		Dao<Visit, Integer> vDao;		
@@ -153,6 +151,36 @@ public class ModelHelper {
 		}
 		
 		return household;
+	}
+	
+	public static List<Household> getHouseholdsForWorkerId(Context context, int workerId) {
+		List<Household> hList = null;
+		Dao<Household, Integer> hDao;		
+		DatabaseHelper hDbHelper = new DatabaseHelper(context);
+		try {
+			hDao = hDbHelper.getHouseholdsDao();
+			hList = hDao.queryBuilder().where().eq("worker_id",workerId).query();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		return hList;
+	}
+	
+	public static List<Household> getAllHouseholds(Context context) {
+		List<Household> hList = null;
+		Dao<Household, Integer> hDao;		
+		DatabaseHelper hDbHelper = new DatabaseHelper(context);
+		try {
+			hDao = hDbHelper.getHouseholdsDao();
+			hList = hDao.queryBuilder().query();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		return hList;
 	}
 	
 	public static Client getClientForId(Context context, int clientId) {

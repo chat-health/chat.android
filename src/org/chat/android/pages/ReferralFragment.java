@@ -10,12 +10,14 @@ import org.chat.android.models.HealthSelectRecorded;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ReferralFragment extends Fragment {
 
@@ -50,9 +52,29 @@ public class ReferralFragment extends Fragment {
     		if (id == 10025 || id == 10027) {
     			content4.setVisibility(View.VISIBLE);
     		}
+    		
+    		//sendReferral();			// maybe pass a param here? also need to have a true flag set in the if
     	}
     	
     	return view;
+    }
+    
+    private void sendReferral() {
+    	try {
+    		Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+			sendIntent.putExtra("sms_body", "default content"); 
+			sendIntent.setType("vnd.android-dir/mms-sms");			
+			startActivity(sendIntent);
+			Toast.makeText(getActivity(),
+					"I sent, in theory",
+					Toast.LENGTH_LONG).show();
+		} catch (Exception e) {
+			Toast.makeText(getActivity(),
+				"SMS faild, please try again later!",
+				Toast.LENGTH_LONG).show();
+			e.printStackTrace();
+		}
+
     }
 }
 

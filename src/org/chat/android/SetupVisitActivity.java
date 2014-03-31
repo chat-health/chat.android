@@ -2,6 +2,13 @@ package org.chat.android;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import org.chat.android.models.Household;
+import org.chat.android.models.Service;
+import org.chat.android.models.Worker;
+
+import com.j256.ormlite.dao.Dao;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,6 +19,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -32,6 +40,7 @@ public class SetupVisitActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Context context = getApplicationContext();
 		
 		Bundle b = getIntent().getExtras();
 		workerName = b.getString("workerName");
@@ -57,11 +66,27 @@ public class SetupVisitActivity extends Activity {
 		
 		// household selections spinner
 		householdSpinner = (Spinner) findViewById(R.id.household_spinner);
-		ArrayList<String> householdList = new ArrayList<String>();
-		// TODO: DUMMY DATA. Instead, pull these from DB, based on workerName and role passed from login activity 
-		householdList.add("John Doe");
-		householdList.add("James Doe");
-		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.login_spinner_item, householdList);
+		ArrayList<String> householdNames = new ArrayList<String>();
+		
+		// for volunteers
+		if (role.equals(roleArray[0])) {
+			int workerId = ModelHelper.getWorkerForUsername(context, workerName).getId();
+			List<Household> hList = ModelHelper.getHouseholdsForWorkerId(context, workerId);
+			for (Household h : hList) {
+				householdNames.add(h.getHhName());
+			}
+		}
+		// for lay counsellors
+		else if (role.equals(roleArray[1])) {
+			List<Household> hList = ModelHelper.getAllHouseholds(context);
+			for (Household h : hList) {
+				householdNames.add(h.getHhName());
+			}
+		} else {
+			Log.e("SetupVisitActivity", "Missing role");
+		}
+
+		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.login_spinner_item, householdNames);
 		householdSpinner.setAdapter(arrayAdapter);
 		
 		// gps location button
