@@ -116,6 +116,25 @@ public class ModelHelper {
 		
 		return worker;
 	}
+	
+	public static Worker getWorkerForUsername(Context context, String username) {
+		Worker worker = null;
+		Dao<Worker, Integer> wDao;		
+		DatabaseHelper wDbHelper = new DatabaseHelper(context);
+		try {
+			wDao = wDbHelper.getWorkersDao();
+			List<Worker> wList = wDao.queryBuilder().where().eq("username",username).query();
+			Iterator<Worker> iter = wList.iterator();
+			while (iter.hasNext()) {
+				worker = iter.next();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return worker;
+	}
 
 	public static Household getHouseholdForName(Context context, String hhName) {
 		Household household = null;

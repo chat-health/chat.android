@@ -26,6 +26,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,14 +39,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class LoginActivity extends Activity {
-	/**
-	 * A dummy authentication store containing known user names and passwords.
-	 * TODO: remove after connecting to a real authentication system.
-	 * TODO: split this further to incorporate role? This will likely need to be rethought, ctrl-f for credential.split(":")
-	 */
-	private static final String[] DUMMY_CREDENTIALS = new String[] {
-			"colin:chat", "armin:chat", "lisa:chat", "duncan:chat",
-			"jim:chat", "sbongile:chat"};
 
 	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
@@ -118,12 +111,6 @@ public class LoginActivity extends Activity {
 
 	}
 
-	// @Override
-//	 public boolean onCreateOptionsMenu(Menu menu) {
-//		 super.onCreateOptionsMenu(menu);
-//		 getMenuInflater().inflate(R.menu.activity_login, menu);
-//		 return true;
-//	 }
 
 	/**
 	 * Attempts to sign in or register the account specified by the login form.
@@ -146,7 +133,8 @@ public class LoginActivity extends Activity {
 		boolean cancel = false;
 		View focusView = null;
 
-		// Check for a valid password - comment out for testing, use for PROD
+		// ******************** Check for a valid password - comment out for testing, use for PROD ********************
+		
 //		if (TextUtils.isEmpty(mPassword)) {
 //			mPasswordView.setError(getString(R.string.error_field_required));
 //			focusView = mPasswordView;
@@ -162,6 +150,21 @@ public class LoginActivity extends Activity {
 //			focusView = mUserNameView;
 //			cancel = true;
 //		}
+//		// Check if the user exists
+//		Worker w = ModelHelper.getWorkerForUsername(getApplicationContext(), mUserNameView.getText().toString());
+//		if (w == null) {
+//			mUserNameView.setError(getString(R.string.error_invalid_user_name));
+//			focusView = mUserNameView;
+//			cancel = true;
+//		} else {
+//			String role = roleSpinner.getSelectedItem().toString();
+//			if (!w.getRoleName().equals(role)) {
+//				mUserNameView.setError(getString(R.string.error_invalid_role));
+//				focusView = mUserNameView;
+//				cancel = true;
+//			}
+//		}
+
 		// /comment
 		
 		if (cancel) {
@@ -227,25 +230,13 @@ public class LoginActivity extends Activity {
 		@Override
 		protected Boolean doInBackground(Void... params) {
 
-			// TODO: dump this when we're actually ORMing
-//			try {
-//				// Simulate network access.
-//				Thread.sleep(2000);
-//			} catch (InterruptedException e) {
+			// ******************** COMMENT BACK IN FOR PROD ********************
+//			Worker w = ModelHelper.getWorkerForUsername(getApplicationContext(), mUserNameView.getText().toString());
+//			if (w != null) {
+//				return w.getPassword().equals(mPassword);
+//			} else {
 //				return false;
 //			}
-//
-			
-			// if for does not return true, ie if un/pw do not match. Again, comment out for testing, use for PROD		
-//			for (String credential : DUMMY_CREDENTIALS) {
-//				String[] pieces = credential.split(":");
-//				if (pieces[0].equals(mUserName)) {
-//					// Account exists, return true if the password matches.
-//					return pieces[1].equals(mPassword);
-//				}
-//			}
-			// /comment
-
 			return true;
 		}
 
@@ -258,7 +249,9 @@ public class LoginActivity extends Activity {
 				int vId = 0;
 				// check if there are previously uncompleted visits for this worker. NB: this assumes there is only ever one unrestored visit (TESTME)
 				String workerName = mUserNameView.getText().toString();
-				int workerId = ModelHelper.getWorkerForName(getApplicationContext(), workerName).getId();
+
+				Worker w = ModelHelper.getWorkerForUsername(getApplicationContext(), workerName);
+				int workerId = w.getId();
 				
 				Dao<Visit, Integer> vDao;		
 				DatabaseHelper vDbHelper = new DatabaseHelper(getApplicationContext());
@@ -295,7 +288,7 @@ public class LoginActivity extends Activity {
 
 			 } else {
 				 mPasswordView
-				 .setError(getString(R.string.error_incorrect_password));
+				 .setError(getString(R.string.error_auth));
 				 mPasswordView.requestFocus();
 			 }
 		 }

@@ -25,8 +25,6 @@ public class Visit {
     @DatabaseField
 	private String role;
     @DatabaseField
-    private Date date;
-    @DatabaseField
     private int hh_id;
     @DatabaseField
     private double lat;
@@ -91,7 +89,6 @@ public class Visit {
     	this.hh_id = existingVisitModel.hh_id;
     	this.worker_id = existingVisitModel.worker_id;
         this.role = existingVisitModel.role;
-        this.date = existingVisitModel.date;
         this.type = existingVisitModel.type;
         this.lat = existingVisitModel.lat;
         this.lon = existingVisitModel.lon;

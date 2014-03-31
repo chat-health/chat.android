@@ -17,13 +17,13 @@ public class Worker {
     @DatabaseField
     private String last_name;
     @DatabaseField
+    private String username;
+    @DatabaseField
     private String password;
     @DatabaseField
     private String role_name;
     @DatabaseField
     private String assigned_community;
-//    @DatabaseField
-//    private String username;
     @DatabaseField
 	private Date created_at;
 	@DatabaseField
@@ -42,16 +42,18 @@ public class Worker {
      * @param id
      * @param first_name
      * @param last_name
+     * @param username
      * @param password
      * @param role_name
      * @param assigned_community
      * @param created_at
      * @param modified_at
      */
-    public Worker(int id, String first_name, String last_name, String password, String role_name, String assigned_community, Date created_at, Date modified_at) {
+    public Worker(int id, String first_name, String last_name, String username, String password, String role_name, String assigned_community, Date created_at, Date modified_at) {
     	this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
+        this.username = username;
         this.password = password;
         this.role_name = role_name;
         this.assigned_community = assigned_community;
@@ -91,6 +93,14 @@ public class Worker {
 	
 	public void setLastName(String last_name) {
 		this.last_name = last_name;
+	}
+	
+	public String getUsername() {
+		return username;
+	}
+	
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	
 	public String getPassword() {

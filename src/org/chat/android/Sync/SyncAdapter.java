@@ -341,7 +341,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject w = jsonArray.getJSONObject(i);
 	                	//Log.i("SyncAdapter","JSON object: "+w.toString());
-	            	    Worker worker = new Worker(w.getInt("_id"), w.getString("first_name"), w.getString("last_name"), w.getString("password"), w.getString("role_name"), w.getString("assigned_community"), parseDateString(w.getString("created_at")), parseDateString(w.getString("modified_at")));
+	            	    Worker worker = new Worker(w.getInt("_id"), w.getString("first_name"), w.getString("last_name"), w.getString("username"), w.getString("password"), w.getString("role_name"), w.getString("assigned_community"), parseDateString(w.getString("created_at")), parseDateString(w.getString("modified_at")));
 	            	    wDao.createOrUpdate(worker);
 	                }
                 } else if ("videos" == modelName) {
@@ -497,6 +497,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
 	                	//(int id, int hh_id, int worker_id, String role, String type, double lat, double lon, Date start_time, Date end_time, Boolean newly_created, Boolean dirty)
+	                	Date startTime = null;
 	                	Date endTime = null;
 	                	if (jo.getString("end_time") != null) {
 	                		endTime = parseDateString(jo.getString("end_time"));
