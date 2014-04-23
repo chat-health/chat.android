@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+import org.chat.android.Auth.AccountGeneral;
 import org.chat.android.models.Attendance;
 import org.chat.android.models.Client;
 import org.chat.android.models.Household;
@@ -71,15 +72,9 @@ public class HomeActivity extends Activity {
 	
 	
 	// step aside I am here on official sync adapter business
-	// Constants
-    // The authority for the sync adapter's content provider
-    public static final String AUTHORITY = "org.chat.provider";
-    // An account type, in the form of a domain name
-    public static final String ACCOUNT_TYPE = "chat.org";
-    // The account name
-    public static final String ACCOUNT = "chat-tablet";
-    // Instance fields
-    Account mAccount;
+
+    // Create the account type and default account
+    static Account mAccount = new Account(AccountGeneral.ACCOUNT_NAME, AccountGeneral.ACCOUNT_TYPE);
 
     @Override    
     public void onCreate(Bundle savedInstanceState) {
@@ -117,7 +112,7 @@ public class HomeActivity extends Activity {
         setupUIElements();
         
         // Create the dummy account (needed for sync adapter)
-        mAccount = CreateSyncAccount(this);
+//        mAccount = CreateSyncAccount(this);
     }
     
     @Override    
@@ -603,7 +598,7 @@ public class HomeActivity extends Activity {
          * Request the sync for the default account, authority, and
          * manual sync settings
          */
-        ContentResolver.requestSync(mAccount, AUTHORITY, settingsBundle);
+        ContentResolver.requestSync(mAccount, AccountGeneral.AUTHORITY, settingsBundle);
     }
 	
 	/**
@@ -611,31 +606,31 @@ public class HomeActivity extends Activity {
      *
      * @param context The application context
      */
-    public static Account CreateSyncAccount(Context context) {
-        // Create the account type and default account
-        Account newAccount = new Account(ACCOUNT, ACCOUNT_TYPE);
-        // Get an instance of the Android account manager
-        AccountManager accountManager = (AccountManager) context.getSystemService(ACCOUNT_SERVICE);
-        /*
-         * Add the account and account type, no password or user data
-         * If successful, return the Account object, otherwise report an error.
-         */
-        if (accountManager.addAccountExplicitly(newAccount, null, null)) {
-            /*
-             * If you don't set android:syncable="true" in
-             * in your <provider> element in the manifest,
-             * then call context.setIsSyncable(account, AUTHORITY, 1)
-             * here.
-             */
-        	ContentResolver.setSyncAutomatically(newAccount, AUTHORITY, true); //this programmatically turns on the sync for new sync adapters.
-        	return newAccount;
-        } else {
-            /*
-             * The account exists or some other error occurred. Log this, report it,
-             * or handle it internally.
-             */
-        	return null;
-        }
-    }
+//    public static Account CreateSyncAccount(Context context) {
+//        // Create the account type and default account
+//        Account newAccount = new Account(ACCOUNT, ACCOUNT_TYPE);
+//        // Get an instance of the Android account manager
+//        AccountManager accountManager = (AccountManager) context.getSystemService(ACCOUNT_SERVICE);
+//        /*
+//         * Add the account and account type, no password or user data
+//         * If successful, return the Account object, otherwise report an error.
+//         */
+//        if (accountManager.addAccountExplicitly(newAccount, null, null)) {
+//            /*
+//             * If you don't set android:syncable="true" in
+//             * in your <provider> element in the manifest,
+//             * then call context.setIsSyncable(account, AUTHORITY, 1)
+//             * here.
+//             */
+//        	ContentResolver.setSyncAutomatically(newAccount, AUTHORITY, true); //this programmatically turns on the sync for new sync adapters.
+//        	return newAccount;
+//        } else {
+//            /*
+//             * The account exists or some other error occurred. Log this, report it,
+//             * or handle it internally.
+//             */
+//        	return null;
+//        }
+//    }
 
 }

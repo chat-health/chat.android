@@ -16,12 +16,18 @@
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
     <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
         android:name="org.chat.android.MyApplication"
         android:icon="@drawable/chat_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
@@ -41,14 +47,25 @@
             android:label="@string/title_activity_setup_visit"
             android:screenOrientation="landscape">
         </activity> 
+        
+        <!-- The authorization activity -->
         <activity
-            android:name=".HomeActivity"
-            android:label="@string/title_activity_home"
-            android:screenOrientation="landscape" >
+            android:name="org.chat.android.Auth.MainActivity"
+            android:label="@string/title_activity_auth" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        
+        <activity
+            android:name=".HomeActivity"
+            android:label="@string/title_activity_home"
+            android:screenOrientation="landscape" >
+<!--             <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>  -->
         </activity>
         <activity
             android:name=".ResourcesActivity"
@@ -172,7 +189,7 @@
             android:name="org.chat.android.Sync.SyncService"
             android:exported="true"
             android:process=":sync">
-            <intent-filter>org.encorelab.syncadaptertest.provider
+            <intent-filter>
                 <action android:name="android.content.SyncAdapter"/>
             </intent-filter>
             <meta-data
@@ -181,7 +198,7 @@
         </service>
         
         <service
-	        android:name="org.chat.android.Sync.AuthenticatorService">
+	        android:name="org.chat.android.Auth.AuthenticatorService">
 	        <intent-filter>
 	            <action android:name="android.accounts.AccountAuthenticator"/>
 	        </intent-filter>
@@ -191,7 +208,7 @@
 	    </service>
 	    
         <provider
-	        android:name="org.chat.android.Sync.StubProvider"
+	        android:name="org.chat.android.Sync.provider.ChatContentProvider"
 	        android:authorities="org.chat.provider"
 	        android:exported="false"
 	        android:syncable="true" />

@@ -28,6 +28,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.chat.android.DatabaseHelper;
 import org.chat.android.ModelHelper;
 import org.chat.android.R;
+import org.chat.android.Auth.AccountGeneral;
 import org.chat.android.models.Attendance;
 import org.chat.android.models.CHAAccessed;
 import org.chat.android.models.Client;
@@ -61,6 +62,9 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 
 import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
@@ -84,6 +88,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     Boolean pushSuccess = true;
     DatabaseHelper dbHelper;
     
+    // every time sync should use this token
+    private String clientToken = "";
+    
+    // using the account manager to access to authenticator
+    private AccountManager mAccountManager;
+    
     /**
      * Set up the sync adapter
      */
@@ -96,6 +106,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         mContentResolver = context.getContentResolver();
         appContext = context;
         dbHelper = new DatabaseHelper(appContext);
+        mAccountManager = AccountManager.get(context);
     }
 
     /**
@@ -115,11 +126,31 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         mContentResolver = context.getContentResolver();
         appContext = context;
         dbHelper = new DatabaseHelper(appContext);
+        mAccountManager = AccountManager.get(context);
     }
     
 	@Override
 	public void onPerformSync(Account arg0, Bundle arg1, String arg2, ContentProviderClient arg3, SyncResult arg4) {
 		Log.i("SyncAdapter", "sync adapter running :)");
+		// every time perform sync should check the client token is exist
+		try {
+			clientToken = mAccountManager.blockingGetAuthToken(arg0, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, true);
+			if(null==clientToken||clientToken.isEmpty())
+			{
+				Log.e("SyncAdapter", "<---------The token is missing---------->");
+				// TODO 
+			}
+			
+		} catch (OperationCanceledException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (AuthenticatorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		// if syncType is pullAll we want to trigger a 'pull all of everything ever' sync
 		// TODO: clean me up
@@ -283,6 +314,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         		
         		//TODO: CHANGE for PROD - this is for testing only, pulls everything instead of changed things
             	url = url.concat(lastSync);
+            	
+            	// modification: for authorization, send every request with parameter clientToken
+            	String paramToken = "&client_access_token="+clientToken;
+        		url = url.concat(paramToken);
+        	}
+        	else
+        	{
+	        	// modification: for authorization, send every request with parameter clientToken
+	        	String paramToken = "?client_access_token="+clientToken;
+	    		url = url.concat(paramToken);
         	}
         	
         	Log.i("SyncAdapter", "Get to URL: "+url);

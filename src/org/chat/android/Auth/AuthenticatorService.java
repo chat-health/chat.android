@@ -1,4 +1,4 @@
-package org.chat.android.Sync;
+package org.chat.android.Auth;
 
 import android.app.Service;
 import android.content.Intent;

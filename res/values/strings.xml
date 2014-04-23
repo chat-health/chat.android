@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">CHAT</string>
     
-    <string name="base_url">https://backend.lmbutler-ssa.net/</string>
-	<!-- <string name="base_url">http://10.0.1.112:8000/</string> -->
+    <!-- <string name="base_url">https://backend.lmbutler-ssa.net/</string> -->
+	<string name="base_url">http://10.0.1.197:8000/</string> 
 	<!-- <string name="base_url">http://142.150.100.171:8000/</string> --> 
 	<!-- <string name="base_url">http://192.168.0.109:8000/</string> -->
     
@@ -25,7 +25,8 @@
     <string name="title_activity_cha_overview">CHAT > CHILD HEALTH ASSESSMENT</string>
     <string name="title_activity_immunizations">CHAT > CHILD HEALTH ASSESSMENT > IMMUNIZATIONS</string>
     <string name="title_activity_cha_delivery_ask">CHAT > CHILD HEALTH ASSESSMENT > ASSESSMENT</string>
-    
+    <string name="title_activity_auth">CHAT > AUTHORIZATION > ASSESSMENT</string>
+     
     <string name="lorum_ipsom">Lorum Ipsom</string>
     <string name="generic_img_button_text">Image button</string>
     

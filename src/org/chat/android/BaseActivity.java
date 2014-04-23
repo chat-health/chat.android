@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.chat.android.Auth.AccountGeneral;
 import org.chat.android.models.CHAAccessed;
 import org.chat.android.models.Client;
 import org.chat.android.models.Visit;
@@ -36,11 +37,11 @@ public class BaseActivity extends Activity {
 	// step aside I am here on official sync adapter business
 	// Constants
     // The authority for the sync adapter's content provider
-    public static final String AUTHORITY = "org.chat.provider";
+//    public static final String AUTHORITY = "org.chat.provider";
     // An account type, in the form of a domain name
-    public static final String ACCOUNT_TYPE = "chat.org";
+//    public static final String ACCOUNT_TYPE = "chat.org";
     // The account name
-    public static final String ACCOUNT = "chat-tablet";
+//    public static final String ACCOUNT = "chat-tablet";
     // Instance fields
     Account mAccount;
 	
@@ -221,7 +222,7 @@ public class BaseActivity extends Activity {
     	 * Request the sync for the default account, authority, and
     	 * manual sync settings
     	 */
-    	ContentResolver.requestSync(mAccount, AUTHORITY, settingsBundle);
+    	ContentResolver.requestSync(mAccount, AccountGeneral.AUTHORITY, settingsBundle);
 	 }
     
     /**
@@ -231,7 +232,7 @@ public class BaseActivity extends Activity {
      */
     public static Account CreateSyncAccount(Context context) {
         // Create the account type and default account
-        Account newAccount = new Account(ACCOUNT, ACCOUNT_TYPE);
+        Account newAccount = new Account(AccountGeneral.ACCOUNT_NAME, AccountGeneral.ACCOUNT_TYPE);
         // Get an instance of the Android account manager
         AccountManager accountManager = (AccountManager) context.getSystemService(ACCOUNT_SERVICE);
         /*
@@ -245,7 +246,7 @@ public class BaseActivity extends Activity {
              * then call context.setIsSyncable(account, AUTHORITY, 1)
              * here.
              */
-        	ContentResolver.setSyncAutomatically(newAccount, AUTHORITY, true); //this programmatically turns on the sync for new sync adapters.
+        	ContentResolver.setSyncAutomatically(newAccount, AccountGeneral.AUTHORITY, true); //this programmatically turns on the sync for new sync adapters.
         	return newAccount;
         } else {
             /*

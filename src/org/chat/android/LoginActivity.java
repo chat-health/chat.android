@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.chat.android.Auth.AccountGeneral;
 import org.chat.android.models.Household;
 import org.chat.android.models.Visit;
 import org.chat.android.models.Worker;
@@ -57,14 +58,8 @@ public class LoginActivity extends Activity {
 	private TextView mLoginStatusMessageView;
 	private Spinner roleSpinner;
 
-    // The authority for the sync adapter's content provider
-    public static final String AUTHORITY = "org.chat.provider";
-    // An account type, in the form of a domain name
-    public static final String ACCOUNT_TYPE = "chat.org";
-    // The account name
-    public static final String ACCOUNT = "chat-tablet";
     // Create the account type and default account
-    static Account newAccount = new Account(ACCOUNT, ACCOUNT_TYPE);
+    static Account newAccount = new Account(AccountGeneral.ACCOUNT_NAME, AccountGeneral.ACCOUNT_TYPE);
     
 	
 	@Override
@@ -353,7 +348,7 @@ public class LoginActivity extends Activity {
     
     public void triggerSyncAdaper() {
     	Toast.makeText(getApplicationContext(), "Triggering sync adapter to sync with server...", Toast.LENGTH_LONG).show();
-    	Account mAccount = CreateSyncAccount(this);
+    	Account mAccount = newAccount;
         // Pass the settings flags by inserting them in a bundle
         Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
@@ -363,31 +358,31 @@ public class LoginActivity extends Activity {
          * Request the sync for the default account, authority, and
          * manual sync settings
          */
-        ContentResolver.requestSync(mAccount, AUTHORITY, settingsBundle);
+        ContentResolver.requestSync(mAccount, AccountGeneral.AUTHORITY, settingsBundle);
     }
     
-    public static Account CreateSyncAccount(Context context) {
-        // Get an instance of the Android account manager
-        AccountManager accountManager = (AccountManager) context.getSystemService(ACCOUNT_SERVICE);
-        /*
-         * Add the account and account type, no password or user data
-         * If successful, return the Account object, otherwise report an error.
-         */
-        if (accountManager.addAccountExplicitly(newAccount, null, null)) {
-            /*
-             * If you don't set android:syncable="true" in
-             * in your <provider> element in the manifest,
-             * then call context.setIsSyncable(account, AUTHORITY, 1)
-             * here.
-             */
-        	ContentResolver.setSyncAutomatically(newAccount, AUTHORITY, true); //this programmatically turns on the sync for new sync adapters.
-        	return newAccount;
-        } else {
-            /*
-             * The account exists or some other error occurred. Log this, report it,
-             * or handle it internally.
-             */
-        	return null;
-        }
-    }
+//    public static Account CreateSyncAccount(Context context) {
+//        // Get an instance of the Android account manager
+//        AccountManager accountManager = (AccountManager) context.getSystemService(ACCOUNT_SERVICE);
+//        /*
+//         * Add the account and account type, no password or user data
+//         * If successful, return the Account object, otherwise report an error.
+//         */
+//        if (accountManager.addAccountExplicitly(newAccount, null, null)) {
+//            /*
+//             * If you don't set android:syncable="true" in
+//             * in your <provider> element in the manifest,
+//             * then call context.setIsSyncable(account, AUTHORITY, 1)
+//             * here.
+//             */
+//        	ContentResolver.setSyncAutomatically(newAccount, AUTHORITY, true); //this programmatically turns on the sync for new sync adapters.
+//        	return newAccount;
+//        } else {
+//            /*
+//             * The account exists or some other error occurred. Log this, report it,
+//             * or handle it internally.
+//             */
+//        	return null;
+//        }
+//    }
 }
