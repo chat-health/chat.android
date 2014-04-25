@@ -453,7 +453,7 @@ public class HomeActivity extends Activity {
 	    	Bundle b = new Bundle();
 	    	b.putInt("visitId",visitId);
 	    	b.putInt("workerId",workerId);
-	    	i.putExtras(b);    	
+	    	i.putExtras(b);
 	    	startActivity(i);
 	        return true;
 	    case R.id.menu_settings:
