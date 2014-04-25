@@ -8,6 +8,15 @@
         <item>Documents, Grants and Status</item>
         <item>Other</item>
     </string-array>
+    <string-array name="volunteer_service_type_images">
+        <item>servicesmaterialwellbeing</item>
+        <item>servicescognitivewellbeing</item>
+        <item>servicesemotionalwellbeing</item>
+        <item>servicesphysicalwellbeing</item>
+        <item>servicesdocumentsgrantsstatus</item>
+        <item>servicesother</item>
+    </string-array>
+    
     <string-array name="counsellor_service_type_array">
         <item>Symptoms</item>
         <item>Illnesses</item>
@@ -16,6 +25,15 @@
         <item>Treatment and Monitoring</item>
         <item>Other</item>
     </string-array>
+    <string-array name="counsellor_service_type_images">
+        <item>servicessymptoms</item>
+        <item>servicesillnesses</item>
+        <item>servicestestingeducation</item>
+        <item>servicesreferrals</item>
+        <item>servicestreatmentmonitoring</item>
+        <item>servicesother</item>
+    </string-array>
+    
     <string-array name="welfare_service_type_array">
         <item>Intake</item>
         <item>Visits</item>
