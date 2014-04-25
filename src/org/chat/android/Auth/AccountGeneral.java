@@ -34,5 +34,9 @@ public class AccountGeneral {
     public final static String ARG_ACCOUNT_PASSWORD = "ACCOUNT_PASSWORD";
     public final static String ARG_IS_ADDING_NEW_ACCOUNT = "IS_ADDING_ACCOUNT";
     
+    /**
+     * 
+     */
+    public final static String ARG_INTENT_REAUTH = "IS_REAUTH";
 
 }

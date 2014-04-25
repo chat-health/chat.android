@@ -81,8 +81,11 @@ public class MainActivity extends AccountAuthenticatorActivity {
 			new GetTokenTask(demo).execute();
 		}
 		Account mAccount = new Account(AccountGeneral.ACCOUNT_NAME,AccountGeneral.ACCOUNT_TYPE);
+		if(extras!=null&&extras.getBoolean(AccountGeneral.ARG_INTENT_REAUTH))
+				return;
 		if(null!=mAccountManager.peekAuthToken(mAccount, mAuthTokenType))
 		{
+			finish();
 			Intent intent = new Intent(demo, LoginActivity.class);
 			startActivity(intent);
 		}
@@ -236,6 +239,7 @@ public class MainActivity extends AccountAuthenticatorActivity {
 		@Override
 		protected Void doInBackground(Void... arg0) {
 			try {
+				
 				// got the token from google auth service with email account
 				String googleAccessToken = GoogleAuthUtil.getToken(
 						getApplicationContext(), mEmail, SCOPE);
@@ -248,6 +252,14 @@ public class MainActivity extends AccountAuthenticatorActivity {
 				String clientToken = sServerAuthenticate.getAccessToken(mEmail,
 						googleAccessToken,deviceid);
 				Log.e("client access token", "> " + clientToken);
+				
+				if(null==clientToken)
+				{
+					Log.e("client access token", "> The return token is empty");
+					Intent reAuthIntent = new Intent(demo, MainActivity.class);
+					reAuthIntent.putExtra(AccountGeneral.ARG_INTENT_REAUTH, true);
+					throw new UserRecoverableAuthException("client access token is unavailable",reAuthIntent);
+				}
 				
 				final Intent res = new Intent();
 				res.putExtra(AccountManager.KEY_ACCOUNT_NAME, mEmail);
@@ -282,7 +294,6 @@ public class MainActivity extends AccountAuthenticatorActivity {
 //				triggerSyncAdaper(new Account(accountName,AccountGeneral.ACCOUNT_TYPE));
 				Intent intent = new Intent(demo, LoginActivity.class);
 				startActivity(intent);
-				
 				
 			} catch (UserRecoverableAuthException userRecoverableException) {
 				// TODO Auto-generated catch block

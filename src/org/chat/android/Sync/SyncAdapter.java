@@ -29,6 +29,7 @@ import org.chat.android.DatabaseHelper;
 import org.chat.android.ModelHelper;
 import org.chat.android.R;
 import org.chat.android.Auth.AccountGeneral;
+import org.chat.android.Auth.MainActivity;
 import org.chat.android.models.Attendance;
 import org.chat.android.models.CHAAccessed;
 import org.chat.android.models.Client;
@@ -58,6 +59,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 
@@ -69,6 +71,7 @@ import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SyncResult;
 import android.os.Bundle;
 import android.util.Log;
@@ -177,26 +180,32 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	private void pullNewData() {
 		Log.i("SyncAdapter", "=================== DATA PULL ===================");
 			
-		retrieveModel("clients", false);
-		retrieveModel("households", false);
-		retrieveModel("services", false);
-		retrieveModel("workers", false);
-		retrieveModel("videos", false);
-		retrieveModel("resources", false);
-		
-		retrieveModel("health_themes", false);
-		retrieveModel("health_topics", false);
-		
-		retrieveModel("health_pages", false);
-		retrieveModel("health_selects", false);
-		retrieveModel("topic_videos", false);
-		retrieveModel("page_text1", false);
-		retrieveModel("page_select1", false);
-		retrieveModel("page_video1", false);
-		retrieveModel("page_assessment1", false);
-		
-		retrieveModel("vaccines", false);
-		
+		try
+		{
+			retrieveModel("clients", false);
+			retrieveModel("households", false);
+			retrieveModel("services", false);
+			retrieveModel("workers", false);
+			retrieveModel("videos", false);
+			retrieveModel("resources", false);
+			
+			retrieveModel("health_themes", false);
+			retrieveModel("health_topics", false);
+			
+			retrieveModel("health_pages", false);
+			retrieveModel("health_selects", false);
+			retrieveModel("topic_videos", false);
+			retrieveModel("page_text1", false);
+			retrieveModel("page_select1", false);
+			retrieveModel("page_video1", false);
+			retrieveModel("page_assessment1", false);
+			
+			retrieveModel("vaccines", false);
+		}
+		catch(UserRecoverableAuthException e){
+			Intent intent = e.getIntent();
+			appContext.startActivity(intent);
+		}
         
         // change last pull date to current date
 		if (pullSuccess == true) {
@@ -256,33 +265,39 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		
 		// pull tables
 		// true value for pullAll
-		retrieveModel("clients", true);
-		retrieveModel("households", true);
-		retrieveModel("services", true);
-		retrieveModel("workers", true);
-		retrieveModel("videos", true);
-		retrieveModel("resources", true);
-		
-		retrieveModel("health_themes", true);
-		retrieveModel("health_topics", true);
-		
-		retrieveModel("health_pages", true);
-		retrieveModel("health_selects", true);
-		retrieveModel("topic_videos", true);
-		retrieveModel("page_text1", true);
-		retrieveModel("page_select1", true);
-		retrieveModel("page_video1", true);
-		retrieveModel("page_assessment1", true);
-		
-		retrieveModel("vaccines", true);
-		
-		// push tables
-		retrieveModel("visits", true);
-		retrieveModel("health_topics_accessed", true);
-		retrieveModel("services_accessed", true);
-		retrieveModel("resources_accessed", true);
-		retrieveModel("vaccines_recorded", true);
-
+		try
+		{
+			retrieveModel("clients", true);
+			retrieveModel("households", true);
+			retrieveModel("services", true);
+			retrieveModel("workers", true);
+			retrieveModel("videos", true);
+			retrieveModel("resources", true);
+			
+			retrieveModel("health_themes", true);
+			retrieveModel("health_topics", true);
+			
+			retrieveModel("health_pages", true);
+			retrieveModel("health_selects", true);
+			retrieveModel("topic_videos", true);
+			retrieveModel("page_text1", true);
+			retrieveModel("page_select1", true);
+			retrieveModel("page_video1", true);
+			retrieveModel("page_assessment1", true);
+			
+			retrieveModel("vaccines", true);
+			
+			// push tables
+			retrieveModel("visits", true);
+			retrieveModel("health_topics_accessed", true);
+			retrieveModel("services_accessed", true);
+			retrieveModel("resources_accessed", true);
+			retrieveModel("vaccines_recorded", true);
+		}
+		catch(UserRecoverableAuthException e){
+			Intent intent = e.getIntent();
+			appContext.startActivity(intent);
+		}
         
         // change last pull date to current date
 		if (pullSuccess == true) {
@@ -295,7 +310,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		}
 	}
 	
-	private void retrieveModel(String modelName, Boolean pullAll) {
+	private void retrieveModel(String modelName, Boolean pullAll) throws UserRecoverableAuthException {
 		HttpClient httpclient = new DefaultHttpClient();
         HttpResponse response;
         String responseString = null;
@@ -549,11 +564,25 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                }
                 }
             } else{
-                //Closes the connection.
-            	Log.e("SyncAdapter", statusLine.getReasonPhrase());
+            	//Closes the connection.
+            	ByteArrayOutputStream out = new ByteArrayOutputStream();
+                response.getEntity().writeTo(out);
+                out.close();
+                responseString = out.toString();
+                Log.e("SyncAdapter", statusLine.getReasonPhrase());
+                Log.e("SyncAdapter", responseString);
             	// set the flag to false so we don't update the lastPulledAt date
             	pullSuccess = false;
-                response.getEntity().getContent().close();
+//            	response.getEntity().getContent().close();
+                
+            	if(statusLine.getStatusCode() == HttpStatus.SC_UNAUTHORIZED)
+            	{
+            		Intent reAuthIntent = new Intent(appContext,MainActivity.class);
+            		reAuthIntent.putExtra(AccountGeneral.ARG_INTENT_REAUTH, true);
+            		reAuthIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            		throw new UserRecoverableAuthException("",reAuthIntent);
+            	}
+                
                 throw new IOException(statusLine.getReasonPhrase());
             }
         } catch (ClientProtocolException e) {

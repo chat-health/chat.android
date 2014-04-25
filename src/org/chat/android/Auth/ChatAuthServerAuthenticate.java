@@ -56,16 +56,34 @@ public class ChatAuthServerAuthenticate implements ServerAuthenticate {
 
 			Log.e("URL", "> " + url);
 			conn = (HttpURLConnection) mUrl.openConnection();
-			conn.setDoOutput(true);
-			conn.setUseCaches(false);
-			conn.setRequestMethod("GET");
-			conn.setRequestProperty("Content-Type",
-					"application/x-www-form-urlencoded;charset=UTF-8");
+			
+//			conn.setUseCaches(false);
+//			conn.setDoOutput(true);
+//			conn.setRequestMethod("GET");
+//			conn.setRequestProperty("Content-Type",
+//					"application/x-www-form-urlencoded;charset=UTF-8");
+			
 			// handle the response
 			int status = conn.getResponseCode();
 			if (status != 200) {
 				//Closes the connection.
             	Log.e("ChatAuthServerAuthenticate", String.valueOf(status));
+            	if(status==HttpStatus.SC_UNAUTHORIZED)
+            	{
+            		InputStream in = new BufferedInputStream(
+    						conn.getErrorStream());
+    				StringBuffer sb = new StringBuffer("");
+    				BufferedReader reader = new BufferedReader(
+    						new InputStreamReader(in));
+    				String inputLine = "";
+    				while ((inputLine = reader.readLine()) != null) {
+    					sb.append(inputLine);
+//    						sb.append("\n");
+    				}
+    				in.close();
+    				responseString=sb.toString();
+    				Log.e("ChatAuthServerAuthenticate", responseString);
+            	}
                 throw new IOException();
 			}
 			else
