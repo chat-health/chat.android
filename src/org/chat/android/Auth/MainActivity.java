@@ -89,6 +89,13 @@ public class MainActivity extends AccountAuthenticatorActivity {
 			Intent intent = new Intent(demo, LoginActivity.class);
 			startActivity(intent);
 		}
+		else
+		{
+			if (mEmail == null) {
+				demo.pickUserAccount();
+			} else
+				new GetTokenTask(demo).execute();
+		}
 	}
 
 	/**
@@ -204,7 +211,6 @@ public class MainActivity extends AccountAuthenticatorActivity {
 					demo.pickUserAccount();
 				} else
 					new GetTokenTask(demo).execute();
-
 			}
 
 		});

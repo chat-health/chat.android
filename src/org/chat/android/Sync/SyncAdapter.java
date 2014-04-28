@@ -171,7 +171,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		} else if (syncType.equals("standard")) {
 			Log.i("SyncAdapter", "Just a regular pull");
 			pullNewData();
-			//pushNewData();
+			pushNewData();
 		} else {
 			Log.e("SyncAdapter", "Impossible error. syncType str is unknown");
 		}
@@ -220,29 +220,34 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	
 	private void pushNewData() {
 		Log.i("SyncAdapter", "=================== DATA PUSH ===================");
-		JSONArray visitsJson = createJsonArrayOf("visits");
-		if (visitsJson.length() > 0) {
-			pushModel("visits", visitsJson);
-		}
-		
-		JSONArray htaJson = createJsonArrayOf("health_topics_accessed");
-		if (htaJson.length() > 0) {
-			pushModel("health_topics_accessed", htaJson);
-		}
-		
-		JSONArray saJson = createJsonArrayOf("services_accessed");
-		if (saJson.length() > 0) {
-			pushModel("services_accessed", saJson);
-		}
-		
-		JSONArray raJson = createJsonArrayOf("resources_accessed");
-		if (raJson.length() > 0) {
-			pushModel("resources_accessed", raJson);
-		}
-		
-		JSONArray vrJson = createJsonArrayOf("vaccines_recorded");
-		if (vrJson.length() > 0) {
-			pushModel("vaccines_recorded", vrJson);
+		try {
+			JSONArray visitsJson = createJsonArrayOf("visits");
+			if (visitsJson.length() > 0) {
+				pushModel("visits", visitsJson);
+			}
+			
+			JSONArray htaJson = createJsonArrayOf("health_topics_accessed");
+			if (htaJson.length() > 0) {
+				pushModel("health_topics_accessed", htaJson);
+			}
+			
+			JSONArray saJson = createJsonArrayOf("services_accessed");
+			if (saJson.length() > 0) {
+				pushModel("services_accessed", saJson);
+			}
+			
+			JSONArray raJson = createJsonArrayOf("resources_accessed");
+			if (raJson.length() > 0) {
+				pushModel("resources_accessed", raJson);
+			}
+			
+			JSONArray vrJson = createJsonArrayOf("vaccines_recorded");
+			if (vrJson.length() > 0) {
+				pushModel("vaccines_recorded", vrJson);
+			}
+		} catch(UserRecoverableAuthException e){
+			Intent intent = e.getIntent();
+			appContext.startActivity(intent);
 		}
 		
 		if (pushSuccess == true) {
@@ -735,7 +740,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		return jsonArray;
 	}
 	
-	private void pushModel(String modelName, JSONArray jsonArray) {
+	private void pushModel(String modelName, JSONArray jsonArray) throws UserRecoverableAuthException {
 		HttpClient httpclient = new DefaultHttpClient();
         HttpResponse response = null;
         String responseString = null;
@@ -743,6 +748,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         	// executing a get request
         	String baseUrl = appContext.getResources().getString(R.string.base_url);
         	String url = baseUrl.concat(modelName);
+        	// modification: for authorization, send every request with parameter clientToken
+        	String paramToken = "?client_access_token="+clientToken;
+    		url = url.concat(paramToken);
         	Log.i("SyncAdapter", "Push to URL: "+url);
         	
         	// url with the post data
@@ -858,13 +866,28 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                
 	                Log.i("SyncAdapter", "Response text: \n"+responseString);
 	            } else {
-	                // closes the connection.
-	            	// set the flag to false so we don't update the lastPulledAt date
-	            	Log.e("SyncAdapter", "pushSuccess set to false");
-	            	pushSuccess = false;
-	                response.getEntity().getContent().close();
+	            	//Closes the connection.
+		            pushSuccess = false;
+		            Log.e("SyncAdapter", "pushSuccess set to false");
+	            	ByteArrayOutputStream out = new ByteArrayOutputStream();
+	                response.getEntity().writeTo(out);
+	                out.close();
+	                responseString = out.toString();
+	                Log.e("SyncAdapter", statusLine.getReasonPhrase());
+	                Log.e("SyncAdapter", responseString);
+//	            	response.getEntity().getContent().close();
+	                
+	            	if(statusLine.getStatusCode() == HttpStatus.SC_UNAUTHORIZED)
+	            	{
+	            		Intent reAuthIntent = new Intent(appContext,MainActivity.class);
+	            		reAuthIntent.putExtra(AccountGeneral.ARG_INTENT_REAUTH, true);
+	            		reAuthIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	            		throw new UserRecoverableAuthException("",reAuthIntent);
+	            	}
+	                
 	                throw new IOException(statusLine.getReasonPhrase());
 	            }
+
         	}
         } catch (ClientProtocolException e) {
             //TODO Handle problems..
