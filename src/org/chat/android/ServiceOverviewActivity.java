@@ -18,6 +18,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,14 +52,18 @@ public class ServiceOverviewActivity extends BaseActivity {
 	}
     
     public void setupServiceTypeButtons(String role) {
-    	// figure out which button names we need for this screen
+    	// TODO: put this all in a new DB table, instead of relying on strings array and ifs
 		String[] serviceTypes;
+		String[] serviceImages = null;
 		String[] roleArray = getResources().getStringArray(R.array.role_array);
 		if (role.equals(roleArray[0])) {
 			serviceTypes = getResources().getStringArray(R.array.volunteer_service_type_array);
+			serviceImages = getResources().getStringArray(R.array.volunteer_service_type_images);
 		} else if (role.equals(roleArray[1])) {
 			serviceTypes = getResources().getStringArray(R.array.counsellor_service_type_array);
+			serviceImages = getResources().getStringArray(R.array.counsellor_service_type_images);
 		} else if (role.equals(roleArray[2])) {
+			// looks like we're not doing welfare - incorporate images later as necessary
 			serviceTypes = getResources().getStringArray(R.array.welfare_service_type_array);
 		} else {
 			// TODO: expand me? Also throw a proper error here
@@ -68,16 +73,27 @@ public class ServiceOverviewActivity extends BaseActivity {
 		
 		// cycle through the serviceTypes, populate the labels and tags
 		for (int i = 1; i <= serviceTypes.length; i++) {
+			// set the text
 			String tvId = "service_subtype" + i + "_text_field";
 			int resId = getResources().getIdentifier(tvId, "id", "org.chat.android");
 		    TextView tv = (TextView) findViewById(resId);
 			tv.setText(serviceTypes[i-1]);
 			tv.setTag(serviceTypes[i-1]);
 			
+			// tag the button
 			String imgId = "service_subtype" + i + "_button";
 			resId = getResources().getIdentifier(imgId, "id", "org.chat.android");
 			ImageView iv = (ImageView) findViewById(resId);
 			iv.setTag(serviceTypes[i-1]);
+			
+			// set the correct image
+			if (serviceImages[i-1] != null) {
+				int imageResId = getResources().getIdentifier("drawable/"+serviceImages[i-1], null, getPackageName());
+				iv.setImageDrawable(getResources().getDrawable(imageResId));
+			} else {
+		         Log.e("Missing resource", "serviceImages");
+			}
+			
 		}
     }
 	

@@ -67,7 +67,7 @@
 		        style="@style/branchImage"
 		        android:layout_below="@id/services_title_field"
 		        android:layout_marginTop="40dp"
-		        android:src="@drawable/thandananilogodisabled"
+		        android:src="@drawable/servicesimagedisabled"
 		        android:onClick="openServiceOverview" />
 	       	<ImageButton
 	       	    android:id="@+id/services_button"
@@ -133,7 +133,7 @@
 		        style="@style/branchImage"
 		        android:layout_below="@id/child_health_assessment_title_field"
 		        android:layout_marginTop="40dp"
-		        android:src="@drawable/thandananilogodisabled"
+		        android:src="@drawable/childhealthassessmentimagedisabled"
 		        android:onClick="openCHA" />
 	       	<ImageButton
 	       	    android:id="@+id/child_health_assessment_button"
@@ -166,7 +166,7 @@
 	       	    style="@style/branchImage"
 	       	    android:layout_below="@+id/resources_title_field"
 	       	    android:layout_marginTop="40dp"
-				android:src="@drawable/healthedimagedisabled"
+				android:src="@drawable/resourcesimagedisabled"
 	       	    android:onClick="openResources" />
 	       	<ImageButton
 	       	    android:id="@+id/resources_button"

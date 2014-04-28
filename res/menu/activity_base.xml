@@ -9,7 +9,7 @@
         android:showAsAction="never" />
     <item android:id="@+id/menu_sync"
         android:title="@string/menu_sync"
-        android:orderInCategory="3"
+        android:orderInCategory="4"
         android:showAsAction="never" />
     <item android:id="@+id/menu_logout"
         android:title="@string/menu_logout"

@@ -90,4 +90,12 @@ public class HealthSelect {
 		return zu_content;
 	}
 	
+	public String getContent(String lang) {
+		if (lang.equals("zu")) {
+			return zu_content;
+		} else {
+			return en_content;
+		}
+	}
+	
 }

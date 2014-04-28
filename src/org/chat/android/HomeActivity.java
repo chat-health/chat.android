@@ -170,8 +170,8 @@ public class HomeActivity extends Activity {
         if (visitId == 0) {
     		//setupVisitObject(b.getString("hhName"), b.getString("workerName"), b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));				
     		//setupVisitObject(b.getString("hhName"), "colin", b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));
-            setupVisitObject("John Doe", "colin", "Home Care Volunteer", "home", 11.11, 12.12);
-            //setupVisitObject("John Doe", "colin", "Lay Counsellor", "home", 11.11, 12.12);
+            //setupVisitObject("John Doe", "colin", "Home Care Volunteer", "home", 11.11, 12.12);
+            setupVisitObject("John Doe", "colin", "Lay Counsellor", "home", 11.11, 12.12);
         } else if (visitId != 0) {
         	// pull the uncompleted visit object
         	visit = ModelHelper.getVisitForId(context, visitId);
@@ -269,7 +269,7 @@ public class HomeActivity extends Activity {
         	// enable the Service and Health branches, update the colors
         	servicesBtn.setImageResource(R.drawable.servicesgobutton);
         	servicesBtn.setEnabled(true);
-        	servicesBtnImg.setImageResource(R.drawable.thandananilogo);
+        	servicesBtnImg.setImageResource(R.drawable.servicesimage);
         	servicesBtnImg.setEnabled(true);
         	int c = getResources().getColor(getResources().getIdentifier("services", "color", getPackageName()));
         	servicesTitle.setTextColor(c);
@@ -285,7 +285,7 @@ public class HomeActivity extends Activity {
         	
         	chaBtn.setImageResource(R.drawable.childhealthassessmentgobutton);
         	chaBtn.setEnabled(true);
-        	chaBtnImg.setImageResource(R.drawable.thandananilogo);
+        	chaBtnImg.setImageResource(R.drawable.childhealthassessmentimage);
         	chaBtnImg.setEnabled(true);
         	c = getResources().getColor(getResources().getIdentifier("child_health_assessment", "color", getPackageName()));
         	chaTitle.setTextColor(c);
@@ -293,7 +293,7 @@ public class HomeActivity extends Activity {
         	
         	resourcesBtn.setImageResource(R.drawable.resourcesgobutton);
         	resourcesBtn.setEnabled(true);
-        	resourcesBtnImg.setImageResource(R.drawable.healthedimage);
+        	resourcesBtnImg.setImageResource(R.drawable.resourcesimage);
         	resourcesBtnImg.setEnabled(true);
         	c = getResources().getColor(getResources().getIdentifier("resources", "color", getPackageName()));
         	resourcesTitle.setTextColor(c);
@@ -448,7 +448,7 @@ public class HomeActivity extends Activity {
 	    	Bundle b = new Bundle();
 	    	b.putInt("visitId",visitId);
 	    	b.putInt("workerId",workerId);
-	    	i.putExtras(b);    	
+	    	i.putExtras(b);
 	    	startActivity(i);
 	        return true;
 	    case R.id.menu_settings:
