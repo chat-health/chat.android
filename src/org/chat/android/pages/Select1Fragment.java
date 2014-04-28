@@ -76,13 +76,13 @@ public class Select1Fragment extends Fragment {
 		selects = ModelHelper.getSelectsForSubjectId(context, ps.getId());
 		if (selects.size() == 4) {
 			// set up the radio buttons, tagged with ID (to be used when saving) - TODO: make me work with Zulu (in the model)
-			answer1.setText(selects.get(0).getEnContent());
+			answer1.setText(selects.get(0).getContent(lang));
 			answer1.setTag(selects.get(0).getId());
-			answer2.setText(selects.get(1).getEnContent());
+			answer2.setText(selects.get(1).getContent(lang));
 			answer2.setTag(selects.get(1).getId());
-			answer3.setText(selects.get(2).getEnContent());
+			answer3.setText(selects.get(2).getContent(lang));
 			answer3.setTag(selects.get(2).getId());
-			answer4.setText(selects.get(3).getEnContent());
+			answer4.setText(selects.get(3).getContent(lang));
 			answer4.setTag(selects.get(3).getId());
 		}
 		

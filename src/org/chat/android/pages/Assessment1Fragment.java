@@ -85,26 +85,26 @@ public class Assessment1Fragment extends Fragment {
 		// set up the radio buttons, tagged with ID (to be used when saving) - TODO: make me work with Zulu (in the model)
 		if (selects.size() > 0) {
 			answer1_1.setVisibility(View.VISIBLE);						// just need these until all the data is populated
-			answer1_1.setText(selects.get(0).getEnContent());
+			answer1_1.setText(selects.get(0).getContent(lang));
 			answer1_1.setTag(selects.get(0).getId());
 			answer1_2.setVisibility(View.VISIBLE);
-			answer1_2.setText(selects.get(1).getEnContent());
+			answer1_2.setText(selects.get(1).getContent(lang));
 			answer1_2.setTag(selects.get(1).getId());
 		}
 		
 		if (selects.size() > 2) {
 			content2.setText(pa1.getContent(lang, "content2"));
-			answer2_1.setText(selects.get(2).getEnContent());
+			answer2_1.setText(selects.get(2).getContent(lang));
 			answer2_1.setTag(selects.get(2).getId());
-			answer2_2.setText(selects.get(3).getEnContent());
+			answer2_2.setText(selects.get(3).getContent(lang));
 			answer2_2.setTag(selects.get(3).getId());
 		}
 		
 		if (selects.size() > 4) {
 			content3.setText(pa1.getContent(lang, "content3"));
-			answer3_1.setText(selects.get(4).getEnContent());
+			answer3_1.setText(selects.get(4).getContent(lang));
 			answer3_1.setTag(selects.get(4).getId());
-			answer3_2.setText(selects.get(5).getEnContent());
+			answer3_2.setText(selects.get(5).getContent(lang));
 			answer3_2.setTag(selects.get(5).getId());
 		}
 
