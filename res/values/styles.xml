@@ -145,8 +145,15 @@
 	    <item name="android:layout_height">240dp</item>
 	</style>
 	
+	<style name="videoImage">
+	    <item name="android:layout_width">150dp</item>
+	    <item name="android:layout_height">105dp</item>
+	    <item name="android:gravity">center</item>
+        <item name="android:contentDescription">@string/generic_img_button_text</item>
+	</style>
+	
 	<style name="videoTextBox">
-	    <item name="android:layout_width">200dp</item>
+	    <item name="android:layout_width">260dp</item>
 	    <item name="android:layout_height">wrap_content</item>
 	    <item name="android:gravity">center</item>
 	    <item name="android:textSize">18sp</item>

@@ -9,13 +9,20 @@
         style="@style/titleContainer"
         android:text="Record" />
 
+<!--     THIS HAS BEEN REPLACED WITH A TEXTVIEW THAT DOES NOTHING, SINCE WE NO LONGER HAVE QUESTIONS
     <TextView
         android:id="@+id/s1content1"
         style="@style/shortTextContainer"
         android:layout_below="@id/s1title"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="30dp"
-        android:text="Unfilled" />
+        android:text="Unfilled" /> -->
+    
+	<TextView
+        android:id="@+id/s1content1"
+        android:layout_height="1px"
+        android:layout_width="1px"
+        android:layout_below="@id/s1title" />
     
     <RadioGroup
         android:id="@+id/s1rg1"
@@ -28,29 +35,27 @@
             android:id="@+id/s1rb1"
             style="@style/healthRadioButton"
             android:text="placeholder radio1"
+            android:textColor="#16F242"
             android:onClick="recordSelect" />
         <RadioButton
             android:id="@+id/s1rb2"
             style="@style/healthRadioButton"
             android:text="placeholder radio2"
+            android:textColor="#FFFB05"
             android:onClick="recordSelect" />
         <RadioButton
             android:id="@+id/s1rb3"
             style="@style/healthRadioButton"
             android:text="placeholder radio3"
+            android:textColor="#FFB145"
             android:onClick="recordSelect" />
         <RadioButton
             android:id="@+id/s1rb4"
             style="@style/healthRadioButton"
             android:text="placeholder radio4"
+            android:textColor="#F70000"
             android:onClick="recordSelect" />
         
     </RadioGroup>
-    
-<!--     <ImageView
-        android:id="@+id/s1i1"
-        style="@style/healthImage"
-        android:layout_alignTop="@id/s1rg1"
-        android:layout_alignParentRight="true" /> -->
     
 </RelativeLayout>
