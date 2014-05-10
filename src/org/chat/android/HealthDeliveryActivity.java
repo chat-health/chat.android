@@ -155,7 +155,7 @@ public class HealthDeliveryActivity extends BaseActivity {
 			// TODO: fetch theme from db, use ids instead of names 
 			if (healthTheme.equals("HIV")) {
 				nextBtn.setImageResource(R.drawable.hivdonebutton);
-			} else if (healthTheme.equals("Severe Childhood Illnesses")) {
+			} else if (healthTheme.equals("Childhood Illness")) {
 				nextBtn.setImageResource(R.drawable.childhooddiseasesdonebutton);
 			} else if (healthTheme.equals("Nutrition")) {
 				nextBtn.setImageResource(R.drawable.nutritiondonebutton);
@@ -167,7 +167,7 @@ public class HealthDeliveryActivity extends BaseActivity {
 		} else {
 			if (healthTheme.equals("HIV")) {
 				nextBtn.setImageResource(R.drawable.hivnextbutton);
-			} else if (healthTheme.equals("Severe Childhood Illnesses")) {
+			} else if (healthTheme.equals("Childhood Illness")) {
 				nextBtn.setImageResource(R.drawable.childhooddiseasesnextbutton);
 			} else if (healthTheme.equals("Nutrition")) {
 				nextBtn.setImageResource(R.drawable.nutritionnextbutton);

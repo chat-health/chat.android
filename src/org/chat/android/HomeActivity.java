@@ -170,8 +170,8 @@ public class HomeActivity extends Activity {
         if (visitId == 0) {
     		//setupVisitObject(b.getString("hhName"), b.getString("workerName"), b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));				
     		//setupVisitObject(b.getString("hhName"), "colin", b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));
-            //setupVisitObject("John Doe", "colin", "Home Care Volunteer", "home", 11.11, 12.12);
-            setupVisitObject("John Doe", "colin", "Lay Counsellor", "home", 11.11, 12.12);
+            setupVisitObject("John Doe", "colin", "Home Care Volunteer", "home", 11.11, 12.12);
+            //setupVisitObject("John Doe", "colin", "Lay Counsellor", "home", 11.11, 12.12);
         } else if (visitId != 0) {
         	// pull the uncompleted visit object
         	visit = ModelHelper.getVisitForId(context, visitId);
