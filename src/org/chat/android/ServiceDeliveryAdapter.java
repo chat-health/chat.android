@@ -51,8 +51,9 @@ public class ServiceDeliveryAdapter extends ArrayAdapter<Client> {
             name = (TextView)convertView.findViewById(service_delivery_client_name);
             name.setText(c.getFirstName() + " " + c.getLastName());
             cb.setTag(c);
-            cb.setChecked(true);
-            presenceArrayList.add(c);
+            // removed this because we don't want all of the clients selected by default
+            //cb.setChecked(true);
+            //presenceArrayList.add(c);
         }
         
         LinearLayout row = (LinearLayout)convertView.findViewById(service_delivery_row);

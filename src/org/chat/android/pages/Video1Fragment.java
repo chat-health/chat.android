@@ -36,6 +36,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class Video1Fragment extends Fragment {
@@ -43,6 +44,7 @@ public class Video1Fragment extends Fragment {
 	int visitId = 0;
     TextView title = null;
     TextView content1 = null;
+    List<LinearLayout> videoBoxList = null;
     List<ImageView> imgViewList = null;
     List<TextView> videoNameList = null;
     
@@ -54,6 +56,12 @@ public class Video1Fragment extends Fragment {
     	
     	title = (TextView) view.findViewById(R.id.v1title);
     	content1 = (TextView) view.findViewById(R.id.v1content1);
+    	
+    	videoBoxList = new ArrayList<LinearLayout>();
+    	videoBoxList.add((LinearLayout) view.findViewById(R.id.v1videoBox1));
+    	videoBoxList.add((LinearLayout) view.findViewById(R.id.v1videoBox2));
+    	videoBoxList.add((LinearLayout) view.findViewById(R.id.v1videoBox3));
+    	videoBoxList.add((LinearLayout) view.findViewById(R.id.v1videoBox4));
     	
     	imgViewList = new ArrayList<ImageView>();
     	imgViewList.add((ImageView) view.findViewById(R.id.v1videoImage1));
@@ -99,6 +107,7 @@ public class Video1Fragment extends Fragment {
 			imgViewList.get(i).setTag(video.getId());
 			imgViewList.get(i).setEnabled(true);
 			videoNameList.get(i).setText(video.getName());
+			videoBoxList.get(i).setVisibility(View.VISIBLE);
 		}	
     }
 }

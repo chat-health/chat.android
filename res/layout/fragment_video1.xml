@@ -31,10 +31,12 @@
 	        android:orientation="horizontal" >
 	        
 	        <LinearLayout
+	            android:id="@+id/v1videoBox1"
 	            android:layout_width="280dp"
 	        	android:layout_height="match_parent"
 	        	android:gravity="center"
-	        	android:orientation="vertical">
+	        	android:orientation="vertical"
+	        	android:visibility="gone">
 		        <ImageView
 			        android:id="@+id/v1videoImage1"
 			        style="@style/videoImage"
@@ -44,10 +46,12 @@
 			        style="@style/videoTextBox"/>
 	        </LinearLayout>
 	        <LinearLayout
+	            android:id="@+id/v1videoBox2"
 	            android:layout_width="280dp"
 	        	android:layout_height="match_parent"
 	        	android:gravity="center"
-	        	android:orientation="vertical">
+	        	android:orientation="vertical"
+	        	android:visibility="gone">
 		        <ImageView
 			        android:id="@+id/v1videoImage2"
 			        style="@style/videoImage"
@@ -57,10 +61,12 @@
 			        style="@style/videoTextBox" />
 	        </LinearLayout>
 	        <LinearLayout
+	            android:id="@+id/v1videoBox3"
 	            android:layout_width="280dp"
 	        	android:layout_height="match_parent"
 	        	android:gravity="center"
-	        	android:orientation="vertical">
+	        	android:orientation="vertical"
+	        	android:visibility="gone">
 		        <ImageView
 			        android:id="@+id/v1videoImage3"
 			        style="@style/videoImage"
@@ -70,10 +76,12 @@
 			        style="@style/videoTextBox" />
 	        </LinearLayout>
 	        <LinearLayout
+	            android:id="@+id/v1videoBox4"
 	            android:layout_width="280dp"
 	        	android:layout_height="match_parent"
 	        	android:gravity="center"
-	        	android:orientation="vertical">
+	        	android:orientation="vertical"
+	        	android:visibility="gone">
 		        <ImageView
 			        android:id="@+id/v1videoImage4"
 			        style="@style/videoImage"

@@ -100,42 +100,46 @@ public class ServiceDeliveryActivity extends BaseActivity {
 
     public void selectServiceDeliveryClients(View v) {
     	List<Client> attendingClients = sdAdapter.getSelectedClients();
-    	// for each checked service
-    	int i = 0;
-    	for (String sName : serviceNames) {
-    		// for each attending hh member
-    		for (Client client : attendingClients) {
-    			ServiceAccessed sa = null;
-    			// decide whether there is ad_info (ie it's an outlier type service that is not a simple checkbox)
-    			Date time = new Date();
-    			int serviceId = 00;
-    			serviceId = ModelHelper.getServiceForName(context, sName).getId();
-    			if (adInfoFlag == true) {
-    				sa = new ServiceAccessed(serviceId, visitId, client.getId(), serviceAdInfo.get(i), time);
-    			} else {
-    				sa = new ServiceAccessed(serviceId, visitId, client.getId(), null, time);
-    			}
-    		    Dao<ServiceAccessed, Integer> saDao;
-    		    DatabaseHelper saDbHelper = new DatabaseHelper(context);
-    		    try {
-    		        saDao = saDbHelper.getServiceAccessedDao();
-    		        saDao.create(sa);
-    		    } catch (SQLException e) {
-    		        // TODO Auto-generated catch block
-    		        e.printStackTrace();
-    		    }
-    		}
-    		i++;
+    	if (attendingClients.size() > 0) {
+	    	// for each checked service
+	    	int i = 0;
+	    	for (String sName : serviceNames) {
+	    		// for each attending hh member
+	    		for (Client client : attendingClients) {
+	    			ServiceAccessed sa = null;
+	    			// decide whether there is ad_info (ie it's an outlier type service that is not a simple checkbox)
+	    			Date time = new Date();
+	    			int serviceId = 0;
+	    			serviceId = ModelHelper.getServiceForName(context, sName).getId();
+	    			if (adInfoFlag == true) {
+	    				sa = new ServiceAccessed(serviceId, visitId, client.getId(), serviceAdInfo.get(i), time);
+	    			} else {
+	    				sa = new ServiceAccessed(serviceId, visitId, client.getId(), null, time);
+	    			}
+	    		    Dao<ServiceAccessed, Integer> saDao;
+	    		    DatabaseHelper saDbHelper = new DatabaseHelper(context);
+	    		    try {
+	    		        saDao = saDbHelper.getServiceAccessedDao();
+	    		        saDao.create(sa);
+	    		    } catch (SQLException e) {
+	    		        // TODO Auto-generated catch block
+	    		        e.printStackTrace();
+	    		    }
+	    		}
+	    		i++;
+	    	}
+	    	
+	    	Toast.makeText(getApplicationContext(),"Service(s) marked as delivered to client(s)",Toast.LENGTH_LONG).show();
+	    	Intent intent = new Intent(ServiceDeliveryActivity.this, ServiceOverviewActivity.class);
+	    	Bundle b = new Bundle();
+	    	b.putInt("visitId",visitId);
+	    	b.putInt("hhId",hhId);
+	    	intent.putExtras(b);
+	    	startActivity(intent);
+	    	finish();
+    	} else {
+    		Toast.makeText(getApplicationContext(),"You must select at least one client to mark this service as delivered",Toast.LENGTH_LONG).show();
     	}
-    	
-    	Toast.makeText(getApplicationContext(),"Service(s) marked as delivered to client(s)",Toast.LENGTH_LONG).show();
-    	Intent intent = new Intent(ServiceDeliveryActivity.this, ServiceOverviewActivity.class);
-    	Bundle b = new Bundle();
-    	b.putInt("visitId",visitId);
-    	b.putInt("hhId",hhId);
-    	intent.putExtras(b);
-    	startActivity(intent);
-    	finish();
     }
     
     

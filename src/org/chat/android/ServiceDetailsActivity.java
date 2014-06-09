@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ServiceDetailsActivity extends BaseActivity {
 	private int visitId = 0;
@@ -68,14 +69,18 @@ public class ServiceDetailsActivity extends BaseActivity {
     
     public void selectServiceTargets(View v) {
     	ArrayList<String> serviceNames = sAdapter.getSelectedServices();
-    	Intent i = new Intent(ServiceDetailsActivity.this, ServiceDeliveryActivity.class);
-    	Bundle b = new Bundle();
-    	b.putInt("visitId",visitId);
-    	b.putInt("hhId",hhId);
-    	b.putStringArrayList("serviceNames", serviceNames);
-    	b.putBoolean("adInfoFlag",false);
-    	i.putExtras(b);
-    	startActivity(i);
+    	if (serviceNames.size() > 0) {
+    		Intent i = new Intent(ServiceDetailsActivity.this, ServiceDeliveryActivity.class);
+        	Bundle b = new Bundle();
+        	b.putInt("visitId",visitId);
+        	b.putInt("hhId",hhId);
+        	b.putStringArrayList("serviceNames", serviceNames);
+        	b.putBoolean("adInfoFlag",false);
+        	i.putExtras(b);
+        	startActivity(i);
+    	} else {
+    		Toast.makeText(getApplicationContext(),"You must select at least one service (or hit the back button to cancel)",Toast.LENGTH_LONG).show();
+    	}
     }
     
     

@@ -17,6 +17,8 @@ public class HealthTopic {
     @DatabaseField
     private String theme;
     @DatabaseField
+    private String screenshot;
+    @DatabaseField
 	private Date created_at;
 	@DatabaseField
 	private Date modified_at;
@@ -36,10 +38,11 @@ public class HealthTopic {
      * @param created_at
      * @param modified_at
      */
-    public HealthTopic(int id, String name, String theme, Date created_at, Date modified_at) {
+    public HealthTopic(int id, String name, String theme, String screenshot, Date created_at, Date modified_at) {
     	this.id = id;
         this.name = name;
         this.theme = theme;
+        this.screenshot = screenshot;
         this.created_at = created_at;
     	this.modified_at = modified_at;
     }
@@ -73,5 +76,13 @@ public class HealthTopic {
 	
 	public void setTheme(String theme) {
 		this.theme = theme;
+	}
+	
+	public String getScreenshot() {
+		return screenshot;
+	}
+	
+	public void setScreenshot(String screenshot) {
+		this.screenshot = screenshot;
 	}
 }

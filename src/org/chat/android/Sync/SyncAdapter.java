@@ -439,7 +439,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
 	                	//Log.i("SyncAdapter","JSON object: "+jo.toString());
-	                	HealthTopic o = new HealthTopic(jo.getInt("_id"), jo.getString("name"), jo.getString("theme"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
+	                	HealthTopic o = new HealthTopic(jo.getInt("_id"), jo.getString("name"), jo.getString("theme"), jo.getString("screenshot"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
 	                	dao.createOrUpdate(o);
 	                }
                 } else if ("health_pages" == modelName) {

@@ -147,6 +147,10 @@ public class HealthDetailsActivity extends BaseActivity {
 			topicTitle.get(i).setTextColor(colorRef);
 			divider.get(i).setBackgroundColor(colorRef);				
 			topicTitle.get(i).setText(topicList.get(i).getName());
+			
+			int screenshotId = getResources().getIdentifier(topicList.get(i).getScreenshot(), "drawable", context.getPackageName());
+			imgView.get(i).setImageResource(screenshotId);
+			
 			imgView.get(i).setTag(topicList.get(i).getName());
 			imgBtn.get(i).setTag(topicList.get(i).getName());
 			imgBtn.get(i).setImageResource(imageRef);
