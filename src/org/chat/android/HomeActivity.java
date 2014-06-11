@@ -18,6 +18,7 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -454,6 +455,21 @@ public class HomeActivity extends Activity {
 	    case R.id.menu_settings:
 	        Toast.makeText(getApplicationContext(), "Running setupDB...", Toast.LENGTH_SHORT).show();
 	        prepopulateDB();
+	        return true;
+	    case R.id.menu_device_id:
+	        try {
+				String deviceSerial = (String) Build.class.getField("SERIAL").get(null);
+				Toast.makeText(getApplicationContext(),"Device ID: "+deviceSerial,Toast.LENGTH_LONG).show();
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchFieldException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	        return true;
 	    case R.id.menu_sync:
 	        Toast.makeText(getApplicationContext(), "Triggering sync adapter to sync with server...", Toast.LENGTH_LONG).show();
