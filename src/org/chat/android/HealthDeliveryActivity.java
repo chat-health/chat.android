@@ -294,7 +294,12 @@ public class HealthDeliveryActivity extends BaseActivity {
     	// figure out which video to play by determining which button was pressed
     	int chosenVideoId = 0;
     	chosenVideoId = (Integer) v.getTag();
+    	
     	Video chosenVideo = ModelHelper.getVideoForId(context, chosenVideoId);
+    	if (chosenVideo == null) {
+    		Toast.makeText(getApplicationContext(),"Error: video does not exist. Please contact technical support",Toast.LENGTH_LONG).show();
+    		// TODO DO MORE ERROR HANDLING HERE - DO WE WANT A BREAK?
+    	}
     	
     	// record which video was played in videos_accessed table
     	Date date = new Date();
@@ -319,11 +324,16 @@ public class HealthDeliveryActivity extends BaseActivity {
         // create file that points at video in sdcard dir (to retrieve URI)
         File myvid = new File(dir, chosenVideo.getURI());
         
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.setDataAndType(Uri.fromFile(myvid), "video/*");
-        startActivity(intent);
+        if (myvid.exists()) {
+        	Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.setDataAndType(Uri.fromFile(myvid), "video/*");
+            startActivity(intent);
+        } else {
+        	Toast.makeText(getApplicationContext(),"This tablet does not have the selected video. Please sync videos or contact technical support",Toast.LENGTH_LONG).show();
+        }
+        
     }
 	
 }

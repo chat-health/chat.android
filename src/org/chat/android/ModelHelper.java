@@ -687,11 +687,16 @@ public class ModelHelper {
     	String secondsString = String.valueOf(seconds);
     	String idString = myUUID+secondsString;
     	int hashedIdString = idString.hashCode();
+    	if (hashedIdString < 0) {
+    		hashedIdString = hashedIdString * -1;
+    	}
+    	
     	Random randomNum = new Random();
     	int randomInt = randomNum.nextInt(99999);
     	int myId = hashedIdString + randomInt;
     	return myId;
-    	// k, this isn't great IMO. Functional for now
+    	// k, this is pretty over the top and silly, but functional for now
+    	
     	
     	// feels odd to construct this all ourselves. An attempt to eliminating collisions while staying within int space
 //    	String myUUID = Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);

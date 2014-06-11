@@ -226,6 +226,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 				pushModel("visits", visitsJson);
 			}
 			
+			JSONArray attJson = createJsonArrayOf("attendance");
+			if (attJson.length() > 0) {
+				pushModel("attendance", attJson);
+			}
+			
 			JSONArray htaJson = createJsonArrayOf("health_topics_accessed");
 			if (htaJson.length() > 0) {
 				pushModel("health_topics_accessed", htaJson);
@@ -640,6 +645,25 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 					jsonArray.put(json);
 				}
 				Log.i("SyncAdapter", "Created visits jsonArray: "+jsonArray.toString());
+			} else if ("attendance" == modelName) {
+				Dao<Attendance, Integer> attDao;
+				attDao = dbHelper.getAttendanceDao();
+				
+				List<Attendance> attList = attDao.queryBuilder().where().eq("newly_created", true).query();
+				Iterator<Attendance> iterator = attList.iterator();
+				
+				while (iterator.hasNext()) {
+					Attendance temp = iterator.next();
+					JSONObject json = new JSONObject();
+					json.put("_id", temp.getId());
+					json.put("visit_id", temp.getVisitId());
+					json.put("client_id", temp.getClientId());
+					json.put("newly_created", temp.getNewlyCreatedStatus());
+					
+					// put object into array
+					jsonArray.put(json);
+				}
+				Log.i("SyncAdapter", "Created attendance jsonArray: "+jsonArray.toString());
 			} else if ("health_topics_accessed" == modelName) {
 				Dao<HealthTopicAccessed, Integer> htaDao;
 				htaDao = dbHelper.getHealthTopicAccessedDao();
@@ -808,6 +832,18 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	        				Visit doc = dao.queryForId(jsonObj.getInt("_id"));
 	        				doc.makeClean();
 	        				dao.update(doc);
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	                } else if ("attendance" == modelName) {
+	                	try {
+	                		Dao<Attendance, Integer> attDao;
+	                		attDao = dbHelper.getAttendanceDao();
+	        				
+	                		Attendance doc = attDao.queryForId(jsonObj.getInt("_id"));
+	        				doc.makeClean();
+	        				attDao.update(doc);
 						} catch (SQLException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

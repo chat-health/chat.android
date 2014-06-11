@@ -26,7 +26,7 @@
     <string name="title_activity_cha_overview">CHAT > CHILD HEALTH ASSESSMENT</string>
     <string name="title_activity_immunizations">CHAT > CHILD HEALTH ASSESSMENT > IMMUNIZATIONS</string>
     <string name="title_activity_cha_delivery_ask">CHAT > CHILD HEALTH ASSESSMENT > ASSESSMENT</string>
-    <string name="title_activity_auth">CHAT > AUTHORIZATION > ASSESSMENT</string>
+    <string name="title_activity_auth">CHAT > AUTHORIZATION</string>
      
     <string name="lorum_ipsom">Lorum Ipsom</string>
     <string name="generic_img_button_text">Image button</string>

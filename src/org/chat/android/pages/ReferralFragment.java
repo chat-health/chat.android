@@ -40,16 +40,16 @@ public class ReferralFragment extends Fragment {
     	// if this gets any more complicated (waiting on Lisa for design), create class/model for this - see below
     	for (HealthSelectRecorded hsr : selects) {
     		int id = hsr.getSelectId();
-    		if (id == 10003 || id == 10007 || id == 10009 || id == 10011 || id == 10016 || id == 10019 || id == 10024 || id == 10025 || id == 10027 || id == 10029 || id == 10031 || id == 10033) {
+    		if (id == 1003 || id == 1007 || id == 1009 || id == 1011 || id == 1016 || id == 1019 || id == 1024 || id == 1025 || id == 1027 || id == 1029 || id == 1031 || id == 1033) {
     			content1.setVisibility(View.VISIBLE);
     		}
-    		if (id == 10005) {
+    		if (id == 1005) {
     			content2.setVisibility(View.VISIBLE);
     		}
-    		if (id == 10008) {
+    		if (id == 1008) {
     			content3.setVisibility(View.VISIBLE);
     		}
-    		if (id == 10025 || id == 10027) {
+    		if (id == 1025 || id == 1027) {
     			content4.setVisibility(View.VISIBLE);
     		}
     		
@@ -70,7 +70,7 @@ public class ReferralFragment extends Fragment {
 					Toast.LENGTH_LONG).show();
 		} catch (Exception e) {
 			Toast.makeText(getActivity(),
-				"SMS faild, please try again later!",
+				"SMS failed, please try again later!",
 				Toast.LENGTH_LONG).show();
 			e.printStackTrace();
 		}

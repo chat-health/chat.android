@@ -35,25 +35,25 @@
             android:id="@+id/s1rb1"
             style="@style/healthRadioButton"
             android:text="placeholder radio1"
-            android:textColor="#16F242"
+            
             android:onClick="recordSelect" />
         <RadioButton
             android:id="@+id/s1rb2"
             style="@style/healthRadioButton"
             android:text="placeholder radio2"
-            android:textColor="#FFFB05"
+            
             android:onClick="recordSelect" />
         <RadioButton
             android:id="@+id/s1rb3"
             style="@style/healthRadioButton"
             android:text="placeholder radio3"
-            android:textColor="#FFB145"
+            
             android:onClick="recordSelect" />
         <RadioButton
             android:id="@+id/s1rb4"
             style="@style/healthRadioButton"
             android:text="placeholder radio4"
-            android:textColor="#F70000"
+            
             android:onClick="recordSelect" />
         
     </RadioGroup>

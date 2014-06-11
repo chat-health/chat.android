@@ -1,5 +1,7 @@
 package org.chat.android.models;
 
+import java.util.Date;
+
 import org.chat.android.ModelHelper;
 import org.chat.android.MyApplication;
 
@@ -19,6 +21,8 @@ public class Attendance {
     private int visit_id;
     @DatabaseField
 	private int client_id;
+    @DatabaseField
+	private Boolean newly_created;
 
     /**
      * Default Constructor needed by ormlite
@@ -34,6 +38,7 @@ public class Attendance {
     public Attendance(int visit_id, int client_id) {
     	this.visit_id = visit_id;
         this.client_id = client_id;
+        this.newly_created = true;
         // this may be trouble with the sync adapter? PLEASE TEST ME
         // https://stackoverflow.com/questions/2002288/static-way-to-get-context-on-android
         Context myContext = MyApplication.getAppContext();
@@ -68,5 +73,17 @@ public class Attendance {
 	
 	public void setClientId(int client_id) {
 		this.client_id = client_id;
+	}
+	
+	public Boolean getNewlyCreatedStatus() {
+		return newly_created;
+	}
+	
+	public void setNewlyCreatedStatus() {
+		this.newly_created = true;
+	}
+	
+	public void makeClean() {
+		this.newly_created = false;
 	}
 }
