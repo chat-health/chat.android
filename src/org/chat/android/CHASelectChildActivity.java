@@ -7,6 +7,7 @@ import org.chat.android.models.Client;
 
 import android.os.Bundle;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class CHASelectChildActivity extends BaseActivity {
 	int visitId = 0;
@@ -26,6 +27,10 @@ public class CHASelectChildActivity extends BaseActivity {
 		
 		// grab list of present clients to show, based on the attendance
 		clientsForHealthAssessment = ModelHelper.getAttendingClientsForVisitIdUnderAge(context, visitId, 5);
+		
+		if (clientsForHealthAssessment.size() == 0) {
+			Toast.makeText(getApplicationContext(),"No children under the age of 5 have been marked as attending this visit. Please return to home screen to update attendance.",Toast.LENGTH_LONG).show();
+		}
 		
 		ListView lv = (ListView) findViewById(R.id.attending_children_listview);
 		adapter = new CHASelectChildAdapter(context, android.R.layout.simple_list_item_1, clientsForHealthAssessment, visitId, hhId);
