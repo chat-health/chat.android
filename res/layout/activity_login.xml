@@ -9,87 +9,91 @@
 	    android:background="@drawable/blue_bkgd" />     -->
     
     <!-- Login progress -->
-
-    <LinearLayout
-        android:id="@+id/login_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center_horizontal"
-        android:layout_marginBottom="100dp"
-        android:orientation="vertical"
-        android:visibility="gone" >
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp" />
-
-        <TextView
-            android:id="@+id/login_status_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="@string/login_progress_signing_in"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-    </LinearLayout>
-
-    <!-- Login form -->
-
-	<ImageView 
-		android:id="@+id/chatLogo"
-		android:layout_width="375dp"
-		android:layout_height="417dp"
-		android:layout_marginLeft="100dp"
-		android:layout_marginTop="50dp"
-		android:src="@drawable/loginlogo" />
-
-    <LinearLayout
-        android:id="@+id/login_form"
-        style="@style/LoginFormContainer"
-        android:orientation="vertical"
-        android:layout_marginLeft="300dp"
-        android:layout_marginBottom="190dp" > 
-        
-        <Spinner
-		    android:id="@+id/role_spinner"
-		    android:entries="@array/role_array"
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content"
-		    android:textSize="21sp"
-		    android:layout_marginBottom="24dp" />
-
-        <EditText
-            android:id="@+id/user_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="21sp"
-            android:hint="@string/prompt_user_name"
-            android:inputType="text"
-            android:maxLines="1"
-            android:singleLine="true" />
-
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="21sp"
-            android:hint="@string/prompt_password"
-            android:imeActionId="@+id/login"
-            android:imeActionLabel="@string/action_sign_in_short"
-            android:imeOptions="actionUnspecified"
-            android:maxLines="1"
-            android:singleLine="true" />
-
-        <ImageButton
-            android:id="@+id/sign_in_button"
-            android:layout_width="wrap_content"
-            android:layout_height="69dp"
-            android:layout_gravity="right"
-            android:layout_marginTop="16dp"
-			android:src="@drawable/signinbutton" />
-    </LinearLayout>
-
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:background="#FFFFFF" >
+	    
+	    <LinearLayout
+	        android:id="@+id/login_status"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center"
+	        android:gravity="center_horizontal"
+	        android:layout_marginBottom="100dp"
+	        android:orientation="vertical"
+	        android:visibility="gone" >
+	
+	        <ProgressBar
+	            style="?android:attr/progressBarStyleLarge"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginBottom="8dp" />
+	
+	        <TextView
+	            android:id="@+id/login_status_message"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginBottom="16dp"
+	            android:text="@string/login_progress_signing_in"
+	            android:textAppearance="?android:attr/textAppearanceMedium" />
+	    </LinearLayout>
+	
+	    <!-- Login form -->
+	
+		<ImageView 
+			android:id="@+id/chatLogo"
+			android:layout_width="375dp"
+			android:layout_height="417dp"
+			android:layout_marginLeft="100dp"
+			android:layout_marginTop="50dp"
+			android:src="@drawable/loginlogo" />
+	
+	    <LinearLayout
+	        android:id="@+id/login_form"
+	        style="@style/LoginFormContainer"
+	        android:orientation="vertical"
+	        android:layout_marginLeft="300dp"
+	        android:layout_marginBottom="190dp" > 
+	        
+	        <Spinner
+			    android:id="@+id/role_spinner"
+			    android:entries="@array/role_array"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:textSize="21sp"
+			    android:layout_marginBottom="24dp" />
+	
+	        <EditText
+	            android:id="@+id/user_name"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:textSize="21sp"
+	            android:hint="@string/prompt_user_name"
+	            android:inputType="text"
+	            android:maxLines="1"
+	            android:singleLine="true" />
+	
+	        <EditText
+	            android:id="@+id/password"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:textSize="21sp"
+	            android:hint="@string/prompt_password"
+	            android:imeActionId="@+id/login"
+	            android:imeActionLabel="@string/action_sign_in_short"
+	            android:imeOptions="actionUnspecified"
+	            android:maxLines="1"
+	            android:singleLine="true" />
+	
+	        <ImageButton
+	            android:id="@+id/sign_in_button"
+	            android:layout_width="wrap_content"
+	            android:layout_height="69dp"
+	            android:layout_gravity="right"
+	            android:layout_marginTop="16dp"
+				android:src="@drawable/signinbutton" />
+	    </LinearLayout>
+	</LinearLayout>
 
 </merge>

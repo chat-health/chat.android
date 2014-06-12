@@ -34,7 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class ResourcesActivity extends ListActivity {
+public class ResourcesActivity extends BaseActivity {
 	Context context = null;
 	Bundle bundle;
 	ArrayList<Resource> resources;
@@ -43,6 +43,7 @@ public class ResourcesActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		context = getApplicationContext();
+		setContentView(R.layout.activity_resources);
 		
 		ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -68,10 +69,14 @@ public class ResourcesActivity extends ListActivity {
 			e2.printStackTrace();
 		}
 	
-		setListAdapter(new ArrayAdapter<String>(this, R.layout.resource_listview_row, resourceNames));
-		ListView rList = getListView();
+//		setListAdapter(new ArrayAdapter<String>(this, R.layout.resource_listview_row, resourceNames));
+//		ListView rList = getListView();
 		
-		rList.setOnItemClickListener(new OnItemClickListener() {
+		ListView lv = (ListView) findViewById(R.id.resources_listview);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.resource_listview_row, resourceNames);
+		lv.setAdapter(adapter);
+		
+		lv.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				//String res = (String)parent.getItemAtPosition(position);
 				Resource res = resources.get(position);

@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
-    android:layout_gravity="center_horizontal">
+    android:layout_gravity="center_horizontal"
+    android:background="#FFFFFF">
       
    	<TableRow
         android:layout_width="fill_parent"

@@ -5,7 +5,8 @@
     android:paddingLeft="60dp"
     android:paddingRight="60dp"
     android:paddingTop="40dp"
-    android:paddingBottom="40dp">
+    android:paddingBottom="40dp"
+    android:background="#FFFFFF" >
       
    	<TableRow
         android:layout_width="fill_parent"

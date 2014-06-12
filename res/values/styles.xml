@@ -5,7 +5,7 @@
 
     <style name="LoginFormContainer">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">fill_parent</item>
         <item name="android:padding">16dp</item>
     </style>
 	
@@ -118,9 +118,17 @@
 	<style name="titleContainer">
 	    <item name="android:layout_width">fill_parent</item>
 	    <item name="android:layout_height">wrap_content</item>
+	    <item name="android:textSize">40sp</item>
+	    <item name="android:textStyle">bold</item>
+	    <item name="android:layout_marginTop">-10dp</item>
+	</style>
+	
+<!-- 	<style name="healthEdTitleContainer">
+	    <item name="android:layout_width">fill_parent</item>
+	    <item name="android:layout_height">wrap_content</item>
 	    <item name="android:textSize">36sp</item>
 	    <item name="android:textStyle">bold</item>
-	</style>
+	</style> -->
 	
 	<style name="shortTextContainer">
 	    <item name="android:layout_width">fill_parent</item>

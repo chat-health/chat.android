@@ -2,18 +2,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal" >
+    android:orientation="horizontal"
+    android:background="#FFFFFF" >
 
     <RelativeLayout
         android:id="@+id/health_delivery_screen"
         style="@style/healthContainer"
-        android:layout_centerHorizontal="true" >
+        android:layout_centerHorizontal="true"
+        android:background="#EAEAEA" >
         
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="70dp"
             android:layout_alignParentBottom="true"
-	        android:background="#eeeeee" >
+	        android:background="#CCCCCC" >
 	        
 		 	<ImageButton
 		        android:id="@+id/backButton"
@@ -42,7 +44,7 @@
 	        android:id="@+id/placeholder"
 	        android:layout_width="match_parent"
 	        android:layout_height="fill_parent"
-	        android:padding="50dp"
+	        android:padding="40dp"
 	        android:layout_marginBottom="50dp">
 	    </FrameLayout>
 

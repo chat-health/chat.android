@@ -11,6 +11,7 @@ import org.chat.android.Auth.AccountGeneral;
 import org.chat.android.models.Attendance;
 import org.chat.android.models.Client;
 import org.chat.android.models.Household;
+import org.chat.android.models.ServiceAccessed;
 import org.chat.android.models.Visit;
 import org.chat.android.models.Worker;
 
@@ -341,7 +342,7 @@ public class HomeActivity extends Activity {
     	} catch (SQLException e) {
     		// TODO Auto-generated catch block
     		e.printStackTrace();
-    	} 
+    	}
 	}
     
     public void saveAttendanceList() {
@@ -377,6 +378,52 @@ public class HomeActivity extends Activity {
     	} finally {
     		saveAttendanceList();
     	}
+	}
+	
+	private void updateVisitObjectforExtras() {
+    	// set the Visit type services (since these will not be checked off in the standard way)
+    	// kinda ugly :/    but relevant services are ids: 1 and 27 for Vol / 71 and 72 for LCs
+    	
+		Visit v = ModelHelper.getVisitForId(context, visitId);
+		// get the visit type
+		String type = v.getType();
+		// get the role
+		String role = v.getRole();
+		// get the attending clients
+		// ?
+		
+		// decide which serviceId to mark off based on type and role
+		int serviceId = 0;
+    	if (type.equals("home")) {
+    		if (role.equals("Home Care Volunteer")) {
+    			serviceId = 1;
+    		} else if (role.equals("Lay Counsellor")) {
+    			serviceId = 71;
+    		} else {
+    			Toast.makeText(getApplicationContext(),"Error: unknown role in HomeActivity updateVisitObjectforExtras. Please contact technical support.",Toast.LENGTH_LONG).show();
+    		}
+    	} else if (type.equals("school")) {
+    		if (role.equals("Home Care Volunteer")) {
+    			serviceId = 27;
+    		} else if (role.equals("Lay Counsellor")) {
+    			serviceId = 72;
+    		} else {
+    			Toast.makeText(getApplicationContext(),"Error: unknown role in HomeActivity updateVisitObjectforExtras. Please contact technical support.",Toast.LENGTH_LONG).show();
+    		}
+    	}
+    	
+    	// set serviceAccessed (TODO: make this work for all attending clients)      START HERE
+    	Date time = new Date();
+    	ServiceAccessed sa = new ServiceAccessed(serviceId, visitId, 999, null, time);
+    	Dao<ServiceAccessed, Integer> saDao;
+	    DatabaseHelper saDbHelper = new DatabaseHelper(context);
+	    try {
+	        saDao = saDbHelper.getServiceAccessedDao();
+	        saDao.create(sa);
+	    } catch (SQLException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+	    }
 	}
 	
     private void checkVisitCompleteStatus() {
@@ -481,7 +528,8 @@ public class HomeActivity extends Activity {
 	    	       .setCancelable(false)
 	    	       .setPositiveButton("Yes, mark this visit as complete and log me out", new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
-	    	        	   checkVisitCompleteStatus();
+	    	        	   updateVisitObjectforExtras();
+	    	        	   //checkVisitCompleteStatus();
 	    	        	   //triggerSyncAdapter();
 	    	           }
 	    	       })
