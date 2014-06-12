@@ -8,16 +8,20 @@
         style="@style/servicesContainer"
         android:layout_centerInParent="true"
         android:background="#EAEAEA" >
-    
+        
+        <TextView
+            android:id="@+id/select_child_title_field"
+            style="@style/titleText"
+            android:gravity="center"
+            android:text="@string/select_child_title_text"
+            android:layout_marginBottom="10dp" />
 	    <ListView
 		    android:id="@+id/attending_children_listview"
 		    android:layout_width="match_parent"
 		    android:layout_height="400dp"
+		    android:layout_below="@id/select_child_title_field"
 		    android:padding="10dp"
 		    android:background="#EAEAEA" />
 	    
 	</RelativeLayout>
-	    
-    
-
 </RelativeLayout>

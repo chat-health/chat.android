@@ -53,6 +53,8 @@
     
     
     <string name="service_delivery_title_text">Who were these services delivered to?</string>
+    <string name="resources_title_text">Select a resource to view</string>
+    <string name="select_child_title_text">Select a child for child health assessment</string>
     
     
     <string name="referral_general">* For any sick child who can drink, advise to give fluids and continue feeding\n\n* Advise to keep the child warm if the child is NOT hot with fever\n* If the child is hot with fever advise to dress lightly to allow fever to cool\n\n* For referrals, send SMS or call Nurse at Thandanani; write referral note; help caregiver and child to get to clinic\n\n* Always advise on when to go to the health facility:\n\u0020\u0020\u0020\u0020\u0020\u0020if child cannot drink or eat\n\u0020\u0020\u0020\u0020\u0020\u0020if child becomes more sick\n\u0020\u0020\u0020\u0020\u0020\u0020if child has blood in the stool</string>

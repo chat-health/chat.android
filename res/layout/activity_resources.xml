@@ -13,7 +13,7 @@
             android:id="@+id/resources_title_field"
             style="@style/titleText"
             android:gravity="center"
-            android:text="Resources" />
+            android:text="@string/resources_title_text" />
 	 	<ListView
 	        android:id="@+id/resources_listview"
 	        android:layout_width="match_parent"
