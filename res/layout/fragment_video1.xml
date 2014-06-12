@@ -8,14 +8,17 @@
     <TextView
         android:id="@+id/v1title"
         style="@style/titleContainer"
-        android:text="Videos" />
+        android:text="Videos" 
+        android:paddingLeft="40dp" />
     
     <ScrollView
         android:layout_width="match_parent"
-	    android:layout_height="320dp"
+	    android:layout_height="335dp"
 	    android:layout_below="@id/v1title"
 	    android:layout_marginTop="10dp"
-	    android:layout_marginLeft="30dp">
+	    android:layout_marginLeft="30dp"
+	    android:paddingLeft="40dp"
+	    android:paddingRight="40dp">
         <TextView
 	        android:id="@+id/v1content1"
 	        style="@style/shortTextContainer"
@@ -24,7 +27,7 @@
     
     <HorizontalScrollView
         android:layout_width="1000dp"
-	    android:layout_height="200dp"
+	    android:layout_height="165dp"
 	    android:layout_alignParentBottom="true"
 	    android:background="#B3B3B3" >
         

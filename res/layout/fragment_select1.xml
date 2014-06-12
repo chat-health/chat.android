@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:background="#EAEAEA" >
+    android:background="#EAEAEA"
+    android:paddingLeft="40dp"
+	android:paddingRight="40dp" >
     
     <TextView
         android:id="@+id/s1title"
