@@ -56,7 +56,7 @@ public class ServiceDeliveryActivity extends BaseActivity {
 		ListView lv = (ListView) findViewById(R.id.service_delivery_listview);
 		sdAdapter = new ServiceDeliveryAdapter(context, android.R.layout.simple_list_item_multiple_choice, presentClients, visitId);
 	    lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-	    lv.setAdapter(sdAdapter);		
+	    lv.setAdapter(sdAdapter);
     }
     
     private void populateMembersList() {

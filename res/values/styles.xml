@@ -174,12 +174,12 @@
 	    <item name="android:layout_marginTop">20dp</item>
 	    <item name="android:layout_marginBottom">10dp</item>
 	    <item name="android:textSize">36sp</item>
-	    <item name="android:textColor">#7DD1D0</item>
+	    <item name="android:textColor">#3DA8B2</item>
 	</style>
 	
 	<style name="immunizationFlagBox">
 	    <item name="android:layout_width">120dp</item>
-	    <item name="android:layout_height">30dp</item> 
+	    <item name="android:layout_height">25dp</item> 
 	</style>
 	
 	<style name="immunizationShortNameTextBox">
@@ -199,9 +199,12 @@
 	</style>
 
 	<style name="immunizationDateButton">
-	    <item name="android:layout_width">250dp</item>
+	    <item name="android:layout_width">219dp</item>
 	    <item name="android:layout_height">wrap_content</item>
+	    <item name="android:layout_marginLeft">12dp</item>
 	    <item name="android:text">Date received</item>
+	    <item name="android:textColor">#FFFFFF</item>
+	    <item name="android:background">#749999</item>
 	    <item name="android:onClick">showDatePickerDialog</item>
 	</style>
 	
