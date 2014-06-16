@@ -315,7 +315,7 @@ public class HomeActivity extends Activity {
     	if (worker != null) {
     		workerId = worker.getId();
     	} else {
-    		workerId = 1;
+    		workerId = 1001;
     	}
 
 		// get the householdId
@@ -392,7 +392,7 @@ public class HomeActivity extends Activity {
 		// get the attending clients - all clients under the age of 999
 		List<Client> cList = ModelHelper.getAttendingClientsForVisitIdUnderAge(context, visitId, 999);
 		
-		// decide which serviceId to mark off based on type and role
+		// decide which serviceId to mark off based on type and role (gross!)
 		int serviceId = 0;
     	if (type.equals("home")) {
     		if (role.equals("Home Care Volunteer")) {

@@ -246,40 +246,45 @@ public class LoginActivity extends Activity {
 				String workerName = mUserNameView.getText().toString();
 
 				Worker w = ModelHelper.getWorkerForUsername(getApplicationContext(), workerName);
-				int workerId = w.getId();
-				
-				Dao<Visit, Integer> vDao;		
-				DatabaseHelper vDbHelper = new DatabaseHelper(getApplicationContext());
-				try {
-					vDao = vDbHelper.getVisitsDao();
-					List<Visit> vList = vDao.queryBuilder().where().eq("worker_id",workerId).and().isNull("end_time").query();
-					Iterator<Visit> iter = vList.iterator();
-					while (iter.hasNext()) {
-						Visit v = iter.next();
-						vId = v.getId();
-					}
-				} catch (SQLException e2) {
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
-				}
-				
-				// figure out what activity to launch next 
-				Intent i;
-				Bundle b = new Bundle();
-				
-				// if there is no uncompleted visit, go to SetupVisitActivity, else go to RestoreVisitActivity
-				if (vId == 0) {
-					i = new Intent(LoginActivity.this, SetupVisitActivity.class);
+
+				if (w == null) {
+					Toast.makeText(getApplicationContext(), "ERROR: That user does not exist in the database. Please check spelling, and the problem persists, contact technical support", Toast.LENGTH_SHORT).show();
 				} else {
-					i = new Intent(LoginActivity.this, RestoreVisitActivity.class);
-					b.putInt("visitId",vId);
-				}
-				
-				b.putString("workerName",workerName);
-				b.putString("role",roleSpinner.getSelectedItem().toString());
-				i.putExtras(b);
-				startActivity(i);
-				finish();
+					int workerId = w.getId();
+					
+					Dao<Visit, Integer> vDao;		
+					DatabaseHelper vDbHelper = new DatabaseHelper(getApplicationContext());
+					try {
+						vDao = vDbHelper.getVisitsDao();
+						List<Visit> vList = vDao.queryBuilder().where().eq("worker_id",workerId).and().isNull("end_time").query();
+						Iterator<Visit> iter = vList.iterator();
+						while (iter.hasNext()) {
+							Visit v = iter.next();
+							vId = v.getId();
+						}
+					} catch (SQLException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+					
+					// figure out what activity to launch next 
+					Intent i;
+					Bundle b = new Bundle();
+					
+					// if there is no uncompleted visit, go to SetupVisitActivity, else go to RestoreVisitActivity
+					if (vId == 0) {
+						i = new Intent(LoginActivity.this, SetupVisitActivity.class);
+					} else {
+						i = new Intent(LoginActivity.this, RestoreVisitActivity.class);
+						b.putInt("visitId",vId);
+					}
+					
+					b.putString("workerName",workerName);
+					b.putString("role",roleSpinner.getSelectedItem().toString());
+					i.putExtras(b);
+					startActivity(i);
+					finish();
+				}	
 
 			 } else {
 				 mPasswordView
