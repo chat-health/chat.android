@@ -231,7 +231,7 @@ public class ModelHelper {
 			allClients = cDao.query(cDao.queryBuilder().prepare());
         	for (Client c : allClients) {
         		for (Integer i : presentHHMembers) {
-        			if (i == c.getId() && c.getAge() <= 5) {
+        			if (i == c.getId() && c.getAge() <= age) {
         				cList.add(c);
         			}        			
         		}

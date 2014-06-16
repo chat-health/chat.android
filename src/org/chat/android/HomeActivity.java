@@ -389,8 +389,8 @@ public class HomeActivity extends Activity {
 		String type = v.getType();
 		// get the role
 		String role = v.getRole();
-		// get the attending clients
-		// ?
+		// get the attending clients - all clients under the age of 999
+		List<Client> cList = ModelHelper.getAttendingClientsForVisitIdUnderAge(context, visitId, 999);
 		
 		// decide which serviceId to mark off based on type and role
 		int serviceId = 0;
@@ -412,18 +412,21 @@ public class HomeActivity extends Activity {
     		}
     	}
     	
-    	// set serviceAccessed (TODO: make this work for all attending clients)      START HERE
-    	Date time = new Date();
-    	ServiceAccessed sa = new ServiceAccessed(serviceId, visitId, 999, null, time);
-    	Dao<ServiceAccessed, Integer> saDao;
-	    DatabaseHelper saDbHelper = new DatabaseHelper(context);
-	    try {
-	        saDao = saDbHelper.getServiceAccessedDao();
-	        saDao.create(sa);
-	    } catch (SQLException e) {
-	        // TODO Auto-generated catch block
-	        e.printStackTrace();
-	    }
+    	// set serviceAccessed
+    	for (Client c : cList) {
+    		Date time = new Date();
+        	ServiceAccessed sa = new ServiceAccessed(serviceId, visitId, c.getId(), null, time);
+        	Dao<ServiceAccessed, Integer> saDao;
+    	    DatabaseHelper saDbHelper = new DatabaseHelper(context);
+    	    try {
+    	        saDao = saDbHelper.getServiceAccessedDao();
+    	        saDao.create(sa);
+    	    } catch (SQLException e) {
+    	        // TODO Auto-generated catch block
+    	        e.printStackTrace();
+    	    }
+    	}
+    	
 	}
 	
     private void checkVisitCompleteStatus() {
