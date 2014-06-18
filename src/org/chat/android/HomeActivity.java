@@ -311,10 +311,11 @@ public class HomeActivity extends Activity {
         // get the workerId
     	// SWITCH FOR PROD
         //workerId = ModelHelper.getWorkerForName(context, workerName).getId();
-    	Worker worker = ModelHelper.getWorkerForName(context, workerName);
+    	Worker worker = ModelHelper.getWorkerForUsername(context, workerName);
     	if (worker != null) {
     		workerId = worker.getId();
     	} else {
+    		//TODO: throw some useful error
     		workerId = 1001;
     	}
 
@@ -324,6 +325,7 @@ public class HomeActivity extends Activity {
     	if (household != null) {
     		hhId = household.getId();
     	} else {
+    		//TODO: throw some useful error
     		hhId = 1;
     	}
 
