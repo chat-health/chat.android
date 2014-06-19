@@ -518,6 +518,7 @@ public class HomeActivity extends Activity {
 	    	       .setCancelable(false)
 	    	       .setPositiveButton("Yes, mark this visit as complete and log me out", new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
+	    	        	   // update for PROD
 	    	        	   updateVisitObjectforExtras();
 	    	        	   //checkVisitCompleteStatus();
 	    	        	   //triggerSyncAdapter();
