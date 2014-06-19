@@ -379,28 +379,28 @@ public class LoginActivity extends Activity {
         ContentResolver.requestSync(mAccount, AccountGeneral.AUTHORITY, settingsBundle);
     }
     
-//    public static Account CreateSyncAccount(Context context) {
-//        // Get an instance of the Android account manager
-//        AccountManager accountManager = (AccountManager) context.getSystemService(ACCOUNT_SERVICE);
-//        /*
-//         * Add the account and account type, no password or user data
-//         * If successful, return the Account object, otherwise report an error.
-//         */
-//        if (accountManager.addAccountExplicitly(newAccount, null, null)) {
-//            /*
-//             * If you don't set android:syncable="true" in
-//             * in your <provider> element in the manifest,
-//             * then call context.setIsSyncable(account, AUTHORITY, 1)
-//             * here.
-//             */
-//        	ContentResolver.setSyncAutomatically(newAccount, AUTHORITY, true); //this programmatically turns on the sync for new sync adapters.
-//        	return newAccount;
-//        } else {
-//            /*
-//             * The account exists or some other error occurred. Log this, report it,
-//             * or handle it internally.
-//             */
-//        	return null;
-//        }
-//    }
+    public static Account CreateSyncAccount(Context context) {
+        // Get an instance of the Android account manager
+        AccountManager accountManager = (AccountManager) context.getSystemService(ACCOUNT_SERVICE);
+        /*
+         * Add the account and account type, no password or user data
+         * If successful, return the Account object, otherwise report an error.
+         */
+        if (accountManager.addAccountExplicitly(newAccount, null, null)) {
+            /*
+             * If you don't set android:syncable="true" in
+             * in your <provider> element in the manifest,
+             * then call context.setIsSyncable(account, AUTHORITY, 1)
+             * here.
+             */
+        	ContentResolver.setSyncAutomatically(newAccount,  AccountGeneral.AUTHORITY, true); //this programmatically turns on the sync for new sync adapters.
+        	return newAccount;
+        } else {
+            /*
+             * The account exists or some other error occurred. Log this, report it,
+             * or handle it internally.
+             */
+        	return null;
+        }
+    }
 }
