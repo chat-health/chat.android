@@ -327,7 +327,7 @@ public class LoginActivity extends Activity {
 	    case R.id.menu_device_id:
 	        try {
 				String deviceSerial = (String) Build.class.getField("SERIAL").get(null);
-				Toast.makeText(getApplicationContext(),"Device ID: "+deviceSerial,Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(),"Device ID: "+deviceSerial,Toast.LENGTH_LONG).show();
 			} catch (IllegalArgumentException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
