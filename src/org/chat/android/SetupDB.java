@@ -649,7 +649,7 @@ public class SetupDB extends Activity {
 //	        e1.printStackTrace();
 //	    }
 	    
-	    Toast.makeText(getApplicationContext(), "DB populated!", Toast.LENGTH_SHORT).show();
+	    Toast.makeText(getApplicationContext(), "I now do nothing!", Toast.LENGTH_SHORT).show();
 	    finish();
     }
 }

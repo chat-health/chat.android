@@ -2,11 +2,13 @@ package org.chat.android;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import org.chat.android.Auth.AccountGeneral;
 import org.chat.android.models.Household;
+import org.chat.android.models.Util;
 import org.chat.android.models.Visit;
 import org.chat.android.models.Worker;
 
@@ -67,6 +69,8 @@ public class LoginActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_login);
+		
+		initDBIfRequired();
 
 		// Set up the login form.
 		mUserName = getIntent().getStringExtra("some string");
@@ -106,6 +110,21 @@ public class LoginActivity extends Activity {
 
 		// Create the dummy account (needed for sync adapter)
 		newAccount = CreateSyncAccount(this);
+	}
+	
+	
+	private void initDBIfRequired() {
+        Date d = new Date();
+        Util u1 = new Util(1, d, d);
+        Dao<Util, Integer> utilDao;
+        DatabaseHelper utilDbHelper = new DatabaseHelper(getBaseContext());
+        try {
+        	utilDao = utilDbHelper.getUtilDao();
+        	utilDao.createIfNotExists(u1);
+	    } catch (SQLException e1) {
+	        // TODO Auto-generated catch block
+	        e1.printStackTrace();
+	    }
 	}
 
 
