@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.chat.android.models.Household;
 import org.chat.android.models.Service;
 
 import com.j256.ormlite.dao.Dao;
@@ -51,16 +52,10 @@ public class ServiceDetailsActivity extends BaseActivity {
     // used to generate the list of services for serviceDelivery
     private void populateServicesList(String type) {
         Dao<Service, Integer> sDao;
-        List<Service> allServices = new ArrayList<Service>();
         DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
         try {
 			sDao = dbHelper.getServicesDao();
-			allServices = sDao.query(sDao.queryBuilder().prepare());
-        	for (Service s : allServices) {
-    			if (s.getType().equals(type)) {
-    				servicesList.add(s);
-    			}
-        	}
+			servicesList = sDao.queryBuilder().where().eq("type",type).query();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

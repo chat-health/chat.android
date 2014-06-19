@@ -170,9 +170,9 @@ public class HomeActivity extends Activity {
 
         // visitId is 0 when starting new visit, else not 0
         if (visitId == 0) {
-    		//setupVisitObject(b.getString("hhName"), b.getString("workerName"), b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));				
+    		setupVisitObject(b.getString("hhName"), b.getString("workerName"), b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));				
     		//setupVisitObject(b.getString("hhName"), "colin", b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));
-            setupVisitObject("John Doe", "colin", "Home Care Volunteer", "home", 11.11, 12.12);
+            //setupVisitObject("John Doe", "colin", "Home Care Volunteer", "home", 11.11, 12.12);
             //setupVisitObject("John Doe", "colin", "Lay Counsellor", "home", 11.11, 12.12);
         } else if (visitId != 0) {
         	// pull the uncompleted visit object
@@ -182,23 +182,8 @@ public class HomeActivity extends Activity {
         	Log.e("Neither a new visit or a resume visit. Something is definitely up. VisitId: ", "");
         }
     	
-    	List<Client> cList = new ArrayList<Client>();
-    	// get visit object and get the family, then use that to select TODO: yuck - FIXME (figure out the proper selector with ORM layer)
         List<Client> hhCList = new ArrayList<Client>();
-        Dao<Client, Integer> clientDao;
-        DatabaseHelper dbHelper = new DatabaseHelper(context);
-        try {
-			clientDao = dbHelper.getClientsDao();
-			cList = clientDao.query(clientDao.queryBuilder().prepare());
-        	for (Client c : cList) {
-        		if (c.getHhId() == visit.getHhId()) {
-        			hhCList.add(c);
-        		}
-        	}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        hhCList = ModelHelper.getClientsForHousehold(context, hhId);
         
         lv = (ListView) findViewById(R.id.attendance_listview);
         clAdapter = new ClientsAdapter(context, android.R.layout.simple_list_item_multiple_choice, hhCList, visitId);

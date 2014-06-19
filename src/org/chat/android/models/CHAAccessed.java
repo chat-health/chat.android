@@ -43,14 +43,15 @@ public class CHAAccessed {
      * 
      */
     public CHAAccessed(int client_id, int visit_id, String type, Date start_time) {
-    	this.client_id = client_id;
+    	Context myContext = MyApplication.getAppContext();
+        Visit v = ModelHelper.getVisitForId(myContext, visit_id);
+        ModelHelper.setVisitToDirtyAndSave(myContext, v);
+        this.id = ModelHelper.generateId(myContext);
+        this.client_id = client_id;
     	this.visit_id = visit_id;
     	this.visit_id = visit_id;
     	this.type = type;
     	this.start_time = start_time;
-    	Context myContext = MyApplication.getAppContext();
-        Visit v = ModelHelper.getVisitForId(myContext, visit_id);
-        ModelHelper.setVisitToDirtyAndSave(myContext, v);
     }
     
     /**

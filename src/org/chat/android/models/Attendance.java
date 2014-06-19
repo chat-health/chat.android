@@ -36,14 +36,15 @@ public class Attendance {
      * @param client_id
      */
     public Attendance(int visit_id, int client_id) {
-    	this.visit_id = visit_id;
-        this.client_id = client_id;
-        this.newly_created = true;
         // this may be trouble with the sync adapter? PLEASE TEST ME
         // https://stackoverflow.com/questions/2002288/static-way-to-get-context-on-android
         Context myContext = MyApplication.getAppContext();
         Visit v = ModelHelper.getVisitForId(myContext, visit_id);
         ModelHelper.setVisitToDirtyAndSave(myContext, v);
+        this.id = ModelHelper.generateId(myContext);
+    	this.visit_id = visit_id;
+        this.client_id = client_id;
+        this.newly_created = true;
     }
     
     /**

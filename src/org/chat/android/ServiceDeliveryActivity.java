@@ -51,7 +51,7 @@ public class ServiceDeliveryActivity extends BaseActivity {
 		}
 		
 		// grab list of present clients to show, based on the attendance
-		populateMembersList();
+		presentClients = ModelHelper.getAttendingClientsForVisitIdUnderAge(context, visitId, 999);
 		
 		ListView lv = (ListView) findViewById(R.id.service_delivery_listview);
 		sdAdapter = new ServiceDeliveryAdapter(context, android.R.layout.simple_list_item_multiple_choice, presentClients, visitId);
@@ -59,45 +59,6 @@ public class ServiceDeliveryActivity extends BaseActivity {
 	    lv.setAdapter(sdAdapter);
     }
     
-    private void populateMembersList() {
-    	// create the list of attending Clients
-    	List<Integer> presentHHMembers = new ArrayList<Integer>();
-        Dao<Attendance, Integer> aDao;
-        List<Attendance> allAttendees = new ArrayList<Attendance>();
-        DatabaseHelper attDbHelper = new DatabaseHelper(getApplicationContext());
-        try {
-			aDao = attDbHelper.getAttendanceDao();
-			allAttendees = aDao.query(aDao.queryBuilder().prepare());
-        	for (Attendance a : allAttendees) {
-    			if (a.getVisitId() == visitId) {
-    				presentHHMembers.add(a.getClientId());
-    			}
-        	}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	
-        Dao<Client, Integer> cDao;
-        List<Client> allClients = new ArrayList<Client>();
-        DatabaseHelper cDbHelper = new DatabaseHelper(getApplicationContext());
-        try {
-			cDao = cDbHelper.getClientsDao();
-			allClients = cDao.query(cDao.queryBuilder().prepare());
-        	for (Client c : allClients) {
-        		for (Integer i : presentHHMembers) {
-        			if (i == c.getId()) {
-        				presentClients.add(c);
-        			}        			
-        		}
-        	}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}    
-    }
-    
-
     public void selectServiceDeliveryClients(View v) {
     	List<Client> attendingClients = sdAdapter.getSelectedClients();
     	if (attendingClients.size() > 0) {

@@ -202,6 +202,21 @@ public class ModelHelper {
 		return client;
 	}
 	
+	public static List<Client> getClientsForHousehold(Context context, int hhId) {
+		List<Client> hhCList = new ArrayList<Client>();
+		Dao<Client, Integer> cDao;		
+		DatabaseHelper cDbHelper = new DatabaseHelper(context);
+		try {
+			cDao = cDbHelper.getClientsDao();
+			hhCList = cDao.queryBuilder().where().eq("hh_id",hhId).query();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		return hhCList;
+	}
+	
 	public static List<Client> getAttendingClientsForVisitIdUnderAge(Context context, int visitId, int age) {
 		List<Client> cList = new ArrayList<Client>();
 		
