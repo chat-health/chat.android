@@ -104,6 +104,8 @@ public class LoginActivity extends Activity {
 		adapter.setDropDownViewResource(R.layout.login_spinner_item);
 		roleSpinner.setAdapter(adapter);
 
+		// Create the dummy account (needed for sync adapter)
+		newAccount = CreateSyncAccount(this);
 	}
 
 
