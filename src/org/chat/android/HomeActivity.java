@@ -76,32 +76,19 @@ public class HomeActivity extends Activity {
 	// step aside I am here on official sync adapter business
 
     // Create the account type and default account
-    static Account mAccount = new Account(AccountGeneral.ACCOUNT_NAME, AccountGeneral.ACCOUNT_TYPE);
+    static Account mAccount;
 
     @Override    
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
         setContentView(R.layout.activity_home);
+        mAccount = new Account(AccountGeneral.ACCOUNT_NAME, AccountGeneral.ACCOUNT_TYPE);
         
         // the best we can currently do for actually killing all activities - will land us on the LoginActivity
         if (getIntent().getBooleanExtra("EXIT", false)) {
             finish();  
         }
-        
-//        try {
-//			String deviceSerial = (String) Build.class.getField("SERIAL").get(null);
-//			Toast.makeText(getApplicationContext(),"Device ID: "+deviceSerial,Toast.LENGTH_SHORT).show();
-//		} catch (IllegalArgumentException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IllegalAccessException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (NoSuchFieldException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
         
 //        Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/Roboto/Roboto-Black.ttf");
 //        servicesTitle = (TextView) findViewById(R.id.services_title_field);
@@ -120,7 +107,6 @@ public class HomeActivity extends Activity {
     @Override    
     protected void onResume() {
     	super.onResume();
-    	//Toast.makeText(getApplicationContext(),"onResume triggered",Toast.LENGTH_SHORT).show();
     	
     	//setupUIElements();				CAREFUL HERE - does the visit need to be repulled?
     	// if this is coming from a back or home click in another activity, then update
@@ -143,26 +129,25 @@ public class HomeActivity extends Activity {
     	resourcesDivider = (View)findViewById(R.id.resources_divider);
         
         // set the services and health branch buttons to disabled (until user has submitted attendance)
-    	// SWITCH FOR PROD - do these need to be in onResume?
         servicesBtn = (ImageButton)findViewById(R.id.services_button);
-        //servicesBtn.setEnabled(false);
+        servicesBtn.setEnabled(false);
         servicesBtnImg = (ImageView)findViewById(R.id.services_button_img);
-        //servicesBtnImg.setEnabled(false);
+        servicesBtnImg.setEnabled(false);
         healthBtn = (ImageButton)findViewById(R.id.health_education_button);
-        //healthBtn.setEnabled(false);
+        healthBtn.setEnabled(false);
         healthBtnImg = (ImageView)findViewById(R.id.health_education_button_img);
-        //healthBtnImg.setEnabled(false);
+        healthBtnImg.setEnabled(false);
         chaBtn = (ImageButton)findViewById(R.id.child_health_assessment_button);
-        //chaBtn.setEnabled(false);
+        chaBtn.setEnabled(false);
         chaBtnImg = (ImageView)findViewById(R.id.child_health_assessment_button_img);
-        //chaBtnImg.setEnabled(false);
+        chaBtnImg.setEnabled(false);
         resourcesBtn = (ImageButton)findViewById(R.id.resources_button);
-        //resourcesBtn.setEnabled(false);
+        resourcesBtn.setEnabled(false);
         resourcesBtnImg = (ImageView)findViewById(R.id.resources_button_img);
-        //resourcesBtnImg.setEnabled(false);
+        resourcesBtnImg.setEnabled(false);
         
 
-        //FOR TESTING, SWITCH FOR PROD
+        //FOR TESTING, SWITCH FOR PROD (WHAT IS THIS?)
 		Bundle b = getIntent().getExtras();
 		if (b != null) {
 			visitId = b.getInt("visitId");
@@ -171,12 +156,10 @@ public class HomeActivity extends Activity {
         // visitId is 0 when starting new visit, else not 0
         if (visitId == 0) {
     		setupVisitObject(b.getString("hhName"), b.getString("workerName"), b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));				
-    		//setupVisitObject(b.getString("hhName"), "colin", b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));
-            //setupVisitObject("John Doe", "colin", "Home Care Volunteer", "home", 11.11, 12.12);
-            //setupVisitObject("John Doe", "colin", "Lay Counsellor", "home", 11.11, 12.12);
         } else if (visitId != 0) {
         	// pull the uncompleted visit object
         	visit = ModelHelper.getVisitForId(context, visitId);
+        	hhId = visit.getHhId();
     		// TODO? update UI - ie attendance - likely needs a refactor
         } else {
         	Log.e("Neither a new visit or a resume visit. Something is definitely up. VisitId: ", "");
@@ -294,23 +277,20 @@ public class HomeActivity extends Activity {
     ////////// HELPER FUNCTIONS //////////
     private void setupVisitObject(String hhName, String workerName, String role, String type, Double lat, Double lon) {
         // get the workerId
-    	// SWITCH FOR PROD
-        //workerId = ModelHelper.getWorkerForName(context, workerName).getId();
     	Worker worker = ModelHelper.getWorkerForUsername(context, workerName);
     	if (worker != null) {
     		workerId = worker.getId();
     	} else {
-    		//TODO: throw some useful error
+    		Toast.makeText(getApplicationContext(),"Error: unknown workerId in HomeActivity. Please contact technical support.",Toast.LENGTH_LONG).show();
     		workerId = 1001;
     	}
 
 		// get the householdId
-        //hhId = ModelHelper.getHouseholdForName(context, hhName).getId();
     	Household household = ModelHelper.getHouseholdForName(context, hhName);
     	if (household != null) {
     		hhId = household.getId();
     	} else {
-    		//TODO: throw some useful error
+    		Toast.makeText(getApplicationContext(),"Error: unknown householdId in HomeActivity. Please contact technical support.",Toast.LENGTH_LONG).show();
     		hhId = 1;
     	}
 
@@ -663,7 +643,7 @@ public class HomeActivity extends Activity {
      */
     public static Account CreateSyncAccount(Context context) {
         // Create the account type and default account
-//        Account newAccount = new Account(ACCOUNT, ACCOUNT_TYPE);
+        //Account newAccount = new Account(ACCOUNT, ACCOUNT_TYPE);
         // Get an instance of the Android account manager
         AccountManager accountManager = (AccountManager) context.getSystemService(ACCOUNT_SERVICE);
         /*

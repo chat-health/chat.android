@@ -61,7 +61,7 @@ public class LoginActivity extends Activity {
 	private Spinner roleSpinner;
 
     // Create the account type and default account
-    static Account newAccount = new Account(AccountGeneral.ACCOUNT_NAME, AccountGeneral.ACCOUNT_TYPE);
+    static Account newAccount;
     
 	
 	@Override
@@ -69,6 +69,7 @@ public class LoginActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_login);
+		newAccount = new Account(AccountGeneral.ACCOUNT_NAME, AccountGeneral.ACCOUNT_TYPE);
 		
 		initDBIfRequired();
 
