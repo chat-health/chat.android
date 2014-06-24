@@ -16,12 +16,14 @@ import org.chat.android.models.HealthSelect;
 import org.chat.android.models.HealthSelectRecorded;
 import org.chat.android.models.HealthTheme;
 import org.chat.android.models.HealthTopic;
+import org.chat.android.models.HealthTopicAccessed;
 import org.chat.android.models.Household;
 import org.chat.android.models.PageAssessment1;
 import org.chat.android.models.PageSelect1;
 import org.chat.android.models.PageText1;
 import org.chat.android.models.PageVideo1;
 import org.chat.android.models.Service;
+import org.chat.android.models.ServiceAccessed;
 import org.chat.android.models.TopicVideo;
 import org.chat.android.models.Util;
 import org.chat.android.models.Vaccine;
@@ -549,6 +551,34 @@ public class ModelHelper {
 		}
 		
 		return hsr;
+	}
+	
+	public static List<ServiceAccessed> getServicesAccessedForVisitId(Context context, int visitId) {
+		List<ServiceAccessed> saList = null;
+		Dao<ServiceAccessed, Integer> saDao;		
+		DatabaseHelper saDbHelper = new DatabaseHelper(context);
+		try {
+			saDao = saDbHelper.getServiceAccessedDao();
+			saList = saDao.queryBuilder().where().eq("visit_id",visitId).query();
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+		
+		return saList;		
+	}
+	
+	public static List<HealthTopicAccessed> getHealthTopicsAccessedForVisitId(Context context, int visitId) {
+		List<HealthTopicAccessed> htaList = null;
+		Dao<HealthTopicAccessed, Integer> htaDao;		
+		DatabaseHelper htaDbHelper = new DatabaseHelper(context);
+		try {
+			htaDao = htaDbHelper.getHealthTopicAccessedDao();
+			htaList = htaDao.queryBuilder().where().eq("visit_id",visitId).query();
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+		
+		return htaList;		
 	}
 	
 	public static CHAAccessed getCHAAccessedForVisitIdAndClientIdAndType(Context context, int visitId, int clientId, String type) {

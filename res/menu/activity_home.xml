@@ -3,10 +3,10 @@
         android:title="@string/menu_resources"
         android:orderInCategory="1"
         android:showAsAction="never" />
-    <item android:id="@+id/menu_settings"
+<!--     <item android:id="@+id/menu_settings"
         android:title="@string/menu_settings"
         android:orderInCategory="2"
-        android:showAsAction="never" />
+        android:showAsAction="never" /> -->
     <item android:id="@+id/menu_device_id"
         android:title="@string/menu_device_id"
         android:orderInCategory="3"

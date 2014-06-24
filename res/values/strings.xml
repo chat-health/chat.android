@@ -38,7 +38,7 @@
     <string name="action_no"><b>No</b></string>
     
     <string name="menu_resources">Resources</string>
-    <string name="menu_settings">Settings</string>
+    <!-- <string name="menu_settings">Settings</string> -->
     <string name="menu_device_id">Device ID</string>
     <string name="menu_sync">Sync</string>
     <string name="menu_logout">Logout</string>

@@ -10,6 +10,7 @@ import java.util.List;
 import org.chat.android.Auth.AccountGeneral;
 import org.chat.android.models.CHAAccessed;
 import org.chat.android.models.Client;
+import org.chat.android.models.ServiceAccessed;
 import org.chat.android.models.Visit;
 
 import com.j256.ormlite.dao.Dao;
@@ -89,10 +90,10 @@ public class BaseActivity extends Activity {
 	    	resourcesI.putExtras(resourcesB);    	
 	    	startActivity(resourcesI);
 	        return true;
-	    case R.id.menu_settings:
-	        Toast.makeText(getApplicationContext(), "Running setupDB...", Toast.LENGTH_SHORT).show();
-	        prepopulateDB();
-	        return true;
+//	    case R.id.menu_settings:
+//	        Toast.makeText(getApplicationContext(), "Running setupDB...", Toast.LENGTH_SHORT).show();
+//	        prepopulateDB();
+//	        return true;
 	    case R.id.menu_sync:
 	        Toast.makeText(getApplicationContext(), "Triggering sync adapter to sync with server...", Toast.LENGTH_LONG).show();
 	        triggerSyncAdaper();
@@ -130,6 +131,7 @@ public class BaseActivity extends Activity {
     	Boolean completeFlag = true;
     	List<Client> clientsForHealthAssessment = ModelHelper.getAttendingClientsForVisitIdUnderAge(context, visitId, 5);
     	
+    	// check for completion of CHA
     	for (Client c : clientsForHealthAssessment) {
         	Boolean healthFlag = false;
         	Boolean immunizationFlag = false;
@@ -149,11 +151,74 @@ public class BaseActivity extends Activity {
     			completeFlag = false;
     		}
     	}
+    	
+    	// check for completion of service requirements
+    	if (ModelHelper.getServicesAccessedForVisitId(context, visitId).size() == 0) {
+    		completeFlag = false;
+    		Toast.makeText(getApplicationContext(),"Visit not marked as complete - no services delivered",Toast.LENGTH_LONG).show();
+    	}
+    	
+    	// check for completion of health ed requirements
+    	if (ModelHelper.getHealthTopicsAccessedForVisitId(context, visitId).size() == 0) {
+    		completeFlag = false;
+    		Toast.makeText(getApplicationContext(),"Visit not marked as complete - no health topic education delivered",Toast.LENGTH_LONG).show();
+    	}
 
     	if (completeFlag == true) {
-    		markVisitComplete();
+    		// add the visit type services, etc
+    		updateVisitObjectforExtras();
     	}
     }
+    
+	private void updateVisitObjectforExtras() {
+    	// set the Visit type services (since these will not be checked off in the standard way)
+    	// kinda ugly :/    but relevant services are ids: 1 and 27 for Vol / 71 and 72 for LCs
+    	
+		Visit v = ModelHelper.getVisitForId(context, visitId);
+		// get the visit type
+		String type = v.getType();
+		// get the role
+		String role = v.getRole();
+		// get the attending clients - all clients under the age of 999
+		List<Client> cList = ModelHelper.getAttendingClientsForVisitIdUnderAge(context, visitId, 999);
+		
+		// decide which serviceId to mark off based on type and role (gross!)
+		int serviceId = 0;
+    	if (type.equals("Home Visit")) {
+    		if (role.equals("Home Care Volunteer")) {
+    			serviceId = 1;
+    		} else if (role.equals("Lay Counsellor")) {
+    			serviceId = 71;
+    		} else {
+    			Toast.makeText(getApplicationContext(),"Error: unknown role in HomeActivity updateVisitObjectforExtras. Please contact technical support.",Toast.LENGTH_LONG).show();
+    		}
+    	} else if (type.equals("School Visit")) {
+    		if (role.equals("Home Care Volunteer")) {
+    			serviceId = 27;
+    		} else if (role.equals("Lay Counsellor")) {
+    			serviceId = 72;
+    		} else {
+    			Toast.makeText(getApplicationContext(),"Error: unknown role in HomeActivity updateVisitObjectforExtras. Please contact technical support.",Toast.LENGTH_LONG).show();
+    		}
+    	}
+    	
+    	// set serviceAccessed
+    	for (Client c : cList) {
+    		Date time = new Date();
+        	ServiceAccessed sa = new ServiceAccessed(serviceId, visitId, c.getId(), null, time);
+        	Dao<ServiceAccessed, Integer> saDao;
+    	    DatabaseHelper saDbHelper = new DatabaseHelper(context);
+    	    try {
+    	        saDao = saDbHelper.getServiceAccessedDao();
+    	        saDao.create(sa);
+    	    } catch (SQLException e) {
+    	        // TODO Auto-generated catch block
+    	        e.printStackTrace();
+    	    }
+    	}
+    	
+    	markVisitComplete();
+	}
     
     public void markVisitComplete() {
 		Toast.makeText(getApplicationContext(),"Visit saved and marked as complete",Toast.LENGTH_LONG).show();

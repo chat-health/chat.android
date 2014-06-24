@@ -348,6 +348,49 @@ public class HomeActivity extends Activity {
     	}
 	}
 	
+    private void checkVisitCompleteStatus() {
+    	Boolean completeFlag = true;
+    	List<Client> clientsForHealthAssessment = ModelHelper.getAttendingClientsForVisitIdUnderAge(context, visitId, 5);
+    	
+    	// check for completion of CHA
+    	for (Client c : clientsForHealthAssessment) {
+        	Boolean healthFlag = false;
+        	Boolean immunizationFlag = false;
+        	if (ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(context, visitId, c.getId(), "health") == true) {
+        		healthFlag = true;
+        	} else {
+        		Toast.makeText(getApplicationContext(),"Visit not marked as complete - Child Health Assessment section still needs to be completed for " + c.getFirstName() + " " + c.getLastName(),Toast.LENGTH_LONG).show();
+        	}
+    		Boolean allVaccinesAdministered = ModelHelper.getVaccineRecordedCompleteForClientId(context, c.getId());
+    		Boolean chaImmunizationComplete = ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(context, visitId, c.getId(), "immunization");
+    		if (allVaccinesAdministered || chaImmunizationComplete) {
+    			immunizationFlag = true;
+    		} else {
+    			Toast.makeText(getApplicationContext(),"Visit not marked as complete - Immunization section still needs to be completed for " + c.getFirstName() + " " + c.getLastName(),Toast.LENGTH_LONG).show();
+    		}
+    		if (healthFlag == false || immunizationFlag == false) {
+    			completeFlag = false;
+    		}
+    	}
+    	
+    	// check for completion of service requirements
+    	if (ModelHelper.getServicesAccessedForVisitId(context, visitId).size() == 0) {
+    		completeFlag = false;
+    		Toast.makeText(getApplicationContext(),"Visit not marked as complete - no services delivered",Toast.LENGTH_LONG).show();
+    	}
+    	
+    	// check for completion of health ed requirements
+    	if (ModelHelper.getHealthTopicsAccessedForVisitId(context, visitId).size() == 0) {
+    		completeFlag = false;
+    		Toast.makeText(getApplicationContext(),"Visit not marked as complete - no health topic education delivered",Toast.LENGTH_LONG).show();
+    	}
+
+    	if (completeFlag == true) {
+    		// add the visit type services, etc
+    		updateVisitObjectforExtras();
+    	}
+    }	
+	
 	private void updateVisitObjectforExtras() {
     	// set the Visit type services (since these will not be checked off in the standard way)
     	// kinda ugly :/    but relevant services are ids: 1 and 27 for Vol / 71 and 72 for LCs
@@ -362,7 +405,7 @@ public class HomeActivity extends Activity {
 		
 		// decide which serviceId to mark off based on type and role (gross!)
 		int serviceId = 0;
-    	if (type.equals("home")) {
+    	if (type.equals("Home Visit")) {
     		if (role.equals("Home Care Volunteer")) {
     			serviceId = 1;
     		} else if (role.equals("Lay Counsellor")) {
@@ -370,7 +413,7 @@ public class HomeActivity extends Activity {
     		} else {
     			Toast.makeText(getApplicationContext(),"Error: unknown role in HomeActivity updateVisitObjectforExtras. Please contact technical support.",Toast.LENGTH_LONG).show();
     		}
-    	} else if (type.equals("school")) {
+    	} else if (type.equals("School Visit")) {
     		if (role.equals("Home Care Volunteer")) {
     			serviceId = 27;
     		} else if (role.equals("Lay Counsellor")) {
@@ -395,36 +438,8 @@ public class HomeActivity extends Activity {
     	    }
     	}
     	
+    	markVisitComplete();
 	}
-	
-    private void checkVisitCompleteStatus() {
-    	Boolean completeFlag = true;
-    	List<Client> clientsForHealthAssessment = ModelHelper.getAttendingClientsForVisitIdUnderAge(context, visitId, 5);
-    	
-    	for (Client c : clientsForHealthAssessment) {
-        	Boolean healthFlag = false;
-        	Boolean immunizationFlag = false;
-        	if (ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(context, visitId, c.getId(), "health") == true) {
-        		healthFlag = true;
-        	} else {
-        		Toast.makeText(getApplicationContext(),"Visit not marked as complete - Child Health Assessment section still needs to be completed for " + c.getFirstName() + " " + c.getLastName(),Toast.LENGTH_LONG).show();
-        	}
-    		Boolean allVaccinesAdministered = ModelHelper.getVaccineRecordedCompleteForClientId(context, c.getId());
-    		Boolean chaImmunizationComplete = ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(context, visitId, c.getId(), "immunization");
-    		if (allVaccinesAdministered || chaImmunizationComplete) {
-    			immunizationFlag = true;
-    		} else {
-    			Toast.makeText(getApplicationContext(),"Visit not marked as complete - Immunization section still needs to be completed for " + c.getFirstName() + " " + c.getLastName(),Toast.LENGTH_LONG).show();
-    		}
-    		if (healthFlag == false || immunizationFlag == false) {
-    			completeFlag = false;
-    		}
-    	}
-
-    	if (completeFlag == true) {
-    		markVisitComplete();
-    	}
-    }	
 	
 	public void markVisitComplete() {
 		Toast.makeText(getApplicationContext(),"Visit saved and marked as complete",Toast.LENGTH_LONG).show();
@@ -470,10 +485,10 @@ public class HomeActivity extends Activity {
 	    	i.putExtras(b);
 	    	startActivity(i);
 	        return true;
-	    case R.id.menu_settings:
-	        Toast.makeText(getApplicationContext(), "Running setupDB...", Toast.LENGTH_SHORT).show();
-	        prepopulateDB();
-	        return true;
+//	    case R.id.menu_settings:
+//	        Toast.makeText(getApplicationContext(), "Running setupDB...", Toast.LENGTH_SHORT).show();
+//	        prepopulateDB();
+//	        return true;
 	    case R.id.menu_device_id:
 	        try {
 				String deviceSerial = (String) Build.class.getField("SERIAL").get(null);
@@ -500,8 +515,7 @@ public class HomeActivity extends Activity {
 	    	       .setPositiveButton("Yes, mark this visit as complete and log me out", new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
 	    	        	   // update for PROD
-	    	        	   updateVisitObjectforExtras();
-	    	        	   //checkVisitCompleteStatus();
+	    	        	   checkVisitCompleteStatus();
 	    	        	   //triggerSyncAdapter();
 	    	           }
 	    	       })

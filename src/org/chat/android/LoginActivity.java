@@ -340,10 +340,10 @@ public class LoginActivity extends Activity {
 	    	i.putExtras(b);  
 	    	startActivity(i);
 	        return true;
-	    case R.id.menu_settings:
-	        Toast.makeText(getApplicationContext(), "Running setupDB...", Toast.LENGTH_SHORT).show();
-	        prepopulateDB();
-	        return true;
+//	    case R.id.menu_settings:
+//	        Toast.makeText(getApplicationContext(), "Running setupDB...", Toast.LENGTH_SHORT).show();
+//	        prepopulateDB();
+//	        return true;
 	    case R.id.menu_device_id:
 	        try {
 				String deviceSerial = (String) Build.class.getField("SERIAL").get(null);
