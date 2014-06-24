@@ -1,5 +1,6 @@
 package org.chat.android.Auth;
 
+import com.crashlytics.android.Crashlytics;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -62,6 +63,7 @@ public class MainActivity extends AccountAuthenticatorActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Crashlytics.start(this);
 		setContentView(R.layout.activity_main);
 		demo = this;
 		sServerAuthenticate= new ChatAuthServerAuthenticate(this.getApplicationContext().getString(R.string.base_url));

@@ -214,6 +214,7 @@
 	        android:authorities="org.chat.provider"
 	        android:exported="false"
 	        android:syncable="true" />
+        <meta-data android:name="com.crashlytics.ApiKey" android:value="0e38805170fa47d2de8b6c415694fbaef30aa162"/>
     </application>
 
 </manifest>
