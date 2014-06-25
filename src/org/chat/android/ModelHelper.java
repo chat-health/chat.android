@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 import org.chat.android.models.Attendance;
@@ -40,6 +41,8 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 
 public class ModelHelper {
+	static String lang = Locale.getDefault().getLanguage();
+	
 	public static Date getLastSyncedAt(Context context, String direction) {
 		Util u = null;
 		Dao<Util, Integer> uDao;		
@@ -294,7 +297,8 @@ public class ModelHelper {
 			sDao = dbHelper.getServicesDao();
 			allServices = sDao.query(sDao.queryBuilder().prepare());
         	for (Service s : allServices) {
-    			if (s.getName().equals(sName)) {
+        		// service names that are not displayed will always be in english (right?)
+    			if (s.getName(lang).equals(sName)) {
     				service = s;
     			}
         	}

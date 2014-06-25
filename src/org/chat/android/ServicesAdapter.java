@@ -5,6 +5,7 @@ import static org.chat.android.R.id.service_row;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.chat.android.models.Service;
 
@@ -26,6 +27,8 @@ public class ServicesAdapter extends ArrayAdapter<Service> {
 	private LayoutInflater mInflater;
 	private List<Service> servicesArray;
 	List<Service> selectedServices = new ArrayList<Service>();
+	
+	String lang = Locale.getDefault().getLanguage();
 
     public ServicesAdapter(Context context, int layoutResourceId, List<Service> servicesArray) {
         super(context, layoutResourceId, servicesArray);
@@ -43,7 +46,7 @@ public class ServicesAdapter extends ArrayAdapter<Service> {
     	final CheckBox cb = (CheckBox) convertView.findViewById(R.id.service_subtype_checkbox);
     	if (convertView != null) {
     		name = (TextView)convertView.findViewById(R.id.service_subtype_name);
-    		name.setText(s.getName());
+    		name.setText(s.getName(lang));
     		cb.setTag(s);
     	}
     	
@@ -71,7 +74,7 @@ public class ServicesAdapter extends ArrayAdapter<Service> {
 		ArrayList<String> sNames = new ArrayList<String>();
 		for (int i = 0; i < selectedServices.size(); i++) {
 			Service s = selectedServices.get(i);
-			sNames.add(s.getName());
+			sNames.add(s.getName(lang));
 		}
 		
 		return sNames;

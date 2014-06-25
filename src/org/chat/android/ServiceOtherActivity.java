@@ -3,6 +3,7 @@ package org.chat.android;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.chat.android.models.Service;
 
@@ -62,18 +63,19 @@ public class ServiceOtherActivity extends BaseActivity {
     	entry.add((EditText) findViewById(R.id.other_et_10));
 		
 		// grab list of services to show, based on the service subtype - subtype should always be "Other"
-		populateServicesList(role, type);		
+		populateServicesList(role, type);
+		
+		// determine language from current tablet settings
+		String lang = Locale.getDefault().getLanguage();
 		
 		// for each service in the serviceList, set up the tv and et UI elements 
 		for (int i = 0; i < servicesList.size(); i++) {
-			title.get(i).setText(servicesList.get(i).getName());
+			title.get(i).setText(servicesList.get(i).getName(lang));
 			title.get(i).setVisibility(View.VISIBLE);
 			entry.get(i).setHint(servicesList.get(i).getInstructions());
-			entry.get(i).setTag(servicesList.get(i).getName());
+			entry.get(i).setTag(servicesList.get(i).getName(lang));
 			entry.get(i).setVisibility(View.VISIBLE);
-		}
-
-		        
+		}       
     }
     
     // used to generate the list of services for serviceDelivery

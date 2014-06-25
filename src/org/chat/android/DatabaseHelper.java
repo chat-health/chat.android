@@ -45,7 +45,7 @@ import org.chat.android.models.Worker;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "chat.db";
-    private static final int DATABASE_VERSION = 184;
+    private static final int DATABASE_VERSION = 185;
     
     private Dao<Util, Integer> utilDao = null;
     

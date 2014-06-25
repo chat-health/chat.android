@@ -2,6 +2,8 @@ package org.chat.android.models;
 
 import java.util.Date;
 
+import android.util.Log;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -10,8 +12,10 @@ import com.j256.ormlite.table.DatabaseTable;
 public class Service {
 	@DatabaseField(id = true, index = true, uniqueCombo = true)
 	private int id;
-    @DatabaseField(index = true, uniqueCombo = true)
-    private String name;
+    @DatabaseField
+    private String en_name;
+    @DatabaseField
+    private String zu_name;
     @DatabaseField()
     private String type;						// this represents the service supertype ie (Emotional Well Being)
     @DatabaseField()
@@ -33,9 +37,10 @@ public class Service {
      * Constructor that instantiates the private member variable(s)
      * @param service_name
      */
-    public Service(int id, String name, String type, String role, String instructions, Date created_at, Date modified_at) {
+    public Service(int id, String en_name, String zu_name, String type, String role, String instructions, Date created_at, Date modified_at) {
         this.id = id;
-    	this.name = name;
+    	this.en_name = en_name;
+    	this.zu_name = zu_name;
     	this.type = type;
     	this.role = role;
     	this.instructions = instructions;
@@ -59,12 +64,23 @@ public class Service {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getName(String lang) {
+		if (lang.equals("en")) {
+			return en_name;
+		} else if (lang.equals("zu")) {
+			return zu_name;
+		} else {
+			Log.e("Unknown language: ", lang);
+			return null;
+		}
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setEnName(String en_name) {
+		this.en_name = en_name;
+	}
+	
+	public void setZuName(String zu_name) {
+		this.zu_name = zu_name;
 	}
 	
 	public String getType() {

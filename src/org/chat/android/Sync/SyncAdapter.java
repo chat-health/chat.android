@@ -397,7 +397,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
 	                	//Log.i("SyncAdapter","JSON object: "+jo.toString());
-	                	Service service = new Service (jo.getInt("_id"), jo.getString("name"), jo.getString("type"), jo.getString("role"), jo.getString("instructions"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
+	                	Service service = new Service (jo.getInt("_id"), jo.getString("en_name"), jo.getString("zu_name"), jo.getString("type"), jo.getString("role"), jo.getString("instructions"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
 	                	servicesDao.createOrUpdate(service);
 	                }
                 } else if ("workers" == modelName) {
@@ -686,7 +686,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 					// put object into array
 					jsonArray.put(json);
 				}
-				Log.i("SyncAdapter", "Created servicesAccessed jsonArray: "+jsonArray.toString());
+				Log.i("SyncAdapter", "Created healthTopicsAccessed jsonArray: "+jsonArray.toString());
 			} else if ("services_accessed" == modelName) {
 				Dao<ServiceAccessed, Integer> saDao;
 				saDao = dbHelper.getServiceAccessedDao();
