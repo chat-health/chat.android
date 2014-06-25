@@ -10,7 +10,7 @@
     <TextView
         android:id="@+id/s1title"
         style="@style/titleContainer"
-        android:text="Record" />
+        android:text="@string/health_fragment_title_select_text" />
 
 <!--     THIS HAS BEEN REPLACED WITH A TEXTVIEW THAT DOES NOTHING, SINCE WE NO LONGER HAVE QUESTIONS
     <TextView
