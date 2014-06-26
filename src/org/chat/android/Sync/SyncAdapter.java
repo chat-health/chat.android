@@ -75,6 +75,7 @@ import android.content.Intent;
 import android.content.SyncResult;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Handle the transfer of data between a server and an
@@ -215,7 +216,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		} else {
+			Log.e("SyncAdapter", "Pull failed. Not moving last_synced_at date");
 		}
+		
+		
 	}
 	
 	private void pushNewData() {
@@ -313,11 +318,15 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		if (pullSuccess == true) {
 			try {
 				ModelHelper.setLastSyncedAt(appContext, new Date(), "pull");
+				Toast.makeText(appContext, "Pull all succeeded. Moving last_synced_at date...", Toast.LENGTH_LONG).show();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		} else {
+			Toast.makeText(appContext, "Pull failed. Not moving last_synced_at date", Toast.LENGTH_LONG).show();
 		}
+		
 	}
 	
 	private void retrieveModel(String modelName, Boolean pullAll) throws UserRecoverableAuthException {
@@ -333,8 +342,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         	if (pullAll == false) {
         		// concat so that only changed documents are getted from the collection
             	Date d = ModelHelper.getLastSyncedAt(appContext, "pull");
-        		//GregorianCalendar gc = new GregorianCalendar(2001, 2, 8);
-        		//Date d = gc.getTime();
         		String lastSync = "?last_synced_at=" + formatDateToJsonDate(d);
         		
         		//TODO: CHANGE for PROD - this is for testing only, pulls everything instead of changed things
@@ -364,7 +371,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 response.getEntity().writeTo(out);
                 out.close();
                 responseString = out.toString();
-                Log.i("SyncAdapter", "Response text: \n"+responseString);
+                //Log.i("SyncAdapter", "Response text: \n"+responseString);
                 
                 // transform response into a JSONArray object
                 JSONArray jsonArray = new JSONArray(responseString);
@@ -380,6 +387,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	Client client = new Client(c.getInt("_id"), c.getString("first_name"), c.getString("last_name"), c.getInt("hh_id"), c.getString("gender"), parseBirthDateString(c.getString("date_of_birth")), parseDateString(c.getString("created_at")), parseDateString(c.getString("modified_at")));
 	                	clientDao.createOrUpdate(client);
 	                }
+	                if (jsonArray.length() > 0) {
+	                	Log.i("SyncAdapter", "One or more CLIENTS pulled and created/updated");
+	                } else if (jsonArray.length() == 0) {
+	                	Log.i("SyncAdapter", "No new CLIENTS");
+	                } else {
+	                	Log.i("SyncAdapter", "jsonArray is null. Could be trouble");
+	                }
+	                
                 } else if ("households" == modelName) {
 	                Dao<Household, Integer> householdsDao;
 	                householdsDao = dbHelper.getHouseholdsDao();
@@ -389,6 +404,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	//Log.i("SyncAdapter","JSON object: "+jo.toString());
 	                	Household household = new Household(jo.getInt("_id"), jo.getString("hh_name"), jo.getString("community"), jo.getInt("worker_id"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
 	                	householdsDao.createOrUpdate(household);
+	                }
+	                if (jsonArray.length() > 0) {
+	                	Log.i("SyncAdapter", "One or more HOUSEHOLDS pulled and created/updated");
+	                } else if (jsonArray.length() == 0) {
+	                	Log.i("SyncAdapter", "No new HOUSEHOLDS");
+	                } else {
+	                	Log.i("SyncAdapter", "jsonArray is null. Could be trouble");
 	                }
                 } else if ("services" == modelName) {
 	                Dao<Service, Integer> servicesDao;
@@ -400,6 +422,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	Service service = new Service (jo.getInt("_id"), jo.getString("en_name"), jo.getString("zu_name"), jo.getString("type"), jo.getString("role"), jo.getString("instructions"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
 	                	servicesDao.createOrUpdate(service);
 	                }
+	                if (jsonArray.length() > 0) {
+	                	Log.i("SyncAdapter", "One or more SERVICES pulled and created/updated");
+	                } else if (jsonArray.length() == 0) {
+	                	Log.i("SyncAdapter", "No new SERVICES");
+	                } else {
+	                	Log.i("SyncAdapter", "jsonArray is null. Could be trouble");
+	                }
                 } else if ("workers" == modelName) {
 	                Dao<Worker, Integer> wDao;
 	                wDao = dbHelper.getWorkersDao();
@@ -410,6 +439,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	            	    Worker worker = new Worker(w.getInt("_id"), w.getString("first_name"), w.getString("last_name"), w.getString("username"), w.getString("password"), w.getString("role_name"), w.getString("assigned_community"), parseDateString(w.getString("created_at")), parseDateString(w.getString("modified_at")));
 	            	    wDao.createOrUpdate(worker);
 	                }
+	                if (jsonArray.length() > 0) {
+	                	Log.i("SyncAdapter", "One or more WORKERS pulled and created/updated");
+	                } else if (jsonArray.length() == 0) {
+	                	Log.i("SyncAdapter", "No new WORKERS");
+	                } else {
+	                	Log.i("SyncAdapter", "jsonArray is null. Could be trouble");
+	                }
                 } else if ("videos" == modelName) {
 	                Dao<Video, Integer> dao;
 	                dao = dbHelper.getVideosDao();
@@ -418,6 +454,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
 	                	Video o = new Video(jo.getInt("_id"), jo.getString("name"), jo.getString("uri"), jo.getString("screenshot"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
 	                	dao.createOrUpdate(o);
+	                }
+	                if (jsonArray.length() > 0) {
+	                	Log.i("SyncAdapter", "One or more VIDEOS pulled and created/updated");
+	                } else if (jsonArray.length() == 0) {
+	                	Log.i("SyncAdapter", "No new VIDEOS");
+	                } else {
+	                	Log.i("SyncAdapter", "jsonArray is null. Could be trouble");
 	                }
                 } else if ("resources" == modelName) {
 	                Dao<Resource, Integer> dao;
@@ -428,6 +471,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	Resource o = new Resource(jo.getInt("_id"), jo.getString("name"), jo.getString("uri"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
 	                	dao.createOrUpdate(o);
 	                }
+	                if (jsonArray.length() > 0) {
+	                	Log.i("SyncAdapter", "One or more RESOURCES pulled and created/updated");
+	                } else if (jsonArray.length() == 0) {
+	                	Log.i("SyncAdapter", "No new RESOURCES");
+	                } else {
+	                	Log.i("SyncAdapter", "jsonArray is null. Could be trouble");
+	                }
                 } else if ("health_themes" == modelName) {
 	                Dao<HealthTheme, Integer> dao;
 	                dao = dbHelper.getHealthThemesDao();
@@ -437,15 +487,28 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	HealthTheme o = new HealthTheme(jo.getInt("_id"), jo.getString("name"), jo.getString("en_observe_content"), jo.getString("en_record_content"), jo.getString("zu_observe_content"), jo.getString("zu_record_content"), jo.getString("color"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
 	                	dao.createOrUpdate(o);
 	                }
+	                if (jsonArray.length() > 0) {
+	                	Log.i("SyncAdapter", "One or more HEALTH THEMES pulled and created/updated");
+	                } else if (jsonArray.length() == 0) {
+	                	Log.i("SyncAdapter", "No new HEALTH THEMES");
+	                } else {
+	                	Log.i("SyncAdapter", "jsonArray is null. Could be trouble");
+	                }
                 } else if ("health_topics" == modelName) {
 	                Dao<HealthTopic, Integer> dao;
 	                dao = dbHelper.getHealthTopicsDao();
 	                
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
-	                	//Log.i("SyncAdapter","JSON object: "+jo.toString());
 	                	HealthTopic o = new HealthTopic(jo.getInt("_id"), jo.getString("name"), jo.getString("theme"), jo.getString("screenshot"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
 	                	dao.createOrUpdate(o);
+	                }
+	                if (jsonArray.length() > 0) {
+	                	Log.i("SyncAdapter", "One or more HEALTH TOPICS pulled and created/updated");
+	                } else if (jsonArray.length() == 0) {
+	                	Log.i("SyncAdapter", "No new HEALTH TOPICS");
+	                } else {
+	                	Log.i("SyncAdapter", "jsonArray is null. Could be trouble");
 	                }
                 } else if ("health_pages" == modelName) {
 	                Dao<HealthPage, Integer> dao;
@@ -456,6 +519,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	HealthPage o = new HealthPage(jo.getInt("_id"), jo.getInt("topic_id"), jo.getInt("page_number"), jo.getString("type"), jo.getInt("page_content_id"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
 	                	dao.createOrUpdate(o);
 	                }
+	                if (jsonArray.length() > 0) {
+	                	Log.i("SyncAdapter", "One or more HEALTH PAGES pulled and created/updated");
+	                } else if (jsonArray.length() == 0) {
+	                	Log.i("SyncAdapter", "No new HEALTH PAGES");
+	                } else {
+	                	Log.i("SyncAdapter", "jsonArray is null. Could be trouble");
+	                }
                 } else if ("health_selects" == modelName) {
 	                Dao<HealthSelect, Integer> dao;
 	                dao = dbHelper.getHealthSelectsDao();
@@ -464,6 +534,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
 	                	HealthSelect o = new HealthSelect(jo.getInt("_id"), jo.getInt("subject_id"), jo.getString("en_content"), jo.getString("zu_content"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
 	                	dao.createOrUpdate(o);
+	                }
+	                if (jsonArray.length() > 0) {
+	                	Log.i("SyncAdapter", "One or more HEALTH SELECTS pulled and created/updated");
+	                } else if (jsonArray.length() == 0) {
+	                	Log.i("SyncAdapter", "No new HEALTH SELECTS");
+	                } else {
+	                	Log.i("SyncAdapter", "jsonArray is null. Could be trouble");
 	                }
                 } else if ("topic_videos" == modelName) {
 	                Dao<TopicVideo, Integer> dao;
@@ -474,6 +551,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	TopicVideo o = new TopicVideo(jo.getInt("_id"), jo.getInt("page_video1_id"), jo.getInt("video_id"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
 	                	dao.createOrUpdate(o);
 	                }
+	                if (jsonArray.length() > 0) {
+	                	Log.i("SyncAdapter", "One or more TOPIC VIDEOS pulled and created/updated");
+	                } else if (jsonArray.length() == 0) {
+	                	Log.i("SyncAdapter", "No new TOPIC VIDEOS");
+	                } else {
+	                	Log.i("SyncAdapter", "jsonArray is null. Could be trouble");
+	                }
                 } else if ("page_text1" == modelName) {
 	                Dao<PageText1, Integer> dao;
 	                dao = dbHelper.getPageText1Dao();
@@ -483,6 +567,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	PageText1 pa1 = new PageText1(jo.getInt("_id"), jo.getString("en_content1"), jo.getString("zu_content1"), jo.getString("en_content2"), jo.getString("zu_content2"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
 	                	dao.createOrUpdate(pa1);
 	                }  
+	                if (jsonArray.length() > 0) {
+	                	Log.i("SyncAdapter", "One or more PAGE TEXT 1 pulled and created/updated");
+	                } else if (jsonArray.length() == 0) {
+	                	Log.i("SyncAdapter", "No new PAGE TEXT 1");
+	                } else {
+	                	Log.i("SyncAdapter", "jsonArray is null. Could be trouble");
+	                }
                 } else if ("page_select1" == modelName) {
 	                Dao<PageSelect1, Integer> dao;
 	                dao = dbHelper.getPageSelect1Dao();
@@ -492,6 +583,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	PageSelect1 pa1 = new PageSelect1(jo.getInt("_id"), jo.getString("en_content"), jo.getString("zu_content"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
 	                	dao.createOrUpdate(pa1);
 	                }  
+	                if (jsonArray.length() > 0) {
+	                	Log.i("SyncAdapter", "One or more PAGE SELECT 1 pulled and created/updated");
+	                } else if (jsonArray.length() == 0) {
+	                	Log.i("SyncAdapter", "No new PAGE SELECT 1");
+	                } else {
+	                	Log.i("SyncAdapter", "jsonArray is null. Could be trouble");
+	                }
                 } else if ("page_video1" == modelName) {
 	                Dao<PageVideo1, Integer> dao;
 	                dao = dbHelper.getPageVideo1Dao();
@@ -501,6 +599,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	PageVideo1 pa1 = new PageVideo1(jo.getInt("_id"), jo.getString("en_content"), jo.getString("zu_content"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
 	                	dao.createOrUpdate(pa1);
 	                }  
+	                if (jsonArray.length() > 0) {
+	                	Log.i("SyncAdapter", "One or more PAGE VIDEO 1 pulled and created/updated");
+	                } else if (jsonArray.length() == 0) {
+	                	Log.i("SyncAdapter", "No new PAGE VIDEO 1");
+	                } else {
+	                	Log.i("SyncAdapter", "jsonArray is null. Could be trouble");
+	                }
                 } else if ("page_assessment1" == modelName) {
 	                Dao<PageAssessment1, Integer> dao;
 	                dao = dbHelper.getPageAssessment1Dao();
@@ -510,6 +615,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	PageAssessment1 pa1 = new PageAssessment1 (jo.getInt("_id"), jo.getString("type"), jo.getString("en_content1"), jo.getString("zu_content1"), jo.getString("en_content2"), jo.getString("zu_content2"), jo.getString("en_content3"), jo.getString("zu_content3"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
 	                	dao.createOrUpdate(pa1);
 	                }  
+	                if (jsonArray.length() > 0) {
+	                	Log.i("SyncAdapter", "One or more PAGE ASSESSMENT 1 pulled and created/updated");
+	                } else if (jsonArray.length() == 0) {
+	                	Log.i("SyncAdapter", "No new PAGE ASSESSMENT 1");
+	                } else {
+	                	Log.i("SyncAdapter", "jsonArray is null. Could be trouble");
+	                }
                 } else if ("vaccines" == modelName) {
 	                Dao<Vaccine, Integer> dao;
 	                dao = dbHelper.getVaccinesDao();
@@ -518,6 +630,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
 	                	Vaccine vac = new Vaccine (jo.getInt("_id"), jo.getDouble("age"), jo.getString("display_age"), jo.getString("short_name"), jo.getString("long_name"), parseDateString(jo.getString("created_at")), parseDateString(jo.getString("modified_at")));
 	                	dao.createOrUpdate(vac);
+	                }
+	                if (jsonArray.length() > 0) {
+	                	Log.i("SyncAdapter", "One or more VACCINES pulled and created/updated");
+	                } else if (jsonArray.length() == 0) {
+	                	Log.i("SyncAdapter", "No new VACCINES");
+	                } else {
+	                	Log.i("SyncAdapter", "jsonArray is null. Could be trouble");
 	                }
                 // the push tables
                 } else if ("health_topics_accessed" == modelName) {
@@ -529,6 +648,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	HealthTopicAccessed hta = new HealthTopicAccessed (jo.getInt("_id"), jo.getInt("topic_id"), jo.getInt("visit_id"), jo.getInt("hh_id"), jo.getString("topic_name"), parseDateString(jo.getString("start_time")), parseDateString(jo.getString("end_time")), false);
 	                	dao.createOrUpdate(hta);
 	                }
+	                
+	                if (jsonArray.length() > 0) {
+	                	Log.i("SyncAdapter", "One or more HEALTH TOPICS ACCESSED pulled and created/updated");
+	                } else if (jsonArray.length() == 0) {
+	                	Log.i("SyncAdapter", "No new HEALTH TOPICS ACCESSED");
+	                } else {
+	                	Log.i("SyncAdapter", "jsonArray is null. Could be trouble");
+	                }
+	                
+	                // the following are handled by deconstructing the visit object
 //                } else if ("services_accessed" == modelName) {
 //	                Dao<ServiceAccessed, Integer> dao;
 //	                dao = dbHelper.getServiceAccessedDao();
@@ -556,6 +685,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	VaccineRecorded vr = new VaccineRecorded (jo.getInt("_id"), jo.getInt("vaccine_id"), jo.getInt("client_id"), jo.getInt("visit_id"), parseDateString(jo.getString("date")), false);
 	                	dao.createOrUpdate(vr);
 	                }
+	                
+	                if (jsonArray.length() > 0) {
+	                	Log.i("SyncAdapter", "One or more VACCINES RECORDED pulled and created/updated");
+	                } else if (jsonArray.length() == 0) {
+	                	Log.i("SyncAdapter", "No new VACCINES RECORDED");
+	                } else {
+	                	Log.i("SyncAdapter", "jsonArray is null. Could be trouble");
+	                }
                 } else if ("visits" == modelName) {
 	                Dao<Visit, Integer> dao;
 	                dao = dbHelper.getVisitsDao();
@@ -571,6 +708,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                	Visit v = new Visit (jo.getInt("_id"), jo.getInt("hh_id"), jo.getInt("worker_id"), jo.getString("role"), jo.getString("type"), jo.getDouble("lat"), jo.getDouble("lon"), parseDateString(jo.getString("start_time")), endTime, false, false);
 	                	populateTablesFromVisitObject(jo);
 	                	dao.createOrUpdate(v);
+	                	
+	                	if (jsonArray.length() > 0) {
+		                	Log.i("SyncAdapter", "One or more VISIT OBJECTS pulled and created/updated");
+		                } else if (jsonArray.length() == 0) {
+		                	Log.i("SyncAdapter", "No new VISIT OBJECTS");
+		                } else {
+		                	Log.i("SyncAdapter", "jsonArray is null. Could be trouble");
+		                }
 	                }
                 }
             } else{
@@ -644,7 +789,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 					// put object into array
 					jsonArray.put(json);
 				}
-				Log.i("SyncAdapter", "Created visits jsonArray: "+jsonArray.toString());
+				//Log.i("SyncAdapter", "Created visits jsonArray: "+jsonArray.toString());
 			} else if ("attendance" == modelName) {
 				Dao<Attendance, Integer> attDao;
 				attDao = dbHelper.getAttendanceDao();
@@ -663,7 +808,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 					// put object into array
 					jsonArray.put(json);
 				}
-				Log.i("SyncAdapter", "Created attendance jsonArray: "+jsonArray.toString());
+				//Log.i("SyncAdapter", "Created attendance jsonArray: "+jsonArray.toString());
 			} else if ("health_topics_accessed" == modelName) {
 				Dao<HealthTopicAccessed, Integer> htaDao;
 				htaDao = dbHelper.getHealthTopicAccessedDao();
@@ -686,7 +831,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 					// put object into array
 					jsonArray.put(json);
 				}
-				Log.i("SyncAdapter", "Created healthTopicsAccessed jsonArray: "+jsonArray.toString());
+				//Log.i("SyncAdapter", "Created healthTopicsAccessed jsonArray: "+jsonArray.toString());
 			} else if ("services_accessed" == modelName) {
 				Dao<ServiceAccessed, Integer> saDao;
 				saDao = dbHelper.getServiceAccessedDao();
@@ -708,7 +853,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 					// put object into array
 					jsonArray.put(json);
 				}
-				Log.i("SyncAdapter", "Created servicesAccessed jsonArray: "+jsonArray.toString());
+				//Log.i("SyncAdapter", "Created servicesAccessed jsonArray: "+jsonArray.toString());
 			} else if ("resources_accessed" == modelName) {
 				Dao<ResourceAccessed, Integer> raDao;
 				raDao = dbHelper.getResourceAccessedDao();
@@ -729,7 +874,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 					// put object into array
 					jsonArray.put(json);
 				}
-				Log.i("SyncAdapter", "Created resourcesAccessed jsonArray: "+jsonArray.toString());
+				//Log.i("SyncAdapter", "Created resourcesAccessed jsonArray: "+jsonArray.toString());
 			} else if ("vaccines_recorded" == modelName) {
 				Dao<VaccineRecorded, Integer> vrDao;
 				vrDao = dbHelper.getVaccineRecordedDao();
@@ -750,7 +895,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 					// put object into array
 					jsonArray.put(json);
 				}
-				Log.i("SyncAdapter", "Created vaccineRecorded jsonArray: "+jsonArray.toString());
+				//Log.i("SyncAdapter", "Created vaccineRecorded jsonArray: "+jsonArray.toString());
 			}
 			
 		} catch (SQLException e1) {
@@ -892,6 +1037,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	        				VaccineRecorded doc = vrDao.queryForId(jsonObj.getInt("_id"));
 	        				doc.makeClean();
 	        				vrDao.update(doc);
+	        				
 						} catch (SQLException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

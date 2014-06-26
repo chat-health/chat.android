@@ -160,6 +160,7 @@ public class HomeActivity extends Activity {
         } else if (visitId != 0) {
         	// pull the uncompleted visit object
         	visit = ModelHelper.getVisitForId(context, visitId);
+        	workerId = visit.getWorkerId();
         	hhId = visit.getHhId();
     		// TODO? update UI - ie attendance - likely needs a refactor
         } else {
