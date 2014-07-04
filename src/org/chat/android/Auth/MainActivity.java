@@ -84,7 +84,15 @@ public class MainActivity extends AccountAuthenticatorActivity {
 		}
 		Account mAccount = new Account(AccountGeneral.ACCOUNT_NAME,AccountGeneral.ACCOUNT_TYPE);
 		if(extras!=null&&extras.getBoolean(AccountGeneral.ARG_INTENT_REAUTH))
-				return;
+		{
+			if (mEmail == null) {
+				demo.pickUserAccount();
+			} else
+				new GetTokenTask(demo).execute();
+			Toast.makeText(this, "Authorization fail, redo the operation",
+					Toast.LENGTH_SHORT).show();
+			return;
+		}
 		if(null!=mAccountManager.peekAuthToken(mAccount, mAuthTokenType))
 		{
 			finish();
