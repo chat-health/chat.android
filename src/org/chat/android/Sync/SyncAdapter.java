@@ -310,6 +310,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 			retrieveModel("vaccines_recorded", true);
 		}
 		catch(UserRecoverableAuthException e){
+//			Log.e("SyncAdapter", "in pullAllData uesrexception");
+			ContentResolver.cancelSync(null, null);
 			Intent intent = e.getIntent();
 			appContext.startActivity(intent);
 		}
@@ -324,7 +326,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 				e.printStackTrace();
 			}
 		} else {
-			Toast.makeText(appContext, "Pull failed. Not moving last_synced_at date", Toast.LENGTH_LONG).show();
+//			Toast.makeText(appContext, "Pull failed. Not moving last_synced_at date", Toast.LENGTH_LONG).show();
 		}
 		
 	}
@@ -732,13 +734,17 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 
             	if(statusLine.getStatusCode() == HttpStatus.SC_UNAUTHORIZED)
             	{
+//            		Log.e("SyncAdapter", "in unauthorized");
             		Intent reAuthIntent = new Intent(appContext,MainActivity.class);
             		reAuthIntent.putExtra(AccountGeneral.ARG_INTENT_REAUTH, true);
             		reAuthIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             		throw new UserRecoverableAuthException("",reAuthIntent);
             	}
-                
-                throw new IOException(statusLine.getReasonPhrase());
+            	else
+            	{
+//            		Log.e("SyncAdapter", "in other status");
+            		throw new IOException(statusLine.getReasonPhrase());
+            	}
             }
         } catch (ClientProtocolException e) {
             //TODO Handle problems..
