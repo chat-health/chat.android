@@ -1,0 +1,38 @@
+<resources>
+    
+    <string-array name="volunteer_service_type_array">
+        <item>Inhlalakahle Ngokwezinto ezibonakalayo ezithintekayo</item>
+        <item>Inhlalakahle Ngokwengqondo</item>
+        <item>Inhlalakahle Ngokomphefumulo</item>
+        <item>Inhlalakahle Ngokokuphathelene nomzimba</item>
+        <item>Imiqulu yemibhalo Nokuyisibonelelo</item>
+        <item>Okunye</item>
+    </string-array>
+    
+    <string-array name="counsellor_service_type_array">
+        <item>Symptoms</item>
+        <item>Illnesses</item>
+        <item>Testing and Education</item>
+        <item>Referrals</item>
+        <item>Treatment and Monitoring</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="counsellor_service_type_images">
+        <item>servicessymptoms</item>
+        <item>servicesillnesses</item>
+        <item>servicestestingeducation</item>
+        <item>servicesreferrals</item>
+        <item>servicestreatmentmonitoring</item>
+        <item>servicesother</item>
+    </string-array>
+    
+    <string-array name="welfare_service_type_array">
+        <item>Intake</item>
+        <item>Visits</item>
+        <item>Grants</item>
+        <item>Documents</item>
+        <item>Skills and Groups</item>
+        <item>Referrals</item>
+    </string-array>    
+    
+</resources>
