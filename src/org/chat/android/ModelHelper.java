@@ -244,18 +244,16 @@ public class ModelHelper {
 		}
     	
         Dao<Client, Integer> cDao;
-        List<Client> allClients = new ArrayList<Client>();
         DatabaseHelper cDbHelper = new DatabaseHelper(context);
         try {
-			cDao = cDbHelper.getClientsDao();
-			allClients = cDao.query(cDao.queryBuilder().prepare());
-        	for (Client c : allClients) {
-        		for (Integer i : presentHHMembers) {
-        			if (i == c.getId() && c.getAge() <= age) {
-        				cList.add(c);
-        			}        			
-        		}
-        	}
+        	cDao = cDbHelper.getClientsDao();
+        	for (Integer i : presentHHMembers) {
+        		// get client for the id
+        		Client c = cDao.queryForId(i);
+        		if (c.getAge() <= age) {
+    				cList.add(c);
+    			}
+    		}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
