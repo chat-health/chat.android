@@ -320,7 +320,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		if (pullSuccess == true) {
 			try {
 				ModelHelper.setLastSyncedAt(appContext, new Date(), "pull");
-				Toast.makeText(appContext, "Pull all succeeded. Moving last_synced_at date...", Toast.LENGTH_LONG).show();
+//				This causes a Fatal exception and crashes the app. Remember this is not the UI thread and toasts belong
+//				on the UI thread. Might be able to work around this but not sure how.
+//				Toast.makeText(appContext, "Pull all succeeded. Moving last_synced_at date...", Toast.LENGTH_LONG).show();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
