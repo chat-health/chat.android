@@ -5,24 +5,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.chat.android.models.Attendance;
 import org.chat.android.models.Client;
-import org.chat.android.models.Service;
 import org.chat.android.models.ServiceAccessed;
-import org.chat.android.models.Visit;
 
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.UpdateBuilder;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.Toast;
 
 
 public class ServiceDeliveryActivity extends BaseActivity {
@@ -90,7 +82,7 @@ public class ServiceDeliveryActivity extends BaseActivity {
 	    		i++;
 	    	}
 	    	
-	    	Toast.makeText(getApplicationContext(),"Service(s) marked as delivered to client(s)",Toast.LENGTH_LONG).show();
+	    	BaseActivity.toastHelper(this, "Service(s) marked as delivered to client(s)");
 	    	Intent intent = new Intent(ServiceDeliveryActivity.this, ServiceOverviewActivity.class);
 	    	Bundle b = new Bundle();
 	    	b.putInt("visitId",visitId);
@@ -99,7 +91,7 @@ public class ServiceDeliveryActivity extends BaseActivity {
 	    	startActivity(intent);
 	    	finish();
     	} else {
-    		Toast.makeText(getApplicationContext(),"You must select at least one client to mark this service as delivered",Toast.LENGTH_LONG).show();
+    		BaseActivity.toastHelper(this, "You must select at least one client to mark this service as delivered");
     	}
     }
     

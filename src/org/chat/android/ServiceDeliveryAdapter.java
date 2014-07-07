@@ -4,9 +4,7 @@ import static org.chat.android.R.id.service_delivery_row;
 import static org.chat.android.R.id.service_delivery_client_name;
 import static org.chat.android.R.id.service_delivery_checkbox;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.chat.android.R;
@@ -20,7 +18,6 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ServiceDeliveryAdapter extends ArrayAdapter<Client> {
 	private LayoutInflater mInflater;

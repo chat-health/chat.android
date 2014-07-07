@@ -10,7 +10,6 @@ import org.chat.android.models.HealthTopicAccessed;
 
 import com.j256.ormlite.dao.Dao;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -20,7 +19,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class HealthDetailsActivity extends BaseActivity {
 	Context context;

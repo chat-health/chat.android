@@ -31,7 +31,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,7 +39,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class HomeActivity extends Activity {
@@ -182,15 +180,15 @@ public class HomeActivity extends Activity {
         // check if any checkboxes are checked
         if (clAdapter.getSelectedClients().size() > 0) {
             if (bText.equals("Done")) {
-            	Toast.makeText(getApplicationContext(),"Attendance submitted",Toast.LENGTH_LONG).show();
+            	BaseActivity.toastHelper(this, "Attendance submitted");
             	saveAttendanceList();
             	updateUIElements();
             } else {
-            	Toast.makeText(getApplicationContext(),"Attendance updated",Toast.LENGTH_LONG).show();
+            	BaseActivity.toastHelper(this, "Attendance updated");
             	deleteCurrentAttendance();			// saveAttendanceList() is called from the finally in deleteCurrentAttendance()
             }        	
         } else {
-        	Toast.makeText(getApplicationContext(),"Attendance not submitted. Click on the above list of clients to select attending household members",Toast.LENGTH_LONG).show();
+        	BaseActivity.toastHelper(this, "Attendance not submitted. Click on the above list of clients to select attending household members");
         }
     }
     
@@ -283,7 +281,7 @@ public class HomeActivity extends Activity {
     	if (worker != null) {
     		workerId = worker.getId();
     	} else {
-    		Toast.makeText(getApplicationContext(),"Error: unknown workerId in HomeActivity. Please contact technical support.",Toast.LENGTH_LONG).show();
+    		BaseActivity.toastHelper(this, "Error: unknown workerId in HomeActivity. Please contact technical support.");
     		workerId = 1001;
     	}
 
@@ -292,7 +290,7 @@ public class HomeActivity extends Activity {
     	if (household != null) {
     		hhId = household.getId();
     	} else {
-    		Toast.makeText(getApplicationContext(),"Error: unknown householdId in HomeActivity. Please contact technical support.",Toast.LENGTH_LONG).show();
+    		BaseActivity.toastHelper(this, "Error: unknown householdId in HomeActivity. Please contact technical support.");
     		hhId = 1;
     	}
 
@@ -360,14 +358,14 @@ public class HomeActivity extends Activity {
         	if (ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(context, visitId, c.getId(), "health") == true) {
         		healthFlag = true;
         	} else {
-        		Toast.makeText(getApplicationContext(),"Visit not marked as complete - Child Health Assessment section still needs to be completed for " + c.getFirstName() + " " + c.getLastName(),Toast.LENGTH_LONG).show();
+        		BaseActivity.toastHelper(this, "Visit not marked as complete - Child Health Assessment section still needs to be completed for " + c.getFirstName() + " " + c.getLastName());
         	}
     		Boolean allVaccinesAdministered = ModelHelper.getVaccineRecordedCompleteForClientId(context, c.getId());
     		Boolean chaImmunizationComplete = ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(context, visitId, c.getId(), "immunization");
     		if (allVaccinesAdministered || chaImmunizationComplete) {
     			immunizationFlag = true;
     		} else {
-    			Toast.makeText(getApplicationContext(),"Visit not marked as complete - Immunization section still needs to be completed for " + c.getFirstName() + " " + c.getLastName(),Toast.LENGTH_LONG).show();
+    			BaseActivity.toastHelper(this, "Visit not marked as complete - Immunization section still needs to be completed for " + c.getFirstName() + " " + c.getLastName());
     		}
     		if (healthFlag == false || immunizationFlag == false) {
     			completeFlag = false;
@@ -377,13 +375,13 @@ public class HomeActivity extends Activity {
     	// check for completion of service requirements
     	if (ModelHelper.getServicesAccessedForVisitId(context, visitId).size() == 0) {
     		completeFlag = false;
-    		Toast.makeText(getApplicationContext(),"Visit not marked as complete - no services delivered",Toast.LENGTH_LONG).show();
+    		BaseActivity.toastHelper(this, "Visit not marked as complete - no services delivered");
     	}
     	
     	// check for completion of health ed requirements
     	if (ModelHelper.getHealthTopicsAccessedForVisitId(context, visitId).size() == 0) {
     		completeFlag = false;
-    		Toast.makeText(getApplicationContext(),"Visit not marked as complete - no health topic education delivered",Toast.LENGTH_LONG).show();
+    		BaseActivity.toastHelper(this, "Visit not marked as complete - no health topic education delivered");
     	}
 
     	if (completeFlag == true) {
@@ -412,7 +410,7 @@ public class HomeActivity extends Activity {
     		} else if (role.equals("Lay Counsellor")) {
     			serviceId = 71;
     		} else {
-    			Toast.makeText(getApplicationContext(),"Error: unknown role in HomeActivity updateVisitObjectforExtras. Please contact technical support.",Toast.LENGTH_LONG).show();
+    			BaseActivity.toastHelper(this, "Error: unknown role in HomeActivity updateVisitObjectforExtras. Please contact technical support.");
     		}
     	} else if (type.equals("School Visit")) {
     		if (role.equals("Home Care Volunteer")) {
@@ -420,7 +418,7 @@ public class HomeActivity extends Activity {
     		} else if (role.equals("Lay Counsellor")) {
     			serviceId = 72;
     		} else {
-    			Toast.makeText(getApplicationContext(),"Error: unknown role in HomeActivity updateVisitObjectforExtras. Please contact technical support.",Toast.LENGTH_LONG).show();
+    			BaseActivity.toastHelper(this, "Error: unknown role in HomeActivity updateVisitObjectforExtras. Please contact technical support.");
     		}
     	}
     	
@@ -443,7 +441,7 @@ public class HomeActivity extends Activity {
 	}
 	
 	public void markVisitComplete() {
-		Toast.makeText(getApplicationContext(),"Visit saved and marked as complete",Toast.LENGTH_LONG).show();
+		BaseActivity.toastHelper(this, "Visit saved and marked as complete");
 		
 		// update the Visit object and save to DB
 		Date endTime = new Date();
@@ -486,14 +484,10 @@ public class HomeActivity extends Activity {
 	    	i.putExtras(b);
 	    	startActivity(i);
 	        return true;
-//	    case R.id.menu_settings:
-//	        Toast.makeText(getApplicationContext(), "Running setupDB...", Toast.LENGTH_SHORT).show();
-//	        prepopulateDB();
-//	        return true;
 	    case R.id.menu_device_id:
 	        try {
 				String deviceSerial = (String) Build.class.getField("SERIAL").get(null);
-				Toast.makeText(getApplicationContext(),"Device ID: "+deviceSerial,Toast.LENGTH_LONG).show();
+				BaseActivity.toastHelper(this, "Device ID: "+deviceSerial);
 			} catch (IllegalArgumentException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -506,7 +500,7 @@ public class HomeActivity extends Activity {
 			}
 	        return true;
 	    case R.id.menu_sync:
-	        Toast.makeText(getApplicationContext(), "Triggering sync adapter to sync with server...", Toast.LENGTH_LONG).show();
+	        BaseActivity.toastHelper(this, "Triggering sync adapter to sync with server...");
 	        triggerSyncAdaper();
 	        return true;
 	    case R.id.menu_logout:
@@ -538,80 +532,7 @@ public class HomeActivity extends Activity {
 		startActivity(i);
     }
     
-    
-//	private RequestQueue mRequestQueue;
-//	private JSONObject jsonObj;
-//	private JSONObject jsonToPost;
-//    private void trySync() {
-//    	//Toast.makeText(getApplicationContext(), "I'm just a placeholder", Toast.LENGTH_SHORT).show();
-//
-//
-////    	    @Override
-////    	    public void onCreate(Bundle savedInstanceState) {
-////    	        super.onCreate(savedInstanceState);
-////    	        setContentView(R.layout.activity_main);
-//    	        
-//        mRequestQueue = Volley.newRequestQueue(this);
-//        mRequestQueue.add(new JsonObjectRequest(Method.GET, "http://drowsy.badger.encorelab.org/rollcall/users/52110ef654a6e433a2000006", null, new MyResponseListener(), new MyErrorListener()));
-//        try {
-//         jsonToPost = new JSONObject("{'username':'testy the clown', 'tags':[]}");
-//        } catch (JSONException e) {
-//         Log.e("JSON object creation", e.getLocalizedMessage());
-//        }
-//        mRequestQueue.add(new JsonObjectRequest(Method.POST, "http://drowsy.badger.encorelab.org/rollcall/users/", jsonToPost, new MyPostResponseListener(), new MyErrorListener()));
-//
-////    	    }
-//
-//
-//    }
-//    
-//	@Override
-//	protected void onStop() {
-//    	if (mRequestQueue != null)
-//    		mRequestQueue.cancelAll(this);
-//    	super.onStop();
-//	}
-//	    
-//	    
-//	class MyResponseListener implements Listener<JSONObject> {
-//    	@Override
-//    	public void onResponse(JSONObject response) {
-//    		MainActivity.this.jsonObj = response;
-//    		try {
-//    			String result = MainActivity.this.jsonObj.getString("username");
-//    			Log.d("The result is: ", result);
-//    			// String timestamp = result.getString("Timestamp");
-//    			// MainActivity.this.resultTxt.setText(new Date(Long.parseLong(timestamp.trim())).toString());
-//    		} catch (Exception e) {
-//    			Log.e("ErrorListener", e.getLocalizedMessage());
-//    		}
-//    	}
-//	}
-//
-//	class MyPostResponseListener implements Listener<JSONObject> {
-//    	@Override
-//    	public void onResponse(JSONObject response) {
-//	    	try {
-//		    	Log.d("The result is: ", response.toString());
-//		    	// String timestamp = result.getString("Timestamp");
-//		    	// MainActivity.this.resultTxt.setText(new Date(Long.parseLong(timestamp.trim())).toString());
-//		    } catch (Exception e) {
-//		    	Log.e("ErrorListener", e.getLocalizedMessage());
-//		    }
-//    	}
-//	}
-//
-//	class MyErrorListener implements ErrorListener {
-//    	@Override
-//    	public void onErrorResponse(VolleyError error) {
-//    		Log.e("ErrorListener", error.getCause() + "");
-//    		if (error.getCause() != null) {
-//    			Log.e("ErrorListener", error.getLocalizedMessage());
-//    		}
-//    	// MainActivity.this.resultTxt.setText(error.toString());
-//    		mRequestQueue.cancelAll(this);
-//    	}
-//	}
+
     
     ////////// DEFAULT BUTTON BEHAVIOUR OVERRIDES //////////
     @Override

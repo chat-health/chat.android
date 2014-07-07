@@ -11,7 +11,6 @@ import org.chat.android.models.Vaccine;
 import org.chat.android.models.VaccineRecorded;
 
 import android.app.DialogFragment;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -20,7 +19,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ImmunizationsReceivedActivity extends BaseActivity {
 	private int visitId = 0;
@@ -124,7 +122,7 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
 				}
 	    	}
     	} else {
-    		Toast.makeText(getApplicationContext(),"More vaccines than UI elements - get technical support",Toast.LENGTH_LONG).show();
+    		BaseActivity.toastHelper(this, "More vaccines than UI elements - get technical support");
     	}
     }
 
@@ -150,7 +148,7 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
         	finish();
     	} else {
     		// else put user back on the CHA Overview screen
-    		Toast.makeText(getApplicationContext(),"Immunization assessment completed for " + c.getFirstName() + " " + c.getLastName(),Toast.LENGTH_LONG).show();
+    		BaseActivity.toastHelper(this, "Immunization assessment completed for " + c.getFirstName() + " " + c.getLastName());
     		finish();
     	}
     }

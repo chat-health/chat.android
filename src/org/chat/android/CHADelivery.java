@@ -178,7 +178,7 @@ public class CHADelivery extends BaseActivity {
 
 	public void markTopicComplete() {
 		Client c = ModelHelper.getClientForId(context, clientId);
-		Toast.makeText(getApplicationContext(),"Health assessment completed for " + c.getFirstName() + " " + c.getLastName(),Toast.LENGTH_LONG).show();
+		BaseActivity.toastHelper(this, "Health assessment completed for " + c.getFirstName() + " " + c.getLastName());
 		
 		// update the HealthTopicAccessed object and save to DB
 		Date endTime = new Date();

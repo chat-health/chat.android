@@ -2,14 +2,11 @@ package org.chat.android;
 
 import static org.chat.android.R.id.service_row;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import org.chat.android.models.Service;
-
-import com.j256.ormlite.dao.Dao;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -18,9 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class ServicesAdapter extends ArrayAdapter<Service> {

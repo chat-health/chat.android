@@ -7,19 +7,13 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.chat.android.models.HealthTopicAccessed;
-import org.chat.android.models.Household;
 import org.chat.android.models.Resource;
 import org.chat.android.models.ResourceAccessed;
 
 import com.j256.ormlite.dao.Dao;
 
 import android.app.ActionBar;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,8 +24,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class ResourcesActivity extends BaseActivity {

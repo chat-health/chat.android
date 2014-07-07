@@ -59,7 +59,7 @@ public class SetupVisitActivity extends Activity {
 		} else {
 			// TODO: expand? Also add proper error here
 			typeArrayAdapter = ArrayAdapter.createFromResource(this, R.array.volunteer_visit_type_array, R.layout.login_spinner_item);
-			Toast.makeText(getApplicationContext(),"Role is undefined",Toast.LENGTH_LONG).show();
+			BaseActivity.toastHelper(this, "Role is undefined");
 		}
 		typeArrayAdapter.setDropDownViewResource(R.layout.login_spinner_item);
 		visitTypeSpinner.setAdapter(typeArrayAdapter);
@@ -105,7 +105,7 @@ public class SetupVisitActivity extends Activity {
 				public void onClick(View view) {
 					// TODO complete these - missing this page's dropdowns. Also, need some way of not getting stuck while also enforcing GPS
 					if (latitude == 0.0 && longitude == 0.0) {
-						Toast.makeText(getApplicationContext(),"WARNING: GPS has not been recorded. If GPS is available, close CHAT app and restart this visit",Toast.LENGTH_LONG).show();
+						showWarning();
 					}
 					Intent myIntent = new Intent(SetupVisitActivity.this, HomeActivity.class);
 					Bundle b = new Bundle();			
@@ -135,7 +135,7 @@ public class SetupVisitActivity extends Activity {
             latitude = gps.getLatitude();
             longitude = gps.getLongitude();
 
-            Toast.makeText(getApplicationContext(), "Current location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+            BaseActivity.toastHelper(this, "Current location is - \nLat: " + latitude + "\nLong: " + longitude);
             
         } else{
             // can't determine location because GPS or Network is not enabled
@@ -143,5 +143,9 @@ public class SetupVisitActivity extends Activity {
         }
 	}
 	
+	
+	public void showWarning() {
+		BaseActivity.toastHelper(this, "WARNING: GPS has not been recorded. If GPS is available, close CHAT app and restart this visit");
+	}
 
 }

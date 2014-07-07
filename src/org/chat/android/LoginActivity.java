@@ -343,16 +343,11 @@ public class LoginActivity extends Activity {
 	    	i.putExtras(b);  
 	    	startActivity(i);
 	        return true;
-//	    case R.id.menu_settings:
-//	        Toast.makeText(getApplicationContext(), "Running setupDB...", Toast.LENGTH_SHORT).show();
-//	        prepopulateDB();
-//	        return true;
 	    case R.id.menu_device_id:
 	        try {
 				String deviceSerial = (String) Build.class.getField("SERIAL").get(null);
 				//Toast.makeText(getApplicationContext(),"Device ID: "+deviceSerial,Toast.LENGTH_LONG).show();
-	        	BaseActivity.toastHelper(this, "Device ID: "+deviceSerial);
-				
+	        	BaseActivity.toastHelper(this, "Device ID: "+deviceSerial);				
 				
 			} catch (IllegalArgumentException e) {
 				// TODO Auto-generated catch block
@@ -393,7 +388,7 @@ public class LoginActivity extends Activity {
     }
     
     public void triggerSyncAdaper() {
-    	Toast.makeText(getApplicationContext(), "Triggering sync adapter to sync with server...", Toast.LENGTH_LONG).show();
+    	BaseActivity.toastHelper(this, "Triggering sync adapter to sync with server...");
     	Account mAccount = newAccount;
         // Pass the settings flags by inserting them in a bundle
         Bundle settingsBundle = new Bundle();

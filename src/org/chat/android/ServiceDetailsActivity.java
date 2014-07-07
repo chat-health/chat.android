@@ -4,21 +4,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.chat.android.models.Household;
 import org.chat.android.models.Service;
 
 import com.j256.ormlite.dao.Dao;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ServiceDetailsActivity extends BaseActivity {
 	private int visitId = 0;
@@ -74,7 +69,7 @@ public class ServiceDetailsActivity extends BaseActivity {
         	i.putExtras(b);
         	startActivity(i);
     	} else {
-    		Toast.makeText(getApplicationContext(),"You must select at least one service (or hit the back button to cancel)",Toast.LENGTH_LONG).show();
+    		BaseActivity.toastHelper(this, "You must select at least one service (or hit the back button to cancel)");
     	}
     }
     

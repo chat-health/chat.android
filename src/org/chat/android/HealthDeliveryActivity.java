@@ -213,7 +213,7 @@ public class HealthDeliveryActivity extends BaseActivity {
 	}
 	
 	public void markTopicComplete() {
-		Toast.makeText(getApplicationContext(),"Health topic marked as delivered to client",Toast.LENGTH_LONG).show();
+		BaseActivity.toastHelper(this, "Health topic marked as delivered to client");
 		
 		// update the HealthTopicAccessed object and save to DB
 		Date endTime = new Date();

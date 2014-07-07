@@ -9,7 +9,6 @@ import org.chat.android.models.VaccineRecorded;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ImmunizationsSummaryActivity extends BaseActivity {
 	private int visitId = 0;
@@ -53,7 +52,7 @@ public class ImmunizationsSummaryActivity extends BaseActivity {
     
     public void completeImmunizationSummary(View v) {
     	// CHAAccessed object is updated as completed (ie end_time is added) in ImmunizationReceivedActivity
-    	Toast.makeText(getApplicationContext(),"Immunization assessment completed for " + client.getFirstName() + " " + client.getLastName(),Toast.LENGTH_LONG).show();
+    	BaseActivity.toastHelper(this,"Immunization assessment completed for " + client.getFirstName() + " " + client.getLastName() );
     	finish();
     }
 }

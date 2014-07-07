@@ -4,17 +4,11 @@ import static org.chat.android.R.id.client_row;
 import static org.chat.android.R.id.client_name;
 import static org.chat.android.R.id.client_metadata;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.chat.android.R;
-import org.chat.android.models.Attendance;
 import org.chat.android.models.Client;
-
-import com.j256.ormlite.dao.Dao;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,10 +19,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class CHASelectChildAdapter extends ArrayAdapter<Client> {
 	private LayoutInflater mInflater;

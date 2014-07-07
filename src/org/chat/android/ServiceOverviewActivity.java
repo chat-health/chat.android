@@ -1,35 +1,12 @@
 package org.chat.android;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-
-import org.chat.android.models.Visit;
-
-import com.j256.ormlite.dao.Dao;
-
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ServiceOverviewActivity extends BaseActivity {
 	Context context;
@@ -68,7 +45,7 @@ public class ServiceOverviewActivity extends BaseActivity {
 		} else {
 			// TODO: expand me? Also throw a proper error here
 			serviceTypes = getResources().getStringArray(R.array.volunteer_service_type_array);
-			Toast.makeText(getApplicationContext(),"Role is undefined",Toast.LENGTH_LONG).show();
+			BaseActivity.toastHelper(this, "Role is undefined");
 		}
 		
 		// cycle through the serviceTypes, populate the labels and tags
