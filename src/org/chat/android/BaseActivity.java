@@ -126,13 +126,13 @@ public class BaseActivity extends Activity {
         }
     }
 	
-    // overriding the standard toast layout START HERE
+    // overriding the standard toast layout
     public static void toastHelper(Activity activity, String message) {
     	Context context = activity.getApplicationContext();
     	//LayoutInflater inflater = getLayoutInflater();
     	LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
     	
-    	View layout = inflater.inflate(R.layout.toast_layout, (ViewGroup) activity.findViewById(R.id.toast_layout_root));
+    	View layout = inflater.inflate(R.layout.helper_toast, (ViewGroup) activity.findViewById(R.id.toast_layout_root));
 
     	TextView text = (TextView) layout.findViewById(R.id.text);
     	text.setText(message);
