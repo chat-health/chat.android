@@ -25,8 +25,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class BaseActivity extends Activity {
@@ -121,6 +126,24 @@ public class BaseActivity extends Activity {
         }
     }
 	
+    // overriding the standard toast layout START HERE
+    public static void toastHelper(Activity activity, String message) {
+    	Context context = activity.getApplicationContext();
+    	//LayoutInflater inflater = getLayoutInflater();
+    	LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+    	
+    	View layout = inflater.inflate(R.layout.toast_layout, (ViewGroup) activity.findViewById(R.id.toast_layout_root));
+
+    	TextView text = (TextView) layout.findViewById(R.id.text);
+    	text.setText(message);
+
+    	Toast toast = new Toast(context);
+    	toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+    	toast.setDuration(Toast.LENGTH_LONG);
+    	toast.setView(layout);
+    	toast.show();   	
+    }
+    
     private void prepopulateDB() {
 		Intent i = new Intent(this, SetupDB.class);
 		startActivity(i);

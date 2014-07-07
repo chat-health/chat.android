@@ -25,6 +25,7 @@ public class ReferralFragment extends Fragment {
     	View view = inflater.inflate(R.layout.fragment_referral, container, false);
     	Context context = getActivity();
     	
+    	TextView referalTextBox = (TextView) view.findViewById(R.id.referal);
     	TextView content1 = (TextView) view.findViewById(R.id.r1tv1);
     	TextView content2 = (TextView) view.findViewById(R.id.r1tv2);
     	TextView content3 = (TextView) view.findViewById(R.id.r1tv3);
@@ -40,20 +41,22 @@ public class ReferralFragment extends Fragment {
     	// if this gets any more complicated (waiting on Lisa for design), create class/model for this - see below
     	for (HealthSelectRecorded hsr : selects) {
     		int id = hsr.getSelectId();
-    		if (id == 1003 || id == 1007 || id == 1009 || id == 1011 || id == 1016 || id == 1019 || id == 1024 || id == 1025 || id == 1027 || id == 1029 || id == 1031 || id == 1033) {
+    		if (id == 1003 || id == 1007 || id == 1009 || id == 1011 || id == 1013 || id == 1015 || id == 1020 || id == 1023 || id == 1028 || id == 1029 || id == 1031 || id == 1033 || id == 1035 || id == 1037) {
+    			referalTextBox.setVisibility(View.VISIBLE);
+    			//sendReferral();			// maybe pass a param here? also need to have a true flag set in the if
+    		}
+    		if (id == 1004 || id == 1008 || id == 1010 || id == 1012 || id == 1014 || id == 1016) {
     			content1.setVisibility(View.VISIBLE);
     		}
-    		if (id == 1005) {
+    		if (id == 1007 || id == 1008) {
     			content2.setVisibility(View.VISIBLE);
     		}
     		if (id == 1008) {
     			content3.setVisibility(View.VISIBLE);
     		}
-    		if (id == 1025 || id == 1027) {
+    		if (id == 1029 || id == 1031) {
     			content4.setVisibility(View.VISIBLE);
     		}
-    		
-    		//sendReferral();			// maybe pass a param here? also need to have a true flag set in the if
     	}
     	
     	return view;

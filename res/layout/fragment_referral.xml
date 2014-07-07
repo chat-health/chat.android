@@ -22,6 +22,11 @@
 	    	android:layout_height="match_parent"
 	        android:orientation="vertical">
 	        <TextView
+		        android:id="@+id/referal"
+		        style="@style/shortTextContainer"
+		        android:text="@string/referral_urgent"
+		        android:visibility="gone" />
+	        <TextView
 		        android:id="@+id/r1tv1"
 		        style="@style/shortTextContainer"
 		        android:text="@string/referral_general"
