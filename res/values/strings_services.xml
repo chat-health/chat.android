@@ -1,6 +1,14 @@
 <resources>
     
-    <string-array name="volunteer_service_type_array">
+    <string-array name="volunteer_service_type_names">
+        <item>Material Well Being</item>
+        <item>Cognitive Well Being</item>
+        <item>Emotional Well Being</item>
+        <item>Physical Well Being</item>
+        <item>Documents, Grants and Status</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="volunteer_service_type_tags">
         <item>Material Well Being</item>
         <item>Cognitive Well Being</item>
         <item>Emotional Well Being</item>

@@ -2,37 +2,38 @@
 	xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="60dp"
-    android:paddingRight="60dp"
-    android:paddingTop="40dp"
-    android:paddingBottom="40dp"
+    android:paddingLeft="40dp"
+    android:paddingRight="40dp"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
     android:background="#FFFFFF" >
       
    	<TableRow
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
-        
-   	    <RelativeLayout
-   	        android:layout_width="match_parent"
-       		android:layout_height="wrap_content"
-       		android:layout_weight="1"
-       		android:layout_margin="20dp">
 
-	      	<ImageView
-		        android:id="@+id/service_subtype1_button"
-		        style="@style/serviceTypeImage"
-		        android:layout_centerHorizontal="true"
-		        android:src="@drawable/children_play_screenshot"
-		        android:onClick="openServiceDetails" />  	    
-    	    <TextView
-	            android:id="@+id/service_subtype1_text_field"
-	            style="@style/serviceTypeTitle"
-	            android:layout_centerHorizontal="true"
-	            android:layout_below="@id/service_subtype1_button"
-	            android:onClick="openServiceDetails"
-	            android:text="SUB1" />
-    	    
-    	</RelativeLayout>
+   		<RelativeLayout
+   		    android:layout_width="match_parent"
+   		    android:layout_height="wrap_content"
+   		    android:layout_margin="20dp"
+   		    android:layout_weight="1" >
+
+   		    <ImageView
+   		        android:id="@+id/service_subtype1_button"
+   		        style="@style/serviceTypeImage"
+   		        android:layout_centerHorizontal="true"
+   		        android:onClick="openServiceDetails"
+   		        android:src="@drawable/children_play_screenshot" />
+
+   		    <TextView
+   		        android:id="@+id/service_subtype1_text_field"
+   		        style="@style/serviceTypeTitle"
+   		        android:layout_below="@id/service_subtype1_button"
+   		        android:layout_centerHorizontal="true"
+   		        android:onClick="openServiceDetails"
+   		        android:text="SUB1" />
+   		</RelativeLayout>
+
    	    <RelativeLayout
    	        android:layout_width="match_parent"
        		android:layout_height="wrap_content"

@@ -95,12 +95,8 @@ public class BaseActivity extends Activity {
 	    	resourcesI.putExtras(resourcesB);    	
 	    	startActivity(resourcesI);
 	        return true;
-//	    case R.id.menu_settings:
-//	        Toast.makeText(getApplicationContext(), "Running setupDB...", Toast.LENGTH_SHORT).show();
-//	        prepopulateDB();
-//	        return true;
 	    case R.id.menu_sync:
-	        Toast.makeText(getApplicationContext(), "Triggering sync adapter to sync with server...", Toast.LENGTH_LONG).show();
+	        BaseActivity.toastHelper(this,"Triggering sync adapter to sync with server...");
 	        triggerSyncAdaper();
 	        return true;
 	    case R.id.menu_logout:
@@ -161,14 +157,14 @@ public class BaseActivity extends Activity {
         	if (ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(context, visitId, c.getId(), "health") == true) {
         		healthFlag = true;
         	} else {
-        		Toast.makeText(getApplicationContext(),"Visit not marked as complete - Child Health Assessment section still needs to be completed for " + c.getFirstName() + " " + c.getLastName(),Toast.LENGTH_LONG).show();
+        		BaseActivity.toastHelper(this, "Visit not marked as complete - Child Health Assessment section still needs to be completed for " + c.getFirstName() + " " + c.getLastName());
         	}
     		Boolean allVaccinesAdministered = ModelHelper.getVaccineRecordedCompleteForClientId(context, c.getId());
     		Boolean chaImmunizationComplete = ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(context, visitId, c.getId(), "immunization");
     		if (allVaccinesAdministered || chaImmunizationComplete) {
     			immunizationFlag = true;
     		} else {
-    			Toast.makeText(getApplicationContext(),"Visit not marked as complete - Immunization section still needs to be completed for " + c.getFirstName() + " " + c.getLastName(),Toast.LENGTH_LONG).show();
+    			BaseActivity.toastHelper(this, "Visit not marked as complete - Immunization section still needs to be completed for " + c.getFirstName() + " " + c.getLastName());
     		}
     		if (healthFlag == false || immunizationFlag == false) {
     			completeFlag = false;
@@ -178,13 +174,13 @@ public class BaseActivity extends Activity {
     	// check for completion of service requirements
     	if (ModelHelper.getServicesAccessedForVisitId(context, visitId).size() == 0) {
     		completeFlag = false;
-    		Toast.makeText(getApplicationContext(),"Visit not marked as complete - no services delivered",Toast.LENGTH_LONG).show();
+    		BaseActivity.toastHelper(this, "Visit not marked as complete - no services delivered");
     	}
     	
     	// check for completion of health ed requirements
     	if (ModelHelper.getHealthTopicsAccessedForVisitId(context, visitId).size() == 0) {
     		completeFlag = false;
-    		Toast.makeText(getApplicationContext(),"Visit not marked as complete - no health topic education delivered",Toast.LENGTH_LONG).show();
+    		BaseActivity.toastHelper(this,"Visit not marked as complete - no health topic education delivered" );
     	}
 
     	if (completeFlag == true) {
@@ -213,7 +209,7 @@ public class BaseActivity extends Activity {
     		} else if (role.equals("Lay Counsellor")) {
     			serviceId = 71;
     		} else {
-    			Toast.makeText(getApplicationContext(),"Error: unknown role in HomeActivity updateVisitObjectforExtras. Please contact technical support.",Toast.LENGTH_LONG).show();
+    			BaseActivity.toastHelper(this, "Error: unknown role in HomeActivity updateVisitObjectforExtras. Please contact technical support.");
     		}
     	} else if (type.equals("School Visit")) {
     		if (role.equals("Home Care Volunteer")) {
@@ -221,7 +217,7 @@ public class BaseActivity extends Activity {
     		} else if (role.equals("Lay Counsellor")) {
     			serviceId = 72;
     		} else {
-    			Toast.makeText(getApplicationContext(),"Error: unknown role in HomeActivity updateVisitObjectforExtras. Please contact technical support.",Toast.LENGTH_LONG).show();
+    			BaseActivity.toastHelper(this, "Error: unknown role in HomeActivity updateVisitObjectforExtras. Please contact technical support.");
     		}
     	}
     	
@@ -244,7 +240,7 @@ public class BaseActivity extends Activity {
 	}
     
     public void markVisitComplete() {
-		Toast.makeText(getApplicationContext(),"Visit saved and marked as complete",Toast.LENGTH_LONG).show();
+		BaseActivity.toastHelper(this, "Visit saved and marked as complete");
 		
 		// update the Visit object and save to DB
 		Date endTime = new Date();

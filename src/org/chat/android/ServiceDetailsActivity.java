@@ -30,13 +30,17 @@ public class ServiceDetailsActivity extends BaseActivity {
 		Bundle b = getIntent().getExtras();
 		visitId = b.getInt("visitId");
 		hhId = b.getInt("hhId");
-		String type = b.getString("subtype");
+		int tag = b.getInt("serviceTag");
+		
+		// YUCKY HACK ALERT. WE'RE RUNNING OUT OF TIME, AND IT LOOKS LIKE WE WON'T BE DOING COUSELLORS. THE BELOW ONLY WORKS FOR VOLUNTEERS, WAS AN EASY WAY TO DEAL WITH THE MULTIPLE LANGUAGES
 		
 		TextView tv = (TextView) findViewById(R.id.service_details_title_field);
-		tv.setText(type);
+		String[] serviceNames = getResources().getStringArray(R.array.volunteer_service_type_names);
+		tv.setText(serviceNames[tag]);
 		
 		// grab list of services to show, based on the service subtype
-		populateServicesList(type);
+		String[] serviceTags = getResources().getStringArray(R.array.volunteer_service_type_tags);
+		populateServicesList(serviceTags[tag]);
 		
 		ListView lv = (ListView) findViewById(R.id.service_details_listview);
 		sAdapter = new ServicesAdapter(context, android.R.layout.simple_list_item_multiple_choice, servicesList);
@@ -50,7 +54,7 @@ public class ServiceDetailsActivity extends BaseActivity {
         DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
         try {
 			sDao = dbHelper.getServicesDao();
-			servicesList = sDao.queryBuilder().where().eq("type",type).query();
+			servicesList = sDao.queryBuilder().orderBy("en_name", true).where().eq("type",type).query();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

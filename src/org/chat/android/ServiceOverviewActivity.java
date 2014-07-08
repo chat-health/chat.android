@@ -30,38 +30,40 @@ public class ServiceOverviewActivity extends BaseActivity {
     
     public void setupServiceTypeButtons(String role) {
     	// TODO: put this all in a new DB table, instead of relying on strings array and ifs
-		String[] serviceTypes;
+    	String[] serviceNames = null;
+		String[] serviceTags = null;
 		String[] serviceImages = null;
 		String[] roleArray = getResources().getStringArray(R.array.role_array);
 		if (role.equals(roleArray[0])) {
-			serviceTypes = getResources().getStringArray(R.array.volunteer_service_type_array);
+			serviceNames = getResources().getStringArray(R.array.volunteer_service_type_names);
+			serviceTags = getResources().getStringArray(R.array.volunteer_service_type_tags);
 			serviceImages = getResources().getStringArray(R.array.volunteer_service_type_images);
 		} else if (role.equals(roleArray[1])) {
-			serviceTypes = getResources().getStringArray(R.array.counsellor_service_type_array);
+			serviceTags = getResources().getStringArray(R.array.counsellor_service_type_array);
 			serviceImages = getResources().getStringArray(R.array.counsellor_service_type_images);
 		} else if (role.equals(roleArray[2])) {
 			// looks like we're not doing welfare - incorporate images later as necessary
-			serviceTypes = getResources().getStringArray(R.array.welfare_service_type_array);
+			serviceTags = getResources().getStringArray(R.array.welfare_service_type_array);
 		} else {
 			// TODO: expand me? Also throw a proper error here
-			serviceTypes = getResources().getStringArray(R.array.volunteer_service_type_array);
-			BaseActivity.toastHelper(this, "Role is undefined");
+			serviceTags = getResources().getStringArray(R.array.volunteer_service_type_names);
+			BaseActivity.toastHelper(this, "Role is undefined. Contact technical support.");
 		}
 		
 		// cycle through the serviceTypes, populate the labels and tags
-		for (int i = 1; i <= serviceTypes.length; i++) {
+		for (int i = 1; i <= serviceTags.length; i++) {
 			// set the text
 			String tvId = "service_subtype" + i + "_text_field";
 			int resId = getResources().getIdentifier(tvId, "id", "org.chat.android");
 		    TextView tv = (TextView) findViewById(resId);
-			tv.setText(serviceTypes[i-1]);
-			tv.setTag(serviceTypes[i-1]);
+			tv.setText(serviceNames[i-1]);
+			tv.setTag(i);
 			
 			// tag the button
 			String imgId = "service_subtype" + i + "_button";
 			resId = getResources().getIdentifier(imgId, "id", "org.chat.android");
 			ImageView iv = (ImageView) findViewById(resId);
-			iv.setTag(serviceTypes[i-1]);
+			iv.setTag(i);
 			
 			// set the correct image
 			if (serviceImages[i-1] != null) {
@@ -75,11 +77,11 @@ public class ServiceOverviewActivity extends BaseActivity {
     }
 	
 	public void openServiceDetails(View v) {
-		String subtype = null;
-        subtype = (String) v.getTag();
+		Integer serviceTag = 0;
+		serviceTag = (Integer) v.getTag();
 		Intent i = null;
         
-        if (subtype.equals("Other")) {
+        if (serviceTag.equals("Other")) {
         	i = new Intent(ServiceOverviewActivity.this, ServiceOtherActivity.class);
         } else {
         	i = new Intent(ServiceOverviewActivity.this, ServiceDetailsActivity.class);
@@ -88,7 +90,7 @@ public class ServiceOverviewActivity extends BaseActivity {
     	b.putInt("visitId",visitId);
     	b.putInt("hhId",hhId);
     	b.putString("role",role);
-    	b.putString("subtype",subtype);
+    	b.putInt("serviceTag",serviceTag);
     	i.putExtras(b);
     	startActivity(i);
 	}

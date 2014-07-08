@@ -33,7 +33,6 @@ public class ServicesAdapter extends ArrayAdapter<Service> {
     
     public View getView(int position, View convertView, ViewGroup parent) {
     	convertView = this.mInflater.inflate(R.layout.service_details_listview_row, null);
-    	final Context context = getContext();
   
     	Service s = servicesArray.get(position);
 

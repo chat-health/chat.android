@@ -8,12 +8,9 @@
         android:id="@+id/tv_hello"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="111dp"
-        android:text="hello world" 
-        android:visibility="gone" />
+        android:layout_centerInParent="true"
+        android:textSize="40dp"
+        android:text="Attempting to authenticate..." />
     <Button
         android:id="@+id/btn_greeting"
         android:layout_width="wrap_content"
@@ -22,7 +19,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:text="Greeting"
+        android:text="I don't do anything"
         android:visibility="gone" />
 
 </RelativeLayout>
