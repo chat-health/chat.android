@@ -69,6 +69,7 @@ public class CHADelivery extends BaseActivity {
 		Bundle b = new Bundle();
 		b.putInt("visitId",visitId);
 		b.putInt("clientId",clientId);
+		b.putInt("hhId",hhId);
 		// if it's the last page, then show referral page
 		if (pageNum == lastPage) {
 			try {

@@ -100,6 +100,21 @@ public class ModelHelper {
 		
 		return visit;
 	}
+	
+	public static Worker getWorkerForId(Context context, int workerId) {
+		Worker worker = null;
+		Dao<Worker, Integer> wDao;		
+		DatabaseHelper wDbHelper = new DatabaseHelper(context);
+		try {
+			wDao = wDbHelper.getWorkersDao();
+			worker = wDao.queryForId(workerId);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return worker;
+	}
 
 	public static Worker getWorkerForName(Context context, String workerName) {
 		Worker worker = null;
@@ -139,6 +154,22 @@ public class ModelHelper {
 		return worker;
 	}
 
+	public static Household getHouseholdForId(Context context, int hhId) {
+		Household household = null;
+		Dao<Household, Integer> hDao;		
+		DatabaseHelper hDbHelper = new DatabaseHelper(context);
+		try {
+			hDao = hDbHelper.getHouseholdsDao();
+			household = hDao.queryForId(hhId);
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		return household;
+	}
+	
+	
 	public static Household getHouseholdForName(Context context, String hhName) {
 		Household household = null;
 		Dao<Household, Integer> hDao;		

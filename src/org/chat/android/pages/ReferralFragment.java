@@ -7,6 +7,8 @@ import org.chat.android.ModelHelper;
 import org.chat.android.R;
 import org.chat.android.models.HealthSelect;
 import org.chat.android.models.HealthSelectRecorded;
+import org.chat.android.models.Household;
+import org.chat.android.models.Worker;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -36,6 +38,19 @@ public class ReferralFragment extends Fragment {
     	
     	int visitId = getArguments().getInt("visitId");
     	int clientId = getArguments().getInt("clientId");
+    	int hhId = getArguments().getInt("hhId");
+    	
+    	Household hh = ModelHelper.getHouseholdForId(context, hhId);
+    	String hhName = hh.getHhName();
+    	int workerId = hh.getWorkerId();
+    	Worker worker = ModelHelper.getWorkerForId(context, workerId);
+    	String fName = worker.getFirstName();
+    	String lName = worker.getLastName();
+    	// int phoneNum = worker.getPhoneNumber();
+    	int phoneNum = 5555555;
+    	//chatreferral@gmail.com
+    	//health001
+    	
     	List<HealthSelectRecorded> selects = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicNameAndClientId(context, visitId, "assessment", clientId);
     	
     	// if this gets any more complicated (waiting on Lisa for design), create class/model for this - see below
