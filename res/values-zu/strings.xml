@@ -1,21 +1,65 @@
 <resources>
+    
+    <string name="action_submit_note">Thumela inothi</string>
+    <string name="action_confirm"><b>Qinisekisa</b></string>
+    <string name="action_cancel"><b>Susa</b></string>
+    <string name="action_yes"><b>Yebo</b></string>
+    <string name="action_no"><b>Cha</b></string>
+    
+    <string name="menu_resources">Okuyizinsiza</string>
+    <!-- <string name="menu_settings">Settings</string> -->
+    <string name="menu_device_id">Device ID</string>
+    <string name="menu_sync">Sync</string>
+    <string name="menu_logout">Phuma</string>
+    
+    <string name="home_attendance_title_text">I-attendence</string>
+    <string name="home_services_title_text">Izinsiza</string>
+    
+    <string name="home_health_education_title_text">Health Education</string>
+    
+    <string name="home_child_health_assessment_title_text">Ukuhlolwa Kwempilo</string>
+    <string name="home_resources_title_text">Okuyizinsiza</string>
+    <string name="health_assessment_title_text">Impilo</string>
+    <string name="immunization_title_text">Umgomo</string>
+    
+    <string name="att_submitted_text">I-attendence ithunyeliwe</string>
+    <string name="att_updated_text">I-attendence ibuyekeziwe</string>
+    
+    <string name="att_not_submitted_text">Attendance not submitted. Click on the above list of clients to select attending household members</string>
+    
+    <string name="finalize_visit_confirm_text">Qinisekisa ukuqedwa kokuvakasha</string>
+    <string name="finalize_visit_yes_text">Yebo, maka lokhu kuvakasha njengosekuphothuliwe futhi ungikhiphe</string>
+    <string name="finalize_visit_no_text">Cha, susa futhi ubuyele ekuvakasheni okuqhubekayo</string>
+    
+    <string name="service_delivery_title_text">Lezizinsiza noma lezinhlelo zokusiza zinikezelwe kubani?</string>
+    <string name="service_select_one_child_text">Kumele ukhethe okungenani iklayente elilodwa ukumaka loluhlelo lokusiza ngengolunikezeliwe</string>
+    <string name="service_delivered_text">Uhlelo/Izinhlelo zimakwe njengalezo ezinikezelwe kwi/kumaklayente</string>
+    
+    <string name="resources_title_text">Khetha okuyinsiza ozoyibheka</string>
+    
+    <string name="select_child_title_text">Khetha ingane uyikhethele ukuhlohlwa kwempilo yomntwana</string>
+    <string name="exit_health_assessment_text">Phuma ekunikezeni uhlolo lwempilo?</string>
+    <string name="completed_health_assessment_text">Uhlolo lwempilo lumakwe njengoluphothuliwe lwenzelwa</string>
+    
+    <string name="referral_urgent">Refer child urgently to hospital</string>
+    
+    <string name="referral_general">* Kunoma yiyiphi ingane egulayo ekwaziyo ukuphuza, yeluleka ukuthi inikezwe okuwuketshezi futhi iqhubeke nokunceliswa/funzwa\n\n* Yeluleka ukuthi ingane igcinwe ifudumele uma ingane INGENAKHO ukushisa kwemfiva \n* Uma ingane ishisa ngokwemfiva yeluleka ukuba igqokiswe okulula ukuvumela ukuthi imfiva iphole\n\n* Ukuze idluliselwe, thumela iSMS noma ufonele uMhlengikazi eThandanani; bhala incwadi yokuyidlulisela; siza umnakekeli nengane ukuba baye emtholampilo\n\n* Yeluleka njalo ukuthi kunini lapho kufanele kuyiwe esikhungweni sezempilo:\n\u0020\u0020\u0020\u0020\u0020\u0020uma ingane ingakwazi ukuphuza noma ukudla\n\u0020\u0020\u0020\u0020\u0020\u0020uma ingane iba negazi emakakeni ayo\n\u0020\u0020\u0020\u0020\u0020\u0020uma ingane isigula kakhuludlwana</string>
+    <string name="referral_ors">* Tshengisa umnakekeli ukuthi ilungiselelwa kanjani iORS bese inikezwa masinyane</string>
+    <string name="referral_zinc">* Yeluleka ukuthi kuthathwe izikhuthazi zezithako ze-zinc: kuphuzwe kanye nsukuzonke izinsuku  ezingu 10; konezinezinyanga eziwu 2 kuya kwezingaphansi kwezinyanga ezingu 6 ubudala, uhhafu wephilisi izinsuku ezingu 10 (amaphilisi awu 5); konezinyanga ezingu 6 kuya eminyakeni engu 5 ubudala, iphilisi elilodwa izinsuku ezingu 10 (amaphilisi awu 10)</string>
+    <string name="referral_antibiotics">* Chaza ukuthi umntwana kungenzeka ukuthi udinga ama-antibiotics</string>
 
-	<string name="home_attendance_title_text">Attendance in Zulu!</string>    
-    
-	
-	
-	
-	
-	<string name="referral_general">* For any sick child who can drink, advise to give fluids and continue feeding\n\n* Advise to keep the child warm if the child is NOT hot with fever\n* If the child is hot with fever advise to dress lightly to allow fever to cool\n\n* For referrals, send SMS or call Nurse at Thandanani; write referral note; help caregiver and child to get to clinic\n\n* Always advise on when to go to the health facility:\n\u0020\u0020\u0020\u0020\u0020\u0020if child cannot drink or eat\n\u0020\u0020\u0020\u0020\u0020\u0020if child becomes more sick\n\u0020\u0020\u0020\u0020\u0020\u0020if child has blood in the stool</string>
-    <string name="referral_ors">* Show caregiver how to prepare ORS and give immediately</string>
-    <string name="referral_zinc">* Advise to take zinc supplement: 1 dose daily for 10 days; age 2 months to less than 6 months, half tablet for 10 days (5 tablets); age 6 months to 5 years, 1 tablet for 10 days (10 tablets)</string>
-    <string name="referral_antibiotics">* Explain that the child might need antibiotics</string>
-    
 	<string name="cha_vaccine_age1_text">Kozelwe</string>
     <string name="cha_vaccine_age2_text">Amaviki awu 6</string>
     <string name="cha_vaccine_age3_text">Amaviki awu 10</string>
     <string name="cha_vaccine_age4_text">Amaviki awu 14</string>
     <string name="cha_vaccine_age5_text">Izinyanga eziwu 9</string>
     <string name="cha_vaccine_age6_text">Izinyanga eziwu 18</string>
+        
+    <string name="immunization_legend_text">UMGOMO UYADINGEKA</string>
     
+    <string name="imm_date_button_text">Usuku otholwe</string>
+    <string name="immunization_summary_title_text">Umbhalo Okafushane Ngomgomo</string>
+    <string name="immunization_summary_refer_text">Yedlulisela umntwana ukuze athole umgomo odingekayo</string>
+    <string name="immunization_summary_discuss_text">Xoxa kabanzi ngokubaluleka kwemigomo ukwenzela impilo yomntwana</string>
+    <string name="immunization_completed_text">Uhlolo lomgomo lumakwe njengoluphothuliwe lwenzelwa</string>
 </resources>

@@ -179,7 +179,8 @@ public class CHADelivery extends BaseActivity {
 
 	public void markTopicComplete() {
 		Client c = ModelHelper.getClientForId(context, clientId);
-		BaseActivity.toastHelper(this, "Health assessment completed for " + c.getFirstName() + " " + c.getLastName());
+		String msg = getResources().getString(getResources().getIdentifier("completed_health_assessment_text", "string", getPackageName()));
+		BaseActivity.toastHelper(this, msg + " " + c.getFirstName() + " " + c.getLastName());
 		
 		// update the HealthTopicAccessed object and save to DB
 		Date endTime = new Date();
@@ -287,7 +288,8 @@ public class CHADelivery extends BaseActivity {
 	
 	public void onBackPressed() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage("Exit health assessment delivery?")
+		String msg = getResources().getString(getResources().getIdentifier("exit_health_assessment_text", "string", getPackageName()));
+		builder.setMessage(msg)
 		       .setCancelable(false)
 		       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 		           public void onClick(DialogInterface dialog, int id) {

@@ -82,7 +82,8 @@ public class ServiceDeliveryActivity extends BaseActivity {
 	    		i++;
 	    	}
 	    	
-	    	BaseActivity.toastHelper(this, "Service(s) marked as delivered to client(s)");
+	    	String deliveredStr = getResources().getString(getResources().getIdentifier("service_delivered_text", "string", getPackageName()));
+	    	BaseActivity.toastHelper(this, deliveredStr);
 	    	Intent intent = new Intent(ServiceDeliveryActivity.this, ServiceOverviewActivity.class);
 	    	Bundle b = new Bundle();
 	    	b.putInt("visitId",visitId);
@@ -91,10 +92,10 @@ public class ServiceDeliveryActivity extends BaseActivity {
 	    	startActivity(intent);
 	    	finish();
     	} else {
-    		BaseActivity.toastHelper(this, "You must select at least one client to mark this service as delivered");
+    		String msg = getResources().getString(getResources().getIdentifier("service_select_one_child_text", "string", getPackageName()));
+    		BaseActivity.toastHelper(this, msg);
     	}
     }
-    
     
     public void cancelServiceDelivery(View v) {
     	finish();

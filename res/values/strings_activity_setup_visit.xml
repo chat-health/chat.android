@@ -9,6 +9,9 @@
 	<string name="action_resume_visit"><b>Resume previous visit</b></string>
 	<string name="action_set_up_new_visit"><b>Set up new visit</b></string>
 	
+	<string name="determining_location_text">Determining location...</string>
+	<string name="warning_text">WARNING: GPS has not been recorded. If GPS is available, close CHAT app and restart this visit</string>
+	
 	<string-array name="volunteer_visit_type_array">
         <item>Home Visit</item>
         <item>School Visit</item>

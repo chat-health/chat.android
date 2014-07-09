@@ -32,7 +32,7 @@ public class ServiceDetailsActivity extends BaseActivity {
 		hhId = b.getInt("hhId");
 		int tag = b.getInt("serviceTag");
 		
-		// YUCKY HACK ALERT. WE'RE RUNNING OUT OF TIME, AND IT LOOKS LIKE WE WON'T BE DOING COUSELLORS. THE BELOW ONLY WORKS FOR VOLUNTEERS, WAS AN EASY WAY TO DEAL WITH THE MULTIPLE LANGUAGES
+		// YUCKY HACK ALERT. WE'RE RUNNING OUT OF TIME, AND IT LOOKS LIKE WE WON'T BE DOING COUNSELLORS. THE BELOW ONLY WORKS FOR VOLUNTEERS, WAS AN EASY WAY TO DEAL WITH THE MULTIPLE LANGUAGES
 		
 		TextView tv = (TextView) findViewById(R.id.service_details_title_field);
 		String[] serviceNames = getResources().getStringArray(R.array.volunteer_service_type_names);

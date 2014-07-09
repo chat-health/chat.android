@@ -52,7 +52,8 @@ public class ImmunizationsSummaryActivity extends BaseActivity {
     
     public void completeImmunizationSummary(View v) {
     	// CHAAccessed object is updated as completed (ie end_time is added) in ImmunizationReceivedActivity
-    	BaseActivity.toastHelper(this,"Immunization assessment completed for " + client.getFirstName() + " " + client.getLastName() );
+    	String msg = getResources().getString(getResources().getIdentifier("immunization_completed_text", "string", getPackageName()));
+    	BaseActivity.toastHelper(this,msg +" " + client.getFirstName() + " " + client.getLastName() );
     	finish();
     }
 }

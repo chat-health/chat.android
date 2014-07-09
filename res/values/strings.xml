@@ -52,10 +52,22 @@
     <string name="health_assessment_title_text">Health</string>
     <string name="immunization_title_text">Immunizations</string>
     
+    <string name="att_submitted_text">Attendance submitted</string>
+    <string name="att_updated_text">Attendance updated</string>
+    <string name="att_not_submitted_text">Attendance not submitted. Click on the above list of clients to select attending household members</string>
+    
+    <string name="finalize_visit_confirm_text">Confirm finalization of visit</string>
+    <string name="finalize_visit_yes_text">Yes, mark this visit as complete and log me out</string>
+    <string name="finalize_visit_no_text">No, cancel and return to the visit in progress</string>
     
     <string name="service_delivery_title_text">Who were these services delivered to?</string>
+    <string name="service_select_one_child_text">You must select at least one client to mark this service as delivered</string>
+    <string name="service_delivered_text">Service(s) marked as delivered to client(s)</string>
+    
     <string name="resources_title_text">Select a resource to view</string>
     <string name="select_child_title_text">Select a child for child health assessment</string>
+    <string name="exit_health_assessment_text">Exit health assessment delivery?</string>
+    <string name="completed_health_assessment_text">Health assessment completed for</string>
     
     <string name="referral_urgent">Refer child urgently to hospital</string>
     <string name="referral_general">* For any sick child who can drink, advise to give fluids and continue feeding\n\n* Advise to keep the child warm if the child is NOT hot with fever\n* If the child is hot with fever advise to dress lightly to allow fever to cool\n\n* For referrals, send SMS or call Nurse at Thandanani; write referral note; help caregiver and child to get to clinic\n\n* Always advise on when to go to the health facility:\n\u0020\u0020\u0020\u0020\u0020\u0020if child cannot drink or eat\n\u0020\u0020\u0020\u0020\u0020\u0020if child becomes more sick\n\u0020\u0020\u0020\u0020\u0020\u0020if child has blood in the stool</string>
@@ -72,7 +84,9 @@
         
     <string name="immunization_legend_text">IMMUNIZATION REQUIRED</string>
     
+    <string name="imm_date_button_text">Date received</string>
     <string name="immunization_summary_title_text">Immunizations Summary</string>
     <string name="immunization_summary_refer_text">Refer the child for the required immunizations</string>
     <string name="immunization_summary_discuss_text">Discuss the importance of immunizations for child health</string>
+    <string name="immunization_completed_text">Immunization assessment completed for</string>
 </resources>

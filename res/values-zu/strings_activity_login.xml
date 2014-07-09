@@ -1,0 +1,17 @@
+<resources>
+
+    <!-- Strings related to login -->
+    <string name="prompt_user_id">User Id</string>
+    <string name="prompt_user_name">Faka igama losebenzisayo lakho</string>
+    <string name="prompt_password">Faka igama eliyimfihlo lokungena</string>
+    <string name="action_sign_in"><b>Ngena ngemvume</b></string>
+    <string name="action_sign_in_short">Ngena ngemvume</string>
+	<string name="login_progress_signing_in">Ukungena ngemvume&#8230;</string>
+    <string name="error_invalid_user_name">Leligama losebenzisayo alivumelekile</string>
+    <string name="error_invalid_password">Le phasiwedi imfushane kakhulu</string>
+    <string name="error_invalid_role">Lo osebenzisayo akanayo indima ekhethiwe</string>
+    <string name="error_incorrect_password">Le phasiwedi ayilungile</string>
+    <string name="error_field_required">Le ndawo iyadingeka</string>
+    <string name="error_auth">Leligama losebenzayo alikaze labakhona noma iphasiwedi ayilungile noma indima ayilungile</string>
+    
+</resources>

@@ -1,0 +1,27 @@
+<resources>
+    <string name="title_activity_setup_visit">Setha ukuvakasha okusha</string>
+    <string name="title_activity_restore_visit">Qhubeka ekuvakasheni okwedlule noma qala ukuvakasha okusha</string>
+    
+	<string name="action_new_visit"><b>Qala ukuvakasha okusha</b></string>
+	
+	<string name="action_gps_location"><b>Thola indawo ngeGPS</b></string>	
+	
+	<string name="action_resume_visit"><b>Qhubeka ekuvakasheni okwedlule</b></string>
+	<string name="action_set_up_new_visit"><b>Setha ukuvakasha okusha</b></string>
+	
+	<string name="determining_location_text">Ukuthola indawo...</string>
+	<string name="warning_text">ISEXWAYISO: i-GPS ayiqoshwanga. Uma iGPS ikhona itholakala, vala i-CHAT app futhi uqale kabusha lokhu kuvakasha</string>
+	
+	<string-array name="volunteer_visit_type_array">
+        <item>Ukuvakashelwa Kwekhaya</item>
+        <item>Ukuvakashelwa Kwesikole</item>
+    </string-array>
+    <string-array name="counsellor_visit_type_array">
+        <item>Some stuff</item>
+        <item>Some other stuff</item>
+    </string-array>
+    <string-array name="welfare_visit_type_array">
+        <item>Some stuff</item>
+        <item>Some other stuff</item>
+    </string-array>
+</resources>

@@ -178,17 +178,21 @@ public class HomeActivity extends Activity {
         String bText = attendanceBtn.getTag().toString();
         
         // check if any checkboxes are checked
+        String msg = null;
         if (clAdapter.getSelectedClients().size() > 0) {
             if (bText.equals("Done")) {
-            	BaseActivity.toastHelper(this, "Attendance submitted");
+            	msg = getResources().getString(getResources().getIdentifier("att_submitted_text", "string", getPackageName()));
+            	BaseActivity.toastHelper(this, msg);
             	saveAttendanceList();
             	updateUIElements();
             } else {
-            	BaseActivity.toastHelper(this, "Attendance updated");
+            	msg = getResources().getString(getResources().getIdentifier("att_updated_text", "string", getPackageName()));
+            	BaseActivity.toastHelper(this, msg);
             	deleteCurrentAttendance();			// saveAttendanceList() is called from the finally in deleteCurrentAttendance()
             }        	
         } else {
-        	BaseActivity.toastHelper(this, "Attendance not submitted. Click on the above list of clients to select attending household members");
+        	msg = getResources().getString(getResources().getIdentifier("att_not_submitted_text", "string", getPackageName()));
+        	BaseActivity.toastHelper(this, msg);
         }
     }
     
@@ -505,16 +509,19 @@ public class HomeActivity extends Activity {
 	        return true;
 	    case R.id.menu_logout:
 	    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-	    	builder.setMessage("Confirm finalization of visit")
+	    	String msgFinConf = getResources().getString(getResources().getIdentifier("finalize_visit_confirm_text", "string", getPackageName()));
+	    	String msgFinYes = getResources().getString(getResources().getIdentifier("finalize_visit_yes_text", "string", getPackageName()));
+	    	String msgFinNo = getResources().getString(getResources().getIdentifier("finalize_visit_no_text", "string", getPackageName()));
+	    	builder.setMessage(msgFinConf)
 	    	       .setCancelable(false)
-	    	       .setPositiveButton("Yes, mark this visit as complete and log me out", new DialogInterface.OnClickListener() {
+	    	       .setPositiveButton(msgFinYes, new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
 	    	        	   // update for PROD
 	    	        	   checkVisitCompleteStatus();
 	    	        	   //triggerSyncAdapter();
 	    	           }
 	    	       })
-	    	       .setNegativeButton("No, cancel and return to the visit in progress", new DialogInterface.OnClickListener() {
+	    	       .setNegativeButton(msgFinNo, new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
 	    	                dialog.cancel();
 	    	           }

@@ -148,7 +148,8 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
         	finish();
     	} else {
     		// else put user back on the CHA Overview screen
-    		BaseActivity.toastHelper(this, "Immunization assessment completed for " + c.getFirstName() + " " + c.getLastName());
+    		String msg = getResources().getString(getResources().getIdentifier("immunization_completed_text", "string", getPackageName()));
+        	BaseActivity.toastHelper(this,msg +" " + client.getFirstName() + " " + client.getLastName() );
     		finish();
     	}
     }
