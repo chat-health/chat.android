@@ -34,10 +34,12 @@ public class ServiceOtherActivity extends BaseActivity {
 		visitId = b.getInt("visitId");
 		hhId = b.getInt("hhId");
 		String role = b.getString("role");
-		String type = b.getString("subtype");					// "Other"
+		int tag = b.getInt("serviceTag") - 1;				// "Other"
 		
+		String[] serviceNames = null;
+		serviceNames = getResources().getStringArray(R.array.volunteer_service_type_names);
 		TextView typeTitle = (TextView) findViewById(R.id.service_other_title_field);
-		typeTitle.setText(type);
+		typeTitle.setText(serviceNames[tag]);
 		
     	List<TextView> title = new ArrayList<TextView>();
     	title.add((TextView) findViewById(R.id.other_tv_1));
@@ -63,7 +65,7 @@ public class ServiceOtherActivity extends BaseActivity {
     	entry.add((EditText) findViewById(R.id.other_et_10));
 		
 		// grab list of services to show, based on the service subtype - subtype should always be "Other"
-		populateServicesList(role, type);
+		populateServicesList(role, "Other");
 		
 		// determine language from current tablet settings
 		String lang = Locale.getDefault().getLanguage();

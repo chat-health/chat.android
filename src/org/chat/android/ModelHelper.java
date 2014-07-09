@@ -244,7 +244,7 @@ public class ModelHelper {
 		DatabaseHelper cDbHelper = new DatabaseHelper(context);
 		try {
 			cDao = cDbHelper.getClientsDao();
-			hhCList = cDao.queryBuilder().where().eq("hh_id",hhId).query();
+			hhCList = cDao.queryBuilder().orderBy("date_of_birth",true).where().eq("hh_id",hhId).query();
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();

@@ -88,7 +88,6 @@ public class HomeActivity extends Activity {
             finish();  
         }
         
-        
 //        Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/Roboto/Roboto-Black.ttf");
 //        servicesTitle = (TextView) findViewById(R.id.services_title_field);
 //        servicesTitle.setTypeface(tf);

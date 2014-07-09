@@ -81,7 +81,7 @@ public class ServiceOverviewActivity extends BaseActivity {
 		serviceTag = (Integer) v.getTag();
 		Intent i = null;
         
-        if (serviceTag.equals("Other")) {
+        if (serviceTag == 6) {
         	i = new Intent(ServiceOverviewActivity.this, ServiceOtherActivity.class);
         } else {
         	i = new Intent(ServiceOverviewActivity.this, ServiceDetailsActivity.class);

@@ -30,7 +30,7 @@ public class ServiceDetailsActivity extends BaseActivity {
 		Bundle b = getIntent().getExtras();
 		visitId = b.getInt("visitId");
 		hhId = b.getInt("hhId");
-		int tag = b.getInt("serviceTag");
+		int tag = b.getInt("serviceTag") - 1;
 		
 		// YUCKY HACK ALERT. WE'RE RUNNING OUT OF TIME, AND IT LOOKS LIKE WE WON'T BE DOING COUNSELLORS. THE BELOW ONLY WORKS FOR VOLUNTEERS, WAS AN EASY WAY TO DEAL WITH THE MULTIPLE LANGUAGES
 		
