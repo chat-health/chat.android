@@ -5,21 +5,12 @@
     tools:context=".MainActivity" >
 
     <TextView
-        android:id="@+id/tv_hello"
+        android:id="@+id/tv_device_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp"
         android:layout_centerInParent="true"
-        android:textSize="40dp"
-        android:text="Attempting to authenticate..." />
-    <Button
-        android:id="@+id/btn_greeting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:text="I don't do anything"
-        android:visibility="gone" />
+        android:textSize="40dp" />
 
 </RelativeLayout>

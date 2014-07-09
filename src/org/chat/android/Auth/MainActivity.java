@@ -1,6 +1,7 @@
 package org.chat.android.Auth;
 
 import com.crashlytics.android.Crashlytics;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,6 +25,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
@@ -44,8 +46,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AccountAuthenticatorActivity {
 
-	private Button btn_greeting;
-	private TextView tv_hello;
+	private TextView deviceIdBox;
 	private MainActivity demo;
 	private String mEmail;
 	private static final String SCOPE = "oauth2:https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile";
@@ -68,9 +69,23 @@ public class MainActivity extends AccountAuthenticatorActivity {
 		demo = this;
 		sServerAuthenticate= new ChatAuthServerAuthenticate(this.getApplicationContext().getString(R.string.base_url));
 		mAccountManager = AccountManager.get(demo);
-		btn_greeting = (Button) this.findViewById(R.id.btn_greeting);
-		tv_hello = (TextView) this.findViewById(R.id.tv_hello);
-		addListener();
+		deviceIdBox = (TextView) this.findViewById(R.id.tv_device_id);
+		
+		try {
+			String deviceSerial = (String) Build.class.getField("SERIAL").get(null);
+			deviceIdBox.setText("Attempting to authenticate with device ID " + deviceSerial);
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchFieldException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		Bundle extras = getIntent().getExtras();
 
 		mAuthTokenType = getIntent().getStringExtra(
@@ -89,7 +104,7 @@ public class MainActivity extends AccountAuthenticatorActivity {
 				demo.pickUserAccount();
 			} else
 				new GetTokenTask(demo).execute();
-			Toast.makeText(this, "Authorization fail, redo the operation",
+			Toast.makeText(this, "Authorization failed, please retry",
 					Toast.LENGTH_SHORT).show();
 			return;
 		}
@@ -178,51 +193,8 @@ public class MainActivity extends AccountAuthenticatorActivity {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				tv_hello.setText(message);
+				
 			}
-		});
-	}
-
-	private void addListener() {
-		btn_greeting.setOnClickListener(new OnClickListener() {
-
-			private final String NAME_KEY = "given_name";
-
-			/**
-			 * Reads the response from the input stream and returns it as a
-			 * string.
-			 */
-			private String readResponse(InputStream is) throws IOException {
-				ByteArrayOutputStream bos = new ByteArrayOutputStream();
-				byte[] data = new byte[2048];
-				int len = 0;
-				while ((len = is.read(data, 0, data.length)) >= 0) {
-					bos.write(data, 0, len);
-				}
-				return new String(bos.toByteArray(), "UTF-8");
-			}
-
-			/**
-			 * Parses the response and returns the first name of the user.
-			 * 
-			 * @throws JSONException
-			 *             if the response is not JSON or if first name does not
-			 *             exist in response
-			 */
-			private String getFirstName(String jsonResponse)
-					throws JSONException {
-				JSONObject profile = new JSONObject(jsonResponse);
-				return profile.getString(NAME_KEY);
-			}
-
-			@Override
-			public void onClick(View arg0) {
-				if (mEmail == null) {
-					demo.pickUserAccount();
-				} else
-					new GetTokenTask(demo).execute();
-			}
-
 		});
 	}
 
