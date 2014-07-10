@@ -90,7 +90,7 @@
         
     <string name="immunization_legend_text">IMMUNIZATION REQUIRED</string>
     
-    <string name="imm_date_button_text">Date received</string>
+    <string name="immunization_date_button_text">Date received</string>
     <string name="immunization_summary_title_text">Immunizations Summary</string>
     <string name="immunization_missing_vaccines_text">is missing the following vaccines:</string>
     <string name="immunization_summary_refer_text">Refer the child for the required immunizations</string>

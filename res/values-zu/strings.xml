@@ -58,7 +58,7 @@
         
     <string name="immunization_legend_text">UMGOMO UYADINGEKA</string>
     
-    <string name="imm_date_button_text">Usuku otholwe</string>
+    <string name="immunization_date_button_text">Usuku otholwe</string>
     <string name="immunization_summary_title_text">Umbhalo Okafushane Ngomgomo</string>
     <string name="immunization_missing_vaccines_text">akayitholanga le mithi elandelayo:</string>
     <string name="immunization_summary_refer_text">Yedlulisela umntwana ukuze athole umgomo odingekayo</string>

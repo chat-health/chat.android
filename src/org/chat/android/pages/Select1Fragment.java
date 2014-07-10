@@ -39,7 +39,6 @@ public class Select1Fragment extends Fragment {
     RadioButton answer2 = null;
     RadioButton answer3 = null;
     RadioButton answer4 = null;
-    //ImageView image1 = null;
 	
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	View view = inflater.inflate(R.layout.fragment_select1, container, false);

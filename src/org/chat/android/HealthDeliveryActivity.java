@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.chat.android.models.HealthPage;
+import org.chat.android.models.HealthSelect;
 import org.chat.android.models.HealthSelectRecorded;
 import org.chat.android.models.HealthTopicAccessed;
 import org.chat.android.models.Video;
@@ -109,13 +110,29 @@ public class HealthDeliveryActivity extends BaseActivity {
 	}
 	
 	public void moveNext(View v) {
-		// check if this page is within bounds (1 to lastPage)
-		if (pageCounter == lastPage) {
-			updateNonFragmentUIElements("done");
-		} else {
-			updateNonFragmentUIElements("next");
-			updateDisplayedFragment(pageCounter);	
+		// check if user has selected a radio button
+		Boolean proceedFlag = true;
+		// check if this is a radio button page
+		HealthPage p = pages.get(pageCounter - 1);
+		if (p.getType().equals("select1")) {
+			// check if there is a HSR for this topic
+			HealthSelectRecorded hsr = ModelHelper.getHealthSelectRecordedForVisitIdAndTopicName(context, visitId, topicName);
+			if (hsr == null) {
+				BaseActivity.toastHelper(this, "Please select an answer to proceed");
+				proceedFlag = false;
+			}
 		}
+
+		// check if this page is within bounds (1 to lastPage)
+		if (proceedFlag == true) {
+			if (pageCounter == lastPage) {
+				updateNonFragmentUIElements("done");
+			} else {
+				updateNonFragmentUIElements("next");
+				updateDisplayedFragment(pageCounter);	
+			}
+		}
+		
 	}
 	
 	public void moveBack(View v) {

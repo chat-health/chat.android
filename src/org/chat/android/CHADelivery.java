@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.chat.android.models.CHAAccessed;
 import org.chat.android.models.Client;
+import org.chat.android.models.HealthPage;
 import org.chat.android.models.HealthSelect;
 import org.chat.android.models.HealthSelectRecorded;
 import org.chat.android.models.PageAssessment1;
@@ -139,13 +140,31 @@ public class CHADelivery extends BaseActivity {
 	}	
 	
     public void moveNext(View v) {
+		// check if user has selected a radio button
+		Boolean proceedFlag = false;
+		PageAssessment1 p = pages.get(pageCounter - 1);
+		if (p.getType().equals("Ask") || p.getType().equals("Observe")) {
+			List<HealthSelect> hsList = ModelHelper.getHealthSelectsForSubjectId(context, p.getId());
+			// check if there is a HSR for any of the answers on this page
+			for (HealthSelect hs : hsList) {
+				HealthSelectRecorded hsr = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicNameAndSelectIdAndClientId(context, visitId, "assessment", hs.getId(), clientId);
+				if (hsr != null) {
+					proceedFlag = true;
+				}
+			}
+		}
+    	
     	// check if this page is within bounds (1 to lastPage)
-    	if (pageCounter == lastPage) {
-    		updateNonFragmentUIElements("done");
-    	} else {
-    		updateNonFragmentUIElements("next");
-    		updateDisplayedFragment(pageCounter);	
-    	}
+		if (proceedFlag == true) {
+			if (pageCounter == lastPage) {
+	    		updateNonFragmentUIElements("done");
+	    	} else {
+	    		updateNonFragmentUIElements("next");
+	    		updateDisplayedFragment(pageCounter);	
+	    	}
+		} else {
+			BaseActivity.toastHelper(this, "Please select an answer to proceed");
+		}
     }
 
     public void moveBack(View v) {

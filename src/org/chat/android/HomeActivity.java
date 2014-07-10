@@ -143,8 +143,6 @@ public class HomeActivity extends Activity {
         resourcesBtnImg = (ImageView)findViewById(R.id.resources_button_img);
         resourcesBtnImg.setEnabled(false);
         
-
-        //FOR TESTING, SWITCH FOR PROD (WHAT IS THIS?)
 		Bundle b = getIntent().getExtras();
 		if (b != null) {
 			visitId = b.getInt("visitId");
@@ -514,7 +512,6 @@ public class HomeActivity extends Activity {
 	    	       .setCancelable(false)
 	    	       .setPositiveButton(msgFinYes, new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
-	    	        	   // update for PROD
 	    	        	   checkVisitCompleteStatus();
 	    	        	   //triggerSyncAdapter();
 	    	           }

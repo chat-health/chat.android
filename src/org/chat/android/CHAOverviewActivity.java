@@ -48,17 +48,17 @@ public class CHAOverviewActivity extends BaseActivity {
     
     public void openImmunizationsReceived(View v) {
 //    	TODO: put this back in for PROD
-//    	Client child = ModelHelper.getClientForId(context, clientId);
-//        new AlertDialog.Builder(this)
-//        .setMessage("Is " + child.getFirstName() + " " + child.getLastName() + "'s health card present?")
-//        .setNegativeButton(R.string.action_no, new OnClickListener() {
-//            public void onClick(DialogInterface arg0, int arg1) {
-//            	// TODO: Zulu here
-//            	Toast.makeText(getApplicationContext(),"If possible please have the health card available at our next visit",Toast.LENGTH_LONG).show();
-//            }
-//        })
-//        .setPositiveButton(R.string.action_yes, new OnClickListener() {
-//            public void onClick(DialogInterface arg0, int arg1) {
+    	Client child = ModelHelper.getClientForId(context, clientId);
+        new AlertDialog.Builder(this)
+        .setMessage("Is " + child.getFirstName() + " " + child.getLastName() + "'s health card present?")
+        .setNegativeButton(R.string.action_no, new OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+            	// TODO: Zulu here
+            	Toast.makeText(getApplicationContext(),"If possible please have the health card available at our next visit",Toast.LENGTH_LONG).show();
+            }
+        })
+        .setPositiveButton(R.string.action_yes, new OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
     			setupCHAAccessedObject("immunization");
             	
     			Intent i = new Intent(CHAOverviewActivity.this, ImmunizationsReceivedActivity.class);
@@ -68,8 +68,8 @@ public class CHAOverviewActivity extends BaseActivity {
             	b.putInt("clientId",clientId);
             	i.putExtras(b);
             	startActivity(i); 
-//            }
-//        }).create().show();
+            }
+        }).create().show();
     }
     
     private void setupCHAAccessedObject(String type) {

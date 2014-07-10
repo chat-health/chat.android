@@ -30,7 +30,7 @@ public class ImmunizationsSummaryActivity extends BaseActivity {
 		String missingVaccines = getMissingVaccines(client);
 		
 		TextView tv = (TextView) findViewById(R.id.missing_vaccines_box);
-		String msg = getResources().getString(getResources().getIdentifier("missing_vaccines_text", "string", getPackageName()));
+		String msg = getResources().getString(getResources().getIdentifier("immunization_missing_vaccines_text", "string", getPackageName()));
 		tv.setText(client.getFirstName() + " " + client.getLastName() + " " + msg + " " + missingVaccines);
     }
     
