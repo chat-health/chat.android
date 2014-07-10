@@ -96,20 +96,23 @@ public class BaseActivity extends Activity {
 	    	startActivity(resourcesI);
 	        return true;
 	    case R.id.menu_sync:
-	        BaseActivity.toastHelper(this,"Triggering sync adapter to sync with server...");
+	        BaseActivity.toastHelper(this,"Triggering sync with server...");
 	        triggerSyncAdaper();
 	        return true;
 	    case R.id.menu_logout:
+	    	String msgFinConf = getResources().getString(getResources().getIdentifier("finalize_visit_confirm_text", "string", getPackageName()));
+	    	String msgFinYes = getResources().getString(getResources().getIdentifier("finalize_visit_yes_text", "string", getPackageName()));
+	    	String msgFinNo = getResources().getString(getResources().getIdentifier("finalize_visit_no_text", "string", getPackageName()));
 	    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-	    	builder.setMessage("Confirm finalization of visit")
+	    	builder.setMessage(msgFinConf)
 	    	       .setCancelable(false)
-	    	       .setPositiveButton("Yes, mark this visit as complete and log me out", new DialogInterface.OnClickListener() {
+	    	       .setPositiveButton(msgFinYes, new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
 	    	        	   checkVisitCompleteStatus();
 	    	        	   //triggerSyncAdapter();
 	    	           }
 	    	       })
-	    	       .setNegativeButton("No, cancel and return to the visit in progress", new DialogInterface.OnClickListener() {
+	    	       .setNegativeButton(msgFinNo, new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
 	    	                dialog.cancel();
 	    	           }

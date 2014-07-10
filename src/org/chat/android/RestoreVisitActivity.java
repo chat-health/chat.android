@@ -67,7 +67,8 @@ public class RestoreVisitActivity extends Activity {
 		};
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage("Setting up a new visit will delete any uncompleted visit. Proceed?")
+		String msg = getResources().getString(getResources().getIdentifier("restore_delete_text", "string", getPackageName()));
+		builder.setMessage(msg)
 			.setPositiveButton("Yes", dialogClickListener)
 		    .setNegativeButton("No", dialogClickListener).show();
 	}

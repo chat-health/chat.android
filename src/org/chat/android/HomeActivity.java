@@ -94,7 +94,6 @@ public class HomeActivity extends Activity {
         
         Locale locale = getResources().getConfiguration().locale;
         locale.getLanguage();
-        // TODO - set some global value for language, that we'll use later (ie for Health Education Delivery). It's also possible (likely) we'll need to pass it around with intents :/ Or maybe refetch?
         
         setupUIElements();
         

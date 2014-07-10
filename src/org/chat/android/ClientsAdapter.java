@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 import org.chat.android.R;
 import org.chat.android.models.Attendance;
@@ -32,6 +33,7 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
     private List<Client> clientsArray;
     private int visitId = 0;
     List<Client> presenceArrayList = new ArrayList<Client>();
+    static String lang = Locale.getDefault().getLanguage();
 
     
     public ClientsAdapter(Context context, int layoutResourceId, List<Client> clientsArray, int vId) {
@@ -61,10 +63,18 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
             metadataTv = (TextView)convertView.findViewById(client_metadata);
             // gender.setText(c.getGender());
             if (c.getGender().equals("male")) {
-            	metadata = "male, ";
+            	if (lang.equals("zu")) {
+            		metadata = "owesilisa, ";
+            	} else {
+            		metadata = "male, ";
+            	}
             	name.setTextColor(Color.parseColor("#0071bc"));
             } else if (c.getGender().equals("female")) {
-            	metadata = "female, ";
+            	if (lang.equals("zu")) {
+            		metadata = "owesifazane, ";
+            	} else {
+            		metadata = "female, ";
+            	}
             	name.setTextColor(Color.parseColor("#93278f"));
             } else {
             	Log.e("No gender assigned for", c.getFirstName()+" "+c.getLastName());

@@ -388,7 +388,7 @@ public class LoginActivity extends Activity {
     }
     
     public void triggerSyncAdaper() {
-    	BaseActivity.toastHelper(this, "Triggering sync adapter to sync with server...");
+    	BaseActivity.toastHelper(this, "Triggering sync with server...");
     	Account mAccount = newAccount;
         // Pass the settings flags by inserting them in a bundle
         Bundle settingsBundle = new Bundle();

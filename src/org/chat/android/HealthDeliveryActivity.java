@@ -213,7 +213,8 @@ public class HealthDeliveryActivity extends BaseActivity {
 	}
 	
 	public void markTopicComplete() {
-		BaseActivity.toastHelper(this, "Health topic marked as delivered to client");
+		String msg = getResources().getString(getResources().getIdentifier("health_ed_delivered_text", "string", getPackageName()));
+		BaseActivity.toastHelper(this, msg);
 		
 		// update the HealthTopicAccessed object and save to DB
 		Date endTime = new Date();
@@ -238,8 +239,9 @@ public class HealthDeliveryActivity extends BaseActivity {
 	}
 
 	public void onBackPressed() {
+		String msg = getResources().getString(getResources().getIdentifier("health_ed_exit_text", "string", getPackageName()));
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    	builder.setMessage("Exit health education delivery?")
+    	builder.setMessage(msg)
     	       .setCancelable(false)
     	       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
     	           public void onClick(DialogInterface dialog, int id) {
@@ -298,7 +300,6 @@ public class HealthDeliveryActivity extends BaseActivity {
     	Video chosenVideo = ModelHelper.getVideoForId(context, chosenVideoId);
     	if (chosenVideo == null) {
     		Toast.makeText(getApplicationContext(),"Error: video does not exist. Please contact technical support",Toast.LENGTH_LONG).show();
-    		// TODO DO MORE ERROR HANDLING HERE - DO WE WANT A BREAK?
     	}
     	
     	// record which video was played in videos_accessed table

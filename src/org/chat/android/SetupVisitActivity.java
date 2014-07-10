@@ -127,7 +127,7 @@ public class SetupVisitActivity extends Activity {
 	public void getGPSLocation() {
 		// it's possible that this should be done on a different thread - is this an example of 'working on the UI thread'? Maybe disable the Start new visit button
 		String msg = getResources().getString(getResources().getIdentifier("determining_location_text", "string", getPackageName()));
-		Toast.makeText( getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+		Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
         // create class object
         gps = new GPSTracker(SetupVisitActivity.this);
 
@@ -136,7 +136,8 @@ public class SetupVisitActivity extends Activity {
             latitude = gps.getLatitude();
             longitude = gps.getLongitude();
 
-            BaseActivity.toastHelper(this, "Current location is - \nLat: " + latitude + "\nLong: " + longitude);
+            String msgCurLoc = getResources().getString(getResources().getIdentifier("current_loc_text", "string", getPackageName()));
+            BaseActivity.toastHelper(this, msgCurLoc + " - \nLat: " + latitude + "\nLong: " + longitude);
             
         } else{
             // can't determine location because GPS or Network is not enabled

@@ -92,7 +92,7 @@ public class ServiceDeliveryActivity extends BaseActivity {
 	    	startActivity(intent);
 	    	finish();
     	} else {
-    		String msg = getResources().getString(getResources().getIdentifier("service_select_one_child_text", "string", getPackageName()));
+    		String msg = getResources().getString(getResources().getIdentifier("service_select_one_client_text", "string", getPackageName()));
     		BaseActivity.toastHelper(this, msg);
     	}
     }

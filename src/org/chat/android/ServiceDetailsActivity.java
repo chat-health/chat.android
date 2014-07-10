@@ -73,7 +73,8 @@ public class ServiceDetailsActivity extends BaseActivity {
         	i.putExtras(b);
         	startActivity(i);
     	} else {
-    		BaseActivity.toastHelper(this, "You must select at least one service (or hit the back button to cancel)");
+    		String msg = getResources().getString(getResources().getIdentifier("service_select_one_service_text", "string", getPackageName()));
+    		BaseActivity.toastHelper(this, msg);
     	}
     }
     

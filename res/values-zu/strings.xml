@@ -14,9 +14,7 @@
     
     <string name="home_attendance_title_text">I-attendence</string>
     <string name="home_services_title_text">Izinsiza</string>
-    
-    <string name="home_health_education_title_text">Health Education</string>
-    
+    <string name="home_health_education_title_text">Isifundo Sezempilo</string>
     <string name="home_child_health_assessment_title_text">Ukuhlolwa Kwempilo</string>
     <string name="home_resources_title_text">Okuyizinsiza</string>
     <string name="health_assessment_title_text">Impilo</string>
@@ -24,24 +22,27 @@
     
     <string name="att_submitted_text">I-attendence ithunyeliwe</string>
     <string name="att_updated_text">I-attendence ibuyekeziwe</string>
-    
-    <string name="att_not_submitted_text">Attendance not submitted. Click on the above list of clients to select attending household members</string>
+    <string name="att_not_submitted_text">Ukuhambela akuhanjiswanga. Chofa ohlwini olungenhla lwamaklayenti ukukhetha amalunga omndeni ahambelayo (attending)</string>
     
     <string name="finalize_visit_confirm_text">Qinisekisa ukuqedwa kokuvakasha</string>
     <string name="finalize_visit_yes_text">Yebo, maka lokhu kuvakasha njengosekuphothuliwe futhi ungikhiphe</string>
     <string name="finalize_visit_no_text">Cha, susa futhi ubuyele ekuvakasheni okuqhubekayo</string>
     
     <string name="service_delivery_title_text">Lezizinsiza noma lezinhlelo zokusiza zinikezelwe kubani?</string>
-    <string name="service_select_one_child_text">Kumele ukhethe okungenani iklayente elilodwa ukumaka loluhlelo lokusiza ngengolunikezeliwe</string>
+    <string name="service_select_one_service_text">Kumele ukhethe okungenani usizo olulodwa (noma uchhofe inkinobho yokubuyela emuva ebhalwe (back) ukususa)</string>
+    <string name="service_select_one_client_text">Kumele ukhethe okungenani iklayente elilodwa ukumaka loluhlelo lokusiza ngengolunikezeliwe</string>
     <string name="service_delivered_text">Uhlelo/Izinhlelo zimakwe njengalezo ezinikezelwe kwi/kumaklayente</string>
+    
+    <string name="health_ed_delivered_text">Isihloko sezempilo simakwe njengesinikezelwe kwiklayenti</string>
+    <string name="health_ed_exit_text">Phuma ekunikezelweni kwesifundo sezempilo?</string>
     
     <string name="resources_title_text">Khetha okuyinsiza ozoyibheka</string>
     
     <string name="select_child_title_text">Khetha ingane uyikhethele ukuhlohlwa kwempilo yomntwana</string>
+    <string name="select_child_no_child_text">Azikho izingane ezingaphansi kuka-5 ezimakwe njengezihambele lokuvaksha. Uyacelwa ukuthi ubuyele ewindini lokuqala ukushintsha ukuhambela</string>
     <string name="exit_health_assessment_text">Phuma ekunikezeni uhlolo lwempilo?</string>
     <string name="completed_health_assessment_text">Uhlolo lwempilo lumakwe njengoluphothuliwe lwenzelwa</string>
-    
-    <string name="referral_urgent">Refer child urgently to hospital</string>
+    <string name="referral_urgent">Dlulisela ingane esibhedlela ngokushesha</string>
     
     <string name="referral_general">* Kunoma yiyiphi ingane egulayo ekwaziyo ukuphuza, yeluleka ukuthi inikezwe okuwuketshezi futhi iqhubeke nokunceliswa/funzwa\n\n* Yeluleka ukuthi ingane igcinwe ifudumele uma ingane INGENAKHO ukushisa kwemfiva \n* Uma ingane ishisa ngokwemfiva yeluleka ukuba igqokiswe okulula ukuvumela ukuthi imfiva iphole\n\n* Ukuze idluliselwe, thumela iSMS noma ufonele uMhlengikazi eThandanani; bhala incwadi yokuyidlulisela; siza umnakekeli nengane ukuba baye emtholampilo\n\n* Yeluleka njalo ukuthi kunini lapho kufanele kuyiwe esikhungweni sezempilo:\n\u0020\u0020\u0020\u0020\u0020\u0020uma ingane ingakwazi ukuphuza noma ukudla\n\u0020\u0020\u0020\u0020\u0020\u0020uma ingane iba negazi emakakeni ayo\n\u0020\u0020\u0020\u0020\u0020\u0020uma ingane isigula kakhuludlwana</string>
     <string name="referral_ors">* Tshengisa umnakekeli ukuthi ilungiselelwa kanjani iORS bese inikezwa masinyane</string>
@@ -59,6 +60,7 @@
     
     <string name="imm_date_button_text">Usuku otholwe</string>
     <string name="immunization_summary_title_text">Umbhalo Okafushane Ngomgomo</string>
+    <string name="immunization_missing_vaccines_text">akayitholanga le mithi elandelayo:</string>
     <string name="immunization_summary_refer_text">Yedlulisela umntwana ukuze athole umgomo odingekayo</string>
     <string name="immunization_summary_discuss_text">Xoxa kabanzi ngokubaluleka kwemigomo ukwenzela impilo yomntwana</string>
     <string name="immunization_completed_text">Uhlolo lomgomo lumakwe njengoluphothuliwe lwenzelwa</string>

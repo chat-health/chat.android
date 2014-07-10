@@ -10,6 +10,7 @@
 	<string name="action_set_up_new_visit"><b>Set up new visit</b></string>
 	
 	<string name="determining_location_text">Determining location...</string>
+	<string name="current_loc_text">Current location is</string>
 	<string name="warning_text">WARNING: GPS has not been recorded. If GPS is available, close CHAT app and restart this visit</string>
 	
 	<string-array name="volunteer_visit_type_array">
@@ -24,4 +25,6 @@
         <item>Some stuff</item>
         <item>Some other stuff</item>
     </string-array>
+    
+    <string name="restore_delete_text">Setting up a new visit will delete any uncompleted visit. Proceed?</string>
 </resources>
