@@ -368,7 +368,7 @@ public class LoginActivity extends Activity {
 	    	        	   triggerSyncAdaper();
 	    	           }
 	    	       })
-	    	       .setNegativeButton("No, I am not sure this is a good idea", new DialogInterface.OnClickListener() {
+	    	       .setNegativeButton("No, this is a bad idea", new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
 	    	                dialog.cancel();
 	    	           }
