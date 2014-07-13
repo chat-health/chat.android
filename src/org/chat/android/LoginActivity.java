@@ -408,6 +408,10 @@ public class LoginActivity extends Activity {
          * Add the account and account type, no password or user data
          * If successful, return the Account object, otherwise report an error.
          */
+        // TODO: This is clearly wrong and is the exampley sync adapter that doesn't user any account
+        // beyond a dummy account. I think we need to access the account information to call this correctly
+        // The if fails and this returns null. Therefore the CHAT account is not set for automatic syncing
+        // and I am unsure if the sync can ever work like this.
         if (accountManager.addAccountExplicitly(newAccount, null, null)) {
             /*
              * If you don't set android:syncable="true" in
