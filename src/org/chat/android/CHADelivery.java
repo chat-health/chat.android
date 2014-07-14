@@ -143,7 +143,7 @@ public class CHADelivery extends BaseActivity {
 		// check if user has selected a radio button
 		Boolean proceedFlag = false;
 		PageAssessment1 p = null;
-		if (pages.size() < pageCounter - 1) {
+		if (pageCounter - 1 < pages.size()) {
 			p = pages.get(pageCounter - 1);
 		}
 		// this is an semi-implicit check to see if this is an Ask/Record page or the Referral page (the pages array does not include the referral page)
