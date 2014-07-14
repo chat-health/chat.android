@@ -15,7 +15,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "resources_accessed")
 public class ResourceAccessed {
-	@DatabaseField(generatedId = true)
+	@DatabaseField(id = true)
 	private int id;
     @DatabaseField
     private int resource_id;

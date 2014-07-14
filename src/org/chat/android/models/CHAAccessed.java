@@ -15,7 +15,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "cha_accessed")
 public class CHAAccessed {
-	@DatabaseField(generatedId = true)
+	@DatabaseField(id = true)
 	private int id;
     @DatabaseField
     private int client_id;

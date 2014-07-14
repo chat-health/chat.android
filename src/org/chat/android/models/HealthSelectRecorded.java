@@ -15,7 +15,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "health_selects_recorded")
 public class HealthSelectRecorded {
-	@DatabaseField(generatedId = true)
+	@DatabaseField(id = true)
 	private int id;
     @DatabaseField
     private int visit_id;
