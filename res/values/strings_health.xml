@@ -8,7 +8,7 @@
     <string name="health_HIV_title_text">HIV</string>
     <string name="health_disease_title_text">Severe Childhood Illnesses</string>
     <string name="health_nutrition_title_text">Nutrition</string>
-    <string name="health_development_title_text">Childhood Development</string> 
+    <string name="health_development_title_text">Child Development</string> 
     <string name="health_topic_title_text">Topic</string>    
     
     <string-array name="themes_array">
