@@ -31,9 +31,9 @@
 		        <TextView
 			        android:id="@+id/vaccine_short_name1"
 			        style="@style/immunizationShortNameTextBox" />
-			    <TextView
+<!-- 			    <TextView
 			        android:id="@+id/vaccine_long_name1"
-			        style="@style/immunizationLongNameTextBox" />
+			        style="@style/immunizationLongNameTextBox" /> -->
 			    <Button
 		            android:id="@+id/vaccine_date_select1"
 				    style="@style/immunizationDateButton" />
@@ -53,9 +53,9 @@
 		        <TextView
 			        android:id="@+id/vaccine_short_name2"
 			        style="@style/immunizationShortNameTextBox" />
-			    <TextView
+<!-- 			    <TextView
 			        android:id="@+id/vaccine_long_name2"
-			        style="@style/immunizationLongNameTextBox" />
+			        style="@style/immunizationLongNameTextBox" /> -->
 			    <Button
 		            android:id="@+id/vaccine_date_select2"
 				    style="@style/immunizationDateButton" />
@@ -82,9 +82,9 @@
 		        <TextView
 			        android:id="@+id/vaccine_short_name3"
 			        style="@style/immunizationShortNameTextBox" />
-			    <TextView
+<!-- 			    <TextView
 			        android:id="@+id/vaccine_long_name3"
-			        style="@style/immunizationLongNameTextBox" />
+			        style="@style/immunizationLongNameTextBox" /> -->
 			    <Button
 		            android:id="@+id/vaccine_date_select3"
 				    style="@style/immunizationDateButton" />
@@ -104,9 +104,9 @@
 		        <TextView
 			        android:id="@+id/vaccine_short_name4"
 			        style="@style/immunizationShortNameTextBox" />
-			    <TextView
+<!-- 			    <TextView
 			        android:id="@+id/vaccine_long_name4"
-			        style="@style/immunizationLongNameTextBox" />
+			        style="@style/immunizationLongNameTextBox" /> -->
 			    <Button
 		            android:id="@+id/vaccine_date_select4"
 				    style="@style/immunizationDateButton" />
@@ -127,9 +127,9 @@
 		        <TextView
 			        android:id="@+id/vaccine_short_name5"
 			        style="@style/immunizationShortNameTextBox" />
-			    <TextView
+<!-- 			    <TextView
 			        android:id="@+id/vaccine_long_name5"
-			        style="@style/immunizationLongNameTextBox" />
+			        style="@style/immunizationLongNameTextBox" /> -->
 			    <Button
 		            android:id="@+id/vaccine_date_select5"
 				    style="@style/immunizationDateButton" />
@@ -149,9 +149,9 @@
 		        <TextView
 			        android:id="@+id/vaccine_short_name6"
 			        style="@style/immunizationShortNameTextBox" />
-			    <TextView
+<!-- 			    <TextView
 			        android:id="@+id/vaccine_long_name6"
-			        style="@style/immunizationLongNameTextBox" />
+			        style="@style/immunizationLongNameTextBox" /> -->
 			    <Button
 		            android:id="@+id/vaccine_date_select6"
 				    style="@style/immunizationDateButton" />
@@ -172,9 +172,9 @@
 		        <TextView
 			        android:id="@+id/vaccine_short_name7"
 			        style="@style/immunizationShortNameTextBox" />
-			    <TextView
+<!-- 			    <TextView
 			        android:id="@+id/vaccine_long_name7"
-			        style="@style/immunizationLongNameTextBox" />
+			        style="@style/immunizationLongNameTextBox" /> -->
 			    <Button
 		            android:id="@+id/vaccine_date_select7"
 				    style="@style/immunizationDateButton" />
@@ -201,9 +201,9 @@
 		        <TextView
 			        android:id="@+id/vaccine_short_name8"
 			        style="@style/immunizationShortNameTextBox" />
-			    <TextView
+<!-- 			    <TextView
 			        android:id="@+id/vaccine_long_name8"
-			        style="@style/immunizationLongNameTextBox" />
+			        style="@style/immunizationLongNameTextBox" /> -->
 			    <Button
 		            android:id="@+id/vaccine_date_select8"
 				    style="@style/immunizationDateButton" />
@@ -223,9 +223,9 @@
 		        <TextView
 			        android:id="@+id/vaccine_short_name9"
 			        style="@style/immunizationShortNameTextBox" />
-			    <TextView
+<!-- 			    <TextView
 			        android:id="@+id/vaccine_long_name9"
-			        style="@style/immunizationLongNameTextBox" />
+			        style="@style/immunizationLongNameTextBox" /> -->
 			    <Button
 		            android:id="@+id/vaccine_date_select9"
 				    style="@style/immunizationDateButton" />
@@ -251,9 +251,9 @@
 		        <TextView
 			        android:id="@+id/vaccine_short_name10"
 			        style="@style/immunizationShortNameTextBox" />
-			    <TextView
+<!-- 			    <TextView
 			        android:id="@+id/vaccine_long_name10"
-			        style="@style/immunizationLongNameTextBox" />
+			        style="@style/immunizationLongNameTextBox" /> -->
 			    <Button
 		            android:id="@+id/vaccine_date_select10"
 				    style="@style/immunizationDateButton" />
@@ -273,9 +273,9 @@
 		        <TextView
 			        android:id="@+id/vaccine_short_name11"
 			        style="@style/immunizationShortNameTextBox" />
-			    <TextView
+<!-- 			    <TextView
 			        android:id="@+id/vaccine_long_name11"
-			        style="@style/immunizationLongNameTextBox" />
+			        style="@style/immunizationLongNameTextBox" /> -->
 			    <Button
 		            android:id="@+id/vaccine_date_select11"
 				    style="@style/immunizationDateButton" />
@@ -295,9 +295,9 @@
 		        <TextView
 			        android:id="@+id/vaccine_short_name12"
 			        style="@style/immunizationShortNameTextBox" />
-			    <TextView
+<!-- 			    <TextView
 			        android:id="@+id/vaccine_long_name12"
-			        style="@style/immunizationLongNameTextBox" />
+			        style="@style/immunizationLongNameTextBox" /> -->
 			    <Button
 		            android:id="@+id/vaccine_date_select12"
 				    style="@style/immunizationDateButton" />
@@ -317,9 +317,9 @@
 		        <TextView
 			        android:id="@+id/vaccine_short_name13"
 			        style="@style/immunizationShortNameTextBox" />
-			    <TextView
+<!-- 			    <TextView
 			        android:id="@+id/vaccine_long_name13"
-			        style="@style/immunizationLongNameTextBox" />
+			        style="@style/immunizationLongNameTextBox" /> -->
 			    <Button
 		            android:id="@+id/vaccine_date_select13"
 				    style="@style/immunizationDateButton" />
@@ -345,9 +345,9 @@
 		        <TextView
 			        android:id="@+id/vaccine_short_name14"
 			        style="@style/immunizationShortNameTextBox" />
-			    <TextView
+<!-- 			    <TextView
 			        android:id="@+id/vaccine_long_name14"
-			        style="@style/immunizationLongNameTextBox" />
+			        style="@style/immunizationLongNameTextBox" /> -->
 			    <Button
 		            android:id="@+id/vaccine_date_select14"
 				    style="@style/immunizationDateButton" />
@@ -367,9 +367,9 @@
 		        <TextView
 			        android:id="@+id/vaccine_short_name15"
 			        style="@style/immunizationShortNameTextBox" />
-			    <TextView
+<!-- 			    <TextView
 			        android:id="@+id/vaccine_long_name15"
-			        style="@style/immunizationLongNameTextBox" />
+			        style="@style/immunizationLongNameTextBox" /> -->
 			    <Button
 		            android:id="@+id/vaccine_date_select15"
 				    style="@style/immunizationDateButton" />
@@ -395,9 +395,9 @@
 		        <TextView
 			        android:id="@+id/vaccine_short_name16"
 			        style="@style/immunizationShortNameTextBox" />
-			    <TextView
+<!-- 			    <TextView
 			        android:id="@+id/vaccine_long_name16"
-			        style="@style/immunizationLongNameTextBox" />
+			        style="@style/immunizationLongNameTextBox" /> -->
 			    <Button
 		            android:id="@+id/vaccine_date_select16"
 				    style="@style/immunizationDateButton" />
@@ -417,9 +417,9 @@
 		        <TextView
 			        android:id="@+id/vaccine_short_name17"
 			        style="@style/immunizationShortNameTextBox" />
-			    <TextView
+<!-- 			    <TextView
 			        android:id="@+id/vaccine_long_name17"
-			        style="@style/immunizationLongNameTextBox" />
+			        style="@style/immunizationLongNameTextBox" /> -->
 			    <Button
 		            android:id="@+id/vaccine_date_select17"
 				    style="@style/immunizationDateButton" />
