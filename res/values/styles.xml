@@ -172,20 +172,23 @@
 	<style name="immunizationAgeTextBox">
 	    <item name="android:layout_width">wrap_content</item>
 	    <item name="android:layout_height">wrap_content</item> 
-	    <item name="android:layout_marginLeft">120dp</item>
-	    <item name="android:layout_marginTop">20dp</item>
-	    <item name="android:layout_marginBottom">10dp</item>
-	    <item name="android:textSize">36sp</item>
+	    <item name="android:layout_gravity">center</item>
+	    <item name="android:layout_marginTop">25dp</item>
+	    <item name="android:layout_marginBottom">15dp</item>
+	    <item name="android:textSize">50sp</item>
 	    <item name="android:textColor">#3DA8B2</item>
 	</style>
 	
 	<style name="immunizationFlagBox">
 	    <item name="android:layout_width">120dp</item>
-	    <item name="android:layout_height">25dp</item> 
+	    <item name="android:layout_height">35dp</item>
+	    <item name="android:layout_marginLeft">30dp</item>
+	    <item name="android:layout_marginTop">20dp</item>
+	    <item name="android:layout_marginBottom">20dp</item>
 	</style>
 	
 	<style name="immunizationShortNameTextBox">
-	    <item name="android:layout_width">250dp</item>
+	    <item name="android:layout_width">300dp</item>
 	    <item name="android:layout_height">wrap_content</item>
 	    <item name="android:padding">10dp</item>
 	    <item name="android:gravity">center_vertical</item>
@@ -203,7 +206,7 @@
 	<style name="immunizationDateButton">
 	    <item name="android:layout_width">219dp</item>
 	    <item name="android:layout_height">wrap_content</item>
-	    <item name="android:layout_marginLeft">12dp</item>
+	    <item name="android:layout_marginLeft">85dp</item>
 	    <item name="android:text">@string/immunization_date_button_text</item>
 	    <item name="android:textColor">#FFFFFF</item>
 	    <item name="android:background">#749999</item>
