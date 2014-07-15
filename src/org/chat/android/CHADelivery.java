@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.chat.android.models.CHAAccessed;
 import org.chat.android.models.Client;
+import org.chat.android.models.HealthPage;
 import org.chat.android.models.HealthSelect;
 import org.chat.android.models.HealthSelectRecorded;
 import org.chat.android.models.PageAssessment1;
@@ -32,7 +33,7 @@ public class CHADelivery extends BaseActivity {
 	private int visitId = 0;
 	private int hhId = 0;
 	private int clientId = 0;
-	int pageCounter = 0;
+	int pageCounter = 1;
 	int lastPage = 0;
 	
 	List<PageAssessment1> pages = new ArrayList<PageAssessment1>();
@@ -111,11 +112,11 @@ public class CHADelivery extends BaseActivity {
 	public void updateNonFragmentUIElements(String m) {
 		// update the page number
 		if (m.equals("next")) {
-			pageCounter++;
+			
 			String p = pageCounter + "/" + lastPage;
 			paginationTextField.setText(p);
 		} else if (m.equals("back")) {
-			pageCounter--;
+			
 			String p = pageCounter + "/" + lastPage;
 			paginationTextField.setText(p);
 		} else if (m.equals("done")) {
@@ -139,18 +140,44 @@ public class CHADelivery extends BaseActivity {
 	}	
 	
     public void moveNext(View v) {
+		// check if user has selected a radio button
+		Boolean proceedFlag = false;
+		PageAssessment1 p = null;
+		if (pageCounter - 1 < pages.size()) {
+			p = pages.get(pageCounter - 1);
+		}
+		// this is an semi-implicit check to see if this is an Ask/Record page or the Referral page (the pages array does not include the referral page)
+		if (p != null) {
+			List<HealthSelect> hsList = ModelHelper.getHealthSelectsForSubjectId(context, p.getId());
+			// check if there is a HSR for any of the answers on this page
+			for (HealthSelect hs : hsList) {
+				HealthSelectRecorded hsr = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicNameAndSelectIdAndClientId(context, visitId, "assessment", hs.getId(), clientId);
+				if (hsr != null) {
+					proceedFlag = true;
+				}
+			}
+		} else {
+			proceedFlag = true;
+		}
+    	
     	// check if this page is within bounds (1 to lastPage)
-    	if (pageCounter == lastPage) {
-    		updateNonFragmentUIElements("done");
-    	} else {
-    		updateNonFragmentUIElements("next");
-    		updateDisplayedFragment(pageCounter);	
-    	}
+		if (proceedFlag == true) {
+			pageCounter++;
+			if (pageCounter == lastPage + 1) {
+	    		updateNonFragmentUIElements("done");
+	    	} else {
+	    		updateNonFragmentUIElements("next");
+	    		updateDisplayedFragment(pageCounter);	
+	    	}
+		} else {
+			BaseActivity.toastHelper(this, "Please select an answer to proceed");
+		}
     }
 
     public void moveBack(View v) {
     	// check if this page is within bounds (1 to lastPage)
-    	if (pageCounter - 1 >= 1) {
+    	pageCounter--;
+    	if (pageCounter >= 1) {
     		updateNonFragmentUIElements("back");
     		updateDisplayedFragment(pageCounter);
     	} else {

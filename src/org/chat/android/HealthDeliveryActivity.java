@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.chat.android.models.HealthPage;
+import org.chat.android.models.HealthSelect;
 import org.chat.android.models.HealthSelectRecorded;
 import org.chat.android.models.HealthTopicAccessed;
 import org.chat.android.models.Video;
@@ -109,13 +110,29 @@ public class HealthDeliveryActivity extends BaseActivity {
 	}
 	
 	public void moveNext(View v) {
-		// check if this page is within bounds (1 to lastPage)
-		if (pageCounter == lastPage) {
-			updateNonFragmentUIElements("done");
-		} else {
-			updateNonFragmentUIElements("next");
-			updateDisplayedFragment(pageCounter);	
+		// check if user has selected a radio button
+		Boolean proceedFlag = true;
+		// check if this is a radio button page
+		HealthPage p = pages.get(pageCounter - 1);
+		if (p.getType().equals("select1")) {
+			// check if there is a HSR for this topic
+			HealthSelectRecorded hsr = ModelHelper.getHealthSelectRecordedForVisitIdAndTopicName(context, visitId, topicName);
+			if (hsr == null) {
+				BaseActivity.toastHelper(this, "Please select an answer to proceed");
+				proceedFlag = false;
+			}
 		}
+
+		// check if this page is within bounds (1 to lastPage)
+		if (proceedFlag == true) {
+			if (pageCounter == lastPage) {
+				updateNonFragmentUIElements("done");
+			} else {
+				updateNonFragmentUIElements("next");
+				updateDisplayedFragment(pageCounter);	
+			}
+		}
+		
 	}
 	
 	public void moveBack(View v) {
@@ -213,7 +230,8 @@ public class HealthDeliveryActivity extends BaseActivity {
 	}
 	
 	public void markTopicComplete() {
-		BaseActivity.toastHelper(this, "Health topic marked as delivered to client");
+		String msg = getResources().getString(getResources().getIdentifier("health_ed_delivered_text", "string", getPackageName()));
+		BaseActivity.toastHelper(this, msg);
 		
 		// update the HealthTopicAccessed object and save to DB
 		Date endTime = new Date();
@@ -238,8 +256,9 @@ public class HealthDeliveryActivity extends BaseActivity {
 	}
 
 	public void onBackPressed() {
+		String msg = getResources().getString(getResources().getIdentifier("health_ed_exit_text", "string", getPackageName()));
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    	builder.setMessage("Exit health education delivery?")
+    	builder.setMessage(msg)
     	       .setCancelable(false)
     	       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
     	           public void onClick(DialogInterface dialog, int id) {
@@ -298,7 +317,6 @@ public class HealthDeliveryActivity extends BaseActivity {
     	Video chosenVideo = ModelHelper.getVideoForId(context, chosenVideoId);
     	if (chosenVideo == null) {
     		Toast.makeText(getApplicationContext(),"Error: video does not exist. Please contact technical support",Toast.LENGTH_LONG).show();
-    		// TODO DO MORE ERROR HANDLING HERE - DO WE WANT A BREAK?
     	}
     	
     	// record which video was played in videos_accessed table

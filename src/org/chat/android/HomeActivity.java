@@ -94,7 +94,6 @@ public class HomeActivity extends Activity {
         
         Locale locale = getResources().getConfiguration().locale;
         locale.getLanguage();
-        // TODO - set some global value for language, that we'll use later (ie for Health Education Delivery). It's also possible (likely) we'll need to pass it around with intents :/ Or maybe refetch?
         
         setupUIElements();
         
@@ -144,8 +143,6 @@ public class HomeActivity extends Activity {
         resourcesBtnImg = (ImageView)findViewById(R.id.resources_button_img);
         resourcesBtnImg.setEnabled(false);
         
-
-        //FOR TESTING, SWITCH FOR PROD (WHAT IS THIS?)
 		Bundle b = getIntent().getExtras();
 		if (b != null) {
 			visitId = b.getInt("visitId");
@@ -515,7 +512,6 @@ public class HomeActivity extends Activity {
 	    	       .setCancelable(false)
 	    	       .setPositiveButton(msgFinYes, new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
-	    	        	   // update for PROD
 	    	        	   checkVisitCompleteStatus();
 	    	        	   //triggerSyncAdapter();
 	    	           }

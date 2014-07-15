@@ -102,11 +102,11 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
 				row.setVisibility(View.VISIBLE);
 				ImageView flag = (ImageView)row.getChildAt(0);
 				TextView shortName = (TextView)row.getChildAt(1);
-				TextView longName = (TextView)row.getChildAt(2);
-				Button dateBtn = (Button)row.getChildAt(3);
+				//TextView longName = (TextView)row.getChildAt(2);
+				Button dateBtn = (Button)row.getChildAt(2);
 				
 				shortName.setText(v.getShortName());
-				longName.setText(v.getLongName());
+				//longName.setText(v.getLongName());
 				dateBtn.setTag(v.getId());
 				
 				VaccineRecorded vr = ModelHelper.getVaccineRecordedForClientIdAndVaccineId(context, client.getId(), v.getId());
@@ -118,7 +118,7 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
 				} else {
 					flag.setVisibility(View.VISIBLE);
 					shortName.setTextColor(Color.parseColor("#d4145a"));
-					longName.setTextColor(Color.parseColor("#d4145a"));
+					//longName.setTextColor(Color.parseColor("#d4145a"));
 				}
 	    	}
     	} else {
@@ -127,7 +127,6 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
     }
 
     public void completeImmunizationReceived(View v) {
-    	Client c = ModelHelper.getClientForId(context, clientId);
     	CHAAccessed chaa = ModelHelper.getCHAAccessedForVisitIdAndClientIdAndType(context, visitId, clientId, "immunization");
     	Date d = new Date();
     	chaa.setEndTime(d);

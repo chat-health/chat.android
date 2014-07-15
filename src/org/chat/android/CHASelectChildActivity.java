@@ -29,7 +29,8 @@ public class CHASelectChildActivity extends BaseActivity {
 		clientsForHealthAssessment = ModelHelper.getAttendingClientsForVisitIdUnderAge(context, visitId, 5);
 		
 		if (clientsForHealthAssessment.size() == 0) {
-			BaseActivity.toastHelper(this, "No children under the age of 5 have been marked as attending this visit. Please return to home screen to update attendance.");
+			String msg = getResources().getString(getResources().getIdentifier("select_child_no_child_text", "string", getPackageName()));
+			BaseActivity.toastHelper(this, msg);
 		}
 		
 		ListView lv = (ListView) findViewById(R.id.attending_children_listview);

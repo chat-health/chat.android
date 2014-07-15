@@ -155,35 +155,35 @@ public class LoginActivity extends Activity {
 
 		// ******************** Check for a valid password - comment out for testing, use for PROD ********************
 		
-//		if (TextUtils.isEmpty(mPassword)) {
-//			mPasswordView.setError(getString(R.string.error_field_required));
-//			focusView = mPasswordView;
-//			cancel = true;
-//		} else if (mPassword.length() < 2) {
-//			mPasswordView.setError(getString(R.string.error_invalid_password));
-//			focusView = mPasswordView;
-//			cancel = true;
-//		}
-//		// Check for a valid user ID.
-//		if (TextUtils.isEmpty(mUserName)) {
-//			mUserNameView.setError(getString(R.string.error_field_required));
-//			focusView = mUserNameView;
-//			cancel = true;
-//		}
-//		// Check if the user exists
-//		Worker w = ModelHelper.getWorkerForUsername(getApplicationContext(), mUserNameView.getText().toString());
-//		if (w == null) {
-//			mUserNameView.setError(getString(R.string.error_invalid_user_name));
-//			focusView = mUserNameView;
-//			cancel = true;
-//		} else {
-//			String role = roleSpinner.getSelectedItem().toString();
-//			if (!w.getRoleName().equals(role)) {
-//				mUserNameView.setError(getString(R.string.error_invalid_role));
-//				focusView = mUserNameView;
-//				cancel = true;
-//			}
-//		}
+		if (TextUtils.isEmpty(mPassword)) {
+			mPasswordView.setError(getString(R.string.error_field_required));
+			focusView = mPasswordView;
+			cancel = true;
+		} else if (mPassword.length() < 2) {
+			mPasswordView.setError(getString(R.string.error_invalid_password));
+			focusView = mPasswordView;
+			cancel = true;
+		}
+		// Check for a valid user ID.
+		if (TextUtils.isEmpty(mUserName)) {
+			mUserNameView.setError(getString(R.string.error_field_required));
+			focusView = mUserNameView;
+			cancel = true;
+		}
+		// Check if the user exists
+		Worker w = ModelHelper.getWorkerForUsername(getApplicationContext(), mUserNameView.getText().toString());
+		if (w == null) {
+			mUserNameView.setError(getString(R.string.error_invalid_user_name));
+			focusView = mUserNameView;
+			cancel = true;
+		} else {
+			String role = roleSpinner.getSelectedItem().toString();
+			if (!w.getRoleName().equals(role)) {
+				mUserNameView.setError(getString(R.string.error_invalid_role));
+				focusView = mUserNameView;
+				cancel = true;
+			}
+		}
 
 		// /comment
 		
@@ -251,13 +251,13 @@ public class LoginActivity extends Activity {
 		protected Boolean doInBackground(Void... params) {
 
 			// ******************** COMMENT BACK IN FOR PROD ********************
-//			Worker w = ModelHelper.getWorkerForUsername(getApplicationContext(), mUserNameView.getText().toString());
-//			if (w != null) {
-//				return w.getPassword().equals(mPassword);
-//			} else {
-//				return false;
-//			}
-			return true;
+			Worker w = ModelHelper.getWorkerForUsername(getApplicationContext(), mUserNameView.getText().toString());
+			if (w != null) {
+				return w.getPassword().equals(mPassword);
+			} else {
+				return false;
+			}
+			//return true;
 		}
 
 		// @Override
@@ -326,7 +326,6 @@ public class LoginActivity extends Activity {
 	}
 	
 	
-	// NB: some of this is here for testing, some will be deleted for prod
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_home, menu);
@@ -369,7 +368,7 @@ public class LoginActivity extends Activity {
 	    	        	   triggerSyncAdaper();
 	    	           }
 	    	       })
-	    	       .setNegativeButton("No, I am not sure this is a good idea", new DialogInterface.OnClickListener() {
+	    	       .setNegativeButton("No, this is a bad idea", new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
 	    	                dialog.cancel();
 	    	           }
@@ -388,7 +387,7 @@ public class LoginActivity extends Activity {
     }
     
     public void triggerSyncAdaper() {
-    	BaseActivity.toastHelper(this, "Triggering sync adapter to sync with server...");
+    	BaseActivity.toastHelper(this, "Triggering sync with server...");
     	Account mAccount = newAccount;
         // Pass the settings flags by inserting them in a bundle
         Bundle settingsBundle = new Bundle();
@@ -409,6 +408,10 @@ public class LoginActivity extends Activity {
          * Add the account and account type, no password or user data
          * If successful, return the Account object, otherwise report an error.
          */
+        // TODO: This is clearly wrong and is the exampley sync adapter that doesn't user any account
+        // beyond a dummy account. I think we need to access the account information to call this correctly
+        // The if fails and this returns null. Therefore the CHAT account is not set for automatic syncing
+        // and I am unsure if the sync can ever work like this.
         if (accountManager.addAccountExplicitly(newAccount, null, null)) {
             /*
              * If you don't set android:syncable="true" in

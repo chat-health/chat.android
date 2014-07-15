@@ -288,7 +288,16 @@ public class ModelHelper {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
+		}
+       
+        // TODO: this is a nice to have
+        
+//        Collections.sort(cList, new Comparator<Client>(){
+//            public int compare(Client c1, Client c2) {
+//                return c1.getAge().compareTo(c2.getAge());
+//            }
+//        });
+     
         
         return cList;
 	}
@@ -531,6 +540,21 @@ public class ModelHelper {
 		}
 		
 		return hs;
+	}
+	
+	public static List<HealthSelect> getHealthSelectsForSubjectId(Context context, int subjectId) {
+		List<HealthSelect> sList = null;
+		Dao<HealthSelect, Integer> hsDao;		
+		DatabaseHelper hsDbHelper = new DatabaseHelper(context);
+		try {
+			hsDao = hsDbHelper.getHealthSelectsDao();
+			sList = hsDao.queryBuilder().where().eq("subject_id",subjectId).query();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		return sList;
 	}
 	
 	public static HealthSelectRecorded getHealthSelectRecordedForVisitIdAndTopicName(Context context, int visitId, String topicName) {

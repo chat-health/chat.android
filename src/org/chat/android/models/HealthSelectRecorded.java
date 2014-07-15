@@ -15,7 +15,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "health_selects_recorded")
 public class HealthSelectRecorded {
-	@DatabaseField(generatedId = true)
+	@DatabaseField(id = true)
 	private int id;
     @DatabaseField
     private int visit_id;
@@ -41,15 +41,16 @@ public class HealthSelectRecorded {
      * Constructor that instantiates the private member variable(s)
      */
     public HealthSelectRecorded(int visit_id, int select_id, int client_id, String theme, String topic, Date date) {
+        Context myContext = MyApplication.getAppContext();
+        Visit v = ModelHelper.getVisitForId(myContext, visit_id);
+        ModelHelper.setVisitToDirtyAndSave(myContext, v);
+        this.id = ModelHelper.generateId(myContext);
     	this.visit_id = visit_id;
         this.select_id = select_id;
         this.client_id = client_id;
         this.theme = theme;
         this.topic = topic;
         this.date = date;
-        Context myContext = MyApplication.getAppContext();
-        Visit v = ModelHelper.getVisitForId(myContext, visit_id);
-        ModelHelper.setVisitToDirtyAndSave(myContext, v);
     }
     
     

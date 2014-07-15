@@ -100,6 +100,7 @@ public class MainActivity extends AccountAuthenticatorActivity {
 		Account mAccount = new Account(AccountGeneral.ACCOUNT_NAME,AccountGeneral.ACCOUNT_TYPE);
 		if(extras!=null&&extras.getBoolean(AccountGeneral.ARG_INTENT_REAUTH))
 		{
+			//TODO: Colin we should talk since the else has no {} and is not very clear here
 			if (mEmail == null) {
 				demo.pickUserAccount();
 			} else
