@@ -23,7 +23,8 @@ public class ServiceDeliveryActivity extends BaseActivity {
 	private int hhId = 0;
 	Boolean adInfoFlag;
 	List<Client> presentClients = new ArrayList<Client>();
-	ArrayList<String> serviceNames = new ArrayList<String>();
+	//ArrayList<String> serviceNames = new ArrayList<String>();
+	String sName = null;
 	ArrayList<String> serviceAdInfo = new ArrayList<String>();
 	ServiceDeliveryAdapter sdAdapter = null;
 	
@@ -36,7 +37,7 @@ public class ServiceDeliveryActivity extends BaseActivity {
 		Bundle b = getIntent().getExtras();
 		visitId = b.getInt("visitId");
 		hhId = b.getInt("hhId");
-		serviceNames = b.getStringArrayList("serviceNames");
+		sName = b.getString("serviceName");
 		adInfoFlag = b.getBoolean("adInfoFlag");
 		if (adInfoFlag == true) {
 			serviceAdInfo = b.getStringArrayList("serviceAdInfo");
@@ -54,42 +55,39 @@ public class ServiceDeliveryActivity extends BaseActivity {
     public void selectServiceDeliveryClients(View v) {
     	List<Client> attendingClients = sdAdapter.getSelectedClients();
     	if (attendingClients.size() > 0) {
-	    	// for each checked service
-	    	int i = 0;
-	    	for (String sName : serviceNames) {
-	    		// for each attending hh member
-	    		for (Client client : attendingClients) {
-	    			ServiceAccessed sa = null;
-	    			// decide whether there is ad_info (ie it's an outlier type service that is not a simple checkbox)
-	    			Date time = new Date();
-	    			int serviceId = 0;
-	    			serviceId = ModelHelper.getServiceForName(context, sName).getId();
-	    			if (adInfoFlag == true) {
-	    				sa = new ServiceAccessed(serviceId, visitId, client.getId(), serviceAdInfo.get(i), time);
-	    			} else {
-	    				sa = new ServiceAccessed(serviceId, visitId, client.getId(), null, time);
-	    			}
-	    		    Dao<ServiceAccessed, Integer> saDao;
-	    		    DatabaseHelper saDbHelper = new DatabaseHelper(context);
-	    		    try {
-	    		        saDao = saDbHelper.getServiceAccessedDao();
-	    		        saDao.create(sa);
-	    		    } catch (SQLException e) {
-	    		        // TODO Auto-generated catch block
-	    		        e.printStackTrace();
-	    		    }
-	    		}
-	    		i++;
-	    	}
+
+    		// for each attending hh member
+    		for (Client client : attendingClients) {
+    			ServiceAccessed sa = null;
+    			// decide whether there is ad_info (ie it's an outlier type service that is not a simple checkbox)
+    			Date time = new Date();
+    			int serviceId = 0;
+    			serviceId = ModelHelper.getServiceForName(context, sName).getId();
+    			if (adInfoFlag == true) {
+    				sa = new ServiceAccessed(serviceId, visitId, client.getId(), serviceAdInfo.get(0), time);				// OMG
+    			} else {
+    				sa = new ServiceAccessed(serviceId, visitId, client.getId(), null, time);
+    			}
+    		    Dao<ServiceAccessed, Integer> saDao;
+    		    DatabaseHelper saDbHelper = new DatabaseHelper(context);
+    		    try {
+    		        saDao = saDbHelper.getServiceAccessedDao();
+    		        saDao.create(sa);
+    		    } catch (SQLException e) {
+    		        // TODO Auto-generated catch block
+    		        e.printStackTrace();
+    		    }
+    		}
+
 	    	
 	    	String deliveredStr = getResources().getString(getResources().getIdentifier("service_delivered_text", "string", getPackageName()));
 	    	BaseActivity.toastHelper(this, deliveredStr);
-	    	Intent intent = new Intent(ServiceDeliveryActivity.this, ServiceOverviewActivity.class);
-	    	Bundle b = new Bundle();
-	    	b.putInt("visitId",visitId);
-	    	b.putInt("hhId",hhId);
-	    	intent.putExtras(b);
-	    	startActivity(intent);
+//	    	Intent intent = new Intent(ServiceDeliveryActivity.this, ServiceOverviewActivity.class);
+//	    	Bundle b = new Bundle();
+//	    	b.putInt("visitId",visitId);
+//	    	b.putInt("hhId",hhId);
+//	    	intent.putExtras(b);
+//	    	startActivity(intent);
 	    	finish();
     	} else {
     		String msg = getResources().getString(getResources().getIdentifier("service_select_one_client_text", "string", getPackageName()));

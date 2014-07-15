@@ -38,7 +38,6 @@ public class ServiceDeliveryAdapter extends ArrayAdapter<Client> {
 	 */
     public View getView(int position, View convertView, ViewGroup parent) {
         convertView = this.mInflater.inflate(R.layout.service_delivery_listview_row, null);
-        final Context context = getContext();
         
         Client c = clientsArray.get(position);
 

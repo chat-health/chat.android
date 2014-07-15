@@ -9,6 +9,8 @@ import java.util.Locale;
 import org.chat.android.models.Service;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +23,7 @@ import android.widget.TextView;
 public class ServicesAdapter extends ArrayAdapter<Service> {
 	private LayoutInflater mInflater;
 	private List<Service> servicesArray;
-	List<Service> selectedServices = new ArrayList<Service>();
+	//List<Service> selectedServices = new ArrayList<Service>();
 	
 	String lang = Locale.getDefault().getLanguage();
 
@@ -39,38 +41,42 @@ public class ServicesAdapter extends ArrayAdapter<Service> {
     	TextView name = null;
     	final CheckBox cb = (CheckBox) convertView.findViewById(R.id.service_subtype_checkbox);
     	if (convertView != null) {
+    		LinearLayout row = (LinearLayout)convertView.findViewById(service_row);
+    		row.setTag(s);
     		name = (TextView)convertView.findViewById(R.id.service_subtype_name);
     		name.setText(s.getName(lang));
-    		cb.setTag(s);
     	}
     	
-        LinearLayout row = (LinearLayout)convertView.findViewById(service_row);
+       
         
         // hacky way to override standard Android behaviour. Checkboxes have been made unclickable in the xml. presenceArrayList holds the checked (ie attending) client objects
-        row.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // maybe just do this with Strings instead of the whole object
-                Service s = (Service) cb.getTag();
-                if (cb.isChecked()) {
-                	cb.setChecked(false);
-                	selectedServices.remove(s);
-                } else {
-                	cb.setChecked(true);
-                	selectedServices.add(s);             	
-                }
-            }
-        });    	
-  
+//        row.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                // maybe just do this with Strings instead of the whole object
+//                Service s = (Service) cb.getTag();
+//                if (cb.isChecked()) {
+//                	cb.setChecked(false);
+//                	selectedServices.remove(s);
+//                } else {
+//                	cb.setChecked(true);
+//                	selectedServices.add(s);             	
+//                }
+//            }
+//        });
+        
+
     	return convertView;
     }
     
-	public ArrayList<String> getSelectedServices() {
-		ArrayList<String> sNames = new ArrayList<String>();
-		for (int i = 0; i < selectedServices.size(); i++) {
-			Service s = selectedServices.get(i);
-			sNames.add(s.getName(lang));
-		}
-		
-		return sNames;
-	}    
+
+    
+//	public ArrayList<String> getSelectedServices() {
+//		ArrayList<String> sNames = new ArrayList<String>();
+//		for (int i = 0; i < selectedServices.size(); i++) {
+//			Service s = selectedServices.get(i);
+//			sNames.add(s.getName(lang));
+//		}
+//		
+//		return sNames;
+//	}    
 }

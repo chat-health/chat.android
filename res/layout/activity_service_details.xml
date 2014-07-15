@@ -22,7 +22,7 @@
 	        android:layout_below="@id/service_details_title_field"
 	        android:padding="10dp"
 	        android:background="#EAEAEA" />
-		<ImageButton
+<!-- 		<ImageButton
 		    android:id="@+id/deliver_services_button"
 		    android:layout_width="147dp"
 		    android:layout_height="69dp"
@@ -31,7 +31,7 @@
 		    android:paddingLeft="32dp"
 		    android:paddingRight="32dp"
 		    android:src="@drawable/submitbutton"
-		    android:onClick="selectServiceTargets" />
+		    android:onClick="selectServiceTargets" /> -->
 		
     </RelativeLayout>
  	

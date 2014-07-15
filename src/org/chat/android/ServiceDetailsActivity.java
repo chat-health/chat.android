@@ -3,6 +3,7 @@ package org.chat.android;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.chat.android.models.Service;
 
@@ -12,6 +13,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -19,7 +22,11 @@ public class ServiceDetailsActivity extends BaseActivity {
 	private int visitId = 0;
 	private int hhId = 0;
 	private List<Service> servicesList = new ArrayList<Service>();
+	
+	String selectedServices = null;
+	
 	ServicesAdapter sAdapter = null;
+	String lang = Locale.getDefault().getLanguage();
 	
     @Override    
     public void onCreate(Bundle savedInstanceState) {
@@ -44,7 +51,26 @@ public class ServiceDetailsActivity extends BaseActivity {
 		
 		ListView lv = (ListView) findViewById(R.id.service_details_listview);
 		sAdapter = new ServicesAdapter(context, android.R.layout.simple_list_item_multiple_choice, servicesList);
-	    lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+		
+		// start here, this is obviously wrong
+//		lv.setOnClickListener(new View.OnClickListener() {
+//	    	public void onClick(View v) {
+//	    		Service s = (Service) v.getTag();
+//	    		selectedServices = s.getName(lang);
+//	    		openServiceDelivery();
+//	    	}
+//	    });
+		// CHECK CHA child adatper thing
+		lv.setOnItemClickListener(new OnItemClickListener()
+		{
+			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+	    		Service s = (Service) v.getTag();
+	    		selectedServices = s.getName(lang);
+	    		openServiceDelivery();
+			}
+		});
+  
+	    lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 	    lv.setAdapter(sAdapter);         
     }
     
@@ -61,22 +87,33 @@ public class ServiceDetailsActivity extends BaseActivity {
 		}      	
     }
     
-    public void selectServiceTargets(View v) {
-    	ArrayList<String> serviceNames = sAdapter.getSelectedServices();
-    	if (serviceNames.size() > 0) {
-    		Intent i = new Intent(ServiceDetailsActivity.this, ServiceDeliveryActivity.class);
-        	Bundle b = new Bundle();
-        	b.putInt("visitId",visitId);
-        	b.putInt("hhId",hhId);
-        	b.putStringArrayList("serviceNames", serviceNames);
-        	b.putBoolean("adInfoFlag",false);
-        	i.putExtras(b);
-        	startActivity(i);
-    	} else {
-    		String msg = getResources().getString(getResources().getIdentifier("service_select_one_service_text", "string", getPackageName()));
-    		BaseActivity.toastHelper(this, msg);
-    	}
+    public void openServiceDelivery() {
+		Intent i = new Intent(this, ServiceDeliveryActivity.class);
+    	Bundle b = new Bundle();
+    	b.putInt("visitId",visitId);
+    	b.putInt("hhId",hhId);
+    	b.putString("serviceName", selectedServices);
+    	b.putBoolean("adInfoFlag",false);
+    	i.putExtras(b);
+    	startActivity(i);
     }
+    
+//    public void selectServiceTargets(View v) {
+//    	ArrayList<String> serviceNames = sAdapter.getSelectedServices();
+//    	if (serviceNames.size() > 0) {
+//    		Intent i = new Intent(ServiceDetailsActivity.this, ServiceDeliveryActivity.class);
+//        	Bundle b = new Bundle();
+//        	b.putInt("visitId",visitId);
+//        	b.putInt("hhId",hhId);
+//        	b.putStringArrayList("serviceNames", serviceNames);
+//        	b.putBoolean("adInfoFlag",false);
+//        	i.putExtras(b);
+//        	startActivity(i);
+//    	} else {
+//    		String msg = getResources().getString(getResources().getIdentifier("service_select_one_service_text", "string", getPackageName()));
+//    		BaseActivity.toastHelper(this, msg);
+//    	}
+//    }
     
     
 }
