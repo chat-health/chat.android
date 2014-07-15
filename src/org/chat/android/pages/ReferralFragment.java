@@ -3,6 +3,8 @@ package org.chat.android.pages;
 import java.util.List;
 import java.util.Locale;
 
+import org.chat.android.BaseActivity;
+import org.chat.android.Mail;
 import org.chat.android.ModelHelper;
 import org.chat.android.R;
 import org.chat.android.models.HealthSelect;
@@ -10,10 +12,14 @@ import org.chat.android.models.HealthSelectRecorded;
 import org.chat.android.models.Household;
 import org.chat.android.models.Worker;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +28,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ReferralFragment extends Fragment {
-
+	private Mail m;
+	private Context context;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	View view = inflater.inflate(R.layout.fragment_referral, container, false);
-    	Context context = getActivity();
+    	context = getActivity();
     	
     	TextView referalTextBox = (TextView) view.findViewById(R.id.referal);
     	TextView content1 = (TextView) view.findViewById(R.id.r1tv1);
@@ -46,10 +53,29 @@ public class ReferralFragment extends Fragment {
     	Worker worker = ModelHelper.getWorkerForId(context, workerId);
     	String fName = worker.getFirstName();
     	String lName = worker.getLastName();
+    	Log.i("Related Info", "household name:"+hhName+",Volunteer Name:"+fName+" "+lName);
+    	
     	// int phoneNum = worker.getPhoneNumber();
-    	int phoneNum = 5555555;
-    	//chatreferral@gmail.com
-    	//health001
+    	String phoneNum = "5556";
+    	m = new Mail("chatreferral@gmail.com", "health001"); 
+    	String[] toArr = {"victor.chen@mail.utoronto.ca"}; // This is an array, you can add more emails, just separate them with a coma
+    	
+    	//send sms
+    	String smsMessage="Urgent health referral for Household [Household name] by Volunteer [Volunteer Name].  See email for details or phone volunteer at: [Phone Number]";
+    	smsMessage.replace("[Household name]", hhName);
+    	smsMessage.replace("[Volunteer Name]", fName+", "+lName);
+    	smsMessage.replace("[Phone Number]", phoneNum);
+//    	this.sendSMSMessage(phoneNum, smsMessage);
+    	
+    	//send email
+    	StringBuilder strBuilder = new StringBuilder();
+    	String templateStr = "Health referral for Household [Household name] Child name [Child name] by Home visitors [Home Visitor Name].  Important Details about Health Assessment";
+    	templateStr = templateStr.replace("[Household name]", hhName);
+    	templateStr = templateStr.replace("[Home Visitor Name]", fName+", "+lName);
+//    	templateStr.replace("[Child name]", childName);
+    	strBuilder.append(templateStr);
+    	
+    	new SendMail().execute(toArr, "chatreferral@gmail.com", "Health referral", strBuilder.toString());
     	
     	List<HealthSelectRecorded> selects = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicNameAndClientId(context, visitId, "assessment", clientId);
     	
@@ -77,23 +103,88 @@ public class ReferralFragment extends Fragment {
     	return view;
     }
     
-    private void sendReferral() {
-    	try {
-    		Intent sendIntent = new Intent(Intent.ACTION_VIEW);
-			sendIntent.putExtra("sms_body", "default content"); 
-			sendIntent.setType("vnd.android-dir/mms-sms");			
-			startActivity(sendIntent);
-			Toast.makeText(getActivity(),
-					"I sent, in theory",
-					Toast.LENGTH_LONG).show();
-		} catch (Exception e) {
-			Toast.makeText(getActivity(),
-				"SMS failed, please try again later!",
-				Toast.LENGTH_LONG).show();
-			e.printStackTrace();
+    protected void sendSMSMessage(String phoneNo, String message) {
+        Log.i("Send SMS", "");
+        
+        try {
+           SmsManager smsManager = SmsManager.getDefault();
+           smsManager.sendTextMessage(phoneNo, null, message, null, null);
+           Toast.makeText(context.getApplicationContext(), "SMS sent.",
+           Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+           Toast.makeText(context.getApplicationContext(),
+           "SMS faild, please try again.",
+           Toast.LENGTH_LONG).show();
+           String warningStr = "Unable to send SMS automatically.  Please send a PlsCall SMS to Fikile at 0812567890 to explain the serious health condition";
+           showAlertDialog("Send SMS failed",warningStr);
+           e.printStackTrace();
+        }
+     }
+     
+    private class SendMail extends AsyncTask<Object, Integer, Boolean> {
+
+		@Override
+		protected Boolean doInBackground(Object... params) {
+			return ReferralFragment.this.sendEmail((String[])params[0],String.valueOf(params[1]),String.valueOf(params[2]),String.valueOf(params[3]));
 		}
 
-    }
+		@Override
+		protected void onPostExecute(Boolean result) {
+			super.onPostExecute(result);
+			if(!result)
+			{
+				BaseActivity.toastHelper(getActivity(), "Email was not sent.");
+				String warningStr = "Unable to send Email automatically.  Please send a PlsCall SMS to Fikile at 0812567890 to explain the serious health condition";
+				showAlertDialog("Send Email failed",warningStr);
+			}
+			else
+				BaseActivity.toastHelper(getActivity(), "Email was sent successfully.");
+		}
+     }
+    
+     public boolean sendEmail(String[] toArr, String fromArr, String subject, String message){
+  		m.setTo(toArr); // load array to setTo function
+  		m.setFrom(fromArr); // who is sending the email 
+  		m.setSubject(subject); 
+  		m.setBody(message); 
+  		boolean isSuccess=false;
+
+  		try { 
+  			//m.addAttachment("/sdcard/myPicture.jpg");  // path to file you want to attach
+  			if(m.send()) { 
+  				// success
+  				Log.i("Send Email", "send email successful");
+  				isSuccess=true;
+  			} else { 
+  				// failure
+  				Log.i("Send Email", "send email failed");
+  				isSuccess=false;
+  			} 
+  		} catch(Exception e) { 
+  			// some other problem
+  			Log.i("Send Email", "send email failed becaues of other problem");
+  			e.printStackTrace();
+  			isSuccess=false;
+  		} 
+  		return isSuccess;
+
+  	}
+     
+     private void showAlertDialog(String title, String message)
+     {
+    	 AlertDialog.Builder alert = new AlertDialog.Builder(context);
+
+    	 alert.setTitle(title);
+    	 alert.setMessage(message);
+
+    	 alert.setPositiveButton(context.getText(R.string.action_confirm), new DialogInterface.OnClickListener() {
+    	 public void onClick(DialogInterface dialog, int whichButton) {
+	    	   // Do something with value!
+    	   }
+    	 });
+
+    	 alert.show();
+     }
 }
 
 
