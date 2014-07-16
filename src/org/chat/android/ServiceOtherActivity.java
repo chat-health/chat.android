@@ -110,16 +110,23 @@ public class ServiceOtherActivity extends BaseActivity {
     		}
     	}
     	
-    	
-    	Intent i = new Intent(ServiceOtherActivity.this, ServiceDeliveryActivity.class);
-    	Bundle b = new Bundle();
-    	b.putInt("visitId",visitId);
-    	b.putInt("hhId",hhId);
-    	b.putStringArrayList("serviceNames", sNames);
-    	b.putBoolean("adInfoFlag",true);
-    	b.putStringArrayList("serviceAdInfo", sAdInfo);
-    	i.putExtras(b);
-    	startActivity(i);
+    	// design has changed to only allow one service at a time to be committed. This is a mistake, and they'll figure that out eventually.
+    	// In the mean time, this is a yucky way of limiting this to one service (while still playing nice with serviceDeliveryActivity's current setup)
+    	if (sNames.size() > 1) {
+    		BaseActivity.toastHelper(this, "Please only fill in one service at a time");
+    	} else {
+    		Intent i = new Intent(ServiceOtherActivity.this, ServiceDeliveryActivity.class);
+        	Bundle b = new Bundle();
+        	b.putInt("visitId",visitId);
+        	b.putInt("hhId",hhId);
+        	//b.putStringArrayList("serviceNames", sNames);
+        	b.putString("serviceName",sNames.get(0));
+        	b.putBoolean("adInfoFlag",true);
+        	//b.putStringArrayList("serviceAdInfo", sAdInfo);
+        	b.putString("serviceAdInfo", sAdInfo.get(0));
+        	i.putExtras(b);
+        	startActivity(i);
+    	}
     }
     
     

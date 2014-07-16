@@ -7,6 +7,7 @@ import org.chat.android.BaseActivity;
 import org.chat.android.Mail;
 import org.chat.android.ModelHelper;
 import org.chat.android.R;
+import org.chat.android.models.Client;
 import org.chat.android.models.HealthSelect;
 import org.chat.android.models.HealthSelectRecorded;
 import org.chat.android.models.Household;
@@ -47,6 +48,9 @@ public class ReferralFragment extends Fragment {
     	int clientId = getArguments().getInt("clientId");
     	int hhId = getArguments().getInt("hhId");
     	
+    	Client c = ModelHelper.getClientForId(context, clientId);
+    	String clientFName = c.getFirstName();
+    	String clientLName = c.getLastName();
     	Household hh = ModelHelper.getHouseholdForId(context, hhId);
     	String hhName = hh.getHhName();
     	int workerId = hh.getWorkerId();
@@ -56,23 +60,24 @@ public class ReferralFragment extends Fragment {
     	Log.i("Related Info", "household name:"+hhName+",Volunteer Name:"+fName+" "+lName);
     	
     	// int phoneNum = worker.getPhoneNumber();
-    	String phoneNum = "5556";
+    	String phoneNum = "4167993118";
     	m = new Mail("chatreferral@gmail.com", "health001"); 
-    	String[] toArr = {"victor.chen@mail.utoronto.ca"}; // This is an array, you can add more emails, just separate them with a coma
+    	String[] toArr = {"lmbutler.ssa@gmail.com"}; // This is an array, you can add more emails, just separate them with a coma
     	
     	//send sms
     	String smsMessage="Urgent health referral for Household [Household name] by Volunteer [Volunteer Name].  See email for details or phone volunteer at: [Phone Number]";
-    	smsMessage.replace("[Household name]", hhName);
-    	smsMessage.replace("[Volunteer Name]", fName+", "+lName);
-    	smsMessage.replace("[Phone Number]", phoneNum);
-//    	this.sendSMSMessage(phoneNum, smsMessage);
+    	smsMessage = smsMessage.replace("[Household name]", hhName);
+    	smsMessage = smsMessage.replace("[Volunteer Name]", fName+", "+lName);
+    	smsMessage = smsMessage.replace("[Phone Number]", phoneNum);
+    	// uncomment this line to send sms as well FOR PROD
+    	//new SendSMS().execute(phoneNum, smsMessage);
     	
     	//send email
     	StringBuilder strBuilder = new StringBuilder();
     	String templateStr = "Health referral for Household [Household name] Child name [Child name] by Home visitors [Home Visitor Name].  Important Details about Health Assessment";
     	templateStr = templateStr.replace("[Household name]", hhName);
     	templateStr = templateStr.replace("[Home Visitor Name]", fName+", "+lName);
-//    	templateStr.replace("[Child name]", childName);
+    	templateStr = templateStr.replace("[Child name]", clientFName+", "+clientLName);
     	strBuilder.append(templateStr);
     	
     	new SendMail().execute(toArr, "chatreferral@gmail.com", "Health referral", strBuilder.toString());
@@ -103,7 +108,7 @@ public class ReferralFragment extends Fragment {
     	return view;
     }
     
-    protected void sendSMSMessage(String phoneNo, String message) {
+    protected boolean sendSMSMessage(String phoneNo, String message) {
         Log.i("Send SMS", "");
         
         try {
@@ -111,6 +116,7 @@ public class ReferralFragment extends Fragment {
            smsManager.sendTextMessage(phoneNo, null, message, null, null);
            Toast.makeText(context.getApplicationContext(), "SMS sent.",
            Toast.LENGTH_LONG).show();
+           return true;
         } catch (Exception e) {
            Toast.makeText(context.getApplicationContext(),
            "SMS faild, please try again.",
@@ -118,6 +124,7 @@ public class ReferralFragment extends Fragment {
            String warningStr = "Unable to send SMS automatically.  Please send a PlsCall SMS to Fikile at 0812567890 to explain the serious health condition";
            showAlertDialog("Send SMS failed",warningStr);
            e.printStackTrace();
+           return false;
         }
      }
      
@@ -139,6 +146,27 @@ public class ReferralFragment extends Fragment {
 			}
 			else
 				BaseActivity.toastHelper(getActivity(), "Email was sent successfully.");
+		}
+     }
+    
+    private class SendSMS extends AsyncTask<Object, Integer, Boolean> {
+
+		@Override
+		protected Boolean doInBackground(Object... params) {
+			return ReferralFragment.this.sendSMSMessage(String.valueOf(params[0]),String.valueOf(params[1]));
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			super.onPostExecute(result);
+			if(!result)
+			{
+				BaseActivity.toastHelper(getActivity(), "SMS was not sent.");
+				String warningStr = "Unable to send SMS automatically.  Please send a PlsCall SMS to Fikile at 0812567890 to explain the serious health condition";
+				showAlertDialog("Send SMS failed",warningStr);
+			}
+			else
+				BaseActivity.toastHelper(getActivity(), "SMS was sent successfully.");
 		}
      }
     

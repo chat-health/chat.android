@@ -25,7 +25,8 @@ public class ServiceDeliveryActivity extends BaseActivity {
 	List<Client> presentClients = new ArrayList<Client>();
 	//ArrayList<String> serviceNames = new ArrayList<String>();
 	String sName = null;
-	ArrayList<String> serviceAdInfo = new ArrayList<String>();
+	//ArrayList<String> serviceAdInfo = new ArrayList<String>();
+	String serviceAdInfo = null;
 	ServiceDeliveryAdapter sdAdapter = null;
 	
     @Override    
@@ -40,7 +41,7 @@ public class ServiceDeliveryActivity extends BaseActivity {
 		sName = b.getString("serviceName");
 		adInfoFlag = b.getBoolean("adInfoFlag");
 		if (adInfoFlag == true) {
-			serviceAdInfo = b.getStringArrayList("serviceAdInfo");
+			serviceAdInfo = b.getString("serviceAdInfo");
 		}
 		
 		// grab list of present clients to show, based on the attendance
@@ -64,7 +65,7 @@ public class ServiceDeliveryActivity extends BaseActivity {
     			int serviceId = 0;
     			serviceId = ModelHelper.getServiceForName(context, sName).getId();
     			if (adInfoFlag == true) {
-    				sa = new ServiceAccessed(serviceId, visitId, client.getId(), serviceAdInfo.get(0), time);				// OMG
+    				sa = new ServiceAccessed(serviceId, visitId, client.getId(), serviceAdInfo, time);				// OMG
     			} else {
     				sa = new ServiceAccessed(serviceId, visitId, client.getId(), null, time);
     			}

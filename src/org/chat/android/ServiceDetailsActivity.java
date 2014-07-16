@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.chat.android.models.Service;
+import org.chat.android.models.ServiceAccessed;
 
 import com.j256.ormlite.dao.Dao;
 
@@ -49,26 +50,11 @@ public class ServiceDetailsActivity extends BaseActivity {
 		String[] serviceTags = getResources().getStringArray(R.array.volunteer_service_type_tags);
 		populateServicesList(serviceTags[tag]);
 		
-		ListView lv = (ListView) findViewById(R.id.service_details_listview);
-		sAdapter = new ServicesAdapter(context, android.R.layout.simple_list_item_multiple_choice, servicesList);
+		// grab the list of services already delivered
+		List<ServiceAccessed> saList = ModelHelper.getServicesAccessedForVisitId(context, visitId);
 		
-		// start here, this is obviously wrong
-//		lv.setOnClickListener(new View.OnClickListener() {
-//	    	public void onClick(View v) {
-//	    		Service s = (Service) v.getTag();
-//	    		selectedServices = s.getName(lang);
-//	    		openServiceDelivery();
-//	    	}
-//	    });
-		// CHECK CHA child adatper thing
-		lv.setOnItemClickListener(new OnItemClickListener()
-		{
-			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-	    		Service s = (Service) v.getTag();
-	    		selectedServices = s.getName(lang);
-	    		openServiceDelivery();
-			}
-		});
+		ListView lv = (ListView) findViewById(R.id.service_details_listview);
+		sAdapter = new ServicesAdapter(context, android.R.layout.simple_list_item_multiple_choice, servicesList, saList, visitId, hhId);
   
 	    lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 	    lv.setAdapter(sAdapter);         

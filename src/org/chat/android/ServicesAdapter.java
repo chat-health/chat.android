@@ -1,5 +1,6 @@
 package org.chat.android;
 
+import static org.chat.android.R.id.client_row;
 import static org.chat.android.R.id.service_row;
 
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.chat.android.models.Service;
+import org.chat.android.models.ServiceAccessed;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,14 +25,19 @@ import android.widget.TextView;
 public class ServicesAdapter extends ArrayAdapter<Service> {
 	private LayoutInflater mInflater;
 	private List<Service> servicesArray;
-	//List<Service> selectedServices = new ArrayList<Service>();
+	private List<ServiceAccessed> saList;
+	int visitId = 0;
+	int hhId = 0;
 	
 	String lang = Locale.getDefault().getLanguage();
 
-    public ServicesAdapter(Context context, int layoutResourceId, List<Service> servicesArray) {
+    public ServicesAdapter(Context context, int layoutResourceId, List<Service> servicesArray, List<ServiceAccessed> sal, int vId, int hId) {
         super(context, layoutResourceId, servicesArray);
         this.mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.servicesArray = servicesArray;
+        saList = sal;
+        visitId = vId;
+        hhId = hId;
     }
     
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -39,7 +46,6 @@ public class ServicesAdapter extends ArrayAdapter<Service> {
     	Service s = servicesArray.get(position);
 
     	TextView name = null;
-    	final CheckBox cb = (CheckBox) convertView.findViewById(R.id.service_subtype_checkbox);
     	if (convertView != null) {
     		LinearLayout row = (LinearLayout)convertView.findViewById(service_row);
     		row.setTag(s);
@@ -47,8 +53,38 @@ public class ServicesAdapter extends ArrayAdapter<Service> {
     		name.setText(s.getName(lang));
     	}
     	
-       
+    	final CheckBox cb = (CheckBox) convertView.findViewById(R.id.service_subtype_checkbox);
+        // go through the list of services delivered to this household on this visit
+        for (ServiceAccessed sa : saList) {
+            // if service matches tag, check off cb
+        	if (sa.getServiceId() == s.getId()) {
+        		cb.setChecked(true);
+        	}
+        }
+    	
+        LinearLayout row = (LinearLayout)convertView.findViewById(service_row);
+        row.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	cb.setChecked(true);					// checking it off here, cause we never hit the onCreate/onResume to redraw the UI after delivering the service
+            	
+            	final Intent i = new Intent(getContext(), ServiceDeliveryActivity.class);
+            	i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    	    	Bundle b = new Bundle();
+    	    	Service s = (Service) v.getTag();
+    	    	b.putString("serviceName",s.getName(lang));
+    	    	b.putInt("visitId",visitId);
+    	    	b.putInt("hhId",hhId);
+    	    	b.putBoolean("adInfoFlag",false);
+    	    	i.putExtras(b);    	
+    	    	v.getContext().startActivity(i);
+            }
+        });
         
+        
+        
+
+        
+
         // hacky way to override standard Android behaviour. Checkboxes have been made unclickable in the xml. presenceArrayList holds the checked (ie attending) client objects
 //        row.setOnClickListener(new View.OnClickListener() {
 //            public void onClick(View v) {
