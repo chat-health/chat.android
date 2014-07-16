@@ -1,9 +1,7 @@
 package org.chat.android;
 
-import static org.chat.android.R.id.client_row;
 import static org.chat.android.R.id.service_row;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -71,7 +69,7 @@ public class ServicesAdapter extends ArrayAdapter<Service> {
             	i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     	    	Bundle b = new Bundle();
     	    	Service s = (Service) v.getTag();
-    	    	b.putString("serviceName",s.getName(lang));
+    	    	b.putString("serviceName",s.getName("en"));
     	    	b.putInt("visitId",visitId);
     	    	b.putInt("hhId",hhId);
     	    	b.putBoolean("adInfoFlag",false);

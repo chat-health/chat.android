@@ -75,7 +75,7 @@ public class ServiceOtherActivity extends BaseActivity {
 			title.get(i).setText(servicesList.get(i).getName(lang));
 			title.get(i).setVisibility(View.VISIBLE);
 			entry.get(i).setHint(servicesList.get(i).getInstructions());
-			entry.get(i).setTag(servicesList.get(i).getName(lang));
+			entry.get(i).setTag(servicesList.get(i).getName("en"));
 			entry.get(i).setVisibility(View.VISIBLE);
 		}       
     }

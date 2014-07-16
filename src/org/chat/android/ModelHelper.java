@@ -326,7 +326,7 @@ public class ModelHelper {
 		return aList;
 	}
 
-	public static Service getServiceForName(Context context, String sName) {
+	public static Service getServiceForName(Context context, String sName, String language) {
     	Service service = null;
         Dao<Service, Integer> sDao;
         List<Service> allServices = new ArrayList<Service>();
@@ -336,7 +336,7 @@ public class ModelHelper {
 			allServices = sDao.query(sDao.queryBuilder().prepare());
         	for (Service s : allServices) {
         		// service names that are not displayed will always be in english (right?)
-    			if (s.getName(lang).equals(sName)) {
+    			if (s.getName(language).equals(sName)) {
     				service = s;
     			}
         	}

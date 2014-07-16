@@ -63,9 +63,9 @@ public class ServiceDeliveryActivity extends BaseActivity {
     			// decide whether there is ad_info (ie it's an outlier type service that is not a simple checkbox)
     			Date time = new Date();
     			int serviceId = 0;
-    			serviceId = ModelHelper.getServiceForName(context, sName).getId();
+    			serviceId = ModelHelper.getServiceForName(context, sName, "en").getId();
     			if (adInfoFlag == true) {
-    				sa = new ServiceAccessed(serviceId, visitId, client.getId(), serviceAdInfo, time);				// OMG
+    				sa = new ServiceAccessed(serviceId, visitId, client.getId(), serviceAdInfo, time);
     			} else {
     				sa = new ServiceAccessed(serviceId, visitId, client.getId(), null, time);
     			}
