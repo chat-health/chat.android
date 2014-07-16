@@ -18,6 +18,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.telephony.SmsManager;
@@ -31,6 +32,12 @@ import android.widget.Toast;
 public class ReferralFragment extends Fragment {
 	private Mail m;
 	private Context context;
+	
+	int visitId = 0;
+	int clientId = 0;
+	int hhId = 0;
+	String emailContentStr = "TEMPORARY TEXT: ";
+	
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	View view = inflater.inflate(R.layout.fragment_referral, container, false);
     	context = getActivity();
@@ -44,52 +51,20 @@ public class ReferralFragment extends Fragment {
     	// determine language from current tablet settings
     	String lang = Locale.getDefault().getLanguage();
     	
-    	int visitId = getArguments().getInt("visitId");
-    	int clientId = getArguments().getInt("clientId");
-    	int hhId = getArguments().getInt("hhId");
-    	
-    	Client c = ModelHelper.getClientForId(context, clientId);
-    	String clientFName = c.getFirstName();
-    	String clientLName = c.getLastName();
-    	Household hh = ModelHelper.getHouseholdForId(context, hhId);
-    	String hhName = hh.getHhName();
-    	int workerId = hh.getWorkerId();
-    	Worker worker = ModelHelper.getWorkerForId(context, workerId);
-    	String fName = worker.getFirstName();
-    	String lName = worker.getLastName();
-    	Log.i("Related Info", "household name:"+hhName+",Volunteer Name:"+fName+" "+lName);
-    	
-    	// int phoneNum = worker.getPhoneNumber();
-    	String phoneNum = "4167993118";
-    	m = new Mail("chatreferral@gmail.com", "health001"); 
-    	String[] toArr = {"lmbutler.ssa@gmail.com"}; // This is an array, you can add more emails, just separate them with a coma
-    	
-    	//send sms
-    	String smsMessage="Urgent health referral for Household [Household name] by Volunteer [Volunteer Name].  See email for details or phone volunteer at: [Phone Number]";
-    	smsMessage = smsMessage.replace("[Household name]", hhName);
-    	smsMessage = smsMessage.replace("[Volunteer Name]", fName+", "+lName);
-    	smsMessage = smsMessage.replace("[Phone Number]", phoneNum);
-    	// uncomment this line to send sms as well FOR PROD
-    	//new SendSMS().execute(phoneNum, smsMessage);
-    	
-    	//send email
-    	StringBuilder strBuilder = new StringBuilder();
-    	String templateStr = "Health referral for Household [Household name] Child name [Child name] by Home visitors [Home Visitor Name].  Important Details about Health Assessment";
-    	templateStr = templateStr.replace("[Household name]", hhName);
-    	templateStr = templateStr.replace("[Home Visitor Name]", fName+", "+lName);
-    	templateStr = templateStr.replace("[Child name]", clientFName+", "+clientLName);
-    	strBuilder.append(templateStr);
-    	
-    	new SendMail().execute(toArr, "chatreferral@gmail.com", "Health referral", strBuilder.toString());
+    	visitId = getArguments().getInt("visitId");
+    	clientId = getArguments().getInt("clientId");
+    	hhId = getArguments().getInt("hhId");
+    	Boolean referalFlag = false;
     	
     	List<HealthSelectRecorded> selects = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicNameAndClientId(context, visitId, "assessment", clientId);
+    	emailContentStr = "TEMPORARY VALUES: ";
     	
     	// if this gets any more complicated (waiting on Lisa for design), create class/model for this - see below
     	for (HealthSelectRecorded hsr : selects) {
     		int id = hsr.getSelectId();
     		if (id == 1003 || id == 1007 || id == 1009 || id == 1011 || id == 1013 || id == 1015 || id == 1020 || id == 1023 || id == 1028 || id == 1029 || id == 1031 || id == 1033 || id == 1035 || id == 1037) {
     			referalTextBox.setVisibility(View.VISIBLE);
-    			//sendReferral();			// maybe pass a param here? also need to have a true flag set in the if
+    			referalFlag = true;
     		}
     		if (id == 1004 || id == 1008 || id == 1010 || id == 1012 || id == 1014 || id == 1016) {
     			content1.setVisibility(View.VISIBLE);
@@ -103,9 +78,60 @@ public class ReferralFragment extends Fragment {
     		if (id == 1029 || id == 1031) {
     			content4.setVisibility(View.VISIBLE);
     		}
+    		
+    		emailContentStr = emailContentStr + " " + String.valueOf(id);
     	}
     	
+    	if (referalFlag == true) {
+    		sendReferral();
+    	}
+
     	return view;
+    }
+    
+    private void sendReferral() {
+    	Client c = ModelHelper.getClientForId(context, clientId);
+    	String clientFName = c.getFirstName();
+    	String clientLName = c.getLastName();
+    	Household hh = ModelHelper.getHouseholdForId(context, hhId);
+    	String hhName = hh.getHhName();
+    	int workerId = hh.getWorkerId();
+    	Worker worker = ModelHelper.getWorkerForId(context, workerId);
+    	String fName = worker.getFirstName();
+    	String lName = worker.getLastName();
+    	Log.i("Related Info", "household name:"+hhName+",volunteer Name:"+fName+" "+lName);
+    	
+    	// int phoneNum = worker.getPhoneNumber();
+    	String phoneNum = "4167993118";
+    	m = new Mail("chatreferral@gmail.com", "health001"); 
+    	String[] toArr = {"lmbutler.ssa@gmail.com"}; // This is an array, you can add more emails, just separate them with a coma    	
+    	
+    	//send sms
+    	String smsMessage="Urgent health referral for - Household [Household name] by Volunteer [Volunteer Name].  See email for details or phone volunteer at: [Phone Number]";
+    	smsMessage = smsMessage.replace("[Household name]", hhName);
+    	smsMessage = smsMessage.replace("[Volunteer Name]", fName+" "+lName);
+    	smsMessage = smsMessage.replace("[Phone Number]", phoneNum);
+    	// uncomment this line to send sms as well FOR PROD
+    	PackageManager pm = context.getPackageManager();
+    	if (pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
+    		new SendSMS().execute(phoneNum, smsMessage);
+    	} else {
+    		BaseActivity.toastHelper(getActivity(), "This device does not seem to be equipped with SMS capabilities. Please send a PlsCall SMS to Fikile at 0812567890 to explain the serious health condition.");
+    	}
+    	
+    	// START HERE: fix all the toasts, complete the modelhelper to retrieve the text
+    	
+    	//send email
+    	StringBuilder strBuilder = new StringBuilder();
+    	String emailTitleStr = "Health referral for - Child name: [Child name] at Household: [Household name]; assessment performed by [Home Visitor Name]. Important details about Health Assessment.";
+    	emailTitleStr = emailTitleStr.replace("[Household name]", hhName);
+    	emailTitleStr = emailTitleStr.replace("[Child name]", clientFName+" "+clientLName);
+    	emailTitleStr = emailTitleStr.replace("[Home Visitor Name]", fName+" "+lName);
+
+    	strBuilder.append(emailTitleStr);
+    	strBuilder.append("\n\n");
+    	strBuilder.append(emailContentStr);
+    	new SendMail().execute(toArr, "chatreferral@gmail.com", "Health referral", strBuilder.toString());
     }
     
     protected boolean sendSMSMessage(String phoneNo, String message) {
@@ -114,14 +140,14 @@ public class ReferralFragment extends Fragment {
         try {
            SmsManager smsManager = SmsManager.getDefault();
            smsManager.sendTextMessage(phoneNo, null, message, null, null);
-           Toast.makeText(context.getApplicationContext(), "SMS sent.",
+           Toast.makeText(context.getApplicationContext(), "SMS sent",
            Toast.LENGTH_LONG).show();
            return true;
         } catch (Exception e) {
            Toast.makeText(context.getApplicationContext(),
            "SMS faild, please try again.",
            Toast.LENGTH_LONG).show();
-           String warningStr = "Unable to send SMS automatically.  Please send a PlsCall SMS to Fikile at 0812567890 to explain the serious health condition";
+           String warningStr = "Unable to send SMS automatically. Please send a PlsCall SMS to Fikile at 0812567890 to explain the serious health condition";
            showAlertDialog("Send SMS failed",warningStr);
            e.printStackTrace();
            return false;
@@ -141,7 +167,7 @@ public class ReferralFragment extends Fragment {
 			if(!result)
 			{
 				BaseActivity.toastHelper(getActivity(), "Email was not sent.");
-				String warningStr = "Unable to send Email automatically.  Please send a PlsCall SMS to Fikile at 0812567890 to explain the serious health condition";
+				String warningStr = "Unable to send Email automatically. Please send a PlsCall SMS to Fikile at 0812567890 to explain the serious health condition";
 				showAlertDialog("Send Email failed",warningStr);
 			}
 			else

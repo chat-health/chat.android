@@ -329,7 +329,7 @@ public class LoginActivity extends Activity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_home, menu);
+        getMenuInflater().inflate(R.menu.activity_base, menu);
         return true;
     }
 	
