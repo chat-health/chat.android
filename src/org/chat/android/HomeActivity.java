@@ -29,6 +29,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.util.Log;
@@ -476,6 +477,16 @@ public class HomeActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    // Handle item selection
 	    switch (item.getItemId()) {
+	    case R.id.menu_about:
+	    	String versionName = "";
+			try {
+				versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+			} catch (NameNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	    	BaseActivity.toastHelper(this, "Version number: " + versionName);	
+	        return true;
 	    case R.id.menu_resources:
 	    	Intent i = new Intent(HomeActivity.this, ResourcesActivity.class);
 	    	Bundle b = new Bundle();

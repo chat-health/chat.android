@@ -24,6 +24,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -87,6 +88,16 @@ public class BaseActivity extends Activity {
         	homeI.putExtras(homeB);
         	startActivity(homeI);
             return true;
+        case R.id.menu_about:
+	    	String versionName = "";
+			try {
+				versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+			} catch (NameNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	    	BaseActivity.toastHelper(this, "Version number: " + versionName);	
+	        return true;            
 	    case R.id.menu_resources:
 	    	Intent resourcesI = new Intent(this, ResourcesActivity.class);
 	    	Bundle resourcesB = new Bundle();

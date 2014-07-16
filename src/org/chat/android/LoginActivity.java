@@ -25,6 +25,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -336,6 +337,16 @@ public class LoginActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    // Handle item selection
 	    switch (item.getItemId()) {
+	    case R.id.menu_about:
+	    	String versionName = "";
+			try {
+				versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+			} catch (NameNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	    	BaseActivity.toastHelper(this, "Version number: " + versionName);	
+	        return true;
 	    case R.id.menu_resources:
 	    	Intent i = new Intent(LoginActivity.this, ResourcesActivity.class);
 	    	Bundle b = new Bundle();
@@ -345,7 +356,6 @@ public class LoginActivity extends Activity {
 	    case R.id.menu_device_id:
 	        try {
 				String deviceSerial = (String) Build.class.getField("SERIAL").get(null);
-				//Toast.makeText(getApplicationContext(),"Device ID: "+deviceSerial,Toast.LENGTH_LONG).show();
 	        	BaseActivity.toastHelper(this, "Device ID: "+deviceSerial);				
 				
 			} catch (IllegalArgumentException e) {
