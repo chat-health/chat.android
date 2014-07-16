@@ -8,7 +8,6 @@ import org.chat.android.Mail;
 import org.chat.android.ModelHelper;
 import org.chat.android.R;
 import org.chat.android.models.Client;
-import org.chat.android.models.HealthSelect;
 import org.chat.android.models.HealthSelectRecorded;
 import org.chat.android.models.Household;
 import org.chat.android.models.Worker;
@@ -17,7 +16,6 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,7 +25,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ReferralFragment extends Fragment {
 	private Mail m;
@@ -57,7 +54,7 @@ public class ReferralFragment extends Fragment {
     	Boolean referalFlag = false;
     	
     	List<HealthSelectRecorded> selects = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicNameAndClientId(context, visitId, "assessment", clientId);
-    	emailContentStr = "TEMPORARY VALUES: ";
+    	emailContentStr = "TEMPORARY! Health Selects Recorded IDs: ";
     	
     	// if this gets any more complicated (waiting on Lisa for design), create class/model for this - see below
     	for (HealthSelectRecorded hsr : selects) {
@@ -140,13 +137,10 @@ public class ReferralFragment extends Fragment {
         try {
            SmsManager smsManager = SmsManager.getDefault();
            smsManager.sendTextMessage(phoneNo, null, message, null, null);
-           Toast.makeText(context.getApplicationContext(), "SMS sent",
-           Toast.LENGTH_LONG).show();
+           BaseActivity.toastHelper(getActivity(), "SMS sent");
            return true;
         } catch (Exception e) {
-           Toast.makeText(context.getApplicationContext(),
-           "SMS faild, please try again.",
-           Toast.LENGTH_LONG).show();
+           BaseActivity.toastHelper(getActivity(), "SMS failed, please try again");
            String warningStr = "Unable to send SMS automatically. Please send a PlsCall SMS to Fikile at 0812567890 to explain the serious health condition";
            showAlertDialog("Send SMS failed",warningStr);
            e.printStackTrace();
