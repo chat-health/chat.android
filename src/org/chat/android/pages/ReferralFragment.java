@@ -100,7 +100,8 @@ public class ReferralFragment extends Fragment {
     	String lName = worker.getLastName();
     	Log.i("Related Info", "household name:"+hhName+",volunteer Name:"+fName+" "+lName);
     	
-    	String workerPhoneNum = Integer.toString(worker.getPhoneNumber());
+    	// currently have the phone_numbers saved as ints, may be better to change to string (would prevent the 0 at the beginning of the number from getting dropped)
+    	String workerPhoneNum = "0" + Integer.toString(worker.getPhoneNumber());
     	m = new Mail("chatreferral@gmail.com", "health001"); 
     	String[] toArr = {"lmbutler.ssa@gmail.com"}; // This is an array, you can add more emails, just separate them with a coma    	
     	
