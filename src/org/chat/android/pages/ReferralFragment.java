@@ -100,18 +100,19 @@ public class ReferralFragment extends Fragment {
     	String lName = worker.getLastName();
     	Log.i("Related Info", "household name:"+hhName+",volunteer Name:"+fName+" "+lName);
     	
-    	String phoneNum = Integer.toString(worker.getPhoneNumber());
+    	String workerPhoneNum = Integer.toString(worker.getPhoneNumber());
     	m = new Mail("chatreferral@gmail.com", "health001"); 
     	String[] toArr = {"lmbutler.ssa@gmail.com"}; // This is an array, you can add more emails, just separate them with a coma    	
     	
     	//send sms
+    	String nursePhoneNum = "0721103157";					// this is Jim's number as a placeholder
     	String smsMessage="Urgent health referral for - Household [Household name] by Volunteer [Volunteer Name].  See email for details or phone volunteer at: [Phone Number]";
     	smsMessage = smsMessage.replace("[Household name]", hhName);
     	smsMessage = smsMessage.replace("[Volunteer Name]", fName+" "+lName);
-    	smsMessage = smsMessage.replace("[Phone Number]", phoneNum);
+    	smsMessage = smsMessage.replace("[Phone Number]", workerPhoneNum);
     	PackageManager pm = context.getPackageManager();
     	if (pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
-    		new SendSMS().execute(phoneNum, smsMessage);
+    		new SendSMS().execute(nursePhoneNum, smsMessage);
     	} else {
     		BaseActivity.toastHelper(getActivity(), "This device does not seem to be equipped with SMS capabilities. Please send a PlsCall SMS to Fikile at 0812567890 to explain the serious health condition.");
     	}
