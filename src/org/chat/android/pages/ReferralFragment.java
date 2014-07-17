@@ -150,14 +150,16 @@ public class ReferralFragment extends Fragment {
         try {
            SmsManager smsManager = SmsManager.getDefault();
            smsManager.sendTextMessage(phoneNo, null, message, null, null);
-           BaseActivity.toastHelper(getActivity(), "SMS sent");
+//           BaseActivity.toastHelper(getActivity(), "SMS sent");
+           Log.i("Send SMS", "SMS sent");
            return true;
         } catch (Exception e) {
-           BaseActivity.toastHelper(getActivity(), "SMS failed, please try again");
-           String warningStr = "Unable to send SMS automatically. Please send a PlsCall SMS to Fikile at 0812567890 to explain the serious health condition";
-           showAlertDialog("Send SMS failed",warningStr);
-           e.printStackTrace();
-           return false;
+//           BaseActivity.toastHelper(getActivity(), "SMS failed, please try again");
+//           String warningStr = "Unable to send SMS automatically. Please send a PlsCall SMS to Fikile at 0812567890 to explain the serious health condition";
+//           showAlertDialog("Send SMS failed",warningStr);
+        	Log.i("Send SMS", "SMS failed, please try again");
+        	e.printStackTrace();
+        	return false;
         }
      }
      
