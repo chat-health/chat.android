@@ -440,7 +440,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject w = jsonArray.getJSONObject(i);
 	                	//Log.i("SyncAdapter","JSON object: "+w.toString());
-	            	    Worker worker = new Worker(w.getInt("_id"), w.getString("first_name"), w.getString("last_name"), w.getString("username"), w.getString("password"), w.getString("role_name"), w.getString("assigned_community"), parseDateString(w.getString("created_at")), parseDateString(w.getString("modified_at")));
+	            	    Worker worker = new Worker(w.getInt("_id"), w.getString("first_name"), w.getString("last_name"), w.getString("username"), w.getString("password"), w.getString("role_name"), w.getString("assigned_community"), w.getInt("phone_number"), parseDateString(w.getString("created_at")), parseDateString(w.getString("modified_at")));
 	            	    wDao.createOrUpdate(worker);
 	                }
 	                if (jsonArray.length() > 0) {

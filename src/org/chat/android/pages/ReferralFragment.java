@@ -1,5 +1,6 @@
 package org.chat.android.pages;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -33,7 +34,8 @@ public class ReferralFragment extends Fragment {
 	int visitId = 0;
 	int clientId = 0;
 	int hhId = 0;
-	String emailContentStr = "TEMPORARY TEXT: ";
+	String emailContentStr = "";
+	List<String> hsrContent = new ArrayList<String>();
 	
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	View view = inflater.inflate(R.layout.fragment_referral, container, false);
@@ -54,7 +56,7 @@ public class ReferralFragment extends Fragment {
     	Boolean referalFlag = false;
     	
     	List<HealthSelectRecorded> selects = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicNameAndClientId(context, visitId, "assessment", clientId);
-    	emailContentStr = "TEMPORARY! Health Selects Recorded IDs: ";
+    	
     	
     	// if this gets any more complicated (waiting on Lisa for design), create class/model for this - see below
     	for (HealthSelectRecorded hsr : selects) {
@@ -98,8 +100,7 @@ public class ReferralFragment extends Fragment {
     	String lName = worker.getLastName();
     	Log.i("Related Info", "household name:"+hhName+",volunteer Name:"+fName+" "+lName);
     	
-    	// int phoneNum = worker.getPhoneNumber();
-    	String phoneNum = "4167993118";
+    	String phoneNum = Integer.toString(worker.getPhoneNumber());
     	m = new Mail("chatreferral@gmail.com", "health001"); 
     	String[] toArr = {"lmbutler.ssa@gmail.com"}; // This is an array, you can add more emails, just separate them with a coma    	
     	
@@ -108,7 +109,6 @@ public class ReferralFragment extends Fragment {
     	smsMessage = smsMessage.replace("[Household name]", hhName);
     	smsMessage = smsMessage.replace("[Volunteer Name]", fName+" "+lName);
     	smsMessage = smsMessage.replace("[Phone Number]", phoneNum);
-    	// uncomment this line to send sms as well FOR PROD
     	PackageManager pm = context.getPackageManager();
     	if (pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
     		new SendSMS().execute(phoneNum, smsMessage);
@@ -116,7 +116,18 @@ public class ReferralFragment extends Fragment {
     		BaseActivity.toastHelper(getActivity(), "This device does not seem to be equipped with SMS capabilities. Please send a PlsCall SMS to Fikile at 0812567890 to explain the serious health condition.");
     	}
     	
-    	// START HERE: fix all the toasts, complete the modelhelper to retrieve the text
+    	// this is all pretty gross, but I'm assuming this section will get cut anyways
+    	emailContentStr = emailContentStr + ("\n\n\n") + "First attempt at HSR display: " + ("\n\n");
+    	hsrContent = ModelHelper.getAllHealthSelectContentForVisitIdAndClientId(context, visitId, clientId);
+    	int i = 1;
+    	for (String s : hsrContent) {
+    		emailContentStr += s;
+    		emailContentStr += " ";
+    		if ((i % 2) == 0) {
+    			emailContentStr += "\n";
+    		}
+    		i++;
+    	}
     	
     	//send email
     	StringBuilder strBuilder = new StringBuilder();

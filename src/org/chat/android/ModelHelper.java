@@ -610,40 +610,43 @@ public class ModelHelper {
 		return hsr;
 	}
 	
-//	public static List<String> getAllHealthSelectContentForVisitIdAndClientId(Context context, int visitId, int clientId) {
-//		List<String> hsContentList = null;
-//		
-//		// get the health select recordeds for this visit and client
-//		List<HealthSelectRecorded> hsrList = null;
-//		Dao<HealthSelectRecorded, Integer> hsrDao;		
-//		DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
-//		try {
-//			hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
-//			hsrList = hsrDao.queryBuilder().where().eq("visit_id",visitId).and().eq("client_id",clientId).and().eq("topic","assessment").query();
-//		} catch (SQLException e1) {
-//			e1.printStackTrace();
-//		}
-//		
-//		// get the corresponding health selects
-//		List <HealthSelect> hsList = null;
-//		Dao<HealthSelect, Integer> hsDao;		
-//		DatabaseHelper hsDbHelper = new DatabaseHelper(context);
-//		
-//		for (HealthSelectRecorded hsr : hsrList) {
-//			try {
-//				hsDao = hsDbHelper.getHealthSelectsDao();
-//				hsList = hsDao.queryBuilder().where().eq("id",hsr.getSelectId()).query();
-//			} catch (SQLException e2) {
-//				e2.printStackTrace();
-//			}
-//		}
-//		
-//		
-//		// get the corresponding page assessment 1 text
-//		
-//		
-//		return hsContentList;
-//	}
+	public static List<String> getAllHealthSelectContentForVisitIdAndClientId(Context context, int visitId, int clientId) {
+		List<String> hsContentList = new ArrayList<String>();
+		
+		// get the health select recordeds for this visit and client
+		List<HealthSelectRecorded> hsrList = null;
+		Dao<HealthSelectRecorded, Integer> hsrDao;		
+		DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
+		try {
+			hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
+			hsrList = hsrDao.queryBuilder().where().eq("visit_id",visitId).and().eq("client_id",clientId).and().eq("topic","assessment").query();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		// WARNING: this does not work correctly yet - it still always returns EnContent1s, which is obviously wrong in that it ignores Content2 and Content
+		// FIXME
+		
+		// get the corresponding health selects
+		Dao<HealthSelect, Integer> hsDao;	
+		Dao<PageAssessment1, Integer> pa1Dao;
+		DatabaseHelper hsDbHelper = new DatabaseHelper(context);
+		DatabaseHelper pa1DbHelper = new DatabaseHelper(context);
+		for (HealthSelectRecorded hsr : hsrList) {
+			try {
+				hsDao = hsDbHelper.getHealthSelectsDao();
+				HealthSelect hs = hsDao.queryForId(hsr.getSelectId());
+				pa1Dao = pa1DbHelper.getPageAssessment1Dao();
+				PageAssessment1 pa1 = pa1Dao.queryForId(hs.getSubjectId());
+				hsContentList.add(pa1.getEnContent1());
+				hsContentList.add(hs.getEnContent());
+			} catch (SQLException e2) {
+				e2.printStackTrace();
+			}
+		}
+		
+		return hsContentList;
+	}
 	
 	public static List<ServiceAccessed> getServicesAccessedForVisitId(Context context, int visitId) {
 		List<ServiceAccessed> saList = null;

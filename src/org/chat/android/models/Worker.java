@@ -25,6 +25,8 @@ public class Worker {
     @DatabaseField
     private String assigned_community;
     @DatabaseField
+    private int phone_number;
+    @DatabaseField
 	private Date created_at;
 	@DatabaseField
 	private Date modified_at;
@@ -46,10 +48,11 @@ public class Worker {
      * @param password
      * @param role_name
      * @param assigned_community
+     * @param phone_number
      * @param created_at
      * @param modified_at
      */
-    public Worker(int id, String first_name, String last_name, String username, String password, String role_name, String assigned_community, Date created_at, Date modified_at) {
+    public Worker(int id, String first_name, String last_name, String username, String password, String role_name, String assigned_community, int phone_number, Date created_at, Date modified_at) {
     	this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -57,6 +60,7 @@ public class Worker {
         this.password = password;
         this.role_name = role_name;
         this.assigned_community = assigned_community;
+        this.phone_number = phone_number;
         this.created_at = created_at;
     	this.modified_at = modified_at;
     }
@@ -125,6 +129,14 @@ public class Worker {
 	
 	public void setAssignedCommunity(String assigned_community) {
 		this.assigned_community = assigned_community;
+	}
+	
+	public int getPhoneNumber() {
+		return phone_number;
+	}
+	
+	public void setPhoneNumber(int phone_number) {
+		this.phone_number = phone_number;
 	}
 	
 	public String toString() {
