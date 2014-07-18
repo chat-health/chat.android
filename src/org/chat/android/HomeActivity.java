@@ -348,7 +348,7 @@ public class HomeActivity extends Activity {
     	}
 	}
 	
-    private void checkVisitCompleteStatus() {
+    private Boolean checkVisitCompleteStatus() {
     	Boolean completeFlag = true;
     	List<Client> clientsForHealthAssessment = ModelHelper.getAttendingClientsForVisitIdUnderAge(context, visitId, 5);
     	
@@ -359,14 +359,14 @@ public class HomeActivity extends Activity {
         	if (ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(context, visitId, c.getId(), "health") == true) {
         		healthFlag = true;
         	} else {
-        		BaseActivity.toastHelper(this, "Visit not marked as complete - Child Health Assessment section still needs to be completed for " + c.getFirstName() + " " + c.getLastName());
+        		BaseActivity.toastHelper(this, "Child Health Assessment section still needs to be completed for " + c.getFirstName() + " " + c.getLastName());
         	}
     		Boolean allVaccinesAdministered = ModelHelper.getVaccineRecordedCompleteForClientId(context, c.getId());
     		Boolean chaImmunizationComplete = ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(context, visitId, c.getId(), "immunization");
     		if (allVaccinesAdministered || chaImmunizationComplete) {
     			immunizationFlag = true;
     		} else {
-    			BaseActivity.toastHelper(this, "Visit not marked as complete - Immunization section still needs to be completed for " + c.getFirstName() + " " + c.getLastName());
+    			BaseActivity.toastHelper(this, "Immunization section still needs to be completed for " + c.getFirstName() + " " + c.getLastName());
     		}
     		if (healthFlag == false || immunizationFlag == false) {
     			completeFlag = false;
@@ -376,30 +376,26 @@ public class HomeActivity extends Activity {
     	// check for completion of service requirements
     	if (ModelHelper.getServicesAccessedForVisitId(context, visitId).size() == 0) {
     		completeFlag = false;
-    		BaseActivity.toastHelper(this, "Visit not marked as complete - no services delivered");
+    		BaseActivity.toastHelper(this, "No services delivered");
     	}
     	
     	// check for completion of health ed requirements
     	if (ModelHelper.getHealthTopicsAccessedForVisitId(context, visitId).size() == 0) {
     		completeFlag = false;
-    		BaseActivity.toastHelper(this, "Visit not marked as complete - no health topic education delivered");
+    		BaseActivity.toastHelper(this,"No health topic education delivered" );
     	}
 
-    	if (completeFlag == true) {
-    		// add the visit type services, etc
-    		updateVisitObjectforExtras();
-    	}
-    }	
+    	return completeFlag;
+    }
 	
-	private void updateVisitObjectforExtras() {
+	private void updateVisitObjectforExtras(Boolean completeFlag) {
     	// set the Visit type services (since these will not be checked off in the standard way)
     	// kinda ugly :/    but relevant services are ids: 1 and 27 for Vol / 71 and 72 for LCs
     	
-		Visit v = ModelHelper.getVisitForId(context, visitId);
 		// get the visit type
-		String type = v.getType();
+		String type = visit.getType();
 		// get the role
-		String role = v.getRole();
+		String role = visit.getRole();
 		// get the attending clients - all clients under the age of 999
 		List<Client> cList = ModelHelper.getAttendingClientsForVisitIdUnderAge(context, visitId, 999);
 		
@@ -438,14 +434,21 @@ public class HomeActivity extends Activity {
     	    }
     	}
     	
-    	markVisitComplete();
+    	markVisitComplete(completeFlag);
 	}
 	
-	public void markVisitComplete() {
+    public void markVisitComplete(Boolean completeFlag) {
 		BaseActivity.toastHelper(this, "Visit saved and marked as complete");
 		
 		// update the Visit object and save to DB
-		Date endTime = new Date();
+		Date endTime = null;
+		if (completeFlag == true) {
+			endTime = new Date();
+		} else {
+			// instead of rebuilding the data structures all over the place, we'll go with this implicitness for now.
+			// if startTime == endTime, then the visit has been finished (not avail for resume) but is not "complete"
+			endTime = visit.getStartTime();
+		}
 		visit.setEndTime(endTime);
 		
 	    Dao<Visit, Integer> vDao;
@@ -515,15 +518,23 @@ public class HomeActivity extends Activity {
 	        triggerSyncAdaper();
 	        return true;
 	    case R.id.menu_logout:
+	    	final Boolean completeFlag = checkVisitCompleteStatus();
+	    	String msgFinConf = "";
+	    	String msgFinNo = getResources().getString(getResources().getIdentifier("finalize_visit_cancel_text", "string", getPackageName()));
+	    	String msgFinYes = getResources().getString(getResources().getIdentifier("finalize_visit_finish_text", "string", getPackageName()));
+	    	if (completeFlag == true) {
+	    		msgFinConf = getResources().getString(getResources().getIdentifier("finalize_visit_complete_text", "string", getPackageName()));
+	    	} else {
+	    		msgFinConf = getResources().getString(getResources().getIdentifier("finalize_visit_incomplete_text", "string", getPackageName()));
+	    	}
+	    	
 	    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-	    	String msgFinConf = getResources().getString(getResources().getIdentifier("finalize_visit_confirm_text", "string", getPackageName()));
-	    	String msgFinYes = getResources().getString(getResources().getIdentifier("finalize_visit_yes_text", "string", getPackageName()));
-	    	String msgFinNo = getResources().getString(getResources().getIdentifier("finalize_visit_no_text", "string", getPackageName()));
 	    	builder.setMessage(msgFinConf)
 	    	       .setCancelable(false)
 	    	       .setPositiveButton(msgFinYes, new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
-	    	        	   checkVisitCompleteStatus();
+	    	        	   updateVisitObjectforExtras(completeFlag);
+	    	        	   //checkVisitCompleteStatus();
 	    	        	   //triggerSyncAdapter();
 	    	           }
 	    	       })
@@ -534,7 +545,7 @@ public class HomeActivity extends Activity {
 	    	       });
 	    	AlertDialog alert = builder.create();
 	    	alert.show();
-	        return true;
+	        return true; 
 	    default:
 	        return super.onOptionsItemSelected(item);
 	    }

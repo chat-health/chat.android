@@ -57,9 +57,10 @@
     <string name="att_updated_text">Attendance updated</string>
     <string name="att_not_submitted_text">Attendance not submitted. Click on the above list of clients to select attending household members</string>
     
-    <string name="finalize_visit_confirm_text">Confirm finalization of visit</string>
-    <string name="finalize_visit_yes_text">Yes, mark this visit as complete and log me out</string>
-    <string name="finalize_visit_no_text">No, cancel and return to the visit in progress</string>
+    <string name="finalize_visit_incomplete_text">WARNING: This visit is still incomplete. If you end the visit now, it will be marked as incomplete in the volunteer visit log</string>
+    <string name="finalize_visit_complete_text">End this visit? It will be recorded as completed in the volunteer visit log</string>
+    <string name="finalize_visit_finish_text">End this visit</string>
+    <string name="finalize_visit_cancel_text">Cancel and return to the visit in progress</string>
     
     <string name="health_ed_delivered_text">Health topic marked as delivered to client</string>
     <string name="health_ed_exit_text">Exit health education delivery?</string>

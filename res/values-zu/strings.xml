@@ -24,9 +24,11 @@
     <string name="att_updated_text">I-attendence ibuyekeziwe</string>
     <string name="att_not_submitted_text">Ukuhambela akuhanjiswanga. Chofa ohlwini olungenhla lwamaklayenti ukukhetha amalunga omndeni ahambelayo (attending)</string>
     
-    <string name="finalize_visit_confirm_text">Qinisekisa ukuqedwa kokuvakasha</string>
-    <string name="finalize_visit_yes_text">Yebo, maka lokhu kuvakasha njengosekuphothuliwe futhi ungikhiphe</string>
-    <string name="finalize_visit_no_text">Cha, susa futhi ubuyele ekuvakasheni okuqhubekayo</string>
+    <!-- NEEDS UPDATING -->
+    <string name="finalize_visit_incomplete_text">WARNING: This visit is still incomplete. If you end the visit now, it will be marked as incomplete in the volunteer visit log</string>
+    <string name="finalize_visit_complete_text">End this visit? It will be recorded as completed in the volunteer visit log</string>
+    <string name="finalize_visit_finish_text">End this visit</string>
+    <string name="finalize_visit_cancel_text">Cancel and return to the visit in progress</string>
     
     <string name="service_delivery_title_text">Lezizinsiza noma lezinhlelo zokusiza zinikezelwe kubani?</string>
     <string name="service_select_one_service_text">Kumele ukhethe okungenani usizo olulodwa (noma uchhofe inkinobho yokubuyela emuva ebhalwe (back) ukususa)</string>
