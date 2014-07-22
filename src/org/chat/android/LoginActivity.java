@@ -80,7 +80,15 @@ public class LoginActivity extends Activity {
 		// Set up the login form.
 		mUserName = getIntent().getStringExtra("some string");
 		mUserNameView = (EditText) findViewById(R.id.user_name);
-		mUserNameView.setText(mUserName);
+		
+		// autofill last user if there is one in the DB
+		String lastuser = "colin";
+		lastuser = ModelHelper.getRecentUsername(getBaseContext());
+		if (lastuser != null) {
+			mUserNameView.setText(lastuser);
+		} else {
+			mUserNameView.setText(mUserName);
+		}
 
 		mPasswordView = (EditText) findViewById(R.id.password);
 		mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {

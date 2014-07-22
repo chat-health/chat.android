@@ -111,6 +111,8 @@ public class ReferralFragment extends Fragment {
     	smsMessage = smsMessage.replace("[Household name]", hhName);
     	smsMessage = smsMessage.replace("[Volunteer Name]", fName+" "+lName);
     	smsMessage = smsMessage.replace("[Phone Number]", workerPhoneNum);
+    	
+    	// I work now?
     	PackageManager pm = context.getPackageManager();
     	if (pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
     		new SendSMS().execute(nursePhoneNum, smsMessage);
@@ -216,6 +218,7 @@ public class ReferralFragment extends Fragment {
   			//m.addAttachment("/sdcard/myPicture.jpg");  // path to file you want to attach
   			if(m.send()) { 
   				// success
+  				
   				Log.i("Send Email", "send email successful");
   				isSuccess=true;
   			} else { 

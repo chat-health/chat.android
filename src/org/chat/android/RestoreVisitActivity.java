@@ -1,6 +1,7 @@
 package org.chat.android;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -77,19 +78,39 @@ public class RestoreVisitActivity extends Activity {
 		int workerId = 0;
 		workerId = ModelHelper.getWorkerForUsername(context, workerName).getId();
 		
-		// delete old visits
-    	DatabaseHelper helper = OpenHelperManager.getHelper(getApplicationContext(), DatabaseHelper.class);
-    	Dao vDao;
+		// mark the old visit as 'complete', that is end_time = start_time - doing this instead of deleting old visits
+		Visit visit = null;
+		visit = ModelHelper.getVisitForId(context, visitId);
+		Date endTime = null;
+		endTime = visit.getStartTime();
+		visit.setEndTime(endTime);
+		
+		Dao<Visit, Integer> vDao;
+	    DatabaseHelper vDbHelper = new DatabaseHelper(context);
 	    try {
-		    vDao = helper.getDao(Visit.class);
-		    DeleteBuilder<Visit, Integer> deleteBuilder = vDao.deleteBuilder();
-		    deleteBuilder.where().eq("worker_id",workerId).and().isNull("end_time");
-		    deleteBuilder.delete(); 
-    	} catch (SQLException e) {
-    	  	// TODO Auto-generated catch block
-    	  	e.printStackTrace();
-    	}
+	    	vDao = vDbHelper.getVisitsDao();
+	    	vDao.update(visit);
+	    } catch (SQLException e1) {
+	        // TODO Auto-generated catch block
+	        e1.printStackTrace();
+	    }
+		
+		
+		// delete old visits
+//    	DatabaseHelper helper = OpenHelperManager.getHelper(getApplicationContext(), DatabaseHelper.class);
+//    	Dao vDao;
+//	    try {
+//		    vDao = helper.getDao(Visit.class);
+//		    DeleteBuilder<Visit, Integer> deleteBuilder = vDao.deleteBuilder();
+//		    deleteBuilder.where().eq("worker_id",workerId).and().isNull("end_time");
+//		    deleteBuilder.delete(); 
+//    	} catch (SQLException e) {
+//    	  	// TODO Auto-generated catch block
+//    	  	e.printStackTrace();
+//    	}
 	    
+		
+		
 		// start a new visit
 		Intent i = new Intent(RestoreVisitActivity.this, SetupVisitActivity.class);
 		Bundle b = new Bundle();

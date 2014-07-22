@@ -38,6 +38,7 @@ import android.provider.Settings.Secure;
 import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.stmt.QueryBuilder;
 
 public class ModelHelper {
@@ -80,6 +81,36 @@ public class ModelHelper {
 			u = new Util(1, d, null);
 		}
 		uDao.createOrUpdate(u);
+	}
+	
+	public static String getRecentUsername(Context context) {
+		String workerName = null;
+		
+		// grab the last visit
+		Visit visit = null;
+		Dao<Visit, Integer> vDao;		
+		DatabaseHelper vDbHelper = new DatabaseHelper(context);
+		try {
+			// Yuck. There must be a much better way to do this
+			vDao = vDbHelper.getVisitsDao();
+			QueryBuilder<Visit, Integer> builder = vDao.queryBuilder();
+			builder.limit(1);
+			builder.orderBy("start_time", false);  // true for ascending, false for descending
+			List<Visit> vList = vDao.query(builder.prepare());  // returns list of ten items
+			Iterator<Visit> iter = vList.iterator();
+			while (iter.hasNext()) {
+				visit = iter.next();
+			}
+
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		// grab the 
+		workerName = ModelHelper.getWorkerForId(context, visit.getWorkerId()).getUsername();
+		
+		return workerName;
 	}
 	
 	public static Visit getVisitForId(Context context, int visitId) {
