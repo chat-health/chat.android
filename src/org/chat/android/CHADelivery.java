@@ -233,41 +233,38 @@ public class CHADelivery extends BaseActivity {
 		int selectResp = 0;
 		selectResp = (Integer) v.getTag();
 		
-		// TODO: this is insanely ugly. Wow. Please fix me (also maybe export this type of stuff to ModelHelper)
 		// create a new response or update a previously created one
-		HealthSelectRecorded prevHsr = null;
+		
 		// check if there is a previous response for this radio group (ie any of the children's tags have been recorded in HealthSelectRecorded)
+		Dao<HealthSelectRecorded, Integer> hsrDao;
+		DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
 		RadioGroup rg = (RadioGroup)v.getParent();
 		int numberOfChildren = rg.getChildCount();
 		for (int i = 0; i < numberOfChildren; i++) {
-		    RadioButton child = (RadioButton) rg.getChildAt(i);
-		    int selectId = (Integer) child.getTag();
-		    prevHsr = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicNameAndSelectIdAndClientId(context, visitId, "assessment", selectId, clientId);
+			RadioButton child = (RadioButton) rg.getChildAt(i);
+			int selectId = (Integer) child.getTag();
+			HealthSelectRecorded prevHsr = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicNameAndSelectIdAndClientId(context, visitId, "assessment", selectId, clientId);
+			// if there are previous responses
+			if (prevHsr != null) {
+				try {
+			    	hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
+			    	hsrDao.delete(prevHsr);
+			    } catch (SQLException e1) {
+			        // TODO Auto-generated catch block
+			        e1.printStackTrace();
+			    }
+			}
 		}
 		
-		// if there is not a previous healthSelectRecorded for this group of radio buttons (ie prevHsr == null), create a new one, otherwise update
-		Dao<HealthSelectRecorded, Integer> hsrDao;
-		DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
-		if (prevHsr == null) {
-			try {
-				HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, clientId, null, "assessment", new Date());
-	    		hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
-	    		hsrDao.create(hsr);
-	    	} catch (SQLException e) {
-	    	    // TODO Auto-generated catch block
-	    	    e.printStackTrace();
-	    	}
-		} else {
-			prevHsr.setSelectId(selectResp);
-			prevHsr.setDate(new Date());
-		    try {
-		    	hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
-		    	hsrDao.update(prevHsr);
-		    } catch (SQLException e1) {
-		        // TODO Auto-generated catch block
-		        e1.printStackTrace();
-		    }
-		}
+		// then add the new response
+		try {
+			HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, clientId, null, "assessment", new Date());
+    		hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
+    		hsrDao.create(hsr);
+    	} catch (SQLException e) {
+    	    // TODO Auto-generated catch block
+    	    e.printStackTrace();
+    	}
 		
 		// if the user chooses 'yes' (or the first of the selects) and there is a second set of selects to show, show it (pretty sloppy)
 		// find out how many selects are on the page

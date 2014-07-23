@@ -37,6 +37,9 @@
 			    <Button
 		            android:id="@+id/vaccine_date_select1"
 				    style="@style/immunizationDateButton" />
+			    <Button
+		            android:id="@+id/vaccine_date_clear1"
+				    style="@style/immunizationClearButton" />
 			</LinearLayout>
 			<LinearLayout
 			    android:id="@+id/vaccine_row2"

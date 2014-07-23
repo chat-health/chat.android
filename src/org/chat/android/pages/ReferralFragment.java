@@ -58,7 +58,7 @@ public class ReferralFragment extends Fragment {
     	List<HealthSelectRecorded> selects = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicNameAndClientId(context, visitId, "assessment", clientId);
     	
     	
-    	// if this gets any more complicated (waiting on Lisa for design), create class/model for this - see below
+    	// if this gets any more complicated (waiting on Lisa for design), create class/model for this - see below. This will also help with creating the email text
     	for (HealthSelectRecorded hsr : selects) {
     		int id = hsr.getSelectId();
     		if (id == 1003 || id == 1007 || id == 1009 || id == 1011 || id == 1013 || id == 1015 || id == 1020 || id == 1023 || id == 1028 || id == 1029 || id == 1031 || id == 1033 || id == 1035 || id == 1037) {
