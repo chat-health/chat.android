@@ -23,7 +23,11 @@
 	        android:orientation="vertical">
 	        <TextView
 		        android:id="@+id/referal"
-		        style="@style/shortTextContainer"
+				android:layout_width="wrap_content"
+	    		android:layout_height="wrap_content"
+	    		android:textSize="60sp"
+	    		android:textColor="#FF0000"
+	    		android:layout_marginBottom="20dp"
 		        android:text="@string/referral_urgent"
 		        android:visibility="gone" />
 	        <TextView

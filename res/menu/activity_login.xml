@@ -1,8 +1,4 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-<!--     <item android:id="@+id/menu_settings"
-        android:title="@string/menu_settings"
-        android:orderInCategory="2"
-        android:showAsAction="never" /> -->
     <item android:id="@+id/menu_about"
         android:title="@string/menu_about"
         android:orderInCategory="1"
@@ -15,16 +11,8 @@
         android:title="@string/menu_device_id"
         android:orderInCategory="3"
         android:showAsAction="never" />
-    <item android:id="@+id/menu_sync"
-        android:title="@string/menu_sync"
-        android:orderInCategory="4"
-        android:showAsAction="never" />
     <item android:id="@+id/menu_tablet_setup"
         android:title="@string/menu_tablet_setup"
         android:orderInCategory="5"
         android:showAsAction="never" />
-    <item android:id="@+id/menu_logout"
-        android:title="@string/menu_logout"
-        android:orderInCategory="99"
-        android:showAsAction="never" />    
 </menu>

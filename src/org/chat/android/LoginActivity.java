@@ -337,7 +337,7 @@ public class LoginActivity extends Activity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_base, menu);
+        getMenuInflater().inflate(R.menu.activity_login, menu);
         return true;
     }
 	
@@ -377,7 +377,7 @@ public class LoginActivity extends Activity {
 				e.printStackTrace();
 			}
 	        return true;
-	    case R.id.menu_sync:
+	    case R.id.menu_tablet_setup:
 	        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 	    	builder.setMessage("WARNING: Are you sure you want to pull all data to this tablet?")
 	    	       .setCancelable(false)
