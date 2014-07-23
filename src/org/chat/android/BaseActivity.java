@@ -108,7 +108,7 @@ public class BaseActivity extends Activity {
 	        return true;
 	    case R.id.menu_sync:
 	        BaseActivity.toastHelper(this,"Triggering sync with server...");
-	        triggerSyncAdaper();
+	        triggerSyncAdapter();
 	        return true;
 	    case R.id.menu_logout:
 	    	final Boolean completeFlag = checkVisitCompleteStatus();
@@ -128,7 +128,7 @@ public class BaseActivity extends Activity {
 	    	           public void onClick(DialogInterface dialog, int id) {
 	    	        	   updateVisitObjectforExtras(completeFlag);
 	    	        	   //checkVisitCompleteStatus();
-	    	        	   //triggerSyncAdapter();
+	    	        	   triggerSyncAdapter();
 	    	           }
 	    	       })
 	    	       .setNegativeButton(msgFinNo, new DialogInterface.OnClickListener() {
@@ -322,7 +322,7 @@ public class BaseActivity extends Activity {
 	   * @param v The View associated with the method call,
 	   * in this case a Button
 	   */
-    public void triggerSyncAdaper() {
+    public void triggerSyncAdapter() {
     	// Pass the settings flags by inserting them in a bundle
     	Bundle settingsBundle = new Bundle();
     	settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);

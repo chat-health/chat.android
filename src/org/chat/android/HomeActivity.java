@@ -70,7 +70,9 @@ public class HomeActivity extends Activity {
 	View healthDivider = null;
 	View chaDivider = null;
 	View resourcesDivider = null;
-	
+	ImageView servicesChk = null;
+	ImageView healthChk = null;
+	ImageView chaChk = null;
 	
 	// step aside I am here on official sync adapter business
 
@@ -270,6 +272,26 @@ public class HomeActivity extends Activity {
         	resourcesTitle.setTextColor(c);
         	resourcesDivider.setBackgroundColor(c);    		
     	}
+    	
+    	servicesChk = (ImageView)findViewById(R.id.services_checkmark);
+        if (checkServiceRequirements() == true) {
+        	servicesChk.setVisibility(View.VISIBLE);
+        } else {
+        	servicesChk.setVisibility(View.INVISIBLE);
+        }
+        healthChk = (ImageView)findViewById(R.id.health_education_checkmark);
+        if (checkHealthEducationRequirements() == true) {
+        	healthChk.setVisibility(View.VISIBLE);
+        } else {
+        	healthChk.setVisibility(View.INVISIBLE);
+        }
+        chaChk = (ImageView)findViewById(R.id.child_health_assessment_checkmark);
+        if (checkCHARequirements() == true) {
+        	chaChk.setVisibility(View.VISIBLE);
+        } else {
+        	chaChk.setVisibility(View.INVISIBLE);
+        }
+        		
     }
 
 
@@ -374,18 +396,70 @@ public class HomeActivity extends Activity {
     	}
     	
     	// check for completion of service requirements
-    	if (ModelHelper.getServicesAccessedForVisitId(context, visitId).size() == 0) {
+    	if (checkServiceRequirements() == false) {
     		completeFlag = false;
     		BaseActivity.toastHelper(this, "No services delivered");
     	}
     	
     	// check for completion of health ed requirements
-    	if (ModelHelper.getHealthTopicsAccessedForVisitId(context, visitId).size() == 0) {
+    	if (checkHealthEducationRequirements() == false) {
     		completeFlag = false;
     		BaseActivity.toastHelper(this,"No health topic education delivered" );
     	}
 
     	return completeFlag;
+    }
+    
+    private Boolean checkServiceRequirements() {
+    	Boolean f = null;
+    	if (ModelHelper.getServicesAccessedForVisitId(context, visitId).size() == 0) {
+    		f = false;
+    	} else {
+    		f = true;
+    	}
+    	return f;
+    }
+    
+    private Boolean checkHealthEducationRequirements() {
+    	Boolean f = null;
+    	if (ModelHelper.getHealthTopicsAccessedForVisitId(context, visitId).size() == 0) {
+    		f = false;
+    	} else {
+    		f = true;
+    	}
+    	return f;
+    }
+    
+    // TODO - this is a duplication of code in checkVisitCompleteStatus function
+    private Boolean checkCHARequirements() {
+    	Boolean f = null;
+    	List<Client> clientsForHealthAssessment = ModelHelper.getAttendingClientsForVisitIdUnderAge(context, visitId, 5);
+    	
+    	// check for completion of CHA
+    	for (Client c : clientsForHealthAssessment) {
+        	Boolean healthFlag = false;
+        	Boolean immunizationFlag = false;
+        	if (ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(context, visitId, c.getId(), "health") == true) {
+        		healthFlag = true;
+        	} else {
+        		healthFlag = false;
+        	}
+    		Boolean allVaccinesAdministered = ModelHelper.getVaccineRecordedCompleteForClientId(context, c.getId());
+    		Boolean chaImmunizationComplete = ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(context, visitId, c.getId(), "immunization");
+    		if (allVaccinesAdministered || chaImmunizationComplete) {
+    			immunizationFlag = true;
+    		} else {
+    			immunizationFlag = false;
+    		}
+    		
+    		if (healthFlag == false || immunizationFlag == false) {
+    			f = false;
+    		} else {
+    			f = true;
+    		}
+    	}
+    	
+    	return f;
     }
 	
 	private void updateVisitObjectforExtras(Boolean completeFlag) {
@@ -515,7 +589,7 @@ public class HomeActivity extends Activity {
 	        return true;
 	    case R.id.menu_sync:
 	        BaseActivity.toastHelper(this, "Triggering sync adapter to sync with server...");
-	        triggerSyncAdaper();
+	        triggerSyncAdapter();
 	        return true;
 	    case R.id.menu_logout:
 	    	final Boolean completeFlag = checkVisitCompleteStatus();
@@ -534,8 +608,7 @@ public class HomeActivity extends Activity {
 	    	       .setPositiveButton(msgFinYes, new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
 	    	        	   updateVisitObjectforExtras(completeFlag);
-	    	        	   //checkVisitCompleteStatus();
-	    	        	   //triggerSyncAdapter();
+	    	        	   triggerSyncAdapter();
 	    	           }
 	    	       })
 	    	       .setNegativeButton(msgFinNo, new DialogInterface.OnClickListener() {
@@ -585,7 +658,7 @@ public class HomeActivity extends Activity {
      * @param v The View associated with the method call,
      * in this case a Button
      */
-    public void triggerSyncAdaper() {
+    public void triggerSyncAdapter() {
         // Pass the settings flags by inserting them in a bundle
         Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);

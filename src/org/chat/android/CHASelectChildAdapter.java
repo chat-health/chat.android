@@ -3,6 +3,7 @@ package org.chat.android;
 import static org.chat.android.R.id.client_row;
 import static org.chat.android.R.id.client_name;
 import static org.chat.android.R.id.client_metadata;
+import static org.chat.android.R.id.client_checkbox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -46,6 +48,7 @@ public class CHASelectChildAdapter extends ArrayAdapter<Client> {
 
         TextView name = null;
         TextView metadataTv = null;
+        CheckBox cBox = null;
         String metadata = null;
         if (convertView != null) {
             name = (TextView)convertView.findViewById(client_name);
@@ -62,6 +65,14 @@ public class CHASelectChildAdapter extends ArrayAdapter<Client> {
             }
             metadata += c.getAgeString();
             metadataTv.setText(metadata);
+            
+            cBox = (CheckBox)convertView.findViewById(client_checkbox);
+            // check off if child has been done for imm and cha
+            if (checkCHARequirements(c) == true) {
+            	cBox.setChecked(true);
+            } else {
+            	cBox.setChecked(false);
+            }
         }
         
         LinearLayout row = (LinearLayout)convertView.findViewById(client_row);
@@ -82,7 +93,34 @@ public class CHASelectChildAdapter extends ArrayAdapter<Client> {
         return convertView;
     }
     
-    
+    // again, semi-duplicating functionality in HomeActivity. Think about moving this all to BaseActivity
+    private Boolean checkCHARequirements(Client c) {
+    	Context context = getContext();
+    	Boolean f = null;
+    	
+    	Boolean healthFlag = false;
+    	Boolean immunizationFlag = false;
+    	if (ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(context, visitId, c.getId(), "health") == true) {
+    		healthFlag = true;
+    	} else {
+    		healthFlag = false;
+    	}
+		Boolean allVaccinesAdministered = ModelHelper.getVaccineRecordedCompleteForClientId(context, c.getId());
+		Boolean chaImmunizationComplete = ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(context, visitId, c.getId(), "immunization");
+		if (allVaccinesAdministered || chaImmunizationComplete) {
+			immunizationFlag = true;
+		} else {
+			immunizationFlag = false;
+		}
+		
+		if (healthFlag == false || immunizationFlag == false) {
+			f = false;
+		} else {
+			f = true;
+		}
+    	
+    	return f;
+    }
 
 	public List<Client> getSelectedClients() {
 		return presenceArrayList;

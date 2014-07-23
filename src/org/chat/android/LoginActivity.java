@@ -82,7 +82,7 @@ public class LoginActivity extends Activity {
 		mUserNameView = (EditText) findViewById(R.id.user_name);
 		
 		// autofill last user if there is one in the DB
-		String lastuser = "colin";
+		String lastuser = null;
 		lastuser = ModelHelper.getRecentUsername(getBaseContext());
 		if (lastuser != null) {
 			mUserNameView.setText(lastuser);

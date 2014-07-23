@@ -107,10 +107,13 @@ public class ModelHelper {
 			e2.printStackTrace();
 		}
 		
-		// grab the 
-		workerName = ModelHelper.getWorkerForId(context, visit.getWorkerId()).getUsername();
-		
-		return workerName;
+		// grab the worker from the last visit, if it exists
+		if (visit != null) {
+			workerName = ModelHelper.getWorkerForId(context, visit.getWorkerId()).getUsername();
+			return workerName;
+		} else {
+			return null;
+		}
 	}
 	
 	public static Visit getVisitForId(Context context, int visitId) {

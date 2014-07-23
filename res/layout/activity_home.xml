@@ -77,7 +77,18 @@
 	       	    android:layout_marginLeft="20dp"
 	       	    android:layout_marginTop="40dp"
 	       	    android:src="@drawable/servicesgobuttondisabled"
-	       	    android:onClick="openServiceOverview" />      
+	       	    android:onClick="openServiceOverview" />
+				
+	        <ImageView
+	            android:id="@+id/services_checkmark"
+	            style="@style/checkmarkImage"
+	            android:layout_alignParentBottom="true"
+				android:layout_alignParentRight="true"
+				android:layout_height="40dp"
+				android:layout_width="40dp"
+	            android:src="@drawable/checkmark"
+	            android:visibility="invisible" />
+
 		</RelativeLayout>
 		
 	    <RelativeLayout
@@ -111,6 +122,15 @@
 	       	    android:layout_marginTop="40dp"
 	       	    android:src="@drawable/healthedgobuttondisabled"
 	       	    android:onClick="openHealthOverview" />
+	        <ImageView
+	            android:id="@+id/health_education_checkmark"
+	            style="@style/checkmarkImage"
+	            android:layout_alignParentBottom="true"
+				android:layout_alignParentRight="true"
+				android:layout_height="40dp"
+				android:layout_width="40dp"
+	            android:src="@drawable/checkmark"
+	            android:visibility="invisible" />   	
 		</RelativeLayout>
 		
 	    <RelativeLayout
@@ -143,7 +163,16 @@
 	       	    android:layout_marginLeft="20dp"
 	       	    android:layout_marginTop="40dp"
 	       	    android:src="@drawable/childhealthassessmentgobuttondisabled"
-	       	    android:onClick="openCHA" />      
+	       	    android:onClick="openCHA" />
+	        <ImageView
+	            android:id="@+id/child_health_assessment_checkmark"
+	            style="@style/checkmarkImage"
+	            android:layout_alignParentBottom="true"
+				android:layout_alignParentRight="true"
+				android:layout_height="40dp"
+				android:layout_width="40dp"
+	            android:src="@drawable/checkmark"
+	            android:visibility="invisible" />
 		</RelativeLayout>
 		
 	    <RelativeLayout

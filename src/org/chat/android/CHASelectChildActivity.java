@@ -18,6 +18,12 @@ public class CHASelectChildActivity extends BaseActivity {
     @Override    
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+	
+    }
+    
+    protected void onResume() {
+    	super.onResume();
+    	
         context = getApplicationContext();
         setContentView(R.layout.activity_cha_select_child);
         
@@ -36,6 +42,6 @@ public class CHASelectChildActivity extends BaseActivity {
 		ListView lv = (ListView) findViewById(R.id.attending_children_listview);
 		adapter = new CHASelectChildAdapter(context, android.R.layout.simple_list_item_1, clientsForHealthAssessment, visitId, hhId);
 	    lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-	    lv.setAdapter(adapter);		
+	    lv.setAdapter(adapter);	
     }
 }
