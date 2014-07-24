@@ -1,20 +1,31 @@
 package org.chat.android;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.chat.android.models.Attendance;
 import org.chat.android.models.CHAAccessed;
 import org.chat.android.models.Client;
+import org.chat.android.models.HealthSelectRecorded;
 import org.chat.android.models.Vaccine;
 import org.chat.android.models.VaccineRecorded;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.DeleteBuilder;
+
+import android.app.AlertDialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnClickListener;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -104,10 +115,12 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
 				TextView shortName = (TextView)row.getChildAt(1);
 				//TextView longName = (TextView)row.getChildAt(2);
 				Button dateBtn = (Button)row.getChildAt(2);
+				Button clearBtn = (Button)row.getChildAt(3);
 				
 				shortName.setText(v.getShortName());
 				//longName.setText(v.getLongName());
 				dateBtn.setTag(v.getId());
+				clearBtn.setTag(v.getId());
 				
 				VaccineRecorded vr = ModelHelper.getVaccineRecordedForClientIdAndVaccineId(context, client.getId(), v.getId());
 				// if there is a vaccineRecorded object for this vaccine and this client - think about if there are multiple vaccineRecordeds. This seems to work, tho just by default - takes the most recent VR as the correct one, which is the behaviour that we want
@@ -160,5 +173,38 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
     	b.putInt("clientId",clientId);
     	newFragment.setArguments(b);
         newFragment.show(getFragmentManager(), "datePicker");
+    }
+    
+    public void clearImmunizationDate(final View v) {
+        new AlertDialog.Builder(this)
+        .setTitle("Confirm delete")
+        .setMessage("Are you sure you want to clear the date for this immunization?")
+        .setNegativeButton(android.R.string.no, null)
+        .setPositiveButton(android.R.string.yes, new OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+            	// figure out which vaccine this is
+            	Button clearBtn = (Button)v;
+            	Button dateBtn = (Button) ((ViewGroup)v.getParent()).getChildAt(2);
+            	int vaccineId = (Integer) clearBtn.getTag();
+            	VaccineRecorded vr = ModelHelper.getVaccineRecordedForClientIdAndVaccineId(context, client.getId(), vaccineId);
+            	
+            	// clear the associated button
+            	String clearTxt = getResources().getString(getResources().getIdentifier("immunization_date_button_text", "string", getPackageName()));
+            	dateBtn.setText(clearTxt);
+            	int c = getResources().getColor(android.R.color.white);
+        		dateBtn.setTextColor(c);
+            	
+            	// remove the VaccineRecorded from the DB
+            	DatabaseHelper vrDbHelper = OpenHelperManager.getHelper(getApplicationContext(), DatabaseHelper.class);
+            	Dao<VaccineRecorded, Integer> vrDao;
+        	    try {
+        	    	vrDao = vrDbHelper.getVaccineRecordedDao();
+        	    	vrDao.delete(vr);
+            	} catch (SQLException e) {
+            	  	// TODO Auto-generated catch block
+            	  	e.printStackTrace();
+            	}             	
+            }
+        }).create().show();
     }
 }

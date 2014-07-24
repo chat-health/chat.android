@@ -62,6 +62,9 @@
 			    <Button
 		            android:id="@+id/vaccine_date_select2"
 				    style="@style/immunizationDateButton" />
+			    <Button
+		            android:id="@+id/vaccine_date_clear2"
+				    style="@style/immunizationClearButton" />			    
 			</LinearLayout>  
 		    
 	        <TextView
@@ -91,6 +94,9 @@
 			    <Button
 		            android:id="@+id/vaccine_date_select3"
 				    style="@style/immunizationDateButton" />
+			    <Button
+		            android:id="@+id/vaccine_date_clear3"
+				    style="@style/immunizationClearButton" />			    
 			</LinearLayout>
 		    <LinearLayout
 		        android:id="@+id/vaccine_row4"
@@ -113,6 +119,9 @@
 			    <Button
 		            android:id="@+id/vaccine_date_select4"
 				    style="@style/immunizationDateButton" />
+			    <Button
+		            android:id="@+id/vaccine_date_clear4"
+				    style="@style/immunizationClearButton" />			    
 			</LinearLayout> 	    
 		    <LinearLayout
 		        android:id="@+id/vaccine_row5"
@@ -136,6 +145,9 @@
 			    <Button
 		            android:id="@+id/vaccine_date_select5"
 				    style="@style/immunizationDateButton" />
+			    <Button
+		            android:id="@+id/vaccine_date_clear5"
+				    style="@style/immunizationClearButton" />			    
 			</LinearLayout>
 		    <LinearLayout
 		        android:id="@+id/vaccine_row6"
@@ -158,6 +170,9 @@
 			    <Button
 		            android:id="@+id/vaccine_date_select6"
 				    style="@style/immunizationDateButton" />
+			    <Button
+		            android:id="@+id/vaccine_date_clear6"
+				    style="@style/immunizationClearButton" />			    
 			</LinearLayout>
 		    <LinearLayout
 		        android:id="@+id/vaccine_row7"
@@ -181,6 +196,9 @@
 			    <Button
 		            android:id="@+id/vaccine_date_select7"
 				    style="@style/immunizationDateButton" />
+			    <Button
+		            android:id="@+id/vaccine_date_clear7"
+				    style="@style/immunizationClearButton" />			    
 			</LinearLayout>	 	    
 		    
 	        <TextView
@@ -210,6 +228,9 @@
 			    <Button
 		            android:id="@+id/vaccine_date_select8"
 				    style="@style/immunizationDateButton" />
+			    <Button
+		            android:id="@+id/vaccine_date_clear8"
+				    style="@style/immunizationClearButton" />			    
 			</LinearLayout>
 		    <LinearLayout
 		        android:id="@+id/vaccine_row9"
@@ -232,6 +253,9 @@
 			    <Button
 		            android:id="@+id/vaccine_date_select9"
 				    style="@style/immunizationDateButton" />
+			    <Button
+		            android:id="@+id/vaccine_date_clear9"
+				    style="@style/immunizationClearButton" />			    
 			</LinearLayout>
 			
 		    <TextView
@@ -260,6 +284,9 @@
 			    <Button
 		            android:id="@+id/vaccine_date_select10"
 				    style="@style/immunizationDateButton" />
+			    <Button
+		            android:id="@+id/vaccine_date_clear10"
+				    style="@style/immunizationClearButton" />			    
 			</LinearLayout>
 			<LinearLayout
 		        android:id="@+id/vaccine_row11"
@@ -282,6 +309,9 @@
 			    <Button
 		            android:id="@+id/vaccine_date_select11"
 				    style="@style/immunizationDateButton" />
+			    <Button
+		            android:id="@+id/vaccine_date_clear11"
+				    style="@style/immunizationClearButton" />			    
 			</LinearLayout>				
 			<LinearLayout
 		        android:id="@+id/vaccine_row12"
@@ -304,6 +334,9 @@
 			    <Button
 		            android:id="@+id/vaccine_date_select12"
 				    style="@style/immunizationDateButton" />
+			    <Button
+		            android:id="@+id/vaccine_date_clear12"
+				    style="@style/immunizationClearButton" />			    
 			</LinearLayout>
 		    <LinearLayout
 		        android:id="@+id/vaccine_row13"
@@ -326,6 +359,9 @@
 			    <Button
 		            android:id="@+id/vaccine_date_select13"
 				    style="@style/immunizationDateButton" />
+			    <Button
+		            android:id="@+id/vaccine_date_clear13"
+				    style="@style/immunizationClearButton" />			    
 			</LinearLayout>
 			
 			<TextView
@@ -354,6 +390,9 @@
 			    <Button
 		            android:id="@+id/vaccine_date_select14"
 				    style="@style/immunizationDateButton" />
+			    <Button
+		            android:id="@+id/vaccine_date_clear14"
+				    style="@style/immunizationClearButton" />			    
 			</LinearLayout>
 			<LinearLayout
 		        android:id="@+id/vaccine_row15"
@@ -376,6 +415,9 @@
 			    <Button
 		            android:id="@+id/vaccine_date_select15"
 				    style="@style/immunizationDateButton" />
+			    <Button
+		            android:id="@+id/vaccine_date_clear15"
+				    style="@style/immunizationClearButton" />			    
 			</LinearLayout>		
 
 			<TextView
@@ -404,6 +446,9 @@
 			    <Button
 		            android:id="@+id/vaccine_date_select16"
 				    style="@style/immunizationDateButton" />
+			    <Button
+		            android:id="@+id/vaccine_date_clear16"
+				    style="@style/immunizationClearButton" />			    
 			</LinearLayout>
 			<LinearLayout
 		        android:id="@+id/vaccine_row17"
@@ -426,6 +471,9 @@
 			    <Button
 		            android:id="@+id/vaccine_date_select17"
 				    style="@style/immunizationDateButton" />
+			    <Button
+		            android:id="@+id/vaccine_date_clear17"
+				    style="@style/immunizationClearButton" />			    
 			</LinearLayout>	
 			
 		</LinearLayout>

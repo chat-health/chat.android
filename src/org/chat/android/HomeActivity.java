@@ -432,7 +432,7 @@ public class HomeActivity extends Activity {
     
     // TODO - this is a duplication of code in checkVisitCompleteStatus function
     private Boolean checkCHARequirements() {
-    	Boolean f = null;
+    	Boolean f = true;
     	List<Client> clientsForHealthAssessment = ModelHelper.getAttendingClientsForVisitIdUnderAge(context, visitId, 5);
     	
     	// check for completion of CHA
@@ -454,8 +454,6 @@ public class HomeActivity extends Activity {
     		
     		if (healthFlag == false || immunizationFlag == false) {
     			f = false;
-    		} else {
-    			f = true;
     		}
     	}
     	
