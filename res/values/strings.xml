@@ -58,6 +58,7 @@
     <string name="att_updated_text">Attendance updated</string>
     <string name="att_not_submitted_text">Attendance not submitted. Click on the above list of clients to select attending household members</string>
     
+    <string name="visit_complete">Visit is complete. You may now log out or return to any section for more discussion</string>
     <string name="finalize_visit_incomplete_text">WARNING: This visit is still incomplete. If you end the visit now, it will be marked as incomplete in the volunteer visit log</string>
     <string name="finalize_visit_complete_text">End this visit? It will be recorded as completed in the volunteer visit log</string>
     <string name="finalize_visit_finish_text">End this visit</string>

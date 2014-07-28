@@ -156,7 +156,7 @@ public class BaseActivity extends Activity {
     	text.setText(message);
 
     	Toast toast = new Toast(context);
-    	toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+    	toast.setGravity(Gravity.CENTER_VERTICAL, 0, -120);
     	toast.setDuration(Toast.LENGTH_LONG);
     	toast.setView(layout);
     	toast.show();   	

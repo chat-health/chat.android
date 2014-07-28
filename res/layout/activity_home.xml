@@ -88,8 +88,15 @@
 				android:layout_width="40dp"
 	            android:src="@drawable/checkmark"
 	            android:visibility="invisible" />
-
 		</RelativeLayout>
+		
+	    <RelativeLayout
+	        android:id="@+id/services_border"
+			style="@style/branchContainer"
+	        android:layout_alignParentTop="true"
+			android:layout_alignParentLeft="true"
+			android:background="@drawable/borderservices"
+			android:visibility="invisible" />  
 		
 	    <RelativeLayout
 			style="@style/branchContainer"
@@ -134,6 +141,14 @@
 		</RelativeLayout>
 		
 	    <RelativeLayout
+	        android:id="@+id/healthed_border"
+			style="@style/branchContainer"
+	        android:layout_alignParentBottom="true"
+			android:layout_alignParentLeft="true"
+			android:background="@drawable/borderhealthed"
+			android:visibility="invisible" />  
+		
+	    <RelativeLayout
 			style="@style/branchContainer"
 	        android:layout_alignParentTop="true"
 			android:layout_alignParentRight="true"
@@ -174,6 +189,14 @@
 	            android:src="@drawable/checkmark"
 	            android:visibility="invisible" />
 		</RelativeLayout>
+		
+	    <RelativeLayout
+	        android:id="@+id/health_assessment_border"
+			style="@style/branchContainer"
+	        android:layout_alignParentTop="true"
+			android:layout_alignParentRight="true"
+			android:background="@drawable/borderhealthassessment"
+			android:visibility="invisible" />  	    
 		
 	    <RelativeLayout
 			style="@style/branchContainer"

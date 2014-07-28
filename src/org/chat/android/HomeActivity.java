@@ -36,9 +36,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -272,29 +275,47 @@ public class HomeActivity extends Activity {
         	resourcesTitle.setTextColor(c);
         	resourcesDivider.setBackgroundColor(c);    		
     	}
-    	
+
+        
+        // update checkmarks and borders to denote current completed sections
+        Animation animPulse = AnimationUtils.loadAnimation(context, R.anim.pulse);
     	servicesChk = (ImageView)findViewById(R.id.services_checkmark);
+    	healthChk = (ImageView)findViewById(R.id.health_education_checkmark);
+    	chaChk = (ImageView)findViewById(R.id.child_health_assessment_checkmark);
+    	RelativeLayout servicesBrd = (RelativeLayout)findViewById(R.id.services_border);
+    	RelativeLayout healthBrd = (RelativeLayout)findViewById(R.id.healthed_border);
+    	RelativeLayout chaBrd = (RelativeLayout)findViewById(R.id.health_assessment_border);
+    	
+    	
+    	// mmmmm, nesty - good luck parsing this, future code viewers
+    	// jk you guys. The idea here is that order now matters. So, if services is done, hide its border, add its checkmark and then show health ed's border
         if (checkServiceRequirements() == true) {
         	servicesChk.setVisibility(View.VISIBLE);
+        	if (checkHealthEducationRequirements() == true) {
+            	healthChk.setVisibility(View.VISIBLE);
+            	healthBrd.setVisibility(View.INVISIBLE);
+            	if (checkCHARequirements() == true) {
+                	chaChk.setVisibility(View.VISIBLE);
+                	servicesBrd.setVisibility(View.INVISIBLE);
+                	String msg = getResources().getString(getResources().getIdentifier("visit_complete", "string", getPackageName()));				// ADD ME TO TRANSLATIONS DOC
+                	BaseActivity.toastHelper(this, msg);
+                } else {
+                	chaChk.setVisibility(View.INVISIBLE);
+                	chaBrd.setVisibility(View.VISIBLE);
+                	chaBrd.startAnimation(animPulse);
+                }
+            } else {
+            	healthChk.setVisibility(View.INVISIBLE);
+            	healthBrd.setVisibility(View.VISIBLE);
+            	healthBrd.startAnimation(animPulse);
+            }
         } else {
         	servicesChk.setVisibility(View.INVISIBLE);
-        }
-        healthChk = (ImageView)findViewById(R.id.health_education_checkmark);
-        if (checkHealthEducationRequirements() == true) {
-        	healthChk.setVisibility(View.VISIBLE);
-        } else {
-        	healthChk.setVisibility(View.INVISIBLE);
-        }
-        chaChk = (ImageView)findViewById(R.id.child_health_assessment_checkmark);
-        if (checkCHARequirements() == true) {
-        	chaChk.setVisibility(View.VISIBLE);
-        } else {
-        	chaChk.setVisibility(View.INVISIBLE);
+        	servicesBrd.setVisibility(View.VISIBLE);
+        	servicesBrd.startAnimation(animPulse);
         }
         		
     }
-
-
     
     
     ////////// HELPER FUNCTIONS //////////
