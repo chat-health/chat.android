@@ -19,10 +19,6 @@
         android:title="@string/menu_sync"
         android:orderInCategory="4"
         android:showAsAction="never" />
-    <item android:id="@+id/menu_tablet_setup"
-        android:title="@string/menu_tablet_setup"
-        android:orderInCategory="5"
-        android:showAsAction="never" />
     <item android:id="@+id/menu_logout"
         android:title="@string/menu_logout"
         android:orderInCategory="99"

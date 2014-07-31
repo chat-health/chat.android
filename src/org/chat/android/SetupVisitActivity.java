@@ -11,8 +11,11 @@ import org.chat.android.models.Worker;
 import com.j256.ormlite.dao.Dao;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnClickListener;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -103,26 +106,48 @@ public class SetupVisitActivity extends Activity {
 			new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					// TODO complete these - missing this page's dropdowns. Also, need some way of not getting stuck while also enforcing GPS
-					if (latitude == 0.0 && longitude == 0.0) {
-						showWarning();
-					}
-					Intent myIntent = new Intent(SetupVisitActivity.this, HomeActivity.class);
-					Bundle b = new Bundle();			
-					b.putString("hhName",householdSpinner.getSelectedItem().toString());
-					b.putString("workerName", workerName);
-					b.putString("role", role);
-					
-					b.putString("type",visitTypeSpinner.getSelectedItem().toString());
-					b.putDouble("lat", latitude);
-					b.putDouble("lon", longitude);
-					myIntent.putExtras(b);
-					startActivity(myIntent);
-					finish();
+					confirmGPS();
 				}
 			});
 	}
-
+	
+	private void confirmGPS() {
+		if (latitude == 0.0 && longitude == 0.0) {
+			String msg = getResources().getString(getResources().getIdentifier("warning_text", "string", getPackageName()));				// GET THIS REDONE WITH NEW TRANSLATIONS
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	    	builder.setMessage("GPS has not been recorded. Start visit anyways?")
+	    	       .setCancelable(false)
+	    	       .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+	    	           public void onClick(DialogInterface dialog, int id) {
+	    	        	   startVisit();
+	    	           }
+	    	       })
+	    	       .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+	    	           public void onClick(DialogInterface dialog, int id) {
+	    	                dialog.cancel();
+	    	           }
+	    	       });
+	    	AlertDialog alert = builder.create();
+	    	alert.show();
+		} else {
+			startVisit();
+		}
+	}
+	
+	private void startVisit() {
+		Intent myIntent = new Intent(SetupVisitActivity.this, HomeActivity.class);
+		Bundle b = new Bundle();			
+		b.putString("hhName",householdSpinner.getSelectedItem().toString());
+		b.putString("workerName", workerName);
+		b.putString("role", role);
+		
+		b.putString("type",visitTypeSpinner.getSelectedItem().toString());
+		b.putDouble("lat", latitude);
+		b.putDouble("lon", longitude);
+		myIntent.putExtras(b);
+		startActivity(myIntent);
+		finish();
+	}
 	
 	public void getGPSLocation() {
 		// it's possible that this should be done on a different thread - is this an example of 'working on the UI thread'? Maybe disable the Start new visit button
@@ -143,12 +168,6 @@ public class SetupVisitActivity extends Activity {
             // can't determine location because GPS or Network is not enabled
             gps.showSettingsAlert();
         }
-	}
-	
-	
-	public void showWarning() {
-		String msg = getResources().getString(getResources().getIdentifier("warning_text", "string", getPackageName()));
-		BaseActivity.toastHelper(this, msg);
 	}
 
 }
