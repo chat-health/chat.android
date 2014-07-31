@@ -1137,6 +1137,20 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 			jsonArrCHAA.put(jsonObj);
 		}
 		json.put("cha_accessed",jsonArrCHAA);
+		
+		Dao<HealthTopicAccessed, Integer> htaDao;
+		htaDao = dbHelper.getHealthTopicAccessedDao();
+		List<HealthTopicAccessed> htaList = htaDao.queryForEq("visit_id", v.getId());
+		JSONArray jsonArrHTA = new JSONArray();
+		for (HealthTopicAccessed hta : htaList) {
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("topic_id", hta.getTopicId());
+			jsonObj.put("topic_name", hta.getTopicName());
+			jsonObj.put("start_time", formatDateToJsonDate(hta.getStartTime()));
+			jsonObj.put("end_time", formatDateToJsonDate(hta.getEndTime()));			
+			jsonArrHTA.put(jsonObj);
+		}
+		json.put("health_topics_accessed",jsonArrHTA);
 	}
 	
 	private void populateTablesFromVisitObject(JSONObject jo) {

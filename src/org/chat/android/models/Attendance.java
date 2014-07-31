@@ -15,7 +15,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "attendance")
 public class Attendance {
-	@DatabaseField
+	@DatabaseField(id = true)
 	private int id;
     @DatabaseField
     private int visit_id;

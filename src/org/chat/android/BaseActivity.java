@@ -107,7 +107,7 @@ public class BaseActivity extends Activity {
 	    	startActivity(resourcesI);
 	        return true;
 	    case R.id.menu_sync:
-	        BaseActivity.toastHelper(this,"Triggering sync with server...");
+	        BaseActivity.toastHelper(this,"Triggering sync with server");
 	        triggerSyncAdapter();
 	        return true;
 	    case R.id.menu_logout:
@@ -156,7 +156,7 @@ public class BaseActivity extends Activity {
     	text.setText(message);
 
     	Toast toast = new Toast(context);
-    	toast.setGravity(Gravity.CENTER_VERTICAL, 0, -120);
+    	toast.setGravity(Gravity.CENTER_VERTICAL, 0, 40);
     	toast.setDuration(Toast.LENGTH_LONG);
     	toast.setView(layout);
     	toast.show();   	

@@ -607,7 +607,7 @@ public class HomeActivity extends Activity {
 			}
 	        return true;
 	    case R.id.menu_sync:
-	        BaseActivity.toastHelper(this, "Triggering sync adapter to sync with server...");
+	        BaseActivity.toastHelper(this, "Triggering sync adapter to sync with server");
 	        triggerSyncAdapter();
 	        return true;
 	    case R.id.menu_logout:
