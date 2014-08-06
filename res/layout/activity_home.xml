@@ -84,8 +84,8 @@
 	            style="@style/checkmarkImage"
 	            android:layout_alignParentBottom="true"
 				android:layout_alignParentRight="true"
-				android:layout_height="40dp"
-				android:layout_width="40dp"
+				android:layout_height="70dp"
+				android:layout_width="70dp"
 	            android:src="@drawable/checkmark"
 	            android:visibility="invisible" />
 		</RelativeLayout>
@@ -134,8 +134,8 @@
 	            style="@style/checkmarkImage"
 	            android:layout_alignParentBottom="true"
 				android:layout_alignParentRight="true"
-				android:layout_height="40dp"
-				android:layout_width="40dp"
+				android:layout_height="70dp"
+				android:layout_width="70dp"
 	            android:src="@drawable/checkmark"
 	            android:visibility="invisible" />   	
 		</RelativeLayout>
@@ -184,8 +184,8 @@
 	            style="@style/checkmarkImage"
 	            android:layout_alignParentBottom="true"
 				android:layout_alignParentRight="true"
-				android:layout_height="40dp"
-				android:layout_width="40dp"
+				android:layout_height="70dp"
+				android:layout_width="70dp"
 	            android:src="@drawable/checkmark"
 	            android:visibility="invisible" />
 		</RelativeLayout>
