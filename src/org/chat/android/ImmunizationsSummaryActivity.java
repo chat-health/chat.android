@@ -42,7 +42,7 @@ public class ImmunizationsSummaryActivity extends BaseActivity {
     		// will return null if it doesn't exist
     		VaccineRecorded vr = ModelHelper.getVaccineRecordedForClientIdAndVaccineId(context, client.getId(), vaccine.getId());
     		if (vr == null) {
-    			mv += vaccine.getLongName();
+    			mv += vaccine.getShortName();
     			mv += ", ";		
     		}
     	}

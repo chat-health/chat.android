@@ -61,11 +61,11 @@ public class ReferralFragment extends Fragment {
     	// if this gets any more complicated (waiting on Lisa for design), create class/model for this - see below. This will also help with creating the email text
     	for (HealthSelectRecorded hsr : selects) {
     		int id = hsr.getSelectId();
-    		if (id == 1003 || id == 1007 || id == 1009 || id == 1011 || id == 1013 || id == 1015 || id == 1020 || id == 1023 || id == 1028 || id == 1029 || id == 1031 || id == 1033 || id == 1035 || id == 1037) {
+    		if (id == 1003 || id == 1007 || id == 1009 || id == 1013 || id == 1015 || id == 1020 || id == 1023 || id == 1028 || id == 1029 || id == 1031 || id == 1033 || id == 1035 || id == 1037) {
     			referalTextBox.setVisibility(View.VISIBLE);
     			referalFlag = true;
-    		}
-    		if (id == 1004 || id == 1008 || id == 1010 || id == 1012 || id == 1014 || id == 1016) {
+    			emailContentStr = emailContentStr + " " + String.valueOf(id);
+    		} else {
     			content1.setVisibility(View.VISIBLE);
     		}
     		if (id == 1007 || id == 1008) {
@@ -78,7 +78,6 @@ public class ReferralFragment extends Fragment {
     			content4.setVisibility(View.VISIBLE);
     		}
     		
-    		emailContentStr = emailContentStr + " " + String.valueOf(id);
     	}
     	
     	if (referalFlag == true) {
@@ -120,7 +119,7 @@ public class ReferralFragment extends Fragment {
     	}
     	
     	// this is all pretty gross, but I'm assuming this section will get cut anyways
-    	emailContentStr = emailContentStr + ("\n\n\n") + "First attempt at HSR display: " + ("\n\n");
+    	emailContentStr = emailContentStr + ("\n\n\n") + "Some of the symptoms uncovered by the home care volunteer include: " + ("\n\n");
     	hsrContent = ModelHelper.getAllHealthSelectContentForVisitIdAndClientId(context, visitId, clientId);
     	int i = 1;
     	for (String s : hsrContent) {
