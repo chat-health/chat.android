@@ -41,14 +41,16 @@ public class ImmunizationsSummaryActivity extends BaseActivity {
 		
 		TextView tv = (TextView) findViewById(R.id.missing_vaccines_box);
 		// String msg = getResources().getString(getResources().getIdentifier("immunization_missing_vaccines_text", "string", getPackageName()));
-		tv.setText("Refer " + client.getFirstName() + " " + client.getLastName() + " for the required immunizations:" + missingVaccines);
+		tv.setText(missingVaccines);
     }
     
     private String getMissingVaccines(Client client) {
     	Boolean referralFlag = false;
     	String mv = "";
     	List<Vaccine> vList = ModelHelper.getVaccinesForAge(context, client.getAge());
+    	List<VaccineRecorded> vaccinesRecorded = null;
     	
+    	int stopReferCount = 0;
     	for (Vaccine vaccine : vList) {
     		// will return null if it doesn't exist
     		VaccineRecorded vr = ModelHelper.getVaccineRecordedForClientIdAndVaccineId(context, client.getId(), vaccine.getId());
@@ -56,12 +58,21 @@ public class ImmunizationsSummaryActivity extends BaseActivity {
     			mv += "\n- ";
     			mv += vaccine.getShortName();
     			referralFlag = true;
+    		} else {
+    			// disturbing implicit check, need confirm from Lisa. If any vaccines missing but 'last' vaccines are there (ie ages 0.75 and 1.5), do not refer
+    			if (vaccine.getAge() == 0.75 || vaccine.getAge() == 1.5) {
+    				// if stopReferCount is 4, then we don't need to refer
+    				stopReferCount++;
+    			}
     		}
     	}
     	
-    	if (referralFlag == true) {
+    	if (referralFlag == true && stopReferCount < 4) {
     		sendReferral(mv);
-    	}
+    		mv = "Refer " + client.getFirstName() + " " + client.getLastName() + " for the required immunizations:" + mv;
+    	} else {
+     		mv = client.getFirstName() + " " + client.getLastName() + " is missing some vaccinations, but has their most recent vaccines";
+     	}
     	
     	return mv;
     }
