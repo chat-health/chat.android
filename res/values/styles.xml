@@ -206,10 +206,10 @@
 	<style name="immunizationDateButton">
 	    <item name="android:layout_width">219dp</item>
 	    <item name="android:layout_height">wrap_content</item>
-	    <item name="android:text">@string/immunization_date_button_text</item>
+	    <item name="android:text"></item>
 	    <item name="android:textColor">#FFFFFF</item>
 	    <item name="android:background">#749999</item>
-	    <item name="android:onClick">showDatePickerDialog</item>
+	    <item name="android:onClick">markImmunizationAsGiven</item>
 	</style>
 
 	<style name="immunizationClearButton">
@@ -219,7 +219,7 @@
 	    <item name="android:text">Clear</item>
 	    <item name="android:textColor">#FFFFFF</item>
 	    <item name="android:background">#749999</item>
-	    <item name="android:onClick">clearImmunizationDate</item>
+	    <item name="android:onClick">clearImmunization</item>
 	</style>
 	
 	<style name="vaccineSummaryContainer">

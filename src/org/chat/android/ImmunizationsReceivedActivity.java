@@ -125,9 +125,9 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
 				VaccineRecorded vr = ModelHelper.getVaccineRecordedForClientIdAndVaccineId(context, client.getId(), v.getId());
 				// if there is a vaccineRecorded object for this vaccine and this client - think about if there are multiple vaccineRecordeds. This seems to work, tho just by default - takes the most recent VR as the correct one, which is the behaviour that we want
 				if (vr != null) {
-					Date d = vr.getDate();
-					Calendar cal = dateToCal(d);
-					dateBtn.setText(getMonthForInt(cal) + " " + cal.get(Calendar.DAY_OF_MONTH) + ", " + cal.get(Calendar.YEAR));
+//					Date d = vr.getDate();
+//					Calendar cal = dateToCal(d);
+					dateBtn.setText("DONE");
 				} else {
 					flag.setVisibility(View.VISIBLE);
 					shortName.setTextColor(Color.parseColor("#d4145a"));
@@ -166,19 +166,42 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
     	}
     }
     
-    public void showDatePickerDialog(View v) {
-    	DialogFragment newFragment = new DatePickerFragment(v);
-    	Bundle b = new Bundle();
-    	b.putInt("visitId",visitId);
-    	b.putInt("clientId",clientId);
-    	newFragment.setArguments(b);
-        newFragment.show(getFragmentManager(), "datePicker");
+//    public void showDatePickerDialog(View v) {
+//    	DialogFragment newFragment = new DatePickerFragment(v);
+//    	Bundle b = new Bundle();
+//    	b.putInt("visitId",visitId);
+//    	b.putInt("clientId",clientId);
+//    	newFragment.setArguments(b);
+//        newFragment.show(getFragmentManager(), "datePicker");
+//    }
+    
+    public void markImmunizationAsGiven(View v) {
+    	// hacky way to deal with the fact that they want to remove dates for vaccines at the last minute. Today's date is used as an indication of 'true'
+    	Calendar c = Calendar.getInstance(); 
+    	Date today = c.getTime();
+    	int vaccineId = (Integer) v.getTag();
+    	
+    	VaccineRecorded vr = new VaccineRecorded(vaccineId, clientId, visitId, today);
+    	
+    	Dao<VaccineRecorded, Integer> vrDao;
+    	DatabaseHelper dbHelper = new DatabaseHelper(context);
+    	try {
+    		vrDao = dbHelper.getVaccineRecordedDao();
+    		vrDao.create(vr);
+    	} catch (SQLException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    	}
+    	
+    	// set as checked (instead of with a date)
+    	Button button = (Button)v;
+    	button.setText("DONE");
     }
     
-    public void clearImmunizationDate(final View v) {
+    public void clearImmunization(final View v) {
         new AlertDialog.Builder(this)
         .setTitle("Confirm delete")
-        .setMessage("Are you sure you want to clear the date for this immunization?")
+        .setMessage("Are you sure you want to clear this immunization?")
         .setNegativeButton(android.R.string.no, null)
         .setPositiveButton(android.R.string.yes, new OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
@@ -189,8 +212,9 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
             	VaccineRecorded vr = ModelHelper.getVaccineRecordedForClientIdAndVaccineId(context, client.getId(), vaccineId);
             	
             	// clear the associated button
-            	String clearTxt = getResources().getString(getResources().getIdentifier("immunization_date_button_text", "string", getPackageName()));
-            	dateBtn.setText(clearTxt);
+            	//String clearTxt = getResources().getString(getResources().getIdentifier("immunization_date_button_text", "string", getPackageName()));
+            	//dateBtn.setText(clearTxt);
+            	dateBtn.setText("");
             	int c = getResources().getColor(android.R.color.white);
         		dateBtn.setTextColor(c);
             	
@@ -207,4 +231,37 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
             }
         }).create().show();
     }
+    
+//    public void clearImmunizationDate(final View v) {
+//        new AlertDialog.Builder(this)
+//        .setTitle("Confirm delete")
+//        .setMessage("Are you sure you want to clear the date for this immunization?")
+//        .setNegativeButton(android.R.string.no, null)
+//        .setPositiveButton(android.R.string.yes, new OnClickListener() {
+//            public void onClick(DialogInterface arg0, int arg1) {
+//            	// figure out which vaccine this is
+//            	Button clearBtn = (Button)v;
+//            	Button dateBtn = (Button) ((ViewGroup)v.getParent()).getChildAt(2);
+//            	int vaccineId = (Integer) clearBtn.getTag();
+//            	VaccineRecorded vr = ModelHelper.getVaccineRecordedForClientIdAndVaccineId(context, client.getId(), vaccineId);
+//            	
+//            	// clear the associated button
+//            	String clearTxt = getResources().getString(getResources().getIdentifier("immunization_date_button_text", "string", getPackageName()));
+//            	dateBtn.setText(clearTxt);
+//            	int c = getResources().getColor(android.R.color.white);
+//        		dateBtn.setTextColor(c);
+//            	
+//            	// remove the VaccineRecorded from the DB
+//            	DatabaseHelper vrDbHelper = OpenHelperManager.getHelper(getApplicationContext(), DatabaseHelper.class);
+//            	Dao<VaccineRecorded, Integer> vrDao;
+//        	    try {
+//        	    	vrDao = vrDbHelper.getVaccineRecordedDao();
+//        	    	vrDao.delete(vr);
+//            	} catch (SQLException e) {
+//            	  	// TODO Auto-generated catch block
+//            	  	e.printStackTrace();
+//            	}             	
+//            }
+//        }).create().show();
+//    }
 }

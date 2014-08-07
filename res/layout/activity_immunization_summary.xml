@@ -22,10 +22,6 @@
 	    
 	    <TextView
 	        style="@style/vaccineSummaryContainer"
-		    android:text="@string/immunization_summary_refer_text" />
-	    
-	    <TextView
-	        style="@style/vaccineSummaryContainer"
 		    android:text="@string/immunization_summary_discuss_text" />
 	    
 	</LinearLayout>
