@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -113,7 +114,11 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
         	for (Attendance a : cpList) {
     			if (a.getVisitId() == visitId && a.getClientId() == c.getId()) {
     				cb.setChecked(true);
-    				presenceArrayList.add(c);
+    				// basically, this add should only be called the first time (when restoring a visit) and never again, otherwise we get exponential array growth on scolling
+    				// no easy way to do that, so only add if the client is not already in there
+    				if (!presenceArrayList.contains(c)) {
+    					presenceArrayList.add(c);
+    				}
     			}
         	}
 		} catch (SQLException e) {
