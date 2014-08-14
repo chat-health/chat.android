@@ -84,6 +84,9 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
             metadataTv.setText(metadata);
             cb = (CheckBox) convertView.findViewById(R.id.checkbox);
             cb.setTag(c);
+            if (presenceArrayList.contains(c)) {
+            	cb.setChecked(true);
+            }
         }
         
         LinearLayout row = (LinearLayout)convertView.findViewById(client_row);
@@ -110,7 +113,8 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
         DatabaseHelper cpHelper = new DatabaseHelper(context);
         try {
 			cpDao = cpHelper.getAttendanceDao();
-			cpList = cpDao.query(cpDao.queryBuilder().prepare());
+			//cpList = cpDao.query(cpDao.queryBuilder().prepare());
+			cpList = cpDao.queryBuilder().where().eq("visit_id",visitId).query();
         	for (Attendance a : cpList) {
     			if (a.getVisitId() == visitId && a.getClientId() == c.getId()) {
     				cb.setChecked(true);
