@@ -1,37 +1,19 @@
 package org.chat.android.pages;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
-import org.chat.android.DatabaseHelper;
 import org.chat.android.ModelHelper;
 import org.chat.android.R;
-import org.chat.android.R.layout;
 import org.chat.android.models.HealthTheme;
-import org.chat.android.models.PageText1;
 import org.chat.android.models.PageVideo1;
 import org.chat.android.models.TopicVideo;
 import org.chat.android.models.Video;
-import org.chat.android.models.VideoAccessed;
 
-import com.j256.ormlite.dao.Dao;
-
-import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class Video1Fragment extends Fragment {
+public class Video1Fragment extends BaseFragment {
 	Context context;
 	int visitId = 0;
     TextView title = null;
@@ -87,21 +69,21 @@ public class Video1Fragment extends Fragment {
     }
 
 	public void populateDisplayedFragment(String themeName, String type, int pageContentId, String lang) {
-		PageVideo1 pv = ModelHelper.getPageVideo1ForId(context, pageContentId);
+		PageVideo1 pv = ModelHelper.getPageVideo1ForId(getHelper(), pageContentId);
 
 		content1.setText(pv.getContent(lang, "content1"));
 		
-		HealthTheme theme = ModelHelper.getThemeForName(context, themeName);
+		HealthTheme theme = ModelHelper.getThemeForName(getHelper(), themeName);
 		int colorRef = Color.parseColor(theme.getColor());
 		title.setTextColor(colorRef);
 		
 		// grab the videos for this page
-		List<TopicVideo> topicVideos = ModelHelper.getVideoIdsForPageVideo1Id(context, pv.getId());				// this is from a bridge table, containing page_video1_ids and video_ids
+		List<TopicVideo> topicVideos = ModelHelper.getVideoIdsForPageVideo1Id(getHelper(), pv.getId());				// this is from a bridge table, containing page_video1_ids and video_ids
 		
 		// populate the images and text from video list
 		//v1videoImage1  v1videoText1
 		for (int i = 0; i < topicVideos.size(); i++) {
-			Video video = ModelHelper.getVideoForId(context, topicVideos.get(i).getVideoId());
+			Video video = ModelHelper.getVideoForId(getHelper(), topicVideos.get(i).getVideoId());
 			int screenshotId = getResources().getIdentifier(video.getScreenshot(), "drawable", context.getPackageName());
 			imgViewList.get(i).setImageResource(screenshotId);
 			imgViewList.get(i).setTag(video.getId());

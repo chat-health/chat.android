@@ -36,7 +36,7 @@ public class ImmunizationsSummaryActivity extends BaseActivity {
 		visitId = b.getInt("visitId");
 		hhId = b.getInt("hhId");
 		clientId = b.getInt("clientId");
-		client = ModelHelper.getClientForId(context, clientId);
+		client = ModelHelper.getClientForId(getHelper(), clientId);
 		String missingVaccines = getMissingVaccines(client);
 		
 		TextView tv = (TextView) findViewById(R.id.missing_vaccines_box);
@@ -47,13 +47,13 @@ public class ImmunizationsSummaryActivity extends BaseActivity {
     private String getMissingVaccines(Client client) {
     	Boolean referralFlag = false;
     	String mv = "";
-    	List<Vaccine> vList = ModelHelper.getVaccinesForAge(context, client.getAge());
+    	List<Vaccine> vList = ModelHelper.getVaccinesForAge(getHelper(), client.getAge());
     	List<VaccineRecorded> vaccinesRecorded = null;
     	
     	int stopReferCount = 0;
     	for (Vaccine vaccine : vList) {
     		// will return null if it doesn't exist
-    		VaccineRecorded vr = ModelHelper.getVaccineRecordedForClientIdAndVaccineId(context, client.getId(), vaccine.getId());
+    		VaccineRecorded vr = ModelHelper.getVaccineRecordedForClientIdAndVaccineId(getHelper(), client.getId(), vaccine.getId());
     		if (vr == null) {
     			mv += "\n- ";
     			mv += vaccine.getShortName();
@@ -87,13 +87,13 @@ public class ImmunizationsSummaryActivity extends BaseActivity {
     
     // semi-duplicated from ReferralFragment. TODO - abstract me and set logical params
     private void sendReferral(String mv) {
-    	Client c = ModelHelper.getClientForId(context, clientId);
+    	Client c = ModelHelper.getClientForId(getHelper(), clientId);
     	String clientFName = c.getFirstName();
     	String clientLName = c.getLastName();
-    	Household hh = ModelHelper.getHouseholdForId(context, hhId);
+    	Household hh = ModelHelper.getHouseholdForId(getHelper(), hhId);
     	String hhName = hh.getHhName();
     	int workerId = hh.getWorkerId();
-    	Worker worker = ModelHelper.getWorkerForId(context, workerId);
+    	Worker worker = ModelHelper.getWorkerForId(getHelper(), workerId);
     	String fName = worker.getFirstName();
     	String lName = worker.getLastName();
     	Log.i("Related Info", "household name:"+hhName+",volunteer Name:"+fName+" "+lName);

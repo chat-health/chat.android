@@ -46,6 +46,9 @@ import android.widget.TextView;
 
 
 public class HomeActivity extends Activity {
+	// since we aren't OrmLiteBaseActivity or BaseActivity we can't use getHelper()
+    // so we use OpenHelperManager
+    private DatabaseHelper databaseHelper = null;
 
 	String TAG = "INFO"; //Log.i(TAG, "Testing: "+somevar);
 	Context context = null;
@@ -119,6 +122,27 @@ public class HomeActivity extends Activity {
     	}
     }
     
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        releaseHelper();
+    }
+    
+    private DatabaseHelper getHelper() {
+        if (databaseHelper == null) {
+            databaseHelper =
+                OpenHelperManager.getHelper(this, DatabaseHelper.class);
+        }
+        return databaseHelper;
+    }
+    
+    private void releaseHelper() {
+    	if (databaseHelper != null) {
+            OpenHelperManager.releaseHelper();
+            databaseHelper = null;
+        }
+    }
+    
     public void setupUIElements() {
     	attendanceBtn = (ImageButton)findViewById(R.id.attendance_submission_button);
     	
@@ -159,7 +183,7 @@ public class HomeActivity extends Activity {
     		setupVisitObject(b.getString("hhName"), b.getString("workerName"), b.getString("role"), b.getString("type"), b.getDouble("lat"), b.getDouble("lon"));				
         } else if (visitId != 0) {
         	// pull the uncompleted visit object
-        	visit = ModelHelper.getVisitForId(context, visitId);
+        	visit = ModelHelper.getVisitForId(getHelper(), visitId);
         	workerId = visit.getWorkerId();
         	hhId = visit.getHhId();
     		// TODO? update UI - ie attendance - likely needs a refactor
@@ -168,7 +192,7 @@ public class HomeActivity extends Activity {
         }
     	
         List<Client> hhCList = new ArrayList<Client>();
-        hhCList = ModelHelper.getClientsForHousehold(context, hhId);
+        hhCList = ModelHelper.getClientsForHousehold(getHelper(), hhId);
         
         lv = (ListView) findViewById(R.id.attendance_listview);
         clAdapter = new ClientsAdapter(context, android.R.layout.simple_list_item_multiple_choice, hhCList, visitId);
@@ -236,7 +260,7 @@ public class HomeActivity extends Activity {
     
     public void updateUIElements() {
     	// check if there is an attendance object for this visitId
-    	List<Attendance> attendance = ModelHelper.getAttendanceForVisitId(context, visitId);
+    	List<Attendance> attendance = ModelHelper.getAttendanceForVisitId(getHelper(), visitId);
     	if (attendance.size() > 0) {
         	// switch the Done button to the Update button
         	attendanceBtn.setTag("Update");
@@ -320,7 +344,7 @@ public class HomeActivity extends Activity {
     ////////// HELPER FUNCTIONS //////////
     private void setupVisitObject(String hhName, String workerName, String role, String type, Double lat, Double lon) {
         // get the workerId
-    	Worker worker = ModelHelper.getWorkerForUsername(context, workerName);
+    	Worker worker = ModelHelper.getWorkerForUsername(getHelper(), workerName);
     	if (worker != null) {
     		workerId = worker.getId();
     	} else {
@@ -329,7 +353,7 @@ public class HomeActivity extends Activity {
     	}
 
 		// get the householdId
-    	Household household = ModelHelper.getHouseholdForName(context, hhName);
+    	Household household = ModelHelper.getHouseholdForName(getHelper(), hhName);
     	if (household != null) {
     		hhId = household.getId();
     	} else {
@@ -343,14 +367,12 @@ public class HomeActivity extends Activity {
 		// create a new Visit object to be used for this visit
     	visit = new Visit(hhId, workerId, role, type, lat, lon, startTime);
     	
-    	Dao<Visit, Integer> vDao;
-    	DatabaseHelper dbHelper = new DatabaseHelper(context);
     	try {
-    		vDao = dbHelper.getVisitsDao();
+    		Dao<Visit, Integer> vDao = getHelper().getVisitsDao();
     		vDao.create(visit);
     		visitId = visit.getId();
     	} catch (SQLException e) {
-    		// TODO Auto-generated catch block
+    		// Auto-generated catch block
     		e.printStackTrace();
     	}
 	}
@@ -361,29 +383,27 @@ public class HomeActivity extends Activity {
     	
     	for (int i = 0; i < len; i++) {
     		Client c = pArray.get(i);
-        	Attendance a = new Attendance(visitId, c.getId());
-        	Dao<Attendance, Integer> aDao;
-        	DatabaseHelper dbHelper = new DatabaseHelper(context);
+        	Attendance a = new Attendance(visitId, c.getId(), getHelper());
         	try {
-        		aDao = dbHelper.getAttendanceDao();
+        		Dao<Attendance, Integer>aDao = getHelper().getAttendanceDao();
         		aDao.create(a);
         	} catch (SQLException e) {
-        	    // TODO Auto-generated catch block
+        	    // Auto-generated catch block
         	    e.printStackTrace();
-        	}    	
+        	}	
     	}
     }
-
+// TODO Armin
 	public void deleteCurrentAttendance() {
     	DatabaseHelper helper = OpenHelperManager.getHelper(getApplicationContext(), DatabaseHelper.class);
     	Dao aDao;
 	    try {
-		    aDao = helper.getDao(Attendance.class);
+		    aDao = getHelper().getDao(Attendance.class);
 		    DeleteBuilder<Attendance, Integer> deleteBuilder = aDao.deleteBuilder();
 		    deleteBuilder.where().eq("visit_id", visitId);
 		    deleteBuilder.delete(); 
     	} catch (SQLException e) {
-    	  	// TODO Auto-generated catch block
+    	  	// Auto-generated catch block
     	  	e.printStackTrace();
     	} finally {
     		saveAttendanceList();
@@ -392,19 +412,19 @@ public class HomeActivity extends Activity {
 	
     private Boolean checkVisitCompleteStatus() {
     	Boolean completeFlag = true;
-    	List<Client> clientsForHealthAssessment = ModelHelper.getAttendingClientsForVisitIdUnderAge(context, visitId, 5);
+    	List<Client> clientsForHealthAssessment = ModelHelper.getAttendingClientsForVisitIdUnderAge(getHelper(), visitId, 5);
     	
     	// check for completion of CHA
     	for (Client c : clientsForHealthAssessment) {
         	Boolean healthFlag = false;
         	Boolean immunizationFlag = false;
-        	if (ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(context, visitId, c.getId(), "health") == true) {
+        	if (ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(getHelper(), visitId, c.getId(), "health") == true) {
         		healthFlag = true;
         	} else {
         		BaseActivity.toastHelper(this, "Child Health Assessment section still needs to be completed for " + c.getFirstName() + " " + c.getLastName());
         	}
-    		Boolean allVaccinesAdministered = ModelHelper.getVaccineRecordedCompleteForClientId(context, c.getId());
-    		Boolean chaImmunizationComplete = ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(context, visitId, c.getId(), "immunization");
+    		Boolean allVaccinesAdministered = ModelHelper.getVaccineRecordedCompleteForClientId(getHelper(), c.getId());
+    		Boolean chaImmunizationComplete = ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(getHelper(), visitId, c.getId(), "immunization");
     		if (allVaccinesAdministered || chaImmunizationComplete) {
     			immunizationFlag = true;
     		} else {
@@ -432,7 +452,7 @@ public class HomeActivity extends Activity {
     
     private Boolean checkServiceRequirements() {
     	Boolean f = null;
-    	if (ModelHelper.getServicesAccessedForVisitId(context, visitId).size() == 0) {
+    	if (ModelHelper.getServicesAccessedForVisitId(getHelper(), visitId).size() == 0) {
     		f = false;
     	} else {
     		f = true;
@@ -442,7 +462,7 @@ public class HomeActivity extends Activity {
     
     private Boolean checkHealthEducationRequirements() {
     	Boolean f = null;
-    	if (ModelHelper.getHealthTopicsAccessedForVisitId(context, visitId).size() == 0) {
+    	if (ModelHelper.getHealthTopicsAccessedForVisitId(getHelper(), visitId).size() == 0) {
     		f = false;
     	} else {
     		f = true;
@@ -453,19 +473,19 @@ public class HomeActivity extends Activity {
     // TODO - this is a duplication of code in checkVisitCompleteStatus function
     private Boolean checkCHARequirements() {
     	Boolean f = true;
-    	List<Client> clientsForHealthAssessment = ModelHelper.getAttendingClientsForVisitIdUnderAge(context, visitId, 5);
+    	List<Client> clientsForHealthAssessment = ModelHelper.getAttendingClientsForVisitIdUnderAge(getHelper(), visitId, 5);
     	
     	// check for completion of CHA
     	for (Client c : clientsForHealthAssessment) {
         	Boolean healthFlag = false;
         	Boolean immunizationFlag = false;
-        	if (ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(context, visitId, c.getId(), "health") == true) {
+        	if (ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(getHelper(), visitId, c.getId(), "health") == true) {
         		healthFlag = true;
         	} else {
         		healthFlag = false;
         	}
-    		Boolean allVaccinesAdministered = ModelHelper.getVaccineRecordedCompleteForClientId(context, c.getId());
-    		Boolean chaImmunizationComplete = ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(context, visitId, c.getId(), "immunization");
+    		Boolean allVaccinesAdministered = ModelHelper.getVaccineRecordedCompleteForClientId(getHelper(), c.getId());
+    		Boolean chaImmunizationComplete = ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(getHelper(), visitId, c.getId(), "immunization");
     		if (allVaccinesAdministered || chaImmunizationComplete) {
     			immunizationFlag = true;
     		} else {
@@ -489,7 +509,7 @@ public class HomeActivity extends Activity {
 		// get the role
 		String role = visit.getRole();
 		// get the attending clients - all clients under the age of 999
-		List<Client> cList = ModelHelper.getAttendingClientsForVisitIdUnderAge(context, visitId, 999);
+		List<Client> cList = ModelHelper.getAttendingClientsForVisitIdUnderAge(getHelper(), visitId, 999);
 		
 		// decide which serviceId to mark off based on type and role (gross!)
 		int serviceId = 0;
@@ -515,13 +535,11 @@ public class HomeActivity extends Activity {
     	for (Client c : cList) {
     		Date time = new Date();
         	ServiceAccessed sa = new ServiceAccessed(serviceId, visitId, c.getId(), null, time);
-        	Dao<ServiceAccessed, Integer> saDao;
-    	    DatabaseHelper saDbHelper = new DatabaseHelper(context);
     	    try {
-    	        saDao = saDbHelper.getServiceAccessedDao();
+    	    	Dao<ServiceAccessed, Integer> saDao = getHelper().getServiceAccessedDao();
     	        saDao.create(sa);
     	    } catch (SQLException e) {
-    	        // TODO Auto-generated catch block
+    	        // Auto-generated catch block
     	        e.printStackTrace();
     	    }
     	}
@@ -543,13 +561,11 @@ public class HomeActivity extends Activity {
 		}
 		visit.setEndTime(endTime);
 		
-	    Dao<Visit, Integer> vDao;
-	    DatabaseHelper vDbHelper = new DatabaseHelper(context);
 	    try {
-	    	vDao = vDbHelper.getVisitsDao();
+	    	Dao<Visit, Integer> vDao = getHelper().getVisitsDao();
 	    	vDao.update(visit);
 	    } catch (SQLException e1) {
-	        // TODO Auto-generated catch block
+	        // Auto-generated catch block
 	        e1.printStackTrace();
 	    }
 		
@@ -577,7 +593,7 @@ public class HomeActivity extends Activity {
 			try {
 				versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
 			} catch (NameNotFoundException e1) {
-				// TODO Auto-generated catch block
+				// Auto-generated catch block
 				e1.printStackTrace();
 			}
 	    	BaseActivity.toastHelper(this, "Version number: " + versionName);	
@@ -595,13 +611,13 @@ public class HomeActivity extends Activity {
 				String deviceSerial = (String) Build.class.getField("SERIAL").get(null);
 				BaseActivity.toastHelper(this, "Device ID: "+deviceSerial);
 			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
+				// Auto-generated catch block
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
+				// Auto-generated catch block
 				e.printStackTrace();
 			} catch (NoSuchFieldException e) {
-				// TODO Auto-generated catch block
+				// Auto-generated catch block
 				e.printStackTrace();
 			}
 	        return true;

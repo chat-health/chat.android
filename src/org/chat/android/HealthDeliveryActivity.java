@@ -62,7 +62,7 @@ public class HealthDeliveryActivity extends BaseActivity {
 		backBtn = (ImageButton)findViewById(R.id.backButton);
 		nextBtn = (ImageButton)findViewById(R.id.nextButton);
 		
-		topicId = ModelHelper.getTopicForName(context, topicName).getId();
+		topicId = ModelHelper.getTopicForName(getHelper(), topicName).getId();
 		
 		// create the health topic accessed object
 		createHTAObject();
@@ -116,7 +116,7 @@ public class HealthDeliveryActivity extends BaseActivity {
 		HealthPage p = pages.get(pageCounter - 1);
 		if (p.getType().equals("select1")) {
 			// check if there is a HSR for this topic
-			HealthSelectRecorded hsr = ModelHelper.getHealthSelectRecordedForVisitIdAndTopicName(context, visitId, topicName);
+			HealthSelectRecorded hsr = ModelHelper.getHealthSelectRecordedForVisitIdAndTopicName(getHelper(), visitId, topicName);
 			if (hsr == null) {
 				BaseActivity.toastHelper(this, "Please select an answer to proceed");
 				proceedFlag = false;
@@ -197,11 +197,9 @@ public class HealthDeliveryActivity extends BaseActivity {
 	}
 	
 	public void populatePagesArray() {
-		// populate the pages array based on the topic Id and determine number of pages
-		Dao<HealthPage, Integer> pDao;		
-		DatabaseHelper pDbHelper = new DatabaseHelper(context);
+		// populate the pages array based on the topic Id and determine number of pages	
 		try {
-			pDao = pDbHelper.getHealthPagesDao();
+			Dao<HealthPage, Integer> pDao = getHelper().getHealthPagesDao();
 			List<HealthPage> pList = pDao.queryBuilder().where().eq("topic_id",topicId).query();
 			// clears out the null junk values - there is likely a better way to do this
 			for (HealthPage p : pList) {
@@ -218,15 +216,13 @@ public class HealthDeliveryActivity extends BaseActivity {
 		// update the HealthTopicAccessed object and save to DB
 		Date startTime = new Date();
 		healthTopicAccessed = new HealthTopicAccessed(topicId, visitId, hhId, topicName, startTime);
-	    Dao<HealthTopicAccessed, Integer> htaDao;
-	    DatabaseHelper htaDbHelper = new DatabaseHelper(context);
 	    try {
-	    	htaDao = htaDbHelper.getHealthTopicAccessedDao();
+	    	Dao<HealthTopicAccessed, Integer> htaDao = getHelper().getHealthTopicAccessedDao();
 	    	htaDao.create(healthTopicAccessed);
 	    } catch (SQLException e1) {
 	        // TODO Auto-generated catch block
 	        e1.printStackTrace();
-	    }		
+	    }
 	}
 	
 	public void markTopicComplete() {
@@ -237,10 +233,8 @@ public class HealthDeliveryActivity extends BaseActivity {
 		Date endTime = new Date();
 		healthTopicAccessed.setEndTime(endTime);
 		
-	    Dao<HealthTopicAccessed, Integer> htaDao;
-	    DatabaseHelper htaDbHelper = new DatabaseHelper(context);
 	    try {
-	    	htaDao = htaDbHelper.getHealthTopicAccessedDao();
+	    	Dao<HealthTopicAccessed, Integer>htaDao = getHelper().getHealthTopicAccessedDao();
 	    	htaDao.update(healthTopicAccessed);
 	    } catch (SQLException e1) {
 	        // TODO Auto-generated catch block
@@ -280,17 +274,16 @@ public class HealthDeliveryActivity extends BaseActivity {
 		int selectResp = 0;
 		selectResp = (Integer) v.getTag();
 		// using 0 for clientId here - no specific client
-		HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, 0, null, topicName, new Date());
+		HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, 0, null, topicName, new Date(), getHelper());
 		
 		HealthSelectRecorded prevHsr = null;
-		prevHsr = ModelHelper.getHealthSelectRecordedForVisitIdAndTopicName(context, visitId, topicName);
+		prevHsr = ModelHelper.getHealthSelectRecordedForVisitIdAndTopicName(getHelper(), visitId, topicName);
 		// this nonsense is necessary because there is no 'submit' button... we can't rely on the Next in the Activity, so we just update the row each time a select is made
 		// if this has not already been done this visit and this topic
 		Dao<HealthSelectRecorded, Integer> hsrDao;
-		DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
 		if (prevHsr == null) {
 			try {
-	    		hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
+	    		hsrDao = getHelper().getHealthSelectRecordedDao();
 	    		hsrDao.create(hsr);
 	    	} catch (SQLException e) {
 	    	    // TODO Auto-generated catch block
@@ -300,7 +293,7 @@ public class HealthDeliveryActivity extends BaseActivity {
 			prevHsr.setSelectId(selectResp);
 			prevHsr.setDate(new Date());
 		    try {
-		    	hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
+		    	hsrDao = getHelper().getHealthSelectRecordedDao();
 		    	hsrDao.update(prevHsr);
 		    } catch (SQLException e1) {
 		        // TODO Auto-generated catch block
@@ -314,18 +307,16 @@ public class HealthDeliveryActivity extends BaseActivity {
     	int chosenVideoId = 0;
     	chosenVideoId = (Integer) v.getTag();
     	
-    	Video chosenVideo = ModelHelper.getVideoForId(context, chosenVideoId);
+    	Video chosenVideo = ModelHelper.getVideoForId(getHelper(), chosenVideoId);
     	if (chosenVideo == null) {
     		Toast.makeText(getApplicationContext(),"Error: video does not exist. Please contact technical support",Toast.LENGTH_LONG).show();
     	}
     	
     	// record which video was played in videos_accessed table
     	Date date = new Date();
-	    VideoAccessed va = new VideoAccessed(chosenVideoId, visitId, date);
-	    Dao<VideoAccessed, Integer> vaDao;
-	    DatabaseHelper vaDbHelper = new DatabaseHelper(context);
+	    VideoAccessed va = new VideoAccessed(chosenVideoId, visitId, date, getHelper());
 	    try {
-	        vaDao = vaDbHelper.getVideosAccessedDao();
+	    	Dao<VideoAccessed, Integer> vaDao = getHelper().getVideosAccessedDao();
 	        vaDao.create(va);
 	    } catch (SQLException e1) {
 	        // TODO Auto-generated catch block

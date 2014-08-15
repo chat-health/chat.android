@@ -59,7 +59,7 @@ public class HealthOverviewRecordActivity extends BaseActivity {
 		hhId = b.getInt("hhId");
 		visitId = b.getInt("visitId");
 		healthThemeName = b.getString("healthTheme");
-		theme = ModelHelper.getThemeForName(context, healthThemeName);
+		theme = ModelHelper.getThemeForName(getHelper(), healthThemeName);
 		
 		populateThemeContent();
 		updateUIColors();
@@ -67,7 +67,7 @@ public class HealthOverviewRecordActivity extends BaseActivity {
 	
 	public void populateThemeContent() {
 		List<HealthSelect> selects = new ArrayList<HealthSelect>();
-		selects = ModelHelper.getSelectsForSubjectId(context, theme.getId());
+		selects = ModelHelper.getSelectsForSubjectId(getHelper(), theme.getId());
 		
 		// TODO set these up to work with Zulu (in the model)
 		if (theme != null) {
@@ -121,11 +121,9 @@ public class HealthOverviewRecordActivity extends BaseActivity {
 		}
 			
 		// using 0 for clientId - no specific client here
-		HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, 0, healthThemeName, null, new Date());
-    	Dao<HealthSelectRecorded, Integer> hsrDao;
-    	DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
+		HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, 0, healthThemeName, null, new Date(), getHelper());
     	try {
-    		hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
+    		Dao<HealthSelectRecorded, Integer> hsrDao = getHelper().getHealthSelectRecordedDao();
     		hsrDao.create(hsr);
     	} catch (SQLException e) {
     	    // TODO Auto-generated catch block

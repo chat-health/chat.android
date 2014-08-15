@@ -22,8 +22,8 @@ public class ServiceOverviewActivity extends BaseActivity {
 		Bundle b = getIntent().getExtras();
 		visitId = b.getInt("visitId");
 		hhId = b.getInt("hhId");
-		//Visit v = ModelHelper.getVisitForId(context, visitId);
-		role = ModelHelper.getVisitForId(context, visitId).getRole();
+		//Visit v = ModelHelper.getVisitForId(getHelper(), visitId);
+		role = ModelHelper.getVisitForId(getHelper(), visitId).getRole();
 		
 		setupServiceTypeButtons(role);
 	}

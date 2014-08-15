@@ -82,11 +82,9 @@ public class ServiceOtherActivity extends BaseActivity {
     
     // used to generate the list of services for serviceDelivery
     private void populateServicesList(String role, String type) {
-        Dao<Service, Integer> sDao;
-        List<Service> allServices = new ArrayList<Service>();
-        DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
+    	List<Service> allServices = new ArrayList<Service>();
         try {
-			sDao = dbHelper.getServicesDao();
+        	Dao<Service, Integer> sDao = getHelper().getServicesDao();
 			allServices = sDao.query(sDao.queryBuilder().prepare());
         	for (Service s : allServices) {
     			if (s.getRole().equals(role) && s.getType().equals(type)) {

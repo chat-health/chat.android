@@ -45,10 +45,8 @@ public class ResourcesActivity extends BaseActivity {
 		resourceNames = new ArrayList<String>();
 
 		// grab all the resources
-		Dao<Resource, Integer> resDao;		
-		DatabaseHelper resDbHelper = new DatabaseHelper(context);
 		try {
-			resDao = resDbHelper.getResourcesDao();
+			Dao<Resource, Integer> resDao = getHelper().getResourcesDao();
 			List<Resource> resList = resDao.queryBuilder().query();
 			Iterator<Resource> iter = resList.iterator();
 			while (iter.hasNext()) {
@@ -106,10 +104,8 @@ public class ResourcesActivity extends BaseActivity {
 		}
 		
 		ResourceAccessed ra = new ResourceAccessed(res.getId(), visitId, workerId, date);
-	    Dao<ResourceAccessed, Integer> raDao;
-	    DatabaseHelper raDbHelper = new DatabaseHelper(context);
 	    try {
-	    	raDao = raDbHelper.getResourceAccessedDao();
+	    	Dao<ResourceAccessed, Integer> raDao = getHelper().getResourceAccessedDao();
 	    	raDao.create(ra);
 	    } catch (SQLException e1) {
 	        // TODO Auto-generated catch block

@@ -23,23 +23,45 @@ import android.os.Bundle;
 import android.view.View;
 
 public class RestoreVisitActivity extends Activity {
+	// TODO Colin variables should have visibility set (private, public, protected)
 	Context context;
 	int visitId = 0;
 	String workerName = "";
 	String role = "";
-	
+	// since we aren't OrmLiteBaseActivity or BaseActivity we can't use getHelper()
+    // so we use OpenHelperManager
+    private DatabaseHelper databaseHelper = null;
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		context = getApplicationContext();
 		setContentView(R.layout.activity_restore_visit);
-		
+
 		Bundle b = getIntent().getExtras();
 		visitId = b.getInt("visitId");					// what will visitId be if it doesn't exist? Needs to be 0 or needs an if wrapped around it. Then clean this (lots of dup in the two functions)
-		
+
 		workerName = b.getString("workerName");
 		role = b.getString("role");
 	}
-	
+
+	@Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (databaseHelper != null) {
+            OpenHelperManager.releaseHelper();
+            databaseHelper = null;
+        }
+    }
+
+    private DatabaseHelper getHelper() {
+        if (databaseHelper == null) {
+            databaseHelper =
+                OpenHelperManager.getHelper(this, DatabaseHelper.class);
+        }
+        return databaseHelper;
+    }
+
 	public void resumeVisit(View v) {
 		Intent i = new Intent(RestoreVisitActivity.this, HomeActivity.class);
 		Bundle b = new Bundle();
@@ -51,8 +73,8 @@ public class RestoreVisitActivity extends Activity {
 		startActivity(i);
 		finish();
 	}
-	
-	public void openNewVisitWarning(View v) {		
+
+	public void openNewVisitWarning(View v) {
 		// prompt about deleting uncompleted visits
 		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
 		    @Override
@@ -73,29 +95,27 @@ public class RestoreVisitActivity extends Activity {
 			.setPositiveButton("Yes", dialogClickListener)
 		    .setNegativeButton("No", dialogClickListener).show();
 	}
-	
+
 	public void setupNewVisit() {
 		int workerId = 0;
-		workerId = ModelHelper.getWorkerForUsername(context, workerName).getId();
-		
+		workerId = ModelHelper.getWorkerForUsername(getHelper(), workerName).getId();
+
 		// mark the old visit as 'complete', that is end_time = start_time - doing this instead of deleting old visits
 		Visit visit = null;
-		visit = ModelHelper.getVisitForId(context, visitId);
+		visit = ModelHelper.getVisitForId(getHelper(), visitId);
 		Date endTime = null;
 		endTime = visit.getStartTime();
 		visit.setEndTime(endTime);
-		
-		Dao<Visit, Integer> vDao;
-	    DatabaseHelper vDbHelper = new DatabaseHelper(context);
+
 	    try {
-	    	vDao = vDbHelper.getVisitsDao();
+	    	Dao<Visit, Integer> vDao = getHelper().getVisitsDao();
 	    	vDao.update(visit);
 	    } catch (SQLException e1) {
 	        // TODO Auto-generated catch block
 	        e1.printStackTrace();
 	    }
-		
-		
+
+
 		// delete old visits
 //    	DatabaseHelper helper = OpenHelperManager.getHelper(getApplicationContext(), DatabaseHelper.class);
 //    	Dao vDao;
@@ -103,14 +123,14 @@ public class RestoreVisitActivity extends Activity {
 //		    vDao = helper.getDao(Visit.class);
 //		    DeleteBuilder<Visit, Integer> deleteBuilder = vDao.deleteBuilder();
 //		    deleteBuilder.where().eq("worker_id",workerId).and().isNull("end_time");
-//		    deleteBuilder.delete(); 
+//		    deleteBuilder.delete();
 //    	} catch (SQLException e) {
 //    	  	// TODO Auto-generated catch block
 //    	  	e.printStackTrace();
 //    	}
-	    
-		
-		
+
+
+
 		// start a new visit
 		Intent i = new Intent(RestoreVisitActivity.this, SetupVisitActivity.class);
 		Bundle b = new Bundle();

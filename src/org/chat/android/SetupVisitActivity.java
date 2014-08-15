@@ -8,6 +8,7 @@ import org.chat.android.models.Household;
 import org.chat.android.models.Service;
 import org.chat.android.models.Worker;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
 import android.app.Activity;
@@ -29,6 +30,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 public class SetupVisitActivity extends Activity {
+	// since we aren't OrmLiteBaseActivity or BaseActivity we can't use getHelper()
+    // so we use OpenHelperManager
+    private DatabaseHelper databaseHelper = null;
 	
 	private String workerName;
 	private String role;
@@ -73,15 +77,15 @@ public class SetupVisitActivity extends Activity {
 		
 		// for volunteers
 		if (role.equals(roleArray[0])) {
-			int workerId = ModelHelper.getWorkerForUsername(context, workerName).getId();
-			List<Household> hList = ModelHelper.getHouseholdsForWorkerId(context, workerId);
+			int workerId = ModelHelper.getWorkerForUsername(getHelper(), workerName).getId();
+			List<Household> hList = ModelHelper.getHouseholdsForWorkerId(getHelper(), workerId);
 			for (Household h : hList) {
 				householdNames.add(h.getHhName());
 			}
 		}
 		// for lay counsellors
 		else if (role.equals(roleArray[1])) {
-			List<Household> hList = ModelHelper.getAllHouseholds(context);
+			List<Household> hList = ModelHelper.getAllHouseholds(getHelper());
 			for (Household h : hList) {
 				householdNames.add(h.getHhName());
 			}
@@ -110,6 +114,23 @@ public class SetupVisitActivity extends Activity {
 				}
 			});
 	}
+	
+	@Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (databaseHelper != null) {
+            OpenHelperManager.releaseHelper();
+            databaseHelper = null;
+        }
+    }
+    
+    private DatabaseHelper getHelper() {
+        if (databaseHelper == null) {
+            databaseHelper =
+                OpenHelperManager.getHelper(this, DatabaseHelper.class);
+        }
+        return databaseHelper;
+    }
 	
 	private void confirmGPS() {
 		if (latitude == 0.0 && longitude == 0.0) {

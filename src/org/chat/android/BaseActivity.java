@@ -13,6 +13,7 @@ import org.chat.android.models.Client;
 import org.chat.android.models.ServiceAccessed;
 import org.chat.android.models.Visit;
 
+import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
 import com.j256.ormlite.dao.Dao;
 
 import android.accounts.Account;
@@ -35,7 +36,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class BaseActivity extends Activity {
+public class BaseActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 	Context context;
 	Visit visit = null;
 	int visitId = 0;
@@ -62,7 +63,7 @@ public class BaseActivity extends Activity {
 
         Bundle b = getIntent().getExtras();
 		visitId = b.getInt("visitId");
-		visit = ModelHelper.getVisitForId(context, visitId);
+		visit = ModelHelper.getVisitForId(getHelper(), visitId);
 		workerId = visit.getWorkerId();
 		
 		// Create the dummy account (needed for sync adapter)
@@ -170,19 +171,19 @@ public class BaseActivity extends Activity {
     // NB: duplication of some of this functionality in HomeActivity
     private Boolean checkVisitCompleteStatus() {
     	Boolean completeFlag = true;
-    	List<Client> clientsForHealthAssessment = ModelHelper.getAttendingClientsForVisitIdUnderAge(context, visitId, 5);
+    	List<Client> clientsForHealthAssessment = ModelHelper.getAttendingClientsForVisitIdUnderAge(getHelper(), visitId, 5);
     	
     	// check for completion of CHA
     	for (Client c : clientsForHealthAssessment) {
         	Boolean healthFlag = false;
         	Boolean immunizationFlag = false;
-        	if (ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(context, visitId, c.getId(), "health") == true) {
+        	if (ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(getHelper(), visitId, c.getId(), "health") == true) {
         		healthFlag = true;
         	} else {
         		BaseActivity.toastHelper(this, "Child Health Assessment section still needs to be completed for " + c.getFirstName() + " " + c.getLastName());
         	}
-    		Boolean allVaccinesAdministered = ModelHelper.getVaccineRecordedCompleteForClientId(context, c.getId());
-    		Boolean chaImmunizationComplete = ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(context, visitId, c.getId(), "immunization");
+    		Boolean allVaccinesAdministered = ModelHelper.getVaccineRecordedCompleteForClientId(getHelper(), c.getId());
+    		Boolean chaImmunizationComplete = ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(getHelper(), visitId, c.getId(), "immunization");
     		if (allVaccinesAdministered || chaImmunizationComplete) {
     			immunizationFlag = true;
     		} else {
@@ -194,13 +195,13 @@ public class BaseActivity extends Activity {
     	}
     	
     	// check for completion of service requirements
-    	if (ModelHelper.getServicesAccessedForVisitId(context, visitId).size() == 0) {
+    	if (ModelHelper.getServicesAccessedForVisitId(getHelper(), visitId).size() == 0) {
     		completeFlag = false;
     		BaseActivity.toastHelper(this, "No services delivered");
     	}
     	
     	// check for completion of health ed requirements
-    	if (ModelHelper.getHealthTopicsAccessedForVisitId(context, visitId).size() == 0) {
+    	if (ModelHelper.getHealthTopicsAccessedForVisitId(getHelper(), visitId).size() == 0) {
     		completeFlag = false;
     		BaseActivity.toastHelper(this,"No health topic education delivered" );
     	}
@@ -217,7 +218,7 @@ public class BaseActivity extends Activity {
 		// get the role
 		String role = visit.getRole();
 		// get the attending clients - all clients under the age of 999
-		List<Client> cList = ModelHelper.getAttendingClientsForVisitIdUnderAge(context, visitId, 999);
+		List<Client> cList = ModelHelper.getAttendingClientsForVisitIdUnderAge(getHelper(), visitId, 999);
 		
 		// decide which serviceId to mark off based on type and role (gross!)
 		int serviceId = 0;
@@ -243,10 +244,8 @@ public class BaseActivity extends Activity {
     	for (Client c : cList) {
     		Date time = new Date();
         	ServiceAccessed sa = new ServiceAccessed(serviceId, visitId, c.getId(), null, time);
-        	Dao<ServiceAccessed, Integer> saDao;
-    	    DatabaseHelper saDbHelper = new DatabaseHelper(context);
     	    try {
-    	        saDao = saDbHelper.getServiceAccessedDao();
+    	    	Dao<ServiceAccessed, Integer> saDao = getHelper().getServiceAccessedDao();
     	        saDao.create(sa);
     	    } catch (SQLException e) {
     	        // TODO Auto-generated catch block
@@ -271,10 +270,8 @@ public class BaseActivity extends Activity {
 		}
 		visit.setEndTime(endTime);
 		
-	    Dao<Visit, Integer> vDao;
-	    DatabaseHelper vDbHelper = new DatabaseHelper(context);
 	    try {
-	    	vDao = vDbHelper.getVisitsDao();
+	    	Dao<Visit, Integer> vDao = getHelper().getVisitsDao();
 	    	vDao.update(visit);
 	    } catch (SQLException e1) {
 	        // TODO Auto-generated catch block

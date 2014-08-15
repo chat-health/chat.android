@@ -49,7 +49,7 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
 		hhId = b.getInt("hhId");
 		clientId = b.getInt("clientId");
 		
-		client = ModelHelper.getClientForId(context, clientId);
+		client = ModelHelper.getClientForId(getHelper(), clientId);
 		
 		populateVaccineList();
     }
@@ -75,7 +75,7 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
     	rows.add((LinearLayout) findViewById(R.id.vaccine_row16));
     	rows.add((LinearLayout) findViewById(R.id.vaccine_row17));
 
-    	vList = ModelHelper.getVaccinesForAge(context, client.getAge());
+    	vList = ModelHelper.getVaccinesForAge(getHelper(), client.getAge());
     	
     	// UI is locked to # of DB elements (yuck), so need to be sure we're not going to randomly get an outofbounds exception from dirty data
     	if (rows.size() >= vList.size()) {
@@ -122,7 +122,7 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
 				dateBtn.setTag(v.getId());
 				clearBtn.setTag(v.getId());
 				
-				VaccineRecorded vr = ModelHelper.getVaccineRecordedForClientIdAndVaccineId(context, client.getId(), v.getId());
+				VaccineRecorded vr = ModelHelper.getVaccineRecordedForClientIdAndVaccineId(getHelper(), client.getId(), v.getId());
 				// if there is a vaccineRecorded object for this vaccine and this client - think about if there are multiple vaccineRecordeds. This seems to work, tho just by default - takes the most recent VR as the correct one, which is the behaviour that we want
 				if (vr != null) {
 //					Date d = vr.getDate();
@@ -140,13 +140,13 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
     }
 
     public void completeImmunizationReceived(View v) {
-    	CHAAccessed chaa = ModelHelper.getCHAAccessedForVisitIdAndClientIdAndType(context, visitId, clientId, "immunization");
+    	CHAAccessed chaa = ModelHelper.getCHAAccessedForVisitIdAndClientIdAndType(getHelper(), visitId, clientId, "immunization");
     	Date d = new Date();
-    	chaa.setEndTime(d);
-    	ModelHelper.setCHAAccessed(context, chaa);
+    	chaa.setEndTime(d, getHelper());
+    	ModelHelper.setCHAAccessed(getHelper(), chaa);
     	
     	// check if there are missing immunizations
-    	Boolean allVaccinesAdministered = ModelHelper.getVaccineRecordedCompleteForClientId(context, clientId);
+    	Boolean allVaccinesAdministered = ModelHelper.getVaccineRecordedCompleteForClientId(getHelper(), clientId);
     	
     	// if there are missing immunizations, direct user to ImmunizationSummary page
     	if (allVaccinesAdministered == false) {
@@ -183,10 +183,8 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
     	
     	VaccineRecorded vr = new VaccineRecorded(vaccineId, clientId, visitId, today);
     	
-    	Dao<VaccineRecorded, Integer> vrDao;
-    	DatabaseHelper dbHelper = new DatabaseHelper(context);
     	try {
-    		vrDao = dbHelper.getVaccineRecordedDao();
+    		Dao<VaccineRecorded, Integer> vrDao = getHelper().getVaccineRecordedDao();
     		vrDao.create(vr);
     	} catch (SQLException e) {
     		// TODO Auto-generated catch block
@@ -209,7 +207,7 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
             	Button clearBtn = (Button)v;
             	Button dateBtn = (Button) ((ViewGroup)v.getParent()).getChildAt(2);
             	int vaccineId = (Integer) clearBtn.getTag();
-            	VaccineRecorded vr = ModelHelper.getVaccineRecordedForClientIdAndVaccineId(context, client.getId(), vaccineId);
+            	VaccineRecorded vr = ModelHelper.getVaccineRecordedForClientIdAndVaccineId(getHelper(), client.getId(), vaccineId);
             	
             	// clear the associated button
             	//String clearTxt = getResources().getString(getResources().getIdentifier("immunization_date_button_text", "string", getPackageName()));
@@ -243,7 +241,7 @@ public class ImmunizationsReceivedActivity extends BaseActivity {
 //            	Button clearBtn = (Button)v;
 //            	Button dateBtn = (Button) ((ViewGroup)v.getParent()).getChildAt(2);
 //            	int vaccineId = (Integer) clearBtn.getTag();
-//            	VaccineRecorded vr = ModelHelper.getVaccineRecordedForClientIdAndVaccineId(context, client.getId(), vaccineId);
+//            	VaccineRecorded vr = ModelHelper.getVaccineRecordedForClientIdAndVaccineId(getHelper(), client.getId(), vaccineId);
 //            	
 //            	// clear the associated button
 //            	String clearTxt = getResources().getString(getResources().getIdentifier("immunization_date_button_text", "string", getPackageName()));

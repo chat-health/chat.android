@@ -10,7 +10,6 @@ import org.chat.android.models.HealthSelect;
 import org.chat.android.models.HealthSelectRecorded;
 import org.chat.android.models.PageAssessment1;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,7 +18,7 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-public class Assessment1Fragment extends Fragment {
+public class Assessment1Fragment extends BaseFragment {
 	Context context;
 	int clientId = 0;
 	
@@ -65,7 +64,7 @@ public class Assessment1Fragment extends Fragment {
 		int pageContentId = getArguments().getInt("id");
 		
 		selects = new ArrayList<HealthSelect>();
-		selects = ModelHelper.getSelectsForSubjectId(context, pageContentId);
+		selects = ModelHelper.getSelectsForSubjectId(getHelper(), pageContentId);
         
 		populateDisplayedFragment(pageContentId, lang);
 	    populateClickedRadio(view, visitId, rbList);
@@ -74,7 +73,7 @@ public class Assessment1Fragment extends Fragment {
     }
     
     public void populateDisplayedFragment(int pageContentId, String lang) {
-    	PageAssessment1 pa1 = ModelHelper.getPageAssessment1ForId(context, pageContentId);
+    	PageAssessment1 pa1 = ModelHelper.getPageAssessment1ForId(getHelper(), pageContentId);
     	
     	// title
     	title.setText(pa1.getType());
@@ -118,7 +117,7 @@ public class Assessment1Fragment extends Fragment {
 			if (rb != null && rb.getTag() != null) {
 				int selectId = (Integer) rb.getTag();
 				// get the recorded select
-				HealthSelectRecorded hsr = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicNameAndSelectIdAndClientId(context, visitId, "assessment", selectId, clientId);
+				HealthSelectRecorded hsr = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicNameAndSelectIdAndClientId(getHelper(), visitId, "assessment", selectId, clientId);
 				// if it exists, check it
 				if (hsr != null) {
 					rb.setChecked(true);

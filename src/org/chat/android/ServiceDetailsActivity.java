@@ -40,7 +40,7 @@ public class ServiceDetailsActivity extends BaseActivity {
 		hhId = b.getInt("hhId");
 		int tag = b.getInt("serviceTag") - 1;
 		
-		// YUCKY HACK ALERT. WE'RE RUNNING OUT OF TIME, AND IT LOOKS LIKE WE WON'T BE DOING COUNSELLORS. THE BELOW ONLY WORKS FOR VOLUNTEERS, WAS AN EASY WAY TO DEAL WITH THE MULTIPLE LANGUAGES
+		// TODO YUCKY HACK ALERT. WE'RE RUNNING OUT OF TIME, AND IT LOOKS LIKE WE WON'T BE DOING COUNSELLORS. THE BELOW ONLY WORKS FOR VOLUNTEERS, WAS AN EASY WAY TO DEAL WITH THE MULTIPLE LANGUAGES
 		
 		TextView tv = (TextView) findViewById(R.id.service_details_title_field);
 		String[] serviceNames = getResources().getStringArray(R.array.volunteer_service_type_names);
@@ -51,7 +51,7 @@ public class ServiceDetailsActivity extends BaseActivity {
 		populateServicesList(serviceTags[tag]);
 		
 		// grab the list of services already delivered
-		List<ServiceAccessed> saList = ModelHelper.getServicesAccessedForVisitId(context, visitId);
+		List<ServiceAccessed> saList = ModelHelper.getServicesAccessedForVisitId(getHelper(), visitId);
 		
 		ListView lv = (ListView) findViewById(R.id.service_details_listview);
 		sAdapter = new ServicesAdapter(context, android.R.layout.simple_list_item_multiple_choice, servicesList, saList, visitId, hhId);
@@ -62,13 +62,11 @@ public class ServiceDetailsActivity extends BaseActivity {
     
     // used to generate the list of services for serviceDelivery
     private void populateServicesList(String type) {
-        Dao<Service, Integer> sDao;
-        DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
         try {
-			sDao = dbHelper.getServicesDao();
+        	Dao<Service, Integer> sDao = getHelper().getServicesDao();
 			servicesList = sDao.queryBuilder().orderBy("en_name", true).where().eq("type",type).query();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e.printStackTrace();
 		}      	
     }

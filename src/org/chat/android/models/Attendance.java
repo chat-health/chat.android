@@ -2,6 +2,7 @@ package org.chat.android.models;
 
 import java.util.Date;
 
+import org.chat.android.DatabaseHelper;
 import org.chat.android.ModelHelper;
 import org.chat.android.MyApplication;
 
@@ -35,12 +36,12 @@ public class Attendance {
      * @param visit_id
      * @param client_id
      */
-    public Attendance(int visit_id, int client_id) {
+    public Attendance(int visit_id, int client_id, DatabaseHelper dbHelper) {
         // this may be trouble with the sync adapter? PLEASE TEST ME
         // https://stackoverflow.com/questions/2002288/static-way-to-get-context-on-android
         Context myContext = MyApplication.getAppContext();
-        Visit v = ModelHelper.getVisitForId(myContext, visit_id);
-        ModelHelper.setVisitToDirtyAndSave(myContext, v);
+        Visit v = ModelHelper.getVisitForId(dbHelper, visit_id);
+        ModelHelper.setVisitToDirtyAndSave(dbHelper, v);
         this.id = ModelHelper.generateId(myContext);
     	this.visit_id = visit_id;
         this.client_id = client_id;

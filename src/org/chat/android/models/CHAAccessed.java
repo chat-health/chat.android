@@ -2,6 +2,7 @@ package org.chat.android.models;
 
 import java.util.Date;
 
+import org.chat.android.DatabaseHelper;
 import org.chat.android.ModelHelper;
 import org.chat.android.MyApplication;
 
@@ -42,10 +43,10 @@ public class CHAAccessed {
      * @param start_time
      * 
      */
-    public CHAAccessed(int client_id, int visit_id, String type, Date start_time) {
+    public CHAAccessed(int client_id, int visit_id, String type, Date start_time, DatabaseHelper dbHelper) {
     	Context myContext = MyApplication.getAppContext();
-        Visit v = ModelHelper.getVisitForId(myContext, visit_id);
-        ModelHelper.setVisitToDirtyAndSave(myContext, v);
+        Visit v = ModelHelper.getVisitForId(dbHelper, visit_id);
+        ModelHelper.setVisitToDirtyAndSave(dbHelper, v);
         this.id = ModelHelper.generateId(myContext);
         this.client_id = client_id;
     	this.visit_id = visit_id;
@@ -102,11 +103,11 @@ public class CHAAccessed {
 		return end_time;
 	}
 
-	public void setEndTime(Date end_time) {
+	public void setEndTime(Date end_time, DatabaseHelper databaseHelper) {
 		this.end_time = end_time;
-		Context myContext = MyApplication.getAppContext();
-        Visit v = ModelHelper.getVisitForId(myContext, this.visit_id);
-        ModelHelper.setVisitToDirtyAndSave(myContext, v);
+//		Context myContext = MyApplication.getAppContext();
+        Visit v = ModelHelper.getVisitForId(databaseHelper, this.visit_id);
+        ModelHelper.setVisitToDirtyAndSave(databaseHelper, v);
 	}
 	
 }

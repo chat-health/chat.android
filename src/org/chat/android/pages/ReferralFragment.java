@@ -2,7 +2,7 @@ package org.chat.android.pages;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+//import java.util.Locale;
 
 import org.chat.android.BaseActivity;
 import org.chat.android.Mail;
@@ -14,7 +14,6 @@ import org.chat.android.models.Household;
 import org.chat.android.models.Worker;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
@@ -27,7 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class ReferralFragment extends Fragment {
+public class ReferralFragment extends BaseFragment {
 	private Mail m;
 	private Context context;
 	
@@ -48,14 +47,14 @@ public class ReferralFragment extends Fragment {
     	TextView content4 = (TextView) view.findViewById(R.id.r1tv4);
     	
     	// determine language from current tablet settings
-    	String lang = Locale.getDefault().getLanguage();
+//    	String lang = Locale.getDefault().getLanguage();
     	
     	visitId = getArguments().getInt("visitId");
     	clientId = getArguments().getInt("clientId");
     	hhId = getArguments().getInt("hhId");
     	Boolean referalFlag = false;
     	
-    	List<HealthSelectRecorded> selects = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicNameAndClientId(context, visitId, "assessment", clientId);
+    	List<HealthSelectRecorded> selects = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicNameAndClientId(getHelper(), visitId, "assessment", clientId);
     	
     	
     	// if this gets any more complicated (waiting on Lisa for design), create class/model for this - see below. This will also help with creating the email text
@@ -88,13 +87,13 @@ public class ReferralFragment extends Fragment {
     }
     
     private void sendReferral() {
-    	Client c = ModelHelper.getClientForId(context, clientId);
+    	Client c = ModelHelper.getClientForId(getHelper(), clientId);
     	String clientFName = c.getFirstName();
     	String clientLName = c.getLastName();
-    	Household hh = ModelHelper.getHouseholdForId(context, hhId);
+    	Household hh = ModelHelper.getHouseholdForId(getHelper(), hhId);
     	String hhName = hh.getHhName();
     	int workerId = hh.getWorkerId();
-    	Worker worker = ModelHelper.getWorkerForId(context, workerId);
+    	Worker worker = ModelHelper.getWorkerForId(getHelper(), workerId);
     	String fName = worker.getFirstName();
     	String lName = worker.getLastName();
     	Log.i("Related Info", "household name:"+hhName+",volunteer Name:"+fName+" "+lName);
@@ -120,7 +119,7 @@ public class ReferralFragment extends Fragment {
     	
     	// this is all pretty gross, but I'm assuming this section will get cut anyways
     	emailContentStr = emailContentStr + ("\n\n\n") + "Some of the symptoms uncovered by the home care volunteer include: " + ("\n\n");
-    	hsrContent = ModelHelper.getAllHealthSelectContentForVisitIdAndClientId(context, visitId, clientId);
+    	hsrContent = ModelHelper.getAllHealthSelectContentForVisitIdAndClientId(getHelper(), visitId, clientId);
     	int i = 1;
     	for (String s : hsrContent) {
     		emailContentStr += s;

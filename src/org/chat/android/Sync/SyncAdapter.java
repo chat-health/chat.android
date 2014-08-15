@@ -60,6 +60,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.android.gms.auth.UserRecoverableAuthException;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 
@@ -82,6 +83,9 @@ import android.widget.Toast;
  * app, using the Android sync adapter framework.
  */
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
+	// since we aren't OrmLiteBaseActivity or BaseActivity we can't use getHelper()
+    // so we use OpenHelperManager
+    private DatabaseHelper databaseHelper = null;
 
 	// Global variables
     // Define a variable to contain a content resolver instance
@@ -90,7 +94,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     // if we get any error codes back in any of the pushes, set to false (very strict, but necessary)
     Boolean pullSuccess = true;
     Boolean pushSuccess = true;
-    DatabaseHelper dbHelper;
+//    DatabaseHelper dbHelper;
     
     // every time sync should use this token
     private String clientToken = "";
@@ -109,7 +113,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
          */
         mContentResolver = context.getContentResolver();
         appContext = context;
-        dbHelper = new DatabaseHelper(appContext);
+//        dbHelper = new DatabaseHelper(appContext);
         mAccountManager = AccountManager.get(context);
     }
 
@@ -129,8 +133,23 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
          */
         mContentResolver = context.getContentResolver();
         appContext = context;
-        dbHelper = new DatabaseHelper(appContext);
+//        dbHelper = new DatabaseHelper(appContext);
         mAccountManager = AccountManager.get(context);
+    }
+    
+    private DatabaseHelper getHelper() {
+        if (databaseHelper == null) {
+            databaseHelper =
+                OpenHelperManager.getHelper(appContext, DatabaseHelper.class);
+        }
+        return databaseHelper;
+    }
+    
+    private void releaseHelper() {
+    	if (databaseHelper != null) {
+            OpenHelperManager.releaseHelper();
+            databaseHelper = null;
+        }
     }
     
 	@Override
@@ -211,7 +230,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         // change last pull date to current date
 		if (pullSuccess == true) {
 			try {
-				ModelHelper.setLastSyncedAt(appContext, new Date(), "pull");
+				ModelHelper.setLastSyncedAt(getHelper(), new Date(), "pull");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -262,7 +281,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		
 		if (pushSuccess == true) {
 			try {
-				ModelHelper.setLastSyncedAt(appContext, new Date(), "push");
+				ModelHelper.setLastSyncedAt(getHelper(), new Date(), "push");
 				Log.i("SyncAdapter", "Push succeeded. Moving last_synced_at date");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -319,7 +338,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         // change last pull date to current date
 		if (pullSuccess == true) {
 			try {
-				ModelHelper.setLastSyncedAt(appContext, new Date(), "pull");
+				ModelHelper.setLastSyncedAt(getHelper(), new Date(), "pull");
 //				This causes a Fatal exception and crashes the app. Remember this is not the UI thread and toasts belong
 //				on the UI thread. Might be able to work around this but not sure how.
 //				Toast.makeText(appContext, "Pull all succeeded. Moving last_synced_at date...", Toast.LENGTH_LONG).show();
@@ -345,7 +364,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         	// append the last_synced_at in the event that we don't want to pull all (the most common use case)
         	if (pullAll == false) {
         		// concat so that only changed documents are getted from the collection
-            	Date d = ModelHelper.getLastSyncedAt(appContext, "pull");
+            	Date d = ModelHelper.getLastSyncedAt(getHelper(), "pull");
         		String lastSync = "?last_synced_at=" + formatDateToJsonDate(d);
         		
         		//TODO: CHANGE for PROD - this is for testing only, pulls everything instead of changed things
@@ -382,7 +401,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 
                 if ("clients" == modelName) {
 	                Dao<Client, Integer> clientDao;
-	                clientDao = dbHelper.getClientsDao();
+	                clientDao = getHelper().getClientsDao();
 	                
 	                // add new entries received via REST call
 	                for (int i=0; i < jsonArray.length(); i++) {
@@ -401,7 +420,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                
                 } else if ("households" == modelName) {
 	                Dao<Household, Integer> householdsDao;
-	                householdsDao = dbHelper.getHouseholdsDao();
+	                householdsDao = getHelper().getHouseholdsDao();
 	                
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
@@ -418,7 +437,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                }
                 } else if ("services" == modelName) {
 	                Dao<Service, Integer> servicesDao;
-	                servicesDao = dbHelper.getServicesDao();
+	                servicesDao = getHelper().getServicesDao();
 
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
@@ -435,7 +454,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                }
                 } else if ("workers" == modelName) {
 	                Dao<Worker, Integer> wDao;
-	                wDao = dbHelper.getWorkersDao();
+	                wDao = getHelper().getWorkersDao();
 
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject w = jsonArray.getJSONObject(i);
@@ -452,7 +471,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                }
                 } else if ("videos" == modelName) {
 	                Dao<Video, Integer> dao;
-	                dao = dbHelper.getVideosDao();
+	                dao = getHelper().getVideosDao();
 
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
@@ -468,7 +487,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                }
                 } else if ("resources" == modelName) {
 	                Dao<Resource, Integer> dao;
-	                dao = dbHelper.getResourcesDao();
+	                dao = getHelper().getResourcesDao();
 
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
@@ -484,7 +503,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                }
                 } else if ("health_themes" == modelName) {
 	                Dao<HealthTheme, Integer> dao;
-	                dao = dbHelper.getHealthThemesDao();
+	                dao = getHelper().getHealthThemesDao();
 	                
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
@@ -500,7 +519,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                }
                 } else if ("health_topics" == modelName) {
 	                Dao<HealthTopic, Integer> dao;
-	                dao = dbHelper.getHealthTopicsDao();
+	                dao = getHelper().getHealthTopicsDao();
 	                
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
@@ -516,7 +535,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                }
                 } else if ("health_pages" == modelName) {
 	                Dao<HealthPage, Integer> dao;
-	                dao = dbHelper.getHealthPagesDao();
+	                dao = getHelper().getHealthPagesDao();
 
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
@@ -532,7 +551,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                }
                 } else if ("health_selects" == modelName) {
 	                Dao<HealthSelect, Integer> dao;
-	                dao = dbHelper.getHealthSelectsDao();
+	                dao = getHelper().getHealthSelectsDao();
 
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
@@ -548,7 +567,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                }
                 } else if ("topic_videos" == modelName) {
 	                Dao<TopicVideo, Integer> dao;
-	                dao = dbHelper.getTopicVideosDao();
+	                dao = getHelper().getTopicVideosDao();
 
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
@@ -564,7 +583,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                }
                 } else if ("page_text1" == modelName) {
 	                Dao<PageText1, Integer> dao;
-	                dao = dbHelper.getPageText1Dao();
+	                dao = getHelper().getPageText1Dao();
 
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
@@ -580,7 +599,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                }
                 } else if ("page_select1" == modelName) {
 	                Dao<PageSelect1, Integer> dao;
-	                dao = dbHelper.getPageSelect1Dao();
+	                dao = getHelper().getPageSelect1Dao();
 
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
@@ -596,7 +615,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                }
                 } else if ("page_video1" == modelName) {
 	                Dao<PageVideo1, Integer> dao;
-	                dao = dbHelper.getPageVideo1Dao();
+	                dao = getHelper().getPageVideo1Dao();
 
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
@@ -612,7 +631,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                }
                 } else if ("page_assessment1" == modelName) {
 	                Dao<PageAssessment1, Integer> dao;
-	                dao = dbHelper.getPageAssessment1Dao();
+	                dao = getHelper().getPageAssessment1Dao();
 
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
@@ -628,7 +647,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                }
                 } else if ("vaccines" == modelName) {
 	                Dao<Vaccine, Integer> dao;
-	                dao = dbHelper.getVaccinesDao();
+	                dao = getHelper().getVaccinesDao();
 
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
@@ -645,7 +664,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 // the push tables
                 } else if ("health_topics_accessed" == modelName) {
 	                Dao<HealthTopicAccessed, Integer> dao;
-	                dao = dbHelper.getHealthTopicAccessedDao();
+	                dao = getHelper().getHealthTopicAccessedDao();
 
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
@@ -664,7 +683,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                // the following are handled by deconstructing the visit object
 //                } else if ("services_accessed" == modelName) {
 //	                Dao<ServiceAccessed, Integer> dao;
-//	                dao = dbHelper.getServiceAccessedDao();
+//	                dao = getHelper().getServiceAccessedDao();
 //
 //	                for (int i=0; i < jsonArray.length(); i++) {
 //	                	JSONObject jo = jsonArray.getJSONObject(i);
@@ -673,7 +692,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 //	                }
 //                } else if ("resources_accessed" == modelName) {
 //	                Dao<Vaccine, Integer> dao;
-//	                dao = dbHelper.getVaccinesDao();
+//	                dao = getHelper().getVaccinesDao();
 //
 //	                for (int i=0; i < jsonArray.length(); i++) {
 //	                	JSONObject jo = jsonArray.getJSONObject(i);
@@ -682,7 +701,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 //	                }
                 } else if ("vaccines_recorded" == modelName) {
 	                Dao<VaccineRecorded, Integer> dao;
-	                dao = dbHelper.getVaccineRecordedDao();
+	                dao = getHelper().getVaccineRecordedDao();
 
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
@@ -699,7 +718,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                }
                 } else if ("visits" == modelName) {
 	                Dao<Visit, Integer> dao;
-	                dao = dbHelper.getVisitsDao();
+	                dao = getHelper().getVisitsDao();
 
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
@@ -772,7 +791,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		try {
 			if ("visits" == modelName) {
 				Dao<Visit, Integer> vDao;
-				vDao = dbHelper.getVisitsDao();
+				vDao = getHelper().getVisitsDao();
 				
 				List<Visit> visitsList = vDao.queryBuilder().where().eq("dirty", true).query();
 				Iterator<Visit> iterator = visitsList.iterator();
@@ -800,7 +819,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 				//Log.i("SyncAdapter", "Created visits jsonArray: "+jsonArray.toString());
 			} else if ("attendance" == modelName) {
 				Dao<Attendance, Integer> attDao;
-				attDao = dbHelper.getAttendanceDao();
+				attDao = getHelper().getAttendanceDao();
 				
 				List<Attendance> attList = attDao.queryBuilder().where().eq("newly_created", true).query();
 				Iterator<Attendance> iterator = attList.iterator();
@@ -819,7 +838,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 				//Log.i("SyncAdapter", "Created attendance jsonArray: "+jsonArray.toString());
 			} else if ("health_topics_accessed" == modelName) {
 				Dao<HealthTopicAccessed, Integer> htaDao;
-				htaDao = dbHelper.getHealthTopicAccessedDao();
+				htaDao = getHelper().getHealthTopicAccessedDao();
 				
 				List<HealthTopicAccessed> htaList = htaDao.queryBuilder().where().eq("newly_created", true).query();
 				Iterator<HealthTopicAccessed> iterator = htaList.iterator();
@@ -842,7 +861,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 				//Log.i("SyncAdapter", "Created healthTopicsAccessed jsonArray: "+jsonArray.toString());
 			} else if ("services_accessed" == modelName) {
 				Dao<ServiceAccessed, Integer> saDao;
-				saDao = dbHelper.getServiceAccessedDao();
+				saDao = getHelper().getServiceAccessedDao();
 				
 				List<ServiceAccessed> saList = saDao.queryBuilder().where().eq("newly_created", true).query();
 				Iterator<ServiceAccessed> iterator = saList.iterator();
@@ -864,7 +883,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 				//Log.i("SyncAdapter", "Created servicesAccessed jsonArray: "+jsonArray.toString());
 			} else if ("resources_accessed" == modelName) {
 				Dao<ResourceAccessed, Integer> raDao;
-				raDao = dbHelper.getResourceAccessedDao();
+				raDao = getHelper().getResourceAccessedDao();
 				
 				List<ResourceAccessed> raList = raDao.queryBuilder().where().eq("newly_created", true).query();
 				Iterator<ResourceAccessed> iterator = raList.iterator();
@@ -885,7 +904,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 				//Log.i("SyncAdapter", "Created resourcesAccessed jsonArray: "+jsonArray.toString());
 			} else if ("vaccines_recorded" == modelName) {
 				Dao<VaccineRecorded, Integer> vrDao;
-				vrDao = dbHelper.getVaccineRecordedDao();
+				vrDao = getHelper().getVaccineRecordedDao();
 				
 				List<VaccineRecorded> raList = vrDao.queryBuilder().where().eq("newly_created", true).query();
 				Iterator<VaccineRecorded> iterator = raList.iterator();
@@ -980,7 +999,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                if ("visits" == modelName) {
 	                	try {
 	                		Dao<Visit, Integer> dao;
-	        				dao = dbHelper.getVisitsDao();
+	        				dao = getHelper().getVisitsDao();
 	        				
 	        				Visit doc = dao.queryForId(jsonObj.getInt("_id"));
 	        				doc.makeClean();
@@ -992,7 +1011,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                } else if ("attendance" == modelName) {
 	                	try {
 	                		Dao<Attendance, Integer> attDao;
-	                		attDao = dbHelper.getAttendanceDao();
+	                		attDao = getHelper().getAttendanceDao();
 	        				
 	                		Attendance doc = attDao.queryForId(jsonObj.getInt("_id"));
 	        				doc.makeClean();
@@ -1004,7 +1023,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                } else if ("health_topics_accessed" == modelName) {
 	                	try {
 	                		Dao<HealthTopicAccessed, Integer> htaDao;
-	        				htaDao = dbHelper.getHealthTopicAccessedDao();
+	        				htaDao = getHelper().getHealthTopicAccessedDao();
 	        				
 	        				HealthTopicAccessed doc = htaDao.queryForId(jsonObj.getInt("_id"));
 	        				doc.makeClean();
@@ -1016,7 +1035,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                } else if ("services_accessed" == modelName) {
 	                	try {
 	                		Dao<ServiceAccessed, Integer> saDao;
-	        				saDao = dbHelper.getServiceAccessedDao();
+	        				saDao = getHelper().getServiceAccessedDao();
 	        				
 	        				ServiceAccessed doc = saDao.queryForId(jsonObj.getInt("_id"));
 	        				doc.makeClean();
@@ -1028,7 +1047,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                } else if ("resources_accessed" == modelName) {
 	                	try {
 	                		Dao<ResourceAccessed, Integer> raDao;
-	        				raDao = dbHelper.getResourceAccessedDao();
+	        				raDao = getHelper().getResourceAccessedDao();
 	        				
 	        				ResourceAccessed doc = raDao.queryForId(jsonObj.getInt("_id"));
 	        				doc.makeClean();
@@ -1040,7 +1059,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                } else if ("vaccines_recorded" == modelName) {
 	                	try {
 	                		Dao<VaccineRecorded, Integer> vrDao;
-	        				vrDao = dbHelper.getVaccineRecordedDao();
+	        				vrDao = getHelper().getVaccineRecordedDao();
 	        				
 	        				VaccineRecorded doc = vrDao.queryForId(jsonObj.getInt("_id"));
 	        				doc.makeClean();
@@ -1089,7 +1108,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	}
 	
 	private void updateVisitforOtherModels(JSONObject json, Visit v) throws JSONException, SQLException {
-		List<Attendance> attList = ModelHelper.getAttendanceForVisitId(appContext, v.getId());
+		List<Attendance> attList = ModelHelper.getAttendanceForVisitId(getHelper(), v.getId());
 		JSONArray jsonArrAtt = new JSONArray();
 		for (Attendance a : attList) {
 			jsonArrAtt.put(a.getClientId());
@@ -1098,7 +1117,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		json.put("attendance",jsonArrAtt);
 		
 		Dao<VideoAccessed, Integer> vaDao;
-		vaDao = dbHelper.getVideosAccessedDao();
+		vaDao = getHelper().getVideosAccessedDao();
 		List<VideoAccessed> vaList = vaDao.queryForEq("visit_id", v.getId());
 		JSONArray jsonArrVA = new JSONArray();
 		for (VideoAccessed va : vaList) {
@@ -1110,7 +1129,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		json.put("videos_accessed",jsonArrVA);
 		
 		Dao<HealthSelectRecorded, Integer> hsrDao;
-		hsrDao = dbHelper.getHealthSelectRecordedDao();
+		hsrDao = getHelper().getHealthSelectRecordedDao();
 		List<HealthSelectRecorded> hsrList = hsrDao.queryForEq("visit_id", v.getId());
 		JSONArray jsonArrHsr = new JSONArray();
 		for (HealthSelectRecorded hsr : hsrList) {
@@ -1125,7 +1144,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		json.put("health_selects_recorded",jsonArrHsr);
 		
 		Dao<CHAAccessed, Integer> chaaDao;
-		chaaDao = dbHelper.getCHAAccessedDao();
+		chaaDao = getHelper().getCHAAccessedDao();
 		List<CHAAccessed> chaaList = chaaDao.queryForEq("visit_id", v.getId());
 		JSONArray jsonArrCHAA = new JSONArray();
 		for (CHAAccessed chaa : chaaList) {
@@ -1139,7 +1158,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		json.put("cha_accessed",jsonArrCHAA);
 		
 		Dao<HealthTopicAccessed, Integer> htaDao;
-		htaDao = dbHelper.getHealthTopicAccessedDao();
+		htaDao = getHelper().getHealthTopicAccessedDao();
 		List<HealthTopicAccessed> htaList = htaDao.queryForEq("visit_id", v.getId());
 		JSONArray jsonArrHTA = new JSONArray();
 		for (HealthTopicAccessed hta : htaList) {

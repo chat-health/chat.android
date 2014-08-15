@@ -11,6 +11,8 @@ import java.util.List;
 import org.chat.android.R;
 import org.chat.android.models.Client;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -30,8 +32,26 @@ public class CHASelectChildAdapter extends ArrayAdapter<Client> {
     private int visitId = 0;
     private int hhId = 0;
     List<Client> presenceArrayList = new ArrayList<Client>();
+    // since we aren't OrmLiteBaseActivity or BaseActivity we can't use getHelper()
+    // so we use OpenHelperManager
+    private DatabaseHelper databaseHelper = null;
 
-    
+    private DatabaseHelper getHelper() {
+        if (databaseHelper == null) {
+            databaseHelper =
+                OpenHelperManager.getHelper(getContext(), DatabaseHelper.class);
+        }
+        return databaseHelper;
+    }
+
+    private void releaseHelper() {
+    	if (databaseHelper != null) {
+            OpenHelperManager.releaseHelper();
+            databaseHelper = null;
+        }
+    }
+
+
     public CHASelectChildAdapter(Context context, int layoutResourceId, List<Client> clientsArray, int vId, int hId) {
         super(context, layoutResourceId, clientsArray);
         visitId = vId;
@@ -43,7 +63,7 @@ public class CHASelectChildAdapter extends ArrayAdapter<Client> {
     public View getView(int position, View convertView, ViewGroup parent) {
         convertView = this.mInflater.inflate(R.layout.cha_select_child_row, null);
         final Context context = getContext();
-        
+
         final Client c = clientsArray.get(position);
 
         TextView name = null;
@@ -65,7 +85,7 @@ public class CHASelectChildAdapter extends ArrayAdapter<Client> {
             }
             metadata += c.getAgeString();
             metadataTv.setText(metadata);
-            
+
             cBox = (CheckBox)convertView.findViewById(client_checkbox);
             // check off if child has been done for imm and cha
             if (checkCHARequirements(c) == true) {
@@ -74,7 +94,7 @@ public class CHASelectChildAdapter extends ArrayAdapter<Client> {
             	cBox.setChecked(false);
             }
         }
-        
+
         LinearLayout row = (LinearLayout)convertView.findViewById(client_row);
 
         row.setOnClickListener(new View.OnClickListener() {
@@ -85,40 +105,43 @@ public class CHASelectChildAdapter extends ArrayAdapter<Client> {
     	    	b.putInt("visitId",visitId);
     	    	b.putInt("hhId",hhId);
     	    	b.putInt("clientId",c.getId());
-    	    	i.putExtras(b);    	
+    	    	i.putExtras(b);
     	    	v.getContext().startActivity(i);
             }
         });
 
         return convertView;
     }
-    
+
     // again, semi-duplicating functionality in HomeActivity. Think about moving this all to BaseActivity
+    // FIXME Colin if this could move to an activity life would be easier. Also note that f is not a very
+    // meaningful name and you are using Boolean, would boolean work too? (build in type)
+    // Lastly f is set to null. should be true or false???
     private Boolean checkCHARequirements(Client c) {
-    	Context context = getContext();
+//    	Context context = getContext();
     	Boolean f = null;
-    	
+
     	Boolean healthFlag = false;
     	Boolean immunizationFlag = false;
-    	if (ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(context, visitId, c.getId(), "health") == true) {
+    	if (ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(getHelper(), visitId, c.getId(), "health") == true) {
     		healthFlag = true;
     	} else {
     		healthFlag = false;
     	}
-		Boolean allVaccinesAdministered = ModelHelper.getVaccineRecordedCompleteForClientId(context, c.getId());
-		Boolean chaImmunizationComplete = ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(context, visitId, c.getId(), "immunization");
+		Boolean allVaccinesAdministered = ModelHelper.getVaccineRecordedCompleteForClientId(getHelper(), c.getId());
+		Boolean chaImmunizationComplete = ModelHelper.getCHAAccessedCompleteForVisitIdAndClientIdAndType(getHelper(), visitId, c.getId(), "immunization");
 		if (allVaccinesAdministered || chaImmunizationComplete) {
 			immunizationFlag = true;
 		} else {
 			immunizationFlag = false;
 		}
-		
+
 		if (healthFlag == false || immunizationFlag == false) {
 			f = false;
 		} else {
 			f = true;
 		}
-    	
+
     	return f;
     }
 

@@ -32,7 +32,7 @@ public class CHASelectChildActivity extends BaseActivity {
 		hhId = b.getInt("hhId");
 		
 		// grab list of present clients to show, based on the attendance
-		clientsForHealthAssessment = ModelHelper.getAttendingClientsForVisitIdUnderAge(context, visitId, 5);
+		clientsForHealthAssessment = ModelHelper.getAttendingClientsForVisitIdUnderAge(getHelper(), visitId, 5);
 		
 		if (clientsForHealthAssessment.size() == 0) {
 			String msg = getResources().getString(getResources().getIdentifier("select_child_no_child_text", "string", getPackageName()));

@@ -148,10 +148,11 @@ public class CHADelivery extends BaseActivity {
 		}
 		// this is an semi-implicit check to see if this is an Ask/Record page or the Referral page (the pages array does not include the referral page)
 		if (p != null) {
-			List<HealthSelect> hsList = ModelHelper.getHealthSelectsForSubjectId(context, p.getId());
+			List<HealthSelect> hsList = ModelHelper.getHealthSelectsForSubjectId(getHelper(), p.getId());
 			// check if there is a HSR for any of the answers on this page
 			for (HealthSelect hs : hsList) {
-				HealthSelectRecorded hsr = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicNameAndSelectIdAndClientId(context, visitId, "assessment", hs.getId(), clientId);
+				
+				HealthSelectRecorded hsr = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicNameAndSelectIdAndClientId(getHelper(), visitId, "assessment", hs.getId(), clientId);
 				if (hsr != null) {
 					proceedFlag = true;
 				}
@@ -187,10 +188,8 @@ public class CHADelivery extends BaseActivity {
     
 	public void populatePagesArray() {
 		// populate the pages array based on the topic Id and determine number of pages
-		Dao<PageAssessment1, Integer> paDao;		
-		DatabaseHelper paDbHelper = new DatabaseHelper(context);
 		try {
-			paDao = paDbHelper.getPageAssessment1Dao();
+			Dao<PageAssessment1, Integer> paDao = getHelper().getPageAssessment1Dao();
 			List<PageAssessment1> pList = paDao.queryBuilder().query();
 			// clears out the null junk values - there is likely a better way to do this
 			for (PageAssessment1 p : pList) {
@@ -205,20 +204,18 @@ public class CHADelivery extends BaseActivity {
 	}
 
 	public void markTopicComplete() {
-		Client c = ModelHelper.getClientForId(context, clientId);
+		Client c = ModelHelper.getClientForId(getHelper(), clientId);
 		String msg = getResources().getString(getResources().getIdentifier("completed_health_assessment_text", "string", getPackageName()));
 		BaseActivity.toastHelper(this, msg + " " + c.getFirstName() + " " + c.getLastName());
 		
 		// update the HealthTopicAccessed object and save to DB
 		Date endTime = new Date();
 
-		CHAAccessed chaa = ModelHelper.getCHAAccessedForVisitIdAndClientIdAndType(context, visitId, clientId, "health");
-		chaa.setEndTime(endTime);	
-				
-	    Dao<CHAAccessed, Integer> chaaDao;
-	    DatabaseHelper chaaDbHelper = new DatabaseHelper(context);
+		CHAAccessed chaa = ModelHelper.getCHAAccessedForVisitIdAndClientIdAndType(getHelper(), visitId, clientId, "health");
+		chaa.setEndTime(endTime, getHelper());
+		
 	    try {
-	    	chaaDao = chaaDbHelper.getCHAAccessedDao();
+	    	Dao<CHAAccessed, Integer> chaaDao = getHelper().getCHAAccessedDao();
 	    	chaaDao.update(chaa);
 	    } catch (SQLException e1) {
 	        // TODO Auto-generated catch block
@@ -236,30 +233,23 @@ public class CHADelivery extends BaseActivity {
 		// create a new response or update a previously created one
 		
 		// check if there is a previous response for this radio group (ie any of the children's tags have been recorded in HealthSelectRecorded)
-		Dao<HealthSelectRecorded, Integer> hsrDao;
-		DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
 		RadioGroup rg = (RadioGroup)v.getParent();
 		int numberOfChildren = rg.getChildCount();
-		for (int i = 0; i < numberOfChildren; i++) {
-			RadioButton child = (RadioButton) rg.getChildAt(i);
-			int selectId = (Integer) child.getTag();
-			HealthSelectRecorded prevHsr = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicNameAndSelectIdAndClientId(context, visitId, "assessment", selectId, clientId);
-			// if there are previous responses
-			if (prevHsr != null) {
-				try {
-			    	hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
-			    	hsrDao.delete(prevHsr);
-			    } catch (SQLException e1) {
-			        // TODO Auto-generated catch block
-			        e1.printStackTrace();
-			    }
-			}
-		}
 		
-		// then add the new response
 		try {
-			HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, clientId, null, "assessment", new Date());
-    		hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
+			Dao<HealthSelectRecorded, Integer> hsrDao = getHelper().getHealthSelectRecordedDao();
+			for (int i = 0; i < numberOfChildren; i++) {
+				RadioButton child = (RadioButton) rg.getChildAt(i);
+				int selectId = (Integer) child.getTag();
+				HealthSelectRecorded prevHsr = ModelHelper.getHealthSelectRecordedsForVisitIdAndTopicNameAndSelectIdAndClientId(getHelper(), visitId, "assessment", selectId, clientId);
+				// if there are previous responses
+				if (prevHsr != null) {				    	
+					hsrDao.delete(prevHsr);
+				}
+			}
+			
+			// then add the new response
+			HealthSelectRecorded hsr = new HealthSelectRecorded(visitId, selectResp, clientId, null, "assessment", new Date(), getHelper());
     		hsrDao.create(hsr);
     	} catch (SQLException e) {
     	    // TODO Auto-generated catch block
@@ -270,7 +260,7 @@ public class CHADelivery extends BaseActivity {
 		// find out how many selects are on the page
 		PageAssessment1 pa1 = pages.get(pageCounter - 1);
 		List<HealthSelect> selects = new ArrayList<HealthSelect>();
-		selects = ModelHelper.getSelectsForSubjectId(context, pa1.getId());
+		selects = ModelHelper.getSelectsForSubjectId(getHelper(), pa1.getId());
 		// if the tapped button (v) is equal to the first select element
 		if (selects.size() > 2) {
 			if (v.getTag() == findViewById(R.id.a1rb1_1).getTag()) {

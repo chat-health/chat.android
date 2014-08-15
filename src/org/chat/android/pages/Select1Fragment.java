@@ -1,37 +1,26 @@
 package org.chat.android.pages;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
-import org.chat.android.DatabaseHelper;
 import org.chat.android.ModelHelper;
 import org.chat.android.R;
-import org.chat.android.R.layout;
 import org.chat.android.models.HealthSelect;
 import org.chat.android.models.HealthSelectRecorded;
 import org.chat.android.models.HealthTheme;
 import org.chat.android.models.PageSelect1;
-import org.chat.android.models.PageText1;
 
-import com.j256.ormlite.dao.Dao;
-
-import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class Select1Fragment extends Fragment {
+public class Select1Fragment extends BaseFragment {
 	Context context;
     TextView title = null;
     TextView content1 = null;
@@ -67,12 +56,12 @@ public class Select1Fragment extends Fragment {
     
 	public void populateDisplayedFragment(String themeName, String topicName, int pageContentId, String lang) {
 		// question
-		PageSelect1 ps = ModelHelper.getPageSelect1ForId(context, pageContentId);
+		PageSelect1 ps = ModelHelper.getPageSelect1ForId(getHelper(), pageContentId);
 		content1.setText(ps.getContent(lang, "content1"));
 		
 		// responses/selects
 		List<HealthSelect> selects = new ArrayList<HealthSelect>();
-		selects = ModelHelper.getSelectsForSubjectId(context, ps.getId());
+		selects = ModelHelper.getSelectsForSubjectId(getHelper(), ps.getId());
 		if (selects.size() == 4) {
 			// set up the radio buttons, tagged with ID (to be used when saving) - TODO: make me work with Zulu (in the model)
 			answer1.setText(selects.get(0).getContent(lang));
@@ -86,7 +75,7 @@ public class Select1Fragment extends Fragment {
 		}
 		
 		// colors
-		HealthTheme theme = ModelHelper.getThemeForName(context, themeName);
+		HealthTheme theme = ModelHelper.getThemeForName(getHelper(), themeName);
 		int colorRef = Color.parseColor(theme.getColor());
 		title.setTextColor(colorRef);
     }
@@ -96,10 +85,10 @@ public class Select1Fragment extends Fragment {
 	// NOTE THIS SHOULDNT WORK - WILL RETURN MULTIPLE IDS, SEE BELOW
 	// if the user has navigated back/forward to this page after previously having selected a radio
 	public void populateClickedRadio(View view, int visitId, String topicName) {
-		HealthSelectRecorded hsr = ModelHelper.getHealthSelectRecordedForVisitIdAndTopicName(context, visitId, topicName);
+		HealthSelectRecorded hsr = ModelHelper.getHealthSelectRecordedForVisitIdAndTopicName(getHelper(), visitId, topicName);
 		if (hsr != null) {
 			int selectId = hsr.getSelectId();
-			HealthSelect hs = ModelHelper.getHealthSelectForId(context, selectId);
+			HealthSelect hs = ModelHelper.getHealthSelectForId(getHelper(), selectId);
 			int radioId = hs.getId();
 			RadioButton rb = (RadioButton)view.findViewWithTag(radioId);
 			rb.setChecked(true);

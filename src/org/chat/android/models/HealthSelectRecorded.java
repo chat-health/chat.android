@@ -2,6 +2,7 @@ package org.chat.android.models;
 
 import java.util.Date;
 
+import org.chat.android.DatabaseHelper;
 import org.chat.android.ModelHelper;
 import org.chat.android.MyApplication;
 
@@ -40,10 +41,10 @@ public class HealthSelectRecorded {
     /**
      * Constructor that instantiates the private member variable(s)
      */
-    public HealthSelectRecorded(int visit_id, int select_id, int client_id, String theme, String topic, Date date) {
+    public HealthSelectRecorded(int visit_id, int select_id, int client_id, String theme, String topic, Date date, DatabaseHelper databaseHelper) {
         Context myContext = MyApplication.getAppContext();
-        Visit v = ModelHelper.getVisitForId(myContext, visit_id);
-        ModelHelper.setVisitToDirtyAndSave(myContext, v);
+        Visit v = ModelHelper.getVisitForId(databaseHelper, visit_id);
+        ModelHelper.setVisitToDirtyAndSave(databaseHelper, v);
         this.id = ModelHelper.generateId(myContext);
     	this.visit_id = visit_id;
         this.select_id = select_id;

@@ -37,29 +37,29 @@ import android.content.Context;
 import android.provider.Settings.Secure;
 import android.util.Log;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.stmt.QueryBuilder;
 
 public class ModelHelper {
 	static String lang = Locale.getDefault().getLanguage();
-	
-	public static Date getLastSyncedAt(Context context, String direction) {
+
+	public static Date getLastSyncedAt(DatabaseHelper databaseHelper, String direction) {
 		Util u = null;
-		Dao<Util, Integer> uDao;		
-		DatabaseHelper uDbHelper = new DatabaseHelper(context);
+		Dao<Util, Integer> uDao;
 		try {
-			uDao = uDbHelper.getUtilDao();
+			uDao = databaseHelper.getUtilDao();
 			List<Util> uList = uDao.queryBuilder().query();
 			Iterator<Util> iter = uList.iterator();
 			while (iter.hasNext()) {
 				u = iter.next();
 			}
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		if (direction == "pull") {
 			return u.getLastPulledAt();
 		} else if (direction == "push") {
@@ -68,13 +68,12 @@ public class ModelHelper {
 			return null;
 		}
 	}
-	
-	public static void setLastSyncedAt(Context context, Date d, String direction) throws SQLException {
+
+	public static void setLastSyncedAt(DatabaseHelper databaseHelper, Date d, String direction) throws SQLException {
 		Util u = null;
 		Dao<Util, Integer> uDao;
-		DatabaseHelper uDbHelper = new DatabaseHelper(context);
-		uDao = uDbHelper.getUtilDao();
-		
+		uDao = databaseHelper.getUtilDao();
+
 		if (direction == "pull") {
 			u = new Util(1, null, d);
 		} else if (direction == "push") {
@@ -82,17 +81,16 @@ public class ModelHelper {
 		}
 		uDao.createOrUpdate(u);
 	}
-	
-	public static String getRecentUsername(Context context) {
+
+	public static String getRecentUsername(DatabaseHelper databaseHelper) {
 		String workerName = null;
-		
+
 		// grab the last visit
 		Visit visit = null;
-		Dao<Visit, Integer> vDao;		
-		DatabaseHelper vDbHelper = new DatabaseHelper(context);
+		Dao<Visit, Integer> vDao;
 		try {
 			// Yuck. There must be a much better way to do this
-			vDao = vDbHelper.getVisitsDao();
+			vDao = databaseHelper.getVisitsDao();
 			QueryBuilder<Visit, Integer> builder = vDao.queryBuilder();
 			builder.limit(1);
 			builder.orderBy("start_time", false);  // true for ascending, false for descending
@@ -103,200 +101,183 @@ public class ModelHelper {
 			}
 
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		// grab the worker from the last visit, if it exists
 		if (visit != null) {
-			workerName = ModelHelper.getWorkerForId(context, visit.getWorkerId()).getUsername();
+			workerName = ModelHelper.getWorkerForId(databaseHelper, visit.getWorkerId()).getUsername();
 			return workerName;
 		} else {
 			return null;
 		}
 	}
-	
-	public static Visit getVisitForId(Context context, int visitId) {
+
+	public static Visit getVisitForId(DatabaseHelper databaseHelper, int visitId) {
 		Visit visit = null;
-		Dao<Visit, Integer> vDao;		
-		DatabaseHelper vDbHelper = new DatabaseHelper(context);
+		Dao<Visit, Integer> vDao;
 		try {
-			vDao = vDbHelper.getVisitsDao();
+			vDao = databaseHelper.getVisitsDao();
 			List<Visit> vList = vDao.queryBuilder().where().eq("id",visitId).query();
 			Iterator<Visit> iter = vList.iterator();
 			while (iter.hasNext()) {
 				visit = iter.next();
 			}
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		return visit;
 	}
-	
-	public static Worker getWorkerForId(Context context, int workerId) {
+
+	public static Worker getWorkerForId(DatabaseHelper databaseHelper, int workerId) {
 		Worker worker = null;
-		Dao<Worker, Integer> wDao;		
-		DatabaseHelper wDbHelper = new DatabaseHelper(context);
 		try {
-			wDao = wDbHelper.getWorkersDao();
+			Dao<Worker, Integer> wDao = databaseHelper.getWorkersDao();
 			worker = wDao.queryForId(workerId);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return worker;
 	}
 
-	public static Worker getWorkerForName(Context context, String workerName) {
+	public static Worker getWorkerForName(DatabaseHelper databaseHelper, String workerName) {
 		Worker worker = null;
-		Dao<Worker, Integer> wDao;		
-		DatabaseHelper wDbHelper = new DatabaseHelper(context);
 		try {
-			wDao = wDbHelper.getWorkersDao();
+			Dao<Worker, Integer> wDao = databaseHelper.getWorkersDao();
 			List<Worker> wList = wDao.queryBuilder().where().eq("first_name",workerName).query();
 			Iterator<Worker> iter = wList.iterator();
 			while (iter.hasNext()) {
 				worker = iter.next();
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return worker;
 	}
-	
-	public static Worker getWorkerForUsername(Context context, String username) {
+
+	public static Worker getWorkerForUsername(DatabaseHelper databaseHelper, String username) {
 		Worker worker = null;
-		Dao<Worker, Integer> wDao;		
-		DatabaseHelper wDbHelper = new DatabaseHelper(context);
 		try {
-			wDao = wDbHelper.getWorkersDao();
+			Dao<Worker, Integer> wDao = databaseHelper.getWorkersDao();
 			List<Worker> wList = wDao.queryBuilder().where().eq("username",username).query();
 			Iterator<Worker> iter = wList.iterator();
 			while (iter.hasNext()) {
 				worker = iter.next();
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return worker;
 	}
 
-	public static Household getHouseholdForId(Context context, int hhId) {
+	public static Household getHouseholdForId(DatabaseHelper databaseHelper, int hhId) {
 		Household household = null;
-		Dao<Household, Integer> hDao;		
-		DatabaseHelper hDbHelper = new DatabaseHelper(context);
 		try {
-			hDao = hDbHelper.getHouseholdsDao();
+			Dao<Household, Integer> hDao = databaseHelper.getHouseholdsDao();
 			household = hDao.queryForId(hhId);
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		return household;
 	}
-	
-	
-	public static Household getHouseholdForName(Context context, String hhName) {
+
+
+	public static Household getHouseholdForName(DatabaseHelper databaseHelper, String hhName) {
 		Household household = null;
-		Dao<Household, Integer> hDao;		
-		DatabaseHelper hDbHelper = new DatabaseHelper(context);
 		try {
-			hDao = hDbHelper.getHouseholdsDao();
+			Dao<Household, Integer> hDao = databaseHelper.getHouseholdsDao();
 			List<Household> hList = hDao.queryBuilder().where().eq("hh_name",hhName).query();
 			Iterator<Household> iter = hList.iterator();
 			while (iter.hasNext()) {
 				household = iter.next();
 			}
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		return household;
 	}
-	
-	public static List<Household> getHouseholdsForWorkerId(Context context, int workerId) {
+
+	public static List<Household> getHouseholdsForWorkerId(DatabaseHelper databaseHelper, int workerId) {
 		List<Household> hList = null;
-		Dao<Household, Integer> hDao;		
-		DatabaseHelper hDbHelper = new DatabaseHelper(context);
 		try {
-			hDao = hDbHelper.getHouseholdsDao();
+			Dao<Household, Integer> hDao = databaseHelper.getHouseholdsDao();
 			hList = hDao.queryBuilder().where().eq("worker_id",workerId).query();
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		return hList;
 	}
-	
-	public static List<Household> getAllHouseholds(Context context) {
+
+	public static List<Household> getAllHouseholds(DatabaseHelper databaseHelper) {
 		List<Household> hList = null;
-		Dao<Household, Integer> hDao;		
-		DatabaseHelper hDbHelper = new DatabaseHelper(context);
+		Dao<Household, Integer> hDao;
 		try {
-			hDao = hDbHelper.getHouseholdsDao();
+			hDao = databaseHelper.getHouseholdsDao();
 			hList = hDao.queryBuilder().query();
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		return hList;
 	}
-	
-	public static Client getClientForId(Context context, int clientId) {
+
+	public static Client getClientForId(DatabaseHelper databaseHelper, int clientId) {
 		Client client = null;
-		Dao<Client, Integer> cDao;		
-		DatabaseHelper cDbHelper = new DatabaseHelper(context);
+		Dao<Client, Integer> cDao;
 		try {
-			cDao = cDbHelper.getClientsDao();
+			cDao = databaseHelper.getClientsDao();
 			List<Client> cList = cDao.queryBuilder().where().eq("id",clientId).query();
 			Iterator<Client> iter = cList.iterator();
 			while (iter.hasNext()) {
 				client = iter.next();
 			}
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		return client;
 	}
-	
-	public static List<Client> getClientsForHousehold(Context context, int hhId) {
+
+	public static List<Client> getClientsForHousehold(DatabaseHelper databaseHelper, int hhId) {
 		List<Client> hhCList = new ArrayList<Client>();
-		Dao<Client, Integer> cDao;		
-		DatabaseHelper cDbHelper = new DatabaseHelper(context);
+		Dao<Client, Integer> cDao;
 		try {
-			cDao = cDbHelper.getClientsDao();
+			cDao = databaseHelper.getClientsDao();
 			hhCList = cDao.queryBuilder().orderBy("date_of_birth",true).where().eq("hh_id",hhId).query();
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		return hhCList;
 	}
-	
-	public static List<Client> getAttendingClientsForVisitIdUnderAge(Context context, int visitId, int age) {
+
+	public static List<Client> getAttendingClientsForVisitIdUnderAge(DatabaseHelper databaseHelper, int visitId, int age) {
 		List<Client> cList = new ArrayList<Client>();
-		
+
     	// create the list of attending Clients
     	List<Integer> presentHHMembers = new ArrayList<Integer>();
         Dao<Attendance, Integer> aDao;
         List<Attendance> allAttendees = new ArrayList<Attendance>();
-        DatabaseHelper attDbHelper = new DatabaseHelper(context);
         try {
-			aDao = attDbHelper.getAttendanceDao();
+			aDao = databaseHelper.getAttendanceDao();
 			allAttendees = aDao.query(aDao.queryBuilder().prepare());
         	for (Attendance a : allAttendees) {
     			if (a.getVisitId() == visitId) {
@@ -304,14 +285,13 @@ public class ModelHelper {
     			}
         	}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e.printStackTrace();
 		}
-    	
+
         Dao<Client, Integer> cDao;
-        DatabaseHelper cDbHelper = new DatabaseHelper(context);
         try {
-        	cDao = cDbHelper.getClientsDao();
+        	cDao = databaseHelper.getClientsDao();
         	for (Integer i : presentHHMembers) {
         		// get client for the id
         		Client c = cDao.queryForId(i);
@@ -320,34 +300,33 @@ public class ModelHelper {
     			}
     		}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e.printStackTrace();
 		}
-       
+
         // TODO: this is a nice to have
-        
+
 //        Collections.sort(cList, new Comparator<Client>(){
 //            public int compare(Client c1, Client c2) {
 //                return c1.getAge().compareTo(c2.getAge());
 //            }
 //        });
-     
-        
+
+
         return cList;
 	}
-	
-	public static List<Attendance> getAttendanceForVisitId(final Context context, int visitId) {
+
+	public static List<Attendance> getAttendanceForVisitId(final DatabaseHelper databaseHelper, int visitId) {
 		List<Attendance> aList = null;
-		Dao<Attendance, Integer> aDao;		
-		DatabaseHelper aDbHelper = new DatabaseHelper(context);
+		Dao<Attendance, Integer> aDao;
 		try {
-			aDao = aDbHelper.getAttendanceDao();
+			aDao = databaseHelper.getAttendanceDao();
 			aList = aDao.queryBuilder().where().eq("visit_id",visitId).query();
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		// sort the list by age TODO: FINISH ME
 //		Collections.sort(aList, new Comparator<Attendance>() {
 //			public double compare(Attendance a1, Attendance a2) {
@@ -356,17 +335,16 @@ public class ModelHelper {
 //				return Double.compare(age1, age2);
 //			}
 //		});
-		
+
 		return aList;
 	}
 
-	public static Service getServiceForName(Context context, String sName, String language) {
+	public static Service getServiceForName(DatabaseHelper databaseHelper, String sName, String language) {
     	Service service = null;
         Dao<Service, Integer> sDao;
         List<Service> allServices = new ArrayList<Service>();
-        DatabaseHelper dbHelper = new DatabaseHelper(context);
         try {
-			sDao = dbHelper.getServicesDao();
+			sDao = databaseHelper.getServicesDao();
 			allServices = sDao.query(sDao.queryBuilder().prepare());
         	for (Service s : allServices) {
         		// service names that are not displayed will always be in english (right?)
@@ -380,79 +358,74 @@ public class ModelHelper {
 		}
         return service;
 	}
-	
-	public static List<HealthTheme> getHealthThemes(Context context) {
+
+	public static List<HealthTheme> getHealthThemes(DatabaseHelper databaseHelper) {
 		List<HealthTheme> themeList = null;
-		Dao<HealthTheme, Integer> tDao;		
-		DatabaseHelper tDbHelper = new DatabaseHelper(context);
+		Dao<HealthTheme, Integer> tDao;
 		try {
-			tDao = tDbHelper.getHealthThemesDao();
+			tDao = databaseHelper.getHealthThemesDao();
 			themeList = tDao.queryBuilder().query();
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		return themeList;
 	}
-	
-	public static HealthTheme getThemeForName(Context context, String themeName) {
+
+	public static HealthTheme getThemeForName(DatabaseHelper databaseHelper, String themeName) {
 		HealthTheme theme = null;
-		Dao<HealthTheme, Integer> tDao;		
-		DatabaseHelper tDbHelper = new DatabaseHelper(context);
+		Dao<HealthTheme, Integer> tDao;
 		try {
-			tDao = tDbHelper.getHealthThemesDao();
+			tDao = databaseHelper.getHealthThemesDao();
 			List<HealthTheme> tList = tDao.queryBuilder().where().eq("name",themeName).query();
 			Iterator<HealthTheme> iter = tList.iterator();
 			while (iter.hasNext()) {
 				theme = iter.next();
 			}
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		return theme;
 	}
-	
-	public static List<HealthSelect> getSelectsForSubjectId(Context context, int subjectId) {
+
+	public static List<HealthSelect> getSelectsForSubjectId(DatabaseHelper databaseHelper, int subjectId) {
 		List<HealthSelect> selectList = null;
-		Dao<HealthSelect, Integer> hsDao;		
-		DatabaseHelper hsDbHelper = new DatabaseHelper(context);
+		Dao<HealthSelect, Integer> hsDao;
 		try {
-			hsDao = hsDbHelper.getHealthSelectsDao();
+			hsDao = databaseHelper.getHealthSelectsDao();
 			QueryBuilder<HealthSelect, Integer> qb = hsDao.queryBuilder();
 			qb.where().eq("subject_id",subjectId);
 			selectList = qb.orderBy("id", true).query();
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		return selectList;
 	}
-	
-	public static List<HealthTopic> getTopicsForThemeName(Context context, String themeName) {
+
+	public static List<HealthTopic> getTopicsForThemeName(DatabaseHelper databaseHelper, String themeName) {
 		List<HealthTopic> topicList = null;
-		Dao<HealthTopic, Integer> tDao;		
-		DatabaseHelper tDbHelper = new DatabaseHelper(context);
+		Dao<HealthTopic, Integer> tDao;
 		try {
-			tDao = tDbHelper.getHealthTopicsDao();
+			tDao = databaseHelper.getHealthTopicsDao();
 			topicList = tDao.queryBuilder().where().eq("theme",themeName).query();
 		} catch (SQLException e2) {
 			Log.e("Topic does not exist in the DB: ", themeName);
 			e2.printStackTrace();
 		}
-		
+
 		return topicList;
 	}
-	
-	public static HealthTopic getTopicForName(Context context, String topicName) {
+
+	public static HealthTopic getTopicForName(DatabaseHelper databaseHelper, String topicName) {
 		HealthTopic topic = null;
-		Dao<HealthTopic, Integer> tDao;		
-		DatabaseHelper tDbHelper = new DatabaseHelper(context);
+		Dao<HealthTopic, Integer> tDao;
 		try {
-			tDao = tDbHelper.getHealthTopicsDao();
+			tDao = databaseHelper.getHealthTopicsDao();
 			List<HealthTopic> tList = tDao.queryBuilder().where().eq("name",topicName).query();
 			Iterator<HealthTopic> iter = tList.iterator();
 			while (iter.hasNext()) {
@@ -462,31 +435,29 @@ public class ModelHelper {
 			Log.e("Topic does not exist in the DB: ", topicName);
 			e2.printStackTrace();
 		}
-		
+
 		return topic;
 	}
-	
-	public static List<TopicVideo> getVideoIdsForPageVideo1Id(Context context, int vId) {
+
+	public static List<TopicVideo> getVideoIdsForPageVideo1Id(DatabaseHelper databaseHelper, int vId) {
 		List<TopicVideo> tvList = null;
-		Dao<TopicVideo, Integer> tvDao;		
-		DatabaseHelper tvDbHelper = new DatabaseHelper(context);
+		Dao<TopicVideo, Integer> tvDao;
 		try {
-			tvDao = tvDbHelper.getTopicVideosDao();
+			tvDao = databaseHelper.getTopicVideosDao();
 			tvList = tvDao.queryBuilder().where().eq("page_video1_id",vId).query();
 		} catch (SQLException e2) {
 			Log.e("Video does not exist in the DB: ", "");
 			e2.printStackTrace();
 		}
-		
+
 		return tvList;
 	}
-	
-	public static Video getVideoForId(Context context, int vId) {
+
+	public static Video getVideoForId(DatabaseHelper databaseHelper, int vId) {
 		Video video = null;
-		Dao<Video, Integer> vDao;		
-		DatabaseHelper vDbHelper = new DatabaseHelper(context);
+		Dao<Video, Integer> vDao;
 		try {
-			vDao = vDbHelper.getVideosDao();
+			vDao = databaseHelper.getVideosDao();
 			List<Video> vList = vDao.queryBuilder().where().eq("id",vId).query();
 			Iterator<Video> iter = vList.iterator();
 			while (iter.hasNext()) {
@@ -496,181 +467,171 @@ public class ModelHelper {
 			Log.e("Video does not exist in the DB: ", "");
 			e2.printStackTrace();
 		}
-		
+
 		return video;
 	}
-	
-	public static PageText1 getPageText1ForId(Context context, int pageContentId) {
-		Dao<PageText1, Integer> ptDao;		
-		DatabaseHelper ptDbHelper = new DatabaseHelper(context);
+
+	public static PageText1 getPageText1ForId(DatabaseHelper databaseHelper, int pageContentId) {
+		Dao<PageText1, Integer> ptDao;
 		PageText1 pt = null;
 		try {
-			ptDao = ptDbHelper.getPageText1Dao();
+			ptDao = databaseHelper.getPageText1Dao();
 			List<PageText1> ptList = ptDao.queryBuilder().where().eq("id",pageContentId).query();
 			Iterator<PageText1> iter = ptList.iterator();
 			while (iter.hasNext()) {
 				pt = iter.next();
 			}
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		return pt;
 	}
-	
-	public static PageSelect1 getPageSelect1ForId(Context context, int pageContentId) {
-		Dao<PageSelect1, Integer> psDao;		
-		DatabaseHelper psDbHelper = new DatabaseHelper(context);
+
+	public static PageSelect1 getPageSelect1ForId(DatabaseHelper databaseHelper, int pageContentId) {
+		Dao<PageSelect1, Integer> psDao;
 		PageSelect1 ps = null;
 		try {
-			psDao = psDbHelper.getPageSelect1Dao();
+			psDao = databaseHelper.getPageSelect1Dao();
 			List<PageSelect1> psList = psDao.queryBuilder().where().eq("id",pageContentId).query();
 			Iterator<PageSelect1> iter = psList.iterator();
 			while (iter.hasNext()) {
 				ps = iter.next();
 			}
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		return ps;
 	}
-	
-	public static PageVideo1 getPageVideo1ForId(Context context, int pageContentId) {
-		Dao<PageVideo1, Integer> pvDao;		
-		DatabaseHelper pvDbHelper = new DatabaseHelper(context);
+
+	public static PageVideo1 getPageVideo1ForId(DatabaseHelper databaseHelper, int pageContentId) {
+		Dao<PageVideo1, Integer> pvDao;
 		PageVideo1 pv = null;
 		try {
-			pvDao = pvDbHelper.getPageVideo1Dao();
+			pvDao = databaseHelper.getPageVideo1Dao();
 			List<PageVideo1> pvList = pvDao.queryBuilder().where().eq("id",pageContentId).query();
 			Iterator<PageVideo1> iter = pvList.iterator();
 			while (iter.hasNext()) {
 				pv = iter.next();
 			}
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		return pv;
 	}
-	
-	public static HealthSelect getHealthSelectForId(Context context, int id) {
+
+	public static HealthSelect getHealthSelectForId(DatabaseHelper databaseHelper, int id) {
 		HealthSelect hs = null;
-		Dao<HealthSelect, Integer> hsDao;		
-		DatabaseHelper hsDbHelper = new DatabaseHelper(context);
+		Dao<HealthSelect, Integer> hsDao;
 		try {
-			hsDao = hsDbHelper.getHealthSelectsDao();
+			hsDao = databaseHelper.getHealthSelectsDao();
 			List<HealthSelect> selectList = hsDao.queryBuilder().where().eq("id",id).query();
 			Iterator<HealthSelect> iter = selectList.iterator();
 			while (iter.hasNext()) {
 				hs = iter.next();
 			}
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		return hs;
 	}
-	
-	public static List<HealthSelect> getHealthSelectsForSubjectId(Context context, int subjectId) {
+
+	public static List<HealthSelect> getHealthSelectsForSubjectId(DatabaseHelper databaseHelper, int subjectId) {
 		List<HealthSelect> sList = null;
-		Dao<HealthSelect, Integer> hsDao;		
-		DatabaseHelper hsDbHelper = new DatabaseHelper(context);
+		Dao<HealthSelect, Integer> hsDao;
+
 		try {
-			hsDao = hsDbHelper.getHealthSelectsDao();
+			hsDao = databaseHelper.getHealthSelectsDao();
 			sList = hsDao.queryBuilder().where().eq("subject_id",subjectId).query();
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		return sList;
 	}
-	
-	public static HealthSelectRecorded getHealthSelectRecordedForVisitIdAndTopicName(Context context, int visitId, String topicName) {
-		Dao<HealthSelectRecorded, Integer> hsrDao;		
-		DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
+
+	public static HealthSelectRecorded getHealthSelectRecordedForVisitIdAndTopicName(DatabaseHelper databaseHelper, int visitId, String topicName) {
+		Dao<HealthSelectRecorded, Integer> hsrDao;
 		HealthSelectRecorded hsr = null;
 		try {
-			hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
+			hsrDao = databaseHelper.getHealthSelectRecordedDao();
 			List<HealthSelectRecorded> hsrList = hsrDao.queryBuilder().where().eq("visit_id",visitId).and().eq("topic",topicName).query();
 			Iterator<HealthSelectRecorded> iter = hsrList.iterator();
 			while (iter.hasNext()) {
 				hsr = iter.next();
 			}
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		return hsr;
 	}
-	
-	public static List<HealthSelectRecorded> getHealthSelectRecordedsForVisitIdAndTopicNameAndClientId(Context context, int visitId, String topicName, int clientId) {
-		Dao<HealthSelectRecorded, Integer> hsrDao;		
-		DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
+
+	public static List<HealthSelectRecorded> getHealthSelectRecordedsForVisitIdAndTopicNameAndClientId(DatabaseHelper databaseHelper, int visitId, String topicName, int clientId) {
+		Dao<HealthSelectRecorded, Integer> hsrDao;
 		List<HealthSelectRecorded> hsrList = null;
 		try {
-			hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
+			hsrDao = databaseHelper.getHealthSelectRecordedDao();
 			hsrList = hsrDao.queryBuilder().where().eq("visit_id",visitId).and().eq("topic",topicName).and().eq("client_id",clientId).query();
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		return hsrList;
 	}
-	
-	public static HealthSelectRecorded getHealthSelectRecordedsForVisitIdAndTopicNameAndSelectIdAndClientId(Context context, int visitId, String topicName, int selectId, int clientId) {
-		Dao<HealthSelectRecorded, Integer> hsrDao;		
-		DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
+
+	public static HealthSelectRecorded getHealthSelectRecordedsForVisitIdAndTopicNameAndSelectIdAndClientId(DatabaseHelper databaseHelper, int visitId, String topicName, int selectId, int clientId) {
+		Dao<HealthSelectRecorded, Integer> hsrDao;
 		HealthSelectRecorded hsr = null;
 		try {
-			hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
+			hsrDao = databaseHelper.getHealthSelectRecordedDao();
 			List<HealthSelectRecorded> hsrList = hsrDao.queryBuilder().where().eq("visit_id",visitId).and().eq("topic",topicName).and().eq("select_id",selectId).and().eq("client_id",clientId).query();
 			Iterator<HealthSelectRecorded> iter = hsrList.iterator();
 			while (iter.hasNext()) {
 				hsr = iter.next();
 			}
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		return hsr;
 	}
-	
-	public static List<String> getAllHealthSelectContentForVisitIdAndClientId(Context context, int visitId, int clientId) {
+
+	public static List<String> getAllHealthSelectContentForVisitIdAndClientId(DatabaseHelper databaseHelper, int visitId, int clientId) {
 		List<String> hsContentList = new ArrayList<String>();
-		
+
 		// get the health select recordeds for this visit and client
 		List<HealthSelectRecorded> hsrList = null;
-		Dao<HealthSelectRecorded, Integer> hsrDao;		
-		DatabaseHelper hsrDbHelper = new DatabaseHelper(context);
+		Dao<HealthSelectRecorded, Integer> hsrDao;
 		try {
-			hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
+			hsrDao = databaseHelper.getHealthSelectRecordedDao();
 			hsrList = hsrDao.queryBuilder().where().eq("visit_id",visitId).and().eq("client_id",clientId).and().eq("topic","assessment").query();
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		// WARNING: this does not work correctly yet - it still always returns EnContent1s, which is obviously wrong in that it ignores Content2 and Content
 		// FIXME
-		
+
 		// get the corresponding health selects
-		Dao<HealthSelect, Integer> hsDao;	
+		Dao<HealthSelect, Integer> hsDao;
 		Dao<PageAssessment1, Integer> pa1Dao;
-		DatabaseHelper hsDbHelper = new DatabaseHelper(context);
-		DatabaseHelper pa1DbHelper = new DatabaseHelper(context);
 		for (HealthSelectRecorded hsr : hsrList) {
 			try {
-				hsDao = hsDbHelper.getHealthSelectsDao();
+				hsDao = databaseHelper.getHealthSelectsDao();
 				HealthSelect hs = hsDao.queryForId(hsr.getSelectId());
-				pa1Dao = pa1DbHelper.getPageAssessment1Dao();
+				pa1Dao = databaseHelper.getPageAssessment1Dao();
 				PageAssessment1 pa1 = pa1Dao.queryForId(hs.getSubjectId());
 				hsContentList.add(pa1.getEnContent1());
 				hsContentList.add(hs.getEnContent());
@@ -678,185 +639,176 @@ public class ModelHelper {
 				e2.printStackTrace();
 			}
 		}
-		
+
 		return hsContentList;
 	}
-	
-	public static List<ServiceAccessed> getServicesAccessedForVisitId(Context context, int visitId) {
+
+	public static List<ServiceAccessed> getServicesAccessedForVisitId(DatabaseHelper databaseHelper, int visitId) {
 		List<ServiceAccessed> saList = null;
-		Dao<ServiceAccessed, Integer> saDao;		
-		DatabaseHelper saDbHelper = new DatabaseHelper(context);
+		Dao<ServiceAccessed, Integer> saDao;
 		try {
-			saDao = saDbHelper.getServiceAccessedDao();
+			saDao = databaseHelper.getServiceAccessedDao();
 			saList = saDao.queryBuilder().where().eq("visit_id",visitId).query();
 		} catch (SQLException e2) {
 			e2.printStackTrace();
 		}
-		
-		return saList;		
+
+		return saList;
 	}
-	
-	public static List<HealthTopicAccessed> getHealthTopicsAccessedForVisitId(Context context, int visitId) {
+
+	public static List<HealthTopicAccessed> getHealthTopicsAccessedForVisitId(DatabaseHelper databaseHelper, int visitId) {
 		List<HealthTopicAccessed> htaList = null;
-		Dao<HealthTopicAccessed, Integer> htaDao;		
-		DatabaseHelper htaDbHelper = new DatabaseHelper(context);
+		Dao<HealthTopicAccessed, Integer> htaDao;
 		try {
-			htaDao = htaDbHelper.getHealthTopicAccessedDao();
+			htaDao = databaseHelper.getHealthTopicAccessedDao();
 			htaList = htaDao.queryBuilder().where().eq("visit_id",visitId).query();
 		} catch (SQLException e2) {
 			e2.printStackTrace();
 		}
-		
-		return htaList;		
+
+		return htaList;
 	}
-	
-	public static CHAAccessed getCHAAccessedForVisitIdAndClientIdAndType(Context context, int visitId, int clientId, String type) {
-		Dao<CHAAccessed, Integer> chaaDao;		
-		DatabaseHelper chaaDbHelper = new DatabaseHelper(context);
+
+	public static CHAAccessed getCHAAccessedForVisitIdAndClientIdAndType(DatabaseHelper databaseHelper, int visitId, int clientId, String type) {
+		Dao<CHAAccessed, Integer> chaaDao;
 		CHAAccessed chaa = null;
 		try {
-			chaaDao = chaaDbHelper.getCHAAccessedDao();
+			chaaDao = databaseHelper.getCHAAccessedDao();
 			List<CHAAccessed> chaaList = chaaDao.queryBuilder().where().eq("visit_id",visitId).and().eq("client_id",clientId).and().eq("type",type).query();
 			Iterator<CHAAccessed> iter = chaaList.iterator();
 			while (iter.hasNext()) {
 				chaa = iter.next();
 			}
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		return chaa;
 	}
-	
-	public static Boolean getCHAAccessedCompleteForVisitIdAndClientIdAndType(Context context, int visitId, int clientId, String type) {
+
+	public static Boolean getCHAAccessedCompleteForVisitIdAndClientIdAndType(DatabaseHelper databaseHelper, int visitId, int clientId, String type) {
 		List<CHAAccessed> chaaList = null;
-		Dao<CHAAccessed, Integer> chaaDao;		
-		DatabaseHelper chaaDbHelper = new DatabaseHelper(context);
+		Dao<CHAAccessed, Integer> chaaDao;
 		try {
-			chaaDao = chaaDbHelper.getCHAAccessedDao();
+			chaaDao = databaseHelper.getCHAAccessedDao();
 			chaaList = chaaDao.queryBuilder().where().eq("visit_id",visitId).and().eq("client_id",clientId).and().eq("type",type).query();
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		Boolean completeFlag = false;
 		for (CHAAccessed chaa : chaaList) {
 			if (chaa.getEndTime() != null) {
 				completeFlag = true;
 			}
 		}
-		
+
 		return completeFlag;
 	}
-	
-	public static void setCHAAccessed(Context context, CHAAccessed chaa) {
+
+	public static void setCHAAccessed(DatabaseHelper databaseHelper, CHAAccessed chaa) {
 	    Dao<CHAAccessed, Integer> chaaDao;
-	    DatabaseHelper chaaDbHelper = new DatabaseHelper(context);
 	    try {
-	    	chaaDao = chaaDbHelper.getCHAAccessedDao();
+	    	chaaDao = databaseHelper.getCHAAccessedDao();
 	    	chaaDao.update(chaa);
 	    } catch (SQLException e1) {
-	        // TODO Auto-generated catch block
+	        // Auto-generated catch block
 	        e1.printStackTrace();
 	    }
 	}
-	
-	public static PageAssessment1 getPageAssessment1ForId(Context context, int id) {
-		Dao<PageAssessment1, Integer> pa1Dao;		
-		DatabaseHelper pa1DbHelper = new DatabaseHelper(context);
+
+	public static PageAssessment1 getPageAssessment1ForId(DatabaseHelper databaseHelper, int id) {
+		Dao<PageAssessment1, Integer> pa1Dao;
 		PageAssessment1 pa1 = null;
 		try {
-			pa1Dao = pa1DbHelper.getPageAssessment1Dao();
+			pa1Dao = databaseHelper.getPageAssessment1Dao();
 			List<PageAssessment1> pa1List = pa1Dao.queryBuilder().where().eq("id",id).query();
 			Iterator<PageAssessment1> iter = pa1List.iterator();
 			while (iter.hasNext()) {
 				pa1 = iter.next();
 			}
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		return pa1;
 	}
-	
-	public static List<Vaccine> getVaccinesForAge(Context context, double age) {
+
+	public static List<Vaccine> getVaccinesForAge(DatabaseHelper databaseHelper, double age) {
 		List<Vaccine> vList = null;
-		Dao<Vaccine, Integer> vDao;		
-		DatabaseHelper vDbHelper = new DatabaseHelper(context);
+		Dao<Vaccine, Integer> vDao;
 		try {
-			vDao = vDbHelper.getVaccinesDao();
+			vDao = databaseHelper.getVaccinesDao();
 			vList = vDao.queryBuilder().where().le("age",age).query();
 		} catch (SQLException e2) {
 			Log.e("Video does not exist in the DB: ", "");
 			e2.printStackTrace();
 		}
-		
-		return vList;		
+
+		return vList;
 	}
-	
-	public static VaccineRecorded getVaccineRecordedForClientIdAndVaccineId(Context context, int clientId, int vaccineId) {
-		Dao<VaccineRecorded, Integer> vrDao;		
-		DatabaseHelper vrDbHelper = new DatabaseHelper(context);
+
+	public static VaccineRecorded getVaccineRecordedForClientIdAndVaccineId(DatabaseHelper databaseHelper, int clientId, int vaccineId) {
+		Dao<VaccineRecorded, Integer> vrDao;
 		VaccineRecorded vr = null;
 		try {
-			vrDao = vrDbHelper.getVaccineRecordedDao();
+			vrDao = databaseHelper.getVaccineRecordedDao();
 			List<VaccineRecorded> pvList = vrDao.queryBuilder().where().eq("client_id",clientId).and().eq("vaccine_id",vaccineId).query();
 			Iterator<VaccineRecorded> iter = pvList.iterator();
 			while (iter.hasNext()) {
 				vr = iter.next();
 			}
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		return vr;
 	}
-	
-	public static Boolean getVaccineRecordedCompleteForClientId(Context context, int clientId) {
+
+	public static Boolean getVaccineRecordedCompleteForClientId(DatabaseHelper databaseHelper, int clientId) {
 		Boolean missingVaccineFlag = false;
-		
-		Client c = getClientForId(context, clientId);
-		List<Vaccine> vList = getVaccinesForAge(context, c.getAge());
-		
+
+		Client c = getClientForId(databaseHelper, clientId);
+		List<Vaccine> vList = getVaccinesForAge(databaseHelper, c.getAge());
+
 		for (Vaccine vaccine : vList) {
 			// will return null if it doesn't exist
-			VaccineRecorded vr = getVaccineRecordedForClientIdAndVaccineId(context, clientId, vaccine.getId());
+			VaccineRecorded vr = getVaccineRecordedForClientIdAndVaccineId(databaseHelper, clientId, vaccine.getId());
 			if (vr == null) {
 				missingVaccineFlag = true;
 			}
 		}
-		
+
 		if (missingVaccineFlag == true) {
 			return false;
 		} else {
 			return true;
 		}
 	}
-	
-	
+
+
 	/************************** SAVING **************************/
-	public static void setVisitToDirtyAndSave(Context context, Visit v) {
+	public static void setVisitToDirtyAndSave(DatabaseHelper databaseHelper, Visit v) {
 		v.setDirty();
 	    Dao<Visit, Integer> vDao;
-	    DatabaseHelper vDbHelper = new DatabaseHelper(context);
 	    try {
-	    	vDao = vDbHelper.getVisitsDao();
+	    	vDao = databaseHelper.getVisitsDao();
 	    	vDao.update(v);
 	    } catch (SQLException e1) {
-	        // TODO Auto-generated catch block
+	        // Auto-generated catch block
 	        e1.printStackTrace();
 	    }
-		
+
 	}
-	
-	
+
+
 	/*************************** OTHER ***************************/
 	public static int generateId(Context context) {
-    	String myUUID = Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);   
+    	String myUUID = Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
     	long seconds = System.currentTimeMillis() / 1000;
     	String secondsString = String.valueOf(seconds);
     	String idString = myUUID+secondsString;
@@ -864,14 +816,14 @@ public class ModelHelper {
     	if (hashedIdString < 0) {
     		hashedIdString = hashedIdString * -1;
     	}
-    	
+
     	Random randomNum = new Random();
     	int randomInt = randomNum.nextInt(99999);
     	int myId = hashedIdString + randomInt;
     	return myId;
     	// k, this is pretty over the top and silly, but functional for now
-    	
-    	
+
+
     	// feels odd to construct this all ourselves. An attempt to eliminating collisions while staying within int space
 //    	String myUUID = Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
 //    	int hashedUUID = myUUID.hashCode();
@@ -879,14 +831,14 @@ public class ModelHelper {
 //    		hashedUUID = hashedUUID * -1;
 //    	}
 //    	String hashedUUIDString = String.valueOf(hashedUUID);
-//   
+//
 //    	long seconds = System.currentTimeMillis() / 1000;
 //    	String secondsString = String.valueOf(seconds);
-//    	
+//
 //    	String idString = hashedUUIDString+secondsString;
-//    	int myId = Integer.parseInt(idString);     
-    	
+//    	int myId = Integer.parseInt(idString);
+
 	}
-	
-	
+
+
 }

@@ -49,10 +49,8 @@ public class HealthOverviewActivity extends BaseActivity {
 //		
 //		Boolean previouslyAccessedFlag = false;
 //		
-//		Dao<HealthSelectRecorded, Integer> hsrDao;		
-//		DatabaseHelper hsrDbHelper = new DatabaseHelper(getApplicationContext());
 //		try {
-//			hsrDao = hsrDbHelper.getHealthSelectRecordedDao();
+//			Dao<HealthSelectRecorded, Integer> hsrDao = getHelper().getHealthSelectRecordedDao();
 //			List<HealthSelectRecorded> hsrList = hsrDao.queryBuilder().where().eq("visit_id",visitId).and().eq("theme", healthTheme).query();			
 //			Iterator<HealthSelectRecorded> iter = hsrList.iterator();
 //			while (iter.hasNext()) {
@@ -108,10 +106,8 @@ public class HealthOverviewActivity extends BaseActivity {
     	
 		// pull all of the topics accessed for this household, then clear those with duplicate 
 		List<HealthTopicAccessed> topicsAccessed = new ArrayList<HealthTopicAccessed>();
-		Dao<HealthTopicAccessed, Integer> htaDao;		
-		DatabaseHelper htaDbHelper = new DatabaseHelper(context);
 		try {
-			htaDao = htaDbHelper.getHealthTopicAccessedDao();
+			Dao<HealthTopicAccessed, Integer> htaDao = getHelper().getHealthTopicAccessedDao();
 			topicsAccessed = htaDao.queryBuilder().where().eq("hh_id",hhId).and().isNotNull("end_time").query();
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
@@ -120,13 +116,10 @@ public class HealthOverviewActivity extends BaseActivity {
 		
 		// for each theme (ie button)
 		for (int i = 0; i < imgViewList.size(); i++) {
-			List<HealthTopic> healthTopics = new ArrayList<HealthTopic>();
-			Dao<HealthTopic, Integer> topicDao;
-			
+			List<HealthTopic> healthTopics = new ArrayList<HealthTopic>();			
 			// pull all topics related to that theme
-			DatabaseHelper topicDbHelper = new DatabaseHelper(context);
 			try {
-				topicDao = topicDbHelper.getHealthTopicsDao();
+				Dao<HealthTopic, Integer> topicDao = getHelper().getHealthTopicsDao();
 				healthTopics = topicDao.queryBuilder().where().eq("theme",imgViewList.get(i).getTag()).query();
 			} catch (SQLException e2) {
 				// TODO Auto-generated catch block

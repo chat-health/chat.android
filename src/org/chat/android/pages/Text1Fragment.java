@@ -7,7 +7,6 @@ import org.chat.android.R;
 import org.chat.android.models.HealthTheme;
 import org.chat.android.models.PageText1;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -16,7 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class Text1Fragment extends Fragment {
+public class Text1Fragment extends BaseFragment {
 	Context context;
     TextView content1 = null;
     TextView content2 = null;
@@ -37,12 +36,12 @@ public class Text1Fragment extends Fragment {
     }
     
 	public void populateDisplayedFragment(String themeName, String type, int pageContentId, String lang) {
-		PageText1 pt = ModelHelper.getPageText1ForId(context, pageContentId);
+		PageText1 pt = ModelHelper.getPageText1ForId(getHelper(), pageContentId);
 
 		content1.setText(pt.getContent(lang, "content1"));
 		content2.setText(pt.getContent(lang, "content2"));
 		
-		HealthTheme theme = ModelHelper.getThemeForName(getActivity(), themeName);
+		HealthTheme theme = ModelHelper.getThemeForName(getHelper(), themeName);
 		int colorRef = Color.parseColor(theme.getColor());
 		content1.setTextColor(colorRef);
     }

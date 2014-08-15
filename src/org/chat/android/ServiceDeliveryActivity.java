@@ -45,7 +45,7 @@ public class ServiceDeliveryActivity extends BaseActivity {
 		}
 		
 		// grab list of present clients to show, based on the attendance
-		presentClients = ModelHelper.getAttendingClientsForVisitIdUnderAge(context, visitId, 999);
+		presentClients = ModelHelper.getAttendingClientsForVisitIdUnderAge(getHelper(), visitId, 999);
 		
 		ListView lv = (ListView) findViewById(R.id.service_delivery_listview);
 		sdAdapter = new ServiceDeliveryAdapter(context, android.R.layout.simple_list_item_multiple_choice, presentClients, visitId);
@@ -55,30 +55,29 @@ public class ServiceDeliveryActivity extends BaseActivity {
     
     public void selectServiceDeliveryClients(View v) {
     	List<Client> attendingClients = sdAdapter.getSelectedClients();
+    	
     	if (attendingClients.size() > 0) {
+    		try {
+	    		Dao<ServiceAccessed, Integer> saDao = getHelper().getServiceAccessedDao();
+	    		// for each attending hh member
+	    		for (Client client : attendingClients) {
+	    			ServiceAccessed sa = null;
+	    			// decide whether there is ad_info (ie it's an outlier type service that is not a simple checkbox)
+	    			Date time = new Date();
+	    			int serviceId = 0;
+	    			serviceId = ModelHelper.getServiceForName(getHelper(), sName, "en").getId();
+	    			if (adInfoFlag == true) {
+	    				sa = new ServiceAccessed(serviceId, visitId, client.getId(), serviceAdInfo, time);
+	    			} else {
+	    				sa = new ServiceAccessed(serviceId, visitId, client.getId(), null, time);
+	    			}
 
-    		// for each attending hh member
-    		for (Client client : attendingClients) {
-    			ServiceAccessed sa = null;
-    			// decide whether there is ad_info (ie it's an outlier type service that is not a simple checkbox)
-    			Date time = new Date();
-    			int serviceId = 0;
-    			serviceId = ModelHelper.getServiceForName(context, sName, "en").getId();
-    			if (adInfoFlag == true) {
-    				sa = new ServiceAccessed(serviceId, visitId, client.getId(), serviceAdInfo, time);
-    			} else {
-    				sa = new ServiceAccessed(serviceId, visitId, client.getId(), null, time);
-    			}
-    		    Dao<ServiceAccessed, Integer> saDao;
-    		    DatabaseHelper saDbHelper = new DatabaseHelper(context);
-    		    try {
-    		        saDao = saDbHelper.getServiceAccessedDao();
-    		        saDao.create(sa);
-    		    } catch (SQLException e) {
-    		        // TODO Auto-generated catch block
-    		        e.printStackTrace();
-    		    }
-    		}
+	    		    saDao.create(sa);
+	    		}
+    		} catch (SQLException e) {
+		        // TODO Auto-generated catch block
+		        e.printStackTrace();
+		    }
 
 	    	
 	    	String deliveredStr = getResources().getString(getResources().getIdentifier("service_delivered_text", "string", getPackageName()));

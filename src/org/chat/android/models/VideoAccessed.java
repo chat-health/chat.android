@@ -2,6 +2,7 @@ package org.chat.android.models;
 
 import java.util.Date;
 
+import org.chat.android.DatabaseHelper;
 import org.chat.android.ModelHelper;
 import org.chat.android.MyApplication;
 
@@ -38,10 +39,10 @@ public class VideoAccessed {
      * @param date
      * 
      */
-    public VideoAccessed(int video_id, int visit_id, Date date) {
+    public VideoAccessed(int video_id, int visit_id, Date date, DatabaseHelper dbHelper) {
     	Context myContext = MyApplication.getAppContext();
-        Visit v = ModelHelper.getVisitForId(myContext, visit_id);
-        ModelHelper.setVisitToDirtyAndSave(myContext, v);
+        Visit v = ModelHelper.getVisitForId(dbHelper, visit_id);
+        ModelHelper.setVisitToDirtyAndSave(dbHelper, v);
     	this.id = ModelHelper.generateId(myContext);
     	this.video_id = video_id;
     	this.visit_id = visit_id;

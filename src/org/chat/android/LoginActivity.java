@@ -12,6 +12,7 @@ import org.chat.android.models.Util;
 import org.chat.android.models.Visit;
 import org.chat.android.models.Worker;
 
+import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
 import com.j256.ormlite.dao.Dao;
 
 import android.accounts.Account;
@@ -45,7 +46,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 
 	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
@@ -83,7 +84,7 @@ public class LoginActivity extends Activity {
 		
 		// autofill last user if there is one in the DB
 		String lastuser = null;
-		lastuser = ModelHelper.getRecentUsername(getBaseContext());
+		lastuser = ModelHelper.getRecentUsername(getHelper());
 		if (lastuser != null) {
 			mUserNameView.setText(lastuser);
 		} else {
@@ -129,10 +130,8 @@ public class LoginActivity extends Activity {
 	private void initDBIfRequired() {
         Date d = new Date();
         Util u1 = new Util(1, d, d);
-        Dao<Util, Integer> utilDao;
-        DatabaseHelper utilDbHelper = new DatabaseHelper(getBaseContext());
         try {
-        	utilDao = utilDbHelper.getUtilDao();
+        	Dao<Util, Integer> utilDao = getHelper().getUtilDao();
         	utilDao.createIfNotExists(u1);
 	    } catch (SQLException e1) {
 	        // TODO Auto-generated catch block
@@ -180,7 +179,7 @@ public class LoginActivity extends Activity {
 			cancel = true;
 		}
 		// Check if the user exists
-		Worker w = ModelHelper.getWorkerForUsername(getApplicationContext(), mUserNameView.getText().toString());
+		Worker w = ModelHelper.getWorkerForUsername(getHelper(), mUserNameView.getText().toString());
 		if (w == null) {
 			mUserNameView.setError(getString(R.string.error_invalid_user_name));
 			focusView = mUserNameView;
@@ -260,7 +259,7 @@ public class LoginActivity extends Activity {
 		protected Boolean doInBackground(Void... params) {
 
 			// ******************** COMMENT BACK IN FOR PROD ********************
-			Worker w = ModelHelper.getWorkerForUsername(getApplicationContext(), mUserNameView.getText().toString());
+			Worker w = ModelHelper.getWorkerForUsername(getHelper(), mUserNameView.getText().toString());
 			if (w != null) {
 				return w.getPassword().equals(mPassword);
 			} else {
@@ -279,17 +278,17 @@ public class LoginActivity extends Activity {
 				// check if there are previously uncompleted visits for this worker. NB: this assumes there is only ever one unrestored visit (TESTME)
 				String workerName = mUserNameView.getText().toString();
 
-				Worker w = ModelHelper.getWorkerForUsername(getApplicationContext(), workerName);
+				Worker w = ModelHelper.getWorkerForUsername(getHelper(), workerName);
 
 				if (w == null) {
 					Toast.makeText(getApplicationContext(), "ERROR: That user does not exist in the database. Please check spelling, and the problem persists, contact technical support", Toast.LENGTH_SHORT).show();
 				} else {
 					int workerId = w.getId();
 					
-					Dao<Visit, Integer> vDao;		
-					DatabaseHelper vDbHelper = new DatabaseHelper(getApplicationContext());
 					try {
-						vDao = vDbHelper.getVisitsDao();
+						// class now extends OrmLiteBaseActivity which manages DatabaseHelper and DB connections
+						// and grants access via getHelper()
+						Dao<Visit, Integer> vDao = getHelper().getVisitsDao();
 						List<Visit> vList = vDao.queryBuilder().where().eq("worker_id",workerId).and().isNull("end_time").query();
 						Iterator<Visit> iter = vList.iterator();
 						while (iter.hasNext()) {

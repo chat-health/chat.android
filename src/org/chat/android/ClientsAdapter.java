@@ -15,6 +15,7 @@ import org.chat.android.R;
 import org.chat.android.models.Attendance;
 import org.chat.android.models.Client;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
 import android.content.Context;
@@ -34,8 +35,11 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
     private int visitId = 0;
     List<Client> presenceArrayList = new ArrayList<Client>();
     static String lang = Locale.getDefault().getLanguage();
+    // since we aren't OrmLiteBaseActivity or BaseActivity we can't use getHelper()
+    // so we use OpenHelperManager
+    private DatabaseHelper databaseHelper = null;
 
-    
+
     public ClientsAdapter(Context context, int layoutResourceId, List<Client> clientsArray, int vId) {
         super(context, layoutResourceId, clientsArray);
         visitId = vId;
@@ -50,7 +54,7 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
     public View getView(int position, View convertView, ViewGroup parent) {
         convertView = this.mInflater.inflate(R.layout.attendance_listview_row, null);
         final Context context = getContext();
-        
+
         Client c = clientsArray.get(position);
 
         TextView name = null;
@@ -84,9 +88,9 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
             cb = (CheckBox) convertView.findViewById(R.id.checkbox);
             cb.setTag(c);
         }
-        
+
         LinearLayout row = (LinearLayout)convertView.findViewById(client_row);
-        
+
         // hacky way to override standard Android behaviour. Checkboxes have been made unclickable in the xml. presenceArrayList holds the checked (ie attending) client objects
         row.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -97,18 +101,18 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
                 	presenceArrayList.remove(c);
                 } else {
                 	cb.setChecked(true);
-                	presenceArrayList.add(c);             	
+                	presenceArrayList.add(c);
                 }
 
             }
         });
-        
-        // check all boxes for hh members that are already marked as present for this visit (restore state, essentially)    
+
+        // check all boxes for hh members that are already marked as present for this visit (restore state, essentially)
 		List<Attendance> cpList = new ArrayList<Attendance>();
         Dao<Attendance, Integer> cpDao;
-        DatabaseHelper cpHelper = new DatabaseHelper(context);
+        databaseHelper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
         try {
-			cpDao = cpHelper.getAttendanceDao();
+			cpDao = databaseHelper.getAttendanceDao();
 			cpList = cpDao.query(cpDao.queryBuilder().prepare());
         	for (Attendance a : cpList) {
     			if (a.getVisitId() == visitId && a.getClientId() == c.getId()) {
@@ -119,7 +123,7 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}  
+		}
 
         return convertView;
     }

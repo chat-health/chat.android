@@ -123,8 +123,8 @@ public class HealthDetailsActivity extends BaseActivity {
         	imgBtn.add((ImageButton) findViewById(R.id.health_topic6_button));
     	}
     	
-    	List<HealthTopic> topicList = ModelHelper.getTopicsForThemeName(context, healthTheme);
-		String color = ModelHelper.getThemeForName(context, healthTheme).getColor();
+    	List<HealthTopic> topicList = ModelHelper.getTopicsForThemeName(getHelper(), healthTheme);
+		String color = ModelHelper.getThemeForName(getHelper(), healthTheme).getColor();
 		int colorRef = Color.parseColor(color);
 		int imageRef = 0;
     	
@@ -159,10 +159,8 @@ public class HealthDetailsActivity extends BaseActivity {
     public void updateUIElements() {
 		// pull all of the completed topics accessed for this household
 		List<HealthTopicAccessed> topicsAccessed = new ArrayList<HealthTopicAccessed>();
-		Dao<HealthTopicAccessed, Integer> htaDao;		
-		DatabaseHelper htaDbHelper = new DatabaseHelper(context);
 		try {
-			htaDao = htaDbHelper.getHealthTopicAccessedDao();
+			Dao<HealthTopicAccessed, Integer> htaDao = getHelper().getHealthTopicAccessedDao();
 			topicsAccessed = htaDao.queryBuilder().where().eq("hh_id",hhId).and().isNotNull("end_time").query();
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block

@@ -48,7 +48,7 @@ public class CHAOverviewActivity extends BaseActivity {
     
     public void openImmunizationsReceived(View v) {
 //    	TODO: put this back in for PROD
-    	Client child = ModelHelper.getClientForId(context, clientId);
+    	Client child = ModelHelper.getClientForId(getHelper(), clientId);
         new AlertDialog.Builder(this)
         .setMessage("Is " + child.getFirstName() + " " + child.getLastName() + "'s health card present?")
         .setNegativeButton(R.string.action_no, new OnClickListener() {
@@ -74,13 +74,12 @@ public class CHAOverviewActivity extends BaseActivity {
     private void setupCHAAccessedObject(String type) {
 		Date startTime = new Date();
 
-    	CHAAccessed chaAccessed = new CHAAccessed(clientId, visitId, type, startTime);
+    	CHAAccessed chaAccessed = new CHAAccessed(clientId, visitId, type, startTime, getHelper());
     	
-    	Dao<CHAAccessed, Integer> chaaDao;
-    	DatabaseHelper chaaDbHelper = new DatabaseHelper(context);
     	try {
-    		chaaDao = chaaDbHelper.getCHAAccessedDao();
+    		Dao<CHAAccessed, Integer> chaaDao = getHelper().getCHAAccessedDao();
     		chaaDao.create(chaAccessed);
+    		// FIXME: Colin Where does the visit object come from and why do we use the ID
     		visitId = visit.getId();
     	} catch (SQLException e) {
     		// TODO Auto-generated catch block
