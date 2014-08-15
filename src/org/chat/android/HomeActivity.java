@@ -396,7 +396,7 @@ public class HomeActivity extends Activity {
 // TODO Armin
 	public void deleteCurrentAttendance() {
     	DatabaseHelper helper = OpenHelperManager.getHelper(getApplicationContext(), DatabaseHelper.class);
-    	Dao aDao;
+    	Dao<Attendance, Integer> aDao;
 	    try {
 		    aDao = getHelper().getDao(Attendance.class);
 		    DeleteBuilder<Attendance, Integer> deleteBuilder = aDao.deleteBuilder();

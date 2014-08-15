@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">CHAT</string>
     
-    <string name="base_url">https://backend.lmbutler-ssa.net/</string>
-    <!-- <string name="base_url">http://backend.dev.lmbutler-ssa.net/</string> -->
+    <!-- <string name="base_url">https://backend.lmbutler-ssa.net/</string> -->
+    <string name="base_url">http://backend.dev.lmbutler-ssa.net/</string>
 <!-- 	<string name="base_url">http://138.51.218.1:8000/</string>  -->
 	<!-- <string name="base_url">http://10.0.1.197:8000/</string>  -->
 	<!-- <string name="base_url">http://142.150.102.197:8000/</string> -->
@@ -71,7 +71,7 @@
     <string name="service_delivery_title_text">Who were these services delivered to?</string>
     <string name="service_select_one_service_text">You must select at least one service (or hit the back button to cancel)</string>
     <string name="service_select_one_client_text">You must select at least one client to mark this service as delivered</string>
-    <string name="service_delivered_text">Service(s) marked as delivered to client(s)</string>
+    <string name="service_delivered_text">Service marked as delivered to client(s)</string>
     
     <string name="resources_title_text">Select a resource to view</string>
     

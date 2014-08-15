@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -87,6 +88,9 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
             metadataTv.setText(metadata);
             cb = (CheckBox) convertView.findViewById(R.id.checkbox);
             cb.setTag(c);
+            if (presenceArrayList.contains(c)) {
+            	cb.setChecked(true);
+            }
         }
 
         LinearLayout row = (LinearLayout)convertView.findViewById(client_row);
@@ -113,11 +117,16 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
         databaseHelper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
         try {
 			cpDao = databaseHelper.getAttendanceDao();
-			cpList = cpDao.query(cpDao.queryBuilder().prepare());
-        	for (Attendance a : cpList) {
+			cpList = cpDao.queryBuilder().where().eq("visit_id",visitId).query();
+
+			for (Attendance a : cpList) {
     			if (a.getVisitId() == visitId && a.getClientId() == c.getId()) {
     				cb.setChecked(true);
-    				presenceArrayList.add(c);
+    				// basically, this add should only be called the first time (when restoring a visit) and never again, otherwise we get exponential array growth on scolling
+    				// no easy way to do that, so only add if the client is not already in there
+    				if (!presenceArrayList.contains(c)) {
+    					presenceArrayList.add(c);
+    				}
     			}
         	}
 		} catch (SQLException e) {
