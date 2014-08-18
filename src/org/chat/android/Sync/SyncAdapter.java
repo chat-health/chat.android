@@ -1,7 +1,14 @@
 package org.chat.android.Sync;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,6 +19,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -62,7 +71,6 @@ import org.json.JSONObject;
 import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.DeleteBuilder;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -184,6 +192,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 			syncType = "standard";
 		}
 		Log.i("SyncAdapter", "syncType: "+syncType);
+		
+		// I think we need to set this to true here
+		pullSuccess = true;
+	    pushSuccess = true;
 		
 		if (syncType.equals("pullAll")) {
 			Log.i("SyncAdapter", "We are going nuclear - pulling everything");
@@ -383,18 +395,29 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         	
         	Log.i("SyncAdapter", "Get to URL: "+url);
         	
-            response = httpclient.execute(new HttpGet(url));
-            StatusLine statusLine = response.getStatusLine();            
-            Log.i("SyncAdapter","Status code: "+statusLine.getStatusCode()+" and status line: "+statusLine.getReasonPhrase());
+//            response = httpclient.execute(new HttpGet(url));
+//            StatusLine statusLine = response.getStatusLine();            
+//            Log.i("SyncAdapter","Status code: "+statusLine.getStatusCode()+" and status line: "+statusLine.getReasonPhrase());
+            
+            
+            HttpsURLConnection urlConnection = (HttpsURLConnection) new URL(url).openConnection();
             
             // checking response to see if it worked ok
-            if (statusLine.getStatusCode() == HttpStatus.SC_OK){
+//            if (statusLine.getStatusCode() == HttpStatus.SC_OK){
+            if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK){
+            	Log.i("SyncAdapter","Status code: "+urlConnection.getResponseCode()+" and status line: "+urlConnection.getResponseMessage());
+            	try {
+            		InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+            		responseString = convertStreamToString(in);
+                } finally {
+                	urlConnection.disconnect();
+                }
             	// all that obvious receiving business
-                ByteArrayOutputStream out = new ByteArrayOutputStream();
-                response.getEntity().writeTo(out);
-                out.close();
-                responseString = out.toString();
-                //Log.i("SyncAdapter", "Response text: \n"+responseString);
+//                ByteArrayOutputStream out = new ByteArrayOutputStream();
+//                response.getEntity().writeTo(out);
+//                out.close();
+//                responseString = out.toString();
+//                Log.i("SyncAdapter", "Response text: \n"+responseString);
                 
                 // transform response into a JSONArray object
                 JSONArray jsonArray = new JSONArray(responseString);
@@ -743,17 +766,22 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 }
             } else{
             	//Closes the connection.
-            	ByteArrayOutputStream out = new ByteArrayOutputStream();
-                response.getEntity().writeTo(out);
-                out.close();
-                responseString = out.toString();
-                Log.e("SyncAdapter", statusLine.getReasonPhrase());
-                Log.e("SyncAdapter", responseString);
+//            	ByteArrayOutputStream out = new ByteArrayOutputStream();
+//                response.getEntity().writeTo(out);
+//                out.close();
+//                responseString = out.toString();
+            	int resCode = urlConnection.getResponseCode();
+            	String errorMessage = convertStreamToString(urlConnection.getErrorStream());
+                Log.e("SyncAdapter", ((Integer)resCode).toString());
+                Log.e("SyncAdapter", errorMessage);
+                //Closes the connection.
+            	urlConnection.disconnect();
             	// set the flag to false so we don't update the lastPulledAt date
             	pullSuccess = false;
 //            	response.getEntity().getContent().close();
                 
-            	if(statusLine.getStatusCode() == HttpStatus.SC_UNAUTHORIZED)
+//            	if(urlConnection.getResponseCode() == HttpStatus.SC_UNAUTHORIZED)
+            	if(resCode == HttpURLConnection.HTTP_UNAUTHORIZED)
             	{
 //            		Log.e("SyncAdapter", "in unauthorized");
             		Intent reAuthIntent = new Intent(appContext,MainActivity.class);
@@ -764,7 +792,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             	else
             	{
 //            		Log.e("SyncAdapter", "in other status");
-            		throw new IOException(statusLine.getReasonPhrase());
+            		throw new IOException(errorMessage);
             	}
             }
         } catch (ClientProtocolException e) {
@@ -937,8 +965,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	}
 	
 	private void pushModel(String modelName, JSONArray jsonArray) throws UserRecoverableAuthException {
-		HttpClient httpclient = new DefaultHttpClient();
-        HttpResponse response = null;
+//		HttpClient httpclient = new DefaultHttpClient();
+//        HttpResponse response = null;
         String responseString = null;
         try {
         	// executing a get request
@@ -950,8 +978,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         	Log.i("SyncAdapter", "Push to URL: "+url);
         	
         	// url with the post data
-            HttpPost httpPost = new HttpPost(url);
-            HttpPut httpPut = new HttpPut(url);
+//            HttpPost httpPost = new HttpPost(url);
+//            HttpPut httpPut = new HttpPut(url);
             
             // Go over all objects in jsonArray and POST them individually
             for (int i=0; i<jsonArray.length(); i++) {
@@ -959,42 +987,66 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             	JSONObject jsonObj = jsonArray.getJSONObject(i);
             	
             	// pass the results to a string builder/entity
-	            StringEntity se = new StringEntity(jsonObj.toString());
+//	            StringEntity se = new StringEntity(jsonObj.toString());
 	            
 	            // handles what is returned from the page 
-	            ResponseHandler responseHandler = new BasicResponseHandler();
+//	            ResponseHandler responseHandler = new BasicResponseHandler();
+	            
+            	HttpsURLConnection urlConn = (HttpsURLConnection) new URL(url).openConnection();
             	
 	            // decide on POST or PUT
             	if (jsonObj.getBoolean("newly_created") == true) {
             		// sets the post request as the resulting string
-    	            httpPost.setEntity(se);
-    	            // sets a request header so the page receiving the request will know what to do with it
-    	            httpPost.setHeader("Accept", "application/json");
-    	            httpPost.setHeader("Content-type", "application/json");
-    	            response = httpclient.execute(httpPost);
+//    	            httpPost.setEntity(se);
+//    	            // sets a request header so the page receiving the request will know what to do with it
+//    	            httpPost.setHeader("Accept", "application/json");
+//    	            httpPost.setHeader("Content-type", "application/json");
+//    	            response = httpclient.execute(httpPost);
+            		urlConn.setRequestMethod("POST");
             	} else if (jsonObj.getBoolean("newly_created") == false) {
             		// sets the post request as the resulting string
-    	            httpPut.setEntity(se);
-    	            // sets a request header so the page receiving the request will know what to do with it
-    	            httpPut.setHeader("Accept", "application/json");
-    	            httpPut.setHeader("Content-type", "application/json");
-    	            response = httpclient.execute(httpPut);
+//    	            httpPut.setEntity(se);
+//    	            // sets a request header so the page receiving the request will know what to do with it
+//    	            httpPut.setHeader("Accept", "application/json");
+//    	            httpPut.setHeader("Content-type", "application/json");
+//    	            response = httpclient.execute(httpPut);
+            		urlConn.setRequestMethod("PUT");
             	} else {
             		Log.e("SyncAdapter","jsonObj does not contain a valid posted/unposted attribute");
             	}
 	            
 	            // checking response to see if it worked ok
-	            StatusLine statusLine = response.getStatusLine();
-	            String statusCode = String.valueOf(statusLine.getStatusCode());
+//	            StatusLine statusLine = response.getStatusLine();
+//	            String statusCode = String.valueOf(statusLine.getStatusCode());
+	            	         
+	            urlConn.setDoInput (true);
+	            urlConn.setDoOutput (true);
+	            urlConn.setUseCaches (false);
+	            urlConn.setRequestProperty("Content-Type","application/json");
+	            urlConn.setRequestProperty("Accept", "application/json");
 	            
-	            Log.i("SyncAdapter","Status code of post to url "+url+": "+statusCode);
+	            //Send request
+	            DataOutputStream wr = new DataOutputStream(urlConn.getOutputStream ());
+	            wr.writeBytes(jsonObj.toString());
+	            wr.flush();
+	            wr.close();
 	            
-	            if (statusLine.getStatusCode() == HttpStatus.SC_OK){
+	            Log.i("SyncAdapter","Status code of post to url "+url+": "+urlConn.getResponseCode());
+	            
+//	            if (statusLine.getStatusCode() == HttpStatus.SC_OK){
+	            if (urlConn.getResponseCode() == HttpURLConnection.HTTP_OK){
+	            	Log.i("SyncAdapter","Status code: "+urlConn.getResponseCode()+" and status line: "+urlConn.getResponseMessage());
+	            	try {
+	            		InputStream in = new BufferedInputStream(urlConn.getInputStream());
+	            		responseString = convertStreamToString(in);
+	                } finally {
+	                	urlConn.disconnect();
+	                }
 	            	// all that obvious receiving business
-	                ByteArrayOutputStream out = new ByteArrayOutputStream();
-	                response.getEntity().writeTo(out);
-	                out.close();
-	                responseString = out.toString();
+//	                ByteArrayOutputStream out = new ByteArrayOutputStream();
+//	                response.getEntity().writeTo(out);
+//	                out.close();
+//	                responseString = out.toString();
 	                
 	                if ("visits" == modelName) {
 	                	try {
@@ -1078,23 +1130,30 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	            	//Closes the connection.
 		            pushSuccess = false;
 		            Log.e("SyncAdapter", "pushSuccess set to false");
-	            	ByteArrayOutputStream out = new ByteArrayOutputStream();
-	                response.getEntity().writeTo(out);
-	                out.close();
-	                responseString = out.toString();
-	                Log.e("SyncAdapter", statusLine.getReasonPhrase());
-	                Log.e("SyncAdapter", responseString);
-//	            	response.getEntity().getContent().close();
+//	            	ByteArrayOutputStream out = new ByteArrayOutputStream();
+//	                response.getEntity().writeTo(out);
+//	                out.close();
+//	                responseString = out.toString();
+//	                Log.e("SyncAdapter", statusLine.getReasonPhrase());
+//	                Log.e("SyncAdapter", responseString);
+////	            	response.getEntity().getContent().close();
 	                
-	            	if(statusLine.getStatusCode() == HttpStatus.SC_UNAUTHORIZED)
-	            	{
+	                int resCode = urlConn.getResponseCode();
+	            	String errorMessage = convertStreamToString(urlConn.getErrorStream());
+	                Log.e("SyncAdapter", ((Integer)resCode).toString());
+	                Log.e("SyncAdapter", errorMessage);
+	                //Closes the connection.
+	                urlConn.disconnect();
+	                
+//	            	if(statusLine.getStatusCode() == HttpStatus.SC_UNAUTHORIZED)
+	                if(resCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
 	            		Intent reAuthIntent = new Intent(appContext,MainActivity.class);
 	            		reAuthIntent.putExtra(AccountGeneral.ARG_INTENT_REAUTH, true);
 	            		reAuthIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 	            		throw new UserRecoverableAuthException("",reAuthIntent);
+	            	} else {
+	            		throw new IOException(errorMessage);
 	            	}
-	                
-	                throw new IOException(statusLine.getReasonPhrase());
 	            }
 
         	}
@@ -1240,5 +1299,27 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		}
         
     }
+	
+	// http://stackoverflow.com/questions/10752919/how-can-i-convert-inputstream-data-to-string-in-android-soap-webservices
+	private String convertStreamToString(InputStream is) {
+	    BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+	    StringBuilder sb = new StringBuilder();
+
+	    String line = null;
+	    try {
+	        while ((line = reader.readLine()) != null) {
+	            sb.append(line + "\n");
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            is.close();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    return sb.toString();
+	}
 
 }
