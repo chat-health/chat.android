@@ -232,7 +232,7 @@ public class MainActivity extends AccountAuthenticatorActivity {
 				// got the token from google auth service with email account
 				String googleAccessToken = GoogleAuthUtil.getToken(
 						getApplicationContext(), mEmail, SCOPE);
-				Log.e("google access token", "> " + googleAccessToken);
+				Log.i("google access token", "> " + googleAccessToken);
 				// got the device id
 				String ts = Context.TELEPHONY_SERVICE;
 				TelephonyManager mTelephonyMgr = (TelephonyManager) getSystemService(ts);
@@ -240,7 +240,7 @@ public class MainActivity extends AccountAuthenticatorActivity {
 				// got the clientToken from server with googleAccessToken
 				String clientToken = sServerAuthenticate.getAccessToken(mEmail,
 						googleAccessToken,deviceid);
-				Log.e("client access token", "> " + clientToken);
+				Log.i("client access token", "> " + clientToken);
 				
 				if(null==clientToken)
 				{

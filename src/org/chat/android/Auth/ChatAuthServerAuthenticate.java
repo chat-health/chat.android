@@ -54,7 +54,7 @@ public class ChatAuthServerAuthenticate implements ServerAuthenticate {
 		try {
 			URL mUrl = new URL(url);
 
-			Log.e("URL", "> " + url);
+			Log.i("URL", "> " + url);
 			conn = (HttpURLConnection) mUrl.openConnection();
 			
 //			conn.setUseCaches(false);
