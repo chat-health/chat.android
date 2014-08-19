@@ -27,6 +27,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -147,20 +148,24 @@ public class BaseActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 	
     // overriding the standard toast layout
     public static void toastHelper(Activity activity, String message) {
-    	Context context = activity.getApplicationContext();
-    	//LayoutInflater inflater = getLayoutInflater();
-    	LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
-    	
-    	View layout = inflater.inflate(R.layout.helper_toast, (ViewGroup) activity.findViewById(R.id.toast_layout_root));
+    	if (activity != null && message != null) {
+    		Context context = activity.getApplicationContext();
+        	//LayoutInflater inflater = getLayoutInflater();
+        	LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+        	
+        	View layout = inflater.inflate(R.layout.helper_toast, (ViewGroup) activity.findViewById(R.id.toast_layout_root));
 
-    	TextView text = (TextView) layout.findViewById(R.id.text);
-    	text.setText(message);
+        	TextView text = (TextView) layout.findViewById(R.id.text);
+        	text.setText(message);
 
-    	Toast toast = new Toast(context);
-    	toast.setGravity(Gravity.CENTER_VERTICAL, 0, 40);
-    	toast.setDuration(Toast.LENGTH_LONG);
-    	toast.setView(layout);
-    	toast.show();   	
+        	Toast toast = new Toast(context);
+        	toast.setGravity(Gravity.CENTER_VERTICAL, 0, 40);
+        	toast.setDuration(Toast.LENGTH_LONG);
+        	toast.setView(layout);
+        	toast.show(); 
+    	} else {
+    		Log.w("ToastMSG", "activity or message is null");
+    	}
     }
     
 //    private void prepopulateDB() {
