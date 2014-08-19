@@ -72,7 +72,7 @@ public class CHADelivery extends BaseActivity {
 		b.putInt("clientId",clientId);
 		b.putInt("hhId",hhId);
 		// if it's the last page, then show referral page
-		if (pageNum == lastPage) {
+		if (pageNum >= lastPage) {
 			try {
 				newFrag = (Fragment) Class.forName("org.chat.android.pages.ReferralFragment").newInstance();
 			} catch (InstantiationException e) {
