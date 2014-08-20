@@ -2,7 +2,6 @@ package org.chat.android.Sync;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,28 +11,13 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.TimeZone;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.chat.android.DatabaseHelper;
 import org.chat.android.ModelHelper;
 import org.chat.android.R;
@@ -84,7 +68,6 @@ import android.content.Intent;
 import android.content.SyncResult;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 /**
  * Handle the transfer of data between a server and an
@@ -153,12 +136,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         return databaseHelper;
     }
     
-    private void releaseHelper() {
-    	if (databaseHelper != null) {
-            OpenHelperManager.releaseHelper();
-            databaseHelper = null;
-        }
-    }
+//    private void releaseHelper() {
+//    	if (databaseHelper != null) {
+//            OpenHelperManager.releaseHelper();
+//            databaseHelper = null;
+//        }
+//    }
     
 	@Override
 	public void onPerformSync(Account arg0, Bundle arg1, String arg2, ContentProviderClient arg3, SyncResult arg4) {
@@ -365,8 +348,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	}
 	
 	private void retrieveModel(String modelName, Boolean pullAll) throws UserRecoverableAuthException {
-		HttpClient httpclient = new DefaultHttpClient();
-        HttpResponse response;
+//		HttpClient httpclient = new DefaultHttpClient();
+//        HttpResponse response;
         String responseString = null;
         try {
         	// Executing a get request
@@ -746,7 +729,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                for (int i=0; i < jsonArray.length(); i++) {
 	                	JSONObject jo = jsonArray.getJSONObject(i);
 	                	//(int id, int hh_id, int worker_id, String role, String type, double lat, double lon, Date start_time, Date end_time, Boolean newly_created, Boolean dirty)
-	                	Date startTime = null;
+//	                	Date startTime = null;
 	                	Date endTime = null;
 	                	if (jo.getString("end_time") != null) {
 	                		endTime = parseDateString(jo.getString("end_time"));
@@ -795,9 +778,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             		throw new IOException(errorMessage);
             	}
             }
-        } catch (ClientProtocolException e) {
-            //TODO Handle problems..
-        	e.printStackTrace();
         } catch (IOException e) {
             //TODO Handle problems..
         	e.printStackTrace();
@@ -1157,8 +1137,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	            }
 
         	}
-        } catch (ClientProtocolException e) {
-            //TODO Handle problems..
         } catch (IOException e) {
             //TODO Handle problems..
         } catch (JSONException e) {
