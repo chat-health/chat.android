@@ -6,6 +6,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.SQLException;
@@ -216,15 +217,18 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 			retrieveModel("page_assessment1", false);
 			
 			retrieveModel("vaccines", false);
-		}
-		catch(UserRecoverableAuthException e){
+		} catch(UserRecoverableAuthException e){
 			Intent intent = e.getIntent();
 			appContext.startActivity(intent);
+		} catch(Exception e) {
+			pullSuccess = false;
+			e.printStackTrace();
 		}
         
         // change last pull date to current date
 		if (pullSuccess == true) {
 			try {
+				Log.i("SyncAdapter", "Pull succeeded. Moving last_synced_at date");
 				ModelHelper.setLastSyncedAt(getHelper(), new Date(), "pull");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -272,6 +276,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		} catch(UserRecoverableAuthException e){
 			Intent intent = e.getIntent();
 			appContext.startActivity(intent);
+		} catch (Exception e) {
+			pushSuccess = false;
+			e.printStackTrace();
 		}
 		
 		if (pushSuccess == true) {
@@ -322,32 +329,32 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 			retrieveModel("services_accessed", true);
 			retrieveModel("resources_accessed", true);
 			retrieveModel("vaccines_recorded", true);
-		}
-		catch(UserRecoverableAuthException e){
+		} catch(UserRecoverableAuthException e){
 //			Log.e("SyncAdapter", "in pullAllData uesrexception");
 			ContentResolver.cancelSync(null, null);
 			Intent intent = e.getIntent();
 			appContext.startActivity(intent);
+		} catch(Exception e) {
+			pullSuccess = false;
+			e.printStackTrace();
 		}
         
         // change last pull date to current date
 		if (pullSuccess == true) {
 			try {
-				ModelHelper.setLastSyncedAt(getHelper(), new Date(), "pull");
-//				This causes a Fatal exception and crashes the app. Remember this is not the UI thread and toasts belong
-//				on the UI thread. Might be able to work around this but not sure how.
-//				Toast.makeText(appContext, "Pull all succeeded. Moving last_synced_at date...", Toast.LENGTH_LONG).show();
+				Log.i("SyncAdapter", "Pull all succeeded. Moving last_synced_at date");
+				ModelHelper.setLastSyncedAt(getHelper(), new Date(), "pull");				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else {
-//			Toast.makeText(appContext, "Pull failed. Not moving last_synced_at date", Toast.LENGTH_LONG).show();
+			Log.e("SyncAdapter", "Pull failed. Not moving last_synced_at date");
 		}
 		
 	}
 	
-	private void retrieveModel(String modelName, Boolean pullAll) throws UserRecoverableAuthException {
+	private void retrieveModel(String modelName, Boolean pullAll) throws UserRecoverableAuthException, ConnectException {
 //		HttpClient httpclient = new DefaultHttpClient();
 //        HttpResponse response;
         String responseString = null;
@@ -944,7 +951,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		return jsonArray;
 	}
 	
-	private void pushModel(String modelName, JSONArray jsonArray) throws UserRecoverableAuthException {
+	private void pushModel(String modelName, JSONArray jsonArray) throws UserRecoverableAuthException, Exception {
 //		HttpClient httpclient = new DefaultHttpClient();
 //        HttpResponse response = null;
         String responseString = null;
@@ -1218,7 +1225,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	}
 	
 	private Date parseDateString(String input) throws ParseException {
-		if (input == null) {
+		if (input == null || input.isEmpty()) {
 			return null;
 		} else {
 			//JSON: 2014-02-18T18:04:39.546Z
