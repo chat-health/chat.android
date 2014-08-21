@@ -70,14 +70,15 @@ public class ModelHelper {
 	}
 
 	public static void setLastSyncedAt(DatabaseHelper databaseHelper, Date d, String direction) throws SQLException {
-		Util u = null;
-		Dao<Util, Integer> uDao;
-		uDao = databaseHelper.getUtilDao();
+		// retrieve Util dao
+		Dao<Util, Integer> uDao = databaseHelper.getUtilDao();
+		// used dao to retrieve util model with id =1 
+		Util u = uDao.queryForId(1);
 
 		if (direction == "pull") {
-			u = new Util(1, null, d);
+			u.setLastPulledAt(d);
 		} else if (direction == "push") {
-			u = new Util(1, d, null);
+			u.setLastPushedAt(d);
 		}
 		uDao.createOrUpdate(u);
 	}
@@ -107,7 +108,11 @@ public class ModelHelper {
 
 		// grab the worker from the last visit, if it exists
 		if (visit != null) {
-			workerName = ModelHelper.getWorkerForId(databaseHelper, visit.getWorkerId()).getUsername();
+			Worker w = ModelHelper.getWorkerForId(databaseHelper, visit.getWorkerId());
+			if (w != null) {
+				workerName = w.getUsername();
+			}
+			
 			return workerName;
 		} else {
 			return null;
