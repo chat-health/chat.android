@@ -104,7 +104,7 @@ public class ImmunizationsSummaryActivity extends BaseActivity {
     	String[] toArr = {"lmbutler.ssa@gmail.com"}; // This is an array, you can add more emails, just separate them with a coma    	
     	
     	//send sms
-    	String nursePhoneNum = "0721103157";					// this is Jim's number as a placeholder
+    	String nursePhoneNum = "0812567890";					// now Fikile's number. Ok? Still need to switch the target email
     	String smsMessage = "Vaccination referral for - Household [Household name] by Volunteer [Volunteer Name].  See email for details or phone volunteer at: [Phone Number]";
     	smsMessage = smsMessage.replace("[Household name]", hhName);
     	smsMessage = smsMessage.replace("[Volunteer Name]", fName+" "+lName);
