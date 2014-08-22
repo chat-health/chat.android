@@ -123,7 +123,7 @@ public class LoginActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		roleSpinner.setAdapter(adapter);
 
 		// Create the dummy account (needed for sync adapter)
-		newAccount = CreateSyncAccount(this);
+//		newAccount = CreateSyncAccount(this);
 	}
 	
 	
@@ -418,32 +418,32 @@ public class LoginActivity extends OrmLiteBaseActivity<DatabaseHelper> {
         ContentResolver.requestSync(mAccount, AccountGeneral.AUTHORITY, settingsBundle);
     }
     
-    public static Account CreateSyncAccount(Context context) {
-        // Get an instance of the Android account manager
-        AccountManager accountManager = (AccountManager) context.getSystemService(ACCOUNT_SERVICE);
-        /*
-         * Add the account and account type, no password or user data
-         * If successful, return the Account object, otherwise report an error.
-         */
-        // TODO: This is clearly wrong and is the exampley sync adapter that doesn't user any account
-        // beyond a dummy account. I think we need to access the account information to call this correctly
-        // The if fails and this returns null. Therefore the CHAT account is not set for automatic syncing
-        // and I am unsure if the sync can ever work like this.
-        if (accountManager.addAccountExplicitly(newAccount, null, null)) {
-            /*
-             * If you don't set android:syncable="true" in
-             * in your <provider> element in the manifest,
-             * then call context.setIsSyncable(account, AUTHORITY, 1)
-             * here.
-             */
-        	ContentResolver.setSyncAutomatically(newAccount,  AccountGeneral.AUTHORITY, true); //this programmatically turns on the sync for new sync adapters.
-        	return newAccount;
-        } else {
-            /*
-             * The account exists or some other error occurred. Log this, report it,
-             * or handle it internally.
-             */
-        	return null;
-        }
-    }
+//    public static Account CreateSyncAccount(Context context) {
+//        // Get an instance of the Android account manager
+//        AccountManager accountManager = (AccountManager) context.getSystemService(ACCOUNT_SERVICE);
+//        /*
+//         * Add the account and account type, no password or user data
+//         * If successful, return the Account object, otherwise report an error.
+//         */
+//        // TODO: This is clearly wrong and is the exampley sync adapter that doesn't user any account
+//        // beyond a dummy account. I think we need to access the account information to call this correctly
+//        // The if fails and this returns null. Therefore the CHAT account is not set for automatic syncing
+//        // and I am unsure if the sync can ever work like this.
+//        if (accountManager.addAccountExplicitly(newAccount, null, null)) {
+//            /*
+//             * If you don't set android:syncable="true" in
+//             * in your <provider> element in the manifest,
+//             * then call context.setIsSyncable(account, AUTHORITY, 1)
+//             * here.
+//             */
+//        	ContentResolver.setSyncAutomatically(newAccount,  AccountGeneral.AUTHORITY, true); //this programmatically turns on the sync for new sync adapters.
+//        	return newAccount;
+//        } else {
+//            /*
+//             * The account exists or some other error occurred. Log this, report it,
+//             * or handle it internally.
+//             */
+//        	return null;
+//        }
+//    }
 }

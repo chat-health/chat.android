@@ -7,11 +7,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.Date;
 
+import org.chat.android.DatabaseHelper;
 import org.chat.android.HomeActivity;
 import org.chat.android.LoginActivity;
 import org.chat.android.R;
 import org.chat.android.SetupDB;
+import org.chat.android.models.Util;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,6 +25,8 @@ import com.google.android.gms.auth.GooglePlayServicesAvailabilityException;
 import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.AccountPicker;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
 
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -44,7 +50,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AccountAuthenticatorActivity {
+public class MainActivity extends AccountAuthenticatorActivity {	
+	// since we aren't OrmLiteBaseActivity or BaseActivity we can't use getHelper()
+    // so we use OpenHelperManager
+    private DatabaseHelper databaseHelper = null;
 
 	private TextView deviceIdBox;
 	private MainActivity demo;
@@ -66,6 +75,10 @@ public class MainActivity extends AccountAuthenticatorActivity {
 		super.onCreate(savedInstanceState);
 		Crashlytics.start(this);
 		setContentView(R.layout.activity_main);
+		
+		// init database here so we can later make account syncable
+//		initDBIfRequired();
+		
 		demo = this;
 		sServerAuthenticate= new ChatAuthServerAuthenticate(this.getApplicationContext().getString(R.string.base_url));
 		mAccountManager = AccountManager.get(demo);
@@ -88,39 +101,39 @@ public class MainActivity extends AccountAuthenticatorActivity {
 		
 		Bundle extras = getIntent().getExtras();
 
-		mAuthTokenType = getIntent().getStringExtra(
-				AccountGeneral.ARG_AUTH_TYPE);
-		if (mAuthTokenType == null)
+		mAuthTokenType = getIntent().getStringExtra(AccountGeneral.ARG_AUTH_TYPE);
+		
+		if (mAuthTokenType == null) {
 			mAuthTokenType = AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS;
+		}
 
 		if (extras != null && extras.containsKey(EXTRA_ACCOUNTNAME)) {
 			mEmail = extras.getString(EXTRA_ACCOUNTNAME);
 			new GetTokenTask(demo).execute();
 		}
+		
 		Account mAccount = new Account(AccountGeneral.ACCOUNT_NAME,AccountGeneral.ACCOUNT_TYPE);
-		if(extras!=null&&extras.getBoolean(AccountGeneral.ARG_INTENT_REAUTH))
-		{
+		if(extras!=null&&extras.getBoolean(AccountGeneral.ARG_INTENT_REAUTH)) {
 			//TODO: Colin we should talk since the else has no {} and is not very clear here
 			if (mEmail == null) {
 				demo.pickUserAccount();
 			} else
-				new GetTokenTask(demo).execute();
+				new GetTokenTask(demo).execute(); // FIXME: This is very unclear and should get proper {}
 			Toast.makeText(this, "Authorization failed, please retry",
 					Toast.LENGTH_SHORT).show();
 			return;
 		}
-		if(null!=mAccountManager.peekAuthToken(mAccount, mAuthTokenType))
-		{
+		
+		if(null!=mAccountManager.peekAuthToken(mAccount, mAuthTokenType)) {
 			finish();
 			Intent intent = new Intent(demo, LoginActivity.class);
 			startActivity(intent);
-		}
-		else
-		{
+		} else {
 			if (mEmail == null) {
 				demo.pickUserAccount();
-			} else
+			} else {
 				new GetTokenTask(demo).execute();
+			}
 		}
 	}
 
@@ -228,6 +241,8 @@ public class MainActivity extends AccountAuthenticatorActivity {
 		@Override
 		protected Void doInBackground(Void... arg0) {
 			try {
+				// initialize the util table
+				initDBIfRequired();
 				
 				// got the token from google auth service with email account
 				String googleAccessToken = GoogleAuthUtil.getToken(
@@ -274,16 +289,27 @@ public class MainActivity extends AccountAuthenticatorActivity {
 						accountPassword, null);
 				mAccountManager.setAuthToken(account, authtokenType,
 						authtoken);
-				setAccountAuthenticatorResult(res.getExtras());
+				Bundle extras = res.getExtras();
+				setAccountAuthenticatorResult(extras);
 				setResult(RESULT_OK, res);
+				
+				// Armin: 22.06.2014 This is to activate the sync account on authentication
+				// and ensure that the sync happens without manual triggers from the app itself
+				// Tells the content provider that it can sync this account
+			    ContentResolver.setIsSyncable(account, AccountGeneral.AUTHORITY, 1);			    
+//			    extras.putBoolean(SYNC_EXTRAS_INITIALIZE, true);
+			    // We want the sync also to occur periodically every 6 hours (21600 seconds)
+			    ContentResolver.addPeriodicSync(account, AccountGeneral.AUTHORITY, extras, 21600);			   
+				ContentResolver.setSyncAutomatically(account, AccountGeneral.AUTHORITY, true); //this programmatically turns on the sync for new sync adapters.
+				// Armin end
+				
 				finish();
 				// prepare the database
 //				prepopulateDB();
 				// jump to login activity
 //				triggerSyncAdaper(new Account(accountName,AccountGeneral.ACCOUNT_TYPE));
 				Intent intent = new Intent(demo, LoginActivity.class);
-				startActivity(intent);
-				
+				startActivity(intent);			
 			} catch (UserRecoverableAuthException userRecoverableException) {
 				// TODO Auto-generated catch block
 				userRecoverableException.printStackTrace();
@@ -299,7 +325,6 @@ public class MainActivity extends AccountAuthenticatorActivity {
 			}
 			return null;
 		}
-
 	}
 
 	/**
@@ -340,6 +365,28 @@ public class MainActivity extends AccountAuthenticatorActivity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 //		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+	
+	private DatabaseHelper getHelper() {
+        if (databaseHelper == null) {
+            databaseHelper =
+                OpenHelperManager.getHelper(this, DatabaseHelper.class);
+        }
+        return databaseHelper;
+    }
+	
+	private void initDBIfRequired() {
+		// setting date to Jan 17, 2014 23:06:40
+		// from http://currentmillis.com/
+        Date d = new Date(1390000000000l);
+        Util u1 = new Util(1, d, d);
+        try {
+        	Dao<Util, Integer> utilDao = getHelper().getUtilDao();
+        	utilDao.createIfNotExists(u1);
+	    } catch (SQLException e1) {
+	        // TODO Auto-generated catch block
+	        e1.printStackTrace();
+	    }
 	}
 
 }
