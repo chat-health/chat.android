@@ -1,6 +1,8 @@
 package org.chat.android;
 
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -9,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import java.util.TimeZone;
 
 import org.chat.android.models.Attendance;
 import org.chat.android.models.CHAAccessed;
@@ -33,7 +36,9 @@ import org.chat.android.models.Video;
 import org.chat.android.models.Visit;
 import org.chat.android.models.Worker;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.provider.Settings.Secure;
 import android.util.Log;
 
@@ -82,6 +87,42 @@ public class ModelHelper {
 		}
 		uDao.createOrUpdate(u);
 	}
+	
+	public static Date getLastSyncedAtPull(Context context) {
+		Activity activity = (Activity) context;
+		SharedPreferences sharedPref = activity.getSharedPreferences("org.chat.android.lastSyncedAt", Context.MODE_PRIVATE);
+//		String defaultValue = getResources().getInteger(R.string.saved_high_score_default);
+		String defaultValue = "2014-01-01T14:00:00.000Z";
+		String dateString = sharedPref.getString("pull", defaultValue);
+		try {
+			return parseDateString(dateString);
+		} catch(ParseException e) {
+			e.printStackTrace();
+			// setting date to Jan 17, 2014 23:06:40
+			// from http://currentmillis.com/
+	        return new Date(1390000000000l);
+		}
+	}
+	
+	public static void setLastSyncedAtPull(Context context, Date pullSyncDate) {
+		Activity activity = (Activity) context;
+		SharedPreferences sharedPref = activity.getSharedPreferences("org.chat.android.lastSyncedAt", Context.MODE_PRIVATE);
+		String dateString = formatDateToString(pullSyncDate);
+		SharedPreferences.Editor editor = sharedPref.edit();
+		editor.putString("pull", dateString);
+		editor.commit();
+	}
+	
+	public static void setLastSyncedAtPush(Context context, Date pushSyncDate) {
+		Activity activity = (Activity) context;
+		SharedPreferences sharedPref = activity.getSharedPreferences("org.chat.android.lastSyncedAt", Context.MODE_PRIVATE);
+		String dateString = formatDateToString(pushSyncDate);
+		SharedPreferences.Editor editor = sharedPref.edit();
+		editor.putString("push", dateString);
+		editor.commit();
+	}
+	
+	
 
 	public static String getRecentUsername(DatabaseHelper databaseHelper) {
 		String workerName = null;
@@ -844,6 +885,43 @@ public class ModelHelper {
 //    	int myId = Integer.parseInt(idString);
 
 	}
+	
+	private static Date parseDateString(String input) throws ParseException {
+		if (input == null || input.isEmpty()) {
+			return null;
+		} else {
+			//JSON: 2014-02-18T18:04:39.546Z
+			//ORM Date: 2014-02-18 18:04:39.555
+			//Log.i("SyncAdapter", "dateStr: "+input);
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");	
+			formatter.setTimeZone(TimeZone.getTimeZone("GMT-00:00"));
+			//Log.i("SyncAdapter", "formatter: "+formatter);
+	        Date convertedDate =  formatter.parse(input);
+	        //Log.i("SyncAdapter", "date obj: "+convertedDate.toString());
+			return convertedDate;
+		}
+	}
+	
+	private static String formatDateToString(Date date) {
+		String output = "";
+		if (date != null) {
+			//Log.i("SyncAdapter", "date to convert to string is: "+date.toString());
+			
+	        SimpleDateFormat df = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" );
+	        
+	        TimeZone tz = TimeZone.getTimeZone( "UTC" );
+	        
+	        df.setTimeZone( tz );
+	
+	        output = df.format( date );
+	        
+	        return output;
+		} else {
+			Log.i("ModelHelper", "Date is empty so return empty string");
+			return output;
+		}
+        
+    }
 
 
 }

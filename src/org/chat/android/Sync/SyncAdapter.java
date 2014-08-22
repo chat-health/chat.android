@@ -227,13 +227,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         
         // change last pull date to current date
 		if (pullSuccess == true) {
-			try {
+//			try {
 				Log.i("SyncAdapter", "Pull succeeded. Moving last_synced_at date");
-				ModelHelper.setLastSyncedAt(getHelper(), new Date(), "pull");
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//				ModelHelper.setLastSyncedAt(getHelper(), new Date(), "pull");
+				ModelHelper.setLastSyncedAtPull(appContext, new Date());
+//			} catch (SQLException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 		} else {
 			Log.e("SyncAdapter", "Pull failed. Not moving last_synced_at date");
 		}
@@ -341,13 +342,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         
         // change last pull date to current date
 		if (pullSuccess == true) {
-			try {
+//			try {
 				Log.i("SyncAdapter", "Pull all succeeded. Moving last_synced_at date");
-				ModelHelper.setLastSyncedAt(getHelper(), new Date(), "pull");				
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//				ModelHelper.setLastSyncedAt(getHelper(), new Date(), "pull");
+				ModelHelper.setLastSyncedAtPush(appContext, new Date());
+//			} catch (SQLException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 		} else {
 			Log.e("SyncAdapter", "Pull failed. Not moving last_synced_at date");
 		}
@@ -366,7 +368,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         	// append the last_synced_at in the event that we don't want to pull all (the most common use case)
         	if (pullAll == false) {
         		// concat so that only changed documents are getted from the collection
-            	Date d = ModelHelper.getLastSyncedAt(getHelper(), "pull");
+//            	Date d = ModelHelper.getLastSyncedAt(getHelper(), "pull");
+            	Date d = ModelHelper.getLastSyncedAtPull(appContext);
         		String lastSync = "?last_synced_at=" + formatDateToJsonDate(d);
         		
         		//TODO: CHANGE for PROD - this is for testing only, pulls everything instead of changed things
