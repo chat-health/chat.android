@@ -393,6 +393,12 @@ public class LoginActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 	    	AlertDialog alert = builder.create();
 	    	alert.show();
 	        return true;
+	    case R.id.menu_assets_sync:
+	    	Intent intent = new Intent(LoginActivity.this, SyncResourcesActivity.class);
+	    	Bundle bundle = new Bundle();
+	    	intent.putExtras(bundle);  
+	    	startActivity(intent);
+	        return true;
 	    default:
 	        return super.onOptionsItemSelected(item);
 	    }
