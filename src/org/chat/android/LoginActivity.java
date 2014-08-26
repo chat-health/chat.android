@@ -27,6 +27,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -382,7 +384,7 @@ public class LoginActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 	    	       .setCancelable(false)
 	    	       .setPositiveButton("Yes, I know what I am doing", new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
-	    	        	   triggerSyncAdaper();
+	    	        	   triggerSyncAdapter(ChatUtil.SYNC_TYPE_PULL_ALL);
 	    	           }
 	    	       })
 	    	       .setNegativeButton("No, this is a bad idea", new DialogInterface.OnClickListener() {
@@ -393,11 +395,26 @@ public class LoginActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 	    	AlertDialog alert = builder.create();
 	    	alert.show();
 	        return true;
+//	    case R.id.menu_assets_sync:
+//	    	Intent intent = new Intent(LoginActivity.this, SyncResourcesActivity.class);
+//	    	Bundle bundle = new Bundle();
+//	    	intent.putExtras(bundle);  
+//	    	startActivity(intent);
+//	        return true;
 	    case R.id.menu_assets_sync:
-	    	Intent intent = new Intent(LoginActivity.this, SyncResourcesActivity.class);
-	    	Bundle bundle = new Bundle();
-	    	intent.putExtras(bundle);  
-	    	startActivity(intent);
+	    	ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		    NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+		    if (networkInfo != null && networkInfo.isConnected()) {
+		    	// ensure we only download big files if we are connected via WiFi
+		    	// http://developer.android.com/reference/android/net/NetworkInfo.html#getType%28%29
+		    	if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+		    		triggerSyncAdapter(ChatUtil.SYNC_TYPE_ASSET_SYNC);
+		    	} else {
+		    		String errorMsg = "Didn't trigger sync since we are not on WiFi";
+		    		Log.i("LoginActivity", errorMsg);
+		    		BaseActivity.toastHelper(this, errorMsg);
+		    	}
+		    }
 	        return true;
 	    default:
 	        return super.onOptionsItemSelected(item);
@@ -409,14 +426,14 @@ public class LoginActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		startActivity(i);
     }
     
-    public void triggerSyncAdaper() {
-    	BaseActivity.toastHelper(this, "Triggering sync with server...");
+    public void triggerSyncAdapter(String syncType) {
+    	BaseActivity.toastHelper(this, "Triggering sync of type '"+syncType+"' with server...");
     	Account mAccount = newAccount;
         // Pass the settings flags by inserting them in a bundle
         Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-        settingsBundle.putString("syncType", "pullAll");
+        settingsBundle.putString("syncType", syncType);
         /*
          * Request the sync for the default account, authority, and
          * manual sync settings

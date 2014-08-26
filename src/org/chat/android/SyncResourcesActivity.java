@@ -3,6 +3,7 @@ package org.chat.android;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,6 +12,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -21,7 +24,14 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.chat.android.Auth.AccountGeneral;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import android.accounts.AccountManager;
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -38,6 +48,7 @@ import android.widget.TextView;
 public class SyncResourcesActivity extends Activity {
 	private TextView textView1;
 	private EditText editText1;
+	private String clientToken;
 	
     /** Called when the activity is first created. */
     @Override
@@ -61,7 +72,11 @@ public class SyncResourcesActivity extends Activity {
 	    	// http://developer.android.com/reference/android/net/NetworkInfo.html#getType%28%29
 	    	if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
 		        // fetch data
-		    	new RequestTask().execute(editText1.getText().toString());
+	    		if (editText1.getText().toString().isEmpty()) {
+	    			new RequestTask().execute(getApplicationContext().getResources().getString(R.string.base_url));
+	    		} else {
+	    			new RequestTask().execute(editText1.getText().toString());	    			
+	    		}
 	    	} else {
 	    		textView1.setText("Not connected via WiFi. Aborting download");
 	    	}
@@ -75,55 +90,86 @@ public class SyncResourcesActivity extends Activity {
 
         @Override
         protected String doInBackground(String... uri) {
-        	String responseString = "";
+//        	String responseString = "";
         	boolean downloadSuccess = false;
+        	String urlAssets = uri[0] + "/assets/";
+        	urlAssets = urlAssets.replaceAll("(?<!(http:|https:))//", "/");
+        	
+        	String paramToken = "?client_access_token="+clientToken;
+        	urlAssets = urlAssets.concat(paramToken);
+        	
         	try {
-        		HttpURLConnection urlConnection = (HttpURLConnection) new URL(uri[0]).openConnection();
-	            // make connection time out after 10 seconds
-	            urlConnection.setConnectTimeout(10000);
-	            
-	            // checking response to see if it worked ok
-	            if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK){
-	            	Log.i("SyncResourcesActivity","Status code: "+urlConnection.getResponseCode()+" and status line: "+urlConnection.getResponseMessage());
-	            	try {
-	            		InputStream in = new BufferedInputStream(urlConnection.getInputStream(), 8192);	            	
-//	            		responseString = convertStreamToString(in);
-	            		downloadSuccess = storeInputStreamInFile(in, urlConnection.getContentLength());
-	                }
-	                finally {	                	
-	                	urlConnection.disconnect();
-	                }
-	            }
+        		// retrieve list of all videos
+        		HttpURLConnection urlConnection = (HttpURLConnection) new URL(urlAssets).openConnection();       		       		
+        		// unsure connection times out after 10 seconds
+                urlConnection.setConnectTimeout(10000);
+                ArrayList<String> videoFileNames = new ArrayList<String>();
+                
+                // checking response to see if it worked ok
+                if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK){
+//                	Log.i("SyncAdapter","Status code: "+urlConnection.getResponseCode()+" and status line: "+urlConnection.getResponseMessage());
+                	try {
+                		InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                		String videos = convertStreamToString(in);
+                		JSONArray jsonArray = new JSONArray(videos);
+                		// put JSONArray into a ArrayList
+                    	for(int i = 0, count = jsonArray.length(); i< count; i++)
+                    	{
+                    	    try {
+                    	    	videoFileNames.add((String)jsonArray.get(i));
+                    	    }
+                    	    catch (JSONException e) {
+                    	        e.printStackTrace();
+                    	    }
+                    	}
+//                        videoFileNames = convertJSONtoStringArray(jsonArray);
+                    } catch (JSONException e) {						
+						e.printStackTrace();
+					} 
+                	finally {
+                    	urlConnection.disconnect();
+                    }
+                }
+                
+                downloadSuccess = true;
+                Iterator<String> iter = videoFileNames.iterator();
+                // download all video files in the list of video file names
+                while (iter.hasNext() && downloadSuccess) {
+                	String videoFile = iter.next();
+                	
+                	String urlAsset = uri[0] + "/asset/"+videoFile;
+                	urlAsset = urlAsset.replaceAll("(?<!(http:|https:))//", "/");
+                	urlAsset = urlAsset.concat(paramToken);
+                	
+                	urlConnection = (HttpURLConnection) new URL(urlAsset).openConnection();
+    	            // make connection time out after 10 seconds
+    	            urlConnection.setConnectTimeout(10000);
+    	            
+    	            // checking response to see if it worked ok
+    	            if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK){
+    	            	Log.i("SyncResourcesActivity","Status code: "+urlConnection.getResponseCode()+" and status line: "+urlConnection.getResponseMessage());
+    	            	try {
+    	            		InputStream in = new BufferedInputStream(urlConnection.getInputStream(), 8192);	            	
+//    	            		responseString = convertStreamToString(in);
+//    	            		Log.i("File Download", urlConnection.getHeaderField("Content-Disposition"));
+    	            		downloadSuccess = storeInputStreamInFile(in, videoFile,urlConnection.getContentLength());
+    	                }
+    	                finally {	                	
+    	                	urlConnection.disconnect();
+    	                }
+    	            }
+                }
+                
+                
+                if (downloadSuccess) {
+            		return "Download success";
+            	} else {
+            		return "Download failure";
+            	}
         	} catch (IOException e) {
         		e.printStackTrace();
-            }
-        	
-//            HttpClient httpclient = new DefaultHttpClient();
-//            HttpResponse response;
-//            String responseString = null;
-//            try {
-//                response = httpclient.execute(new HttpGet(uri[0]));
-//                StatusLine statusLine = response.getStatusLine();
-//                if(statusLine.getStatusCode() == HttpStatus.SC_OK){
-//                    ByteArrayOutputStream out = new ByteArrayOutputStream();
-//                    response.getEntity().writeTo(out);
-//                    out.close();
-//                    responseString = out.toString();
-//                } else{
-//                    //Closes the connection.
-//                    response.getEntity().getContent().close();
-//                    throw new IOException(statusLine.getReasonPhrase());
-//                }
-//            } catch (ClientProtocolException e) {
-//                //TODO Handle problems..
-//            } catch (IOException e) {
-//                //TODO Handle problems..
-//            }
-        	if (downloadSuccess) {
-        		return "Download success";
-        	} else {
         		return "Download failure";
-        	}
+            }
         }
 
         @Override
@@ -158,27 +204,29 @@ public class SyncResourcesActivity extends Activity {
     	
     	// this will be useful so that you can show a tipical 0-100%
         // progress bar
-    	private boolean storeInputStreamInFile(InputStream input, int lengthOfFile) {
+    	private boolean storeInputStreamInFile(InputStream input, String fileName, int lengthOfFile) {
     		int count;
             try {
-                // download the file
-//                InputStream input = new BufferedInputStream(url.openStream(),
-//                        8192);
-
+            	File videoFile = new File(Environment.getExternalStorageDirectory().toString() +"/chat/" +fileName);
+            	
                 // Output stream
-                OutputStream output = new FileOutputStream(Environment
-                        .getExternalStorageDirectory().toString()
-                        + "/testy.mp4");
+                OutputStream output = new FileOutputStream(videoFile);
 
-                byte data[] = new byte[1024];
+                byte data[] = new byte[8192];
+                long downloadedSize = 0;
+                int percentDownloaded;
+                int previous = -1;
+                
+                Log.i("SyncResources", "Downloading to file: "+videoFile.getAbsolutePath());
 
-                long total = 0;
-
-                while ((count = input.read(data)) != -1) {
-                    total += count;
-                    // publishing the progress....
-                    // After this onProgressUpdate will be called
-                    publishProgress("" + (int) ((total * 100) / lengthOfFile));
+                while ((count = input.read(data)) > 0) {
+                	downloadedSize += count;
+                    //this is where you would do something to report the prgress, like this maybe
+                	percentDownloaded = (int) ((downloadedSize * 100) / lengthOfFile);
+                	if (percentDownloaded % 10 == 0 && percentDownloaded > previous) {
+                		Log.d("Progress: ","downloaded "+percentDownloaded+" percent of "+ lengthOfFile + " Bytes");
+                		previous = percentDownloaded;
+                	}
 
                     // writing data to file
                     output.write(data, 0, count);
@@ -191,12 +239,28 @@ public class SyncResourcesActivity extends Activity {
                 output.close();
                 input.close();
                 
+                Log.i("SyncResources", "Finished downloading to file: "+videoFile.getAbsolutePath());
+                
                 return true;
             } catch (Exception e) {
                 Log.e("Error: ", e.getMessage());
                 return false;
             }
     	}
+    }
+    
+    private ArrayList<String> convertJSONtoStringArray (JSONArray jsonArray) {
+    	ArrayList<String> stringArray = new ArrayList<String>();
+    	for(int i = 0, count = jsonArray.length(); i< count; i++)
+    	{
+    	    try {
+    	        stringArray.add((String)jsonArray.get(i));
+    	    }
+    	    catch (JSONException e) {
+    	        e.printStackTrace();
+    	    }
+    	}
+    	return stringArray;
     }
 }
 
