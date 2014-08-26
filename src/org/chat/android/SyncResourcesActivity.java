@@ -12,6 +12,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -38,6 +39,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -90,13 +92,14 @@ public class SyncResourcesActivity extends Activity {
 
         @Override
         protected String doInBackground(String... uri) {
-//        	String responseString = "";
         	boolean downloadSuccess = false;
-        	String urlAssets = uri[0] + "/assets/";
-        	urlAssets = urlAssets.replaceAll("(?<!(http:|https:))//", "/");
+//    		String baseUrl = getApplicationContext().getResources().getString(R.string.base_url);
+    		String baseUrl = uri[0];
+//        	String paramToken = "?client_access_token="+clientToken;
         	
-        	String paramToken = "?client_access_token="+clientToken;
-        	urlAssets = urlAssets.concat(paramToken);
+        	String urlAssets = baseUrl + "/assets/";
+        	urlAssets = urlAssets.replaceAll("(?<!(http:|https:))//", "/");
+//        	urlAssets = urlAssets.concat(paramToken);
         	
         	try {
         		// retrieve list of all videos
@@ -112,6 +115,7 @@ public class SyncResourcesActivity extends Activity {
                 		InputStream in = new BufferedInputStream(urlConnection.getInputStream());
                 		String videos = convertStreamToString(in);
                 		JSONArray jsonArray = new JSONArray(videos);
+                		Log.i("SyncAdapter", "Downloading the following assets: "+jsonArray.toString());
                 		// put JSONArray into a ArrayList
                     	for(int i = 0, count = jsonArray.length(); i< count; i++)
                     	{
@@ -124,11 +128,13 @@ public class SyncResourcesActivity extends Activity {
                     	}
 //                        videoFileNames = convertJSONtoStringArray(jsonArray);
                     } catch (JSONException e) {						
-						e.printStackTrace();
-					} 
+    					e.printStackTrace();
+    				} 
                 	finally {
                     	urlConnection.disconnect();
                     }
+                } else {
+                	urlConnection.disconnect();
                 }
                 
                 downloadSuccess = true;
@@ -136,27 +142,30 @@ public class SyncResourcesActivity extends Activity {
                 // download all video files in the list of video file names
                 while (iter.hasNext() && downloadSuccess) {
                 	String videoFile = iter.next();
+                	// http://stackoverflow.com/questions/6045377/how-to-insert-20-in-place-of-space-in-android
+                	String urlFileName = videoFile.replaceAll(" ", "%20");
                 	
-                	String urlAsset = uri[0] + "/asset/"+videoFile;
-                	urlAsset = urlAsset.replaceAll("(?<!(http:|https:))//", "/");
-                	urlAsset = urlAsset.concat(paramToken);
+                	String urlAsset = baseUrl + "/asset/"+urlFileName;
+                	urlAsset = urlAsset.replaceAll("(?<!(http:|https:))//", "/");            	
+//                	urlAsset = urlAsset.concat(paramToken);
+                	Log.i("SyncAdapter", "Downloading from "+urlAsset);
                 	
-                	urlConnection = (HttpURLConnection) new URL(urlAsset).openConnection();
+                	HttpURLConnection urlConn = (HttpURLConnection) new URL(urlAsset).openConnection();
     	            // make connection time out after 10 seconds
-    	            urlConnection.setConnectTimeout(10000);
+                	urlConn.setConnectTimeout(10000);           
     	            
     	            // checking response to see if it worked ok
-    	            if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK){
-    	            	Log.i("SyncResourcesActivity","Status code: "+urlConnection.getResponseCode()+" and status line: "+urlConnection.getResponseMessage());
+    	            if (urlConn.getResponseCode() == HttpURLConnection.HTTP_OK){
+    	            	Log.i("SyncAdapter","Status code: "+urlConn.getResponseCode()+" and status line: "+urlConn.getResponseMessage());
     	            	try {
-    	            		InputStream in = new BufferedInputStream(urlConnection.getInputStream(), 8192);	            	
-//    	            		responseString = convertStreamToString(in);
-//    	            		Log.i("File Download", urlConnection.getHeaderField("Content-Disposition"));
-    	            		downloadSuccess = storeInputStreamInFile(in, videoFile,urlConnection.getContentLength());
+    	            		InputStream in = new BufferedInputStream(urlConn.getInputStream());	            	
+    	            		downloadSuccess = storeInputStreamInFile(in, videoFile,urlConn.getContentLength());
     	                }
     	                finally {	                	
-    	                	urlConnection.disconnect();
+    	                	urlConn.disconnect();
     	                }
+    	            } else {
+    	            	urlConn.disconnect();
     	            }
                 }
                 

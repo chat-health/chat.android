@@ -1244,13 +1244,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     	try {
     		// retrieve list of all videos
     		HttpURLConnection urlConnection = (HttpURLConnection) new URL(urlAssets).openConnection();       		       		
-    		// unsure connection times out after 10 seconds
-            urlConnection.setConnectTimeout(10000);
+    		// unsure connection times out after 30 seconds
+            urlConnection.setConnectTimeout(30000);
             ArrayList<String> videoFileNames = new ArrayList<String>();
             
             // checking response to see if it worked ok
             if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK){
-//            	Log.i("SyncAdapter","Status code: "+urlConnection.getResponseCode()+" and status line: "+urlConnection.getResponseMessage());
+            	Log.i("SyncAdapter","Status code: "+urlConnection.getResponseCode()+" and status line: "+urlConnection.getResponseMessage());
             	try {
             		InputStream in = new BufferedInputStream(urlConnection.getInputStream());
             		String videos = convertStreamToString(in);
@@ -1266,7 +1266,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 	        e.printStackTrace();
                 	    }
                 	}
-//                    videoFileNames = convertJSONtoStringArray(jsonArray);
                 } catch (JSONException e) {						
 					e.printStackTrace();
 				} 
@@ -1282,18 +1281,19 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             // download all video files in the list of video file names
             while (iter.hasNext() && downloadSuccess) {
             	String videoFile = iter.next();
+            	// Avoiding weird error by replacing spaces with %20 in URL
+            	// http://stackoverflow.com/questions/6045377/how-to-insert-20-in-place-of-space-in-android
+            	String urlFileName = videoFile.replaceAll(" ", "%20");
             	
-            	String urlAsset = baseUrl + "/asset/"+videoFile;
+            	String urlAsset = baseUrl + "/asset/"+urlFileName;
             	urlAsset = urlAsset.replaceAll("(?<!(http:|https:))//", "/");            	
             	urlAsset = urlAsset.concat(paramToken);
             	Log.i("SyncAdapter", "Downloading from "+urlAsset);
             	
             	HttpURLConnection urlConn = (HttpURLConnection) new URL(urlAsset).openConnection();
-	            // make connection time out after 10 seconds
-            	urlConn.setConnectTimeout(10000);
-            	
-            	Log.d("Armin","here?");
-	            
+	            // make connection time out after 30 seconds
+            	urlConn.setConnectTimeout(30000);
+            	   
 	            // checking response to see if it worked ok
 	            if (urlConn.getResponseCode() == HttpURLConnection.HTTP_OK){
 	            	Log.i("SyncAdapter","Status code: "+urlConn.getResponseCode()+" and status line: "+urlConn.getResponseMessage());
@@ -1304,8 +1304,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	                finally {	                	
 	                	urlConn.disconnect();
 	                }
-	            } else {
-	            	urlConn.disconnect();
+	            } else {	            	
+	            	downloadSuccess = false;
+	            	int resCode = urlConnection.getResponseCode();
+	            	String errorMessage = convertStreamToString(urlConnection.getErrorStream());
+	                Log.e("SyncAdapter", ((Integer)resCode).toString());
+	                Log.e("SyncAdapter", errorMessage);
+	                urlConn.disconnect();
 	            }
             }
             
@@ -1417,7 +1422,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	private boolean storeInputStreamInFile(InputStream input, String fileName, int lengthOfFile) {
 		int count;
         try {
-        	File videoFile = new File(Environment.getExternalStorageDirectory().toString() +"/chat/" +fileName);
+        	File chatDir = new File(Environment.getExternalStorageDirectory().toString() +"/chat/");
+        	// have the object build the directory structure, if needed.
+        	chatDir.mkdirs();
+        	File videoFile = new File(chatDir, fileName);
         	
             // Output stream
             OutputStream output = new FileOutputStream(videoFile);
