@@ -46,7 +46,7 @@
     <string name="menu_sync">Sync</string>
     <string name="menu_tablet_setup">Setup tablet</string>
     <string name="menu_logout">Logout</string>
-    <string name="menu_assets_sync">Sync Assets</string>
+    <string name="menu_assets_sync">Sync assets</string>
     
     <string name="home_attendance_title_text">Attendance</string>
     <string name="home_services_title_text">Services</string>
