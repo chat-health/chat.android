@@ -3,15 +3,19 @@ package org.chat.android.Sync;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -19,6 +23,7 @@ import java.util.TimeZone;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import org.chat.android.ChatUtil;
 import org.chat.android.DatabaseHelper;
 import org.chat.android.ModelHelper;
 import org.chat.android.R;
@@ -67,7 +72,10 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SyncResult;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 
 /**
@@ -169,11 +177,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		
 		// if syncType is pullAll we want to trigger a 'pull all of everything ever' sync
 		// TODO: clean me up
-		String syncType = "standard";
+		String syncType = ChatUtil.SYNC_TYPE_STANDARD;
 		Bundle b = arg1;
 		syncType = b.getString("syncType");
 		if (syncType == null) {
-			syncType = "standard";
+			syncType = ChatUtil.SYNC_TYPE_STANDARD;
 		}
 		Log.i("SyncAdapter", "syncType: "+syncType);
 		
@@ -181,13 +189,17 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		pullSuccess = true;
 	    pushSuccess = true;
 		
-		if (syncType.equals("pullAll")) {
+		if (syncType.equals(ChatUtil.SYNC_TYPE_PULL_ALL)) {
 			Log.i("SyncAdapter", "We are going nuclear - pulling everything");
 			pullAllData();
-		} else if (syncType.equals("standard")) {
+		} else if (syncType.equals(ChatUtil.SYNC_TYPE_STANDARD)) {
 			Log.i("SyncAdapter", "Just a regular pull");
 			pullNewData();
 			pushNewData();
+		} else if (syncType.equals(ChatUtil.SYNC_TYPE_ASSET_SYNC)) {
+			Log.i("SyncAdapter", "Syncing assets");
+			
+			syncAssets();
 		} else {
 			Log.e("SyncAdapter", "Impossible error. syncType str is unknown");
 		}
@@ -1220,6 +1232,100 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		json.put("health_topics_accessed",jsonArrHTA);
 	}
 	
+	private String syncAssets() {
+		boolean downloadSuccess = false;
+		String baseUrl = appContext.getResources().getString(R.string.base_url);    	
+    	String paramToken = "?client_access_token="+clientToken;
+    	
+    	String urlAssets = baseUrl + "/assets/";
+    	urlAssets = urlAssets.replaceAll("(?<!(http:|https:))//", "/");
+    	urlAssets = urlAssets.concat(paramToken);
+    	
+    	try {
+    		// retrieve list of all videos
+    		HttpURLConnection urlConnection = (HttpURLConnection) new URL(urlAssets).openConnection();       		       		
+    		// unsure connection times out after 30 seconds
+            urlConnection.setConnectTimeout(30000);
+            ArrayList<String> videoFileNames = new ArrayList<String>();
+            
+            // checking response to see if it worked ok
+            if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK){
+            	Log.i("SyncAdapter","Status code: "+urlConnection.getResponseCode()+" and status line: "+urlConnection.getResponseMessage());
+            	try {
+            		InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+            		String videos = convertStreamToString(in);
+            		JSONArray jsonArray = new JSONArray(videos);
+            		Log.i("SyncAdapter", "Downloading the following assets: "+jsonArray.toString());
+            		// put JSONArray into a ArrayList
+                	for(int i = 0, count = jsonArray.length(); i< count; i++)
+                	{
+                	    try {
+                	    	videoFileNames.add((String)jsonArray.get(i));
+                	    }
+                	    catch (JSONException e) {
+                	        e.printStackTrace();
+                	    }
+                	}
+                } catch (JSONException e) {						
+					e.printStackTrace();
+				} 
+            	finally {
+                	urlConnection.disconnect();
+                }
+            } else {
+            	urlConnection.disconnect();
+            }
+            
+            downloadSuccess = true;
+            Iterator<String> iter = videoFileNames.iterator();
+            // download all video files in the list of video file names
+            while (iter.hasNext() && downloadSuccess) {
+            	String videoFile = iter.next();
+            	// Avoiding weird error by replacing spaces with %20 in URL
+            	// http://stackoverflow.com/questions/6045377/how-to-insert-20-in-place-of-space-in-android
+            	String urlFileName = videoFile.replaceAll(" ", "%20");
+            	
+            	String urlAsset = baseUrl + "/asset/"+urlFileName;
+            	urlAsset = urlAsset.replaceAll("(?<!(http:|https:))//", "/");            	
+            	urlAsset = urlAsset.concat(paramToken);
+            	Log.i("SyncAdapter", "Downloading from "+urlAsset);
+            	
+            	HttpURLConnection urlConn = (HttpURLConnection) new URL(urlAsset).openConnection();
+	            // make connection time out after 30 seconds
+            	urlConn.setConnectTimeout(30000);
+            	   
+	            // checking response to see if it worked ok
+	            if (urlConn.getResponseCode() == HttpURLConnection.HTTP_OK){
+	            	Log.i("SyncAdapter","Status code: "+urlConn.getResponseCode()+" and status line: "+urlConn.getResponseMessage());
+	            	try {
+	            		InputStream in = new BufferedInputStream(urlConn.getInputStream());	            	
+	            		downloadSuccess = storeInputStreamInFile(in, videoFile,urlConn.getContentLength());
+	                }
+	                finally {	                	
+	                	urlConn.disconnect();
+	                }
+	            } else {	            	
+	            	downloadSuccess = false;
+	            	int resCode = urlConnection.getResponseCode();
+	            	String errorMessage = convertStreamToString(urlConnection.getErrorStream());
+	                Log.e("SyncAdapter", ((Integer)resCode).toString());
+	                Log.e("SyncAdapter", errorMessage);
+	                urlConn.disconnect();
+	            }
+            }
+            
+            
+            if (downloadSuccess) {
+        		return "Download success";
+        	} else {
+        		return "Download failure";
+        	}
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    		return "Download failure";
+        }
+	}
+	
 	private void populateTablesFromVisitObject(JSONObject jo) {
 		// maybe we don't need this?
 //		Attendance
@@ -1309,6 +1415,55 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	        }
 	    }
 	    return sb.toString();
+	}
+	
+	// this will be useful so that you can show a tipical 0-100%
+    // progress bar
+	private boolean storeInputStreamInFile(InputStream input, String fileName, int lengthOfFile) {
+		int count;
+        try {
+        	File chatDir = new File(Environment.getExternalStorageDirectory().toString() +"/chat/");
+        	// have the object build the directory structure, if needed.
+        	chatDir.mkdirs();
+        	File videoFile = new File(chatDir, fileName);
+        	
+            // Output stream
+            OutputStream output = new FileOutputStream(videoFile);
+
+            byte data[] = new byte[1024];
+            long downloadedSize = 0;
+            int percentDownloaded;
+            int previous = -1;
+            
+            Log.i("SyncResources", "Downloading to file: "+videoFile.getAbsolutePath());
+
+            while ((count = input.read(data)) != -1) {
+            	downloadedSize += count;
+                //this is where you would do something to report the prgress, like this maybe
+            	percentDownloaded = (int) ((downloadedSize * 100) / lengthOfFile);
+            	if (percentDownloaded % 10 == 0 && percentDownloaded > previous) {
+            		Log.d("Progress: ","downloaded "+percentDownloaded+" percent of "+ lengthOfFile + " Bytes");
+            		previous = percentDownloaded;
+            	}
+
+                // writing data to file
+                output.write(data, 0, count);
+            }
+
+            // flushing output
+            output.flush();
+
+            Log.i("SyncResources", "Finished downloading to file: "+videoFile.getAbsolutePath());
+            
+            // closing streams
+            output.close();
+            input.close();
+            
+            return true;
+        } catch (Exception e) {
+            Log.e("Error: ", e.getMessage());
+            return false;
+        }
 	}
 
 }

@@ -46,6 +46,7 @@
     <string name="menu_sync">Sync</string>
     <string name="menu_tablet_setup">Setup tablet</string>
     <string name="menu_logout">Logout</string>
+    <string name="menu_assets_sync">Sync Assets</string>
     
     <string name="home_attendance_title_text">Attendance</string>
     <string name="home_services_title_text">Services</string>
@@ -101,4 +102,8 @@
     <string name="immunization_summary_refer_text">Refer the child for the required immunizations</string>
     <string name="immunization_summary_discuss_text">Discuss the importance of immunizations for child health</string>
     <string name="immunization_completed_text">Immunization assessment completed for</string>
+    
+    <string name="title_sync_resources_activity">Sync assets</string>
+    <string name="ButtonName">Sync</string>
+    <string name="hello">hello</string>
 </resources>

@@ -11,6 +11,10 @@
         android:title="@string/menu_device_id"
         android:orderInCategory="3"
         android:showAsAction="never" />
+    <item android:id="@+id/menu_assets_sync"
+        android:title="@string/menu_assets_sync"
+        android:orderInCategory="4"
+        android:showAsAction="never" />
     <item android:id="@+id/menu_tablet_setup"
         android:title="@string/menu_tablet_setup"
         android:orderInCategory="5"
