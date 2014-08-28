@@ -359,6 +359,7 @@ public class LoginActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 	    case R.id.menu_resources:
 	    	Intent i = new Intent(LoginActivity.this, ResourcesActivity.class);
 	    	Bundle b = new Bundle();
+	    	//b.putInt("visitId", 0);
 	    	i.putExtras(b);  
 	    	startActivity(i);
 	        return true;

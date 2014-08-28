@@ -65,7 +65,10 @@ public class BaseActivity extends OrmLiteBaseActivity<DatabaseHelper> {
         Bundle b = getIntent().getExtras();
 		visitId = b.getInt("visitId");
 		visit = ModelHelper.getVisitForId(getHelper(), visitId);
-		workerId = visit.getWorkerId();
+		if (visit != null) {
+			workerId = visit.getWorkerId();
+		}
+		
 		
 		// Create the dummy account (needed for sync adapter)
 //        mAccount = CreateSyncAccount(this);
